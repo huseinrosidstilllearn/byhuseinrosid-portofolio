@@ -41,7 +41,7 @@ export const PORTFOLIO_PHOTOS: PhotoItem[] = [
     id: 'p-01',
     title: 'Garis Bayang di Sudut Kota',
     category: 'Dokumenter',
-    imageUrl: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=85',
+    imageUrl: 'https://images.unsplash.com/photo-1477959858617-67f30bc75b82?auto=format&fit=crop&w=1200&q=85',
     aspectRatio: 'portrait',
     location: 'Surabaya, Jawa Timur',
     year: '2025',

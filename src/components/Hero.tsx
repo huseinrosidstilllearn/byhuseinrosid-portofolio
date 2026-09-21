@@ -1,200 +1,236 @@
-import React from 'react';
-import { ArrowDown, ArrowUpRight, MessageCircle, MapPin, Sparkles, Clock } from 'lucide-react';
-import { PHOTOGRAPHER_PROFILE, PORTFOLIO_PHOTOS } from '../data/portfolioData';
+import React, { useState, useEffect } from 'react';
+import { ArrowDown, ArrowUpRight, MessageCircle, MapPin, Pause, Play } from 'lucide-react';
+import { PHOTOGRAPHER_PROFILE } from '../data/portfolioData';
 import { createWhatsAppLink } from '../utils/whatsapp';
 
 interface HeroProps {
   onExploreClick?: () => void;
 }
 
+interface HeroFrame {
+  id: string;
+  number: string;
+  title: string;
+  category: string;
+  location: string;
+  year: string;
+  imageUrl: string;
+  tagline: string;
+}
+
+const FEATURED_HERO_FRAMES: HeroFrame[] = [
+  {
+    id: 'frame-01',
+    number: '01',
+    title: 'Senyap di Kaki Bromo',
+    category: 'Lanskap',
+    location: 'Taman Nasional Bromo Tengger Semeru',
+    year: '2024',
+    imageUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=85',
+    tagline: 'Keheningan kabut fajar yang merayap di lautan pasir kaldera sebelum fajar merekah.',
+  },
+  {
+    id: 'frame-02',
+    number: '02',
+    title: 'Garis Bayang di Sudut Kota',
+    category: 'Dokumenter',
+    location: 'Surabaya, Jawa Timur',
+    year: '2025',
+    imageUrl: 'https://images.unsplash.com/photo-1477959858617-67f30bc75b82?auto=format&fit=crop&w=1920&q=85',
+    tagline: 'Permainan siluet dan cahaya kontras yang membelah geometri arsitektur kota tua.',
+  },
+  {
+    id: 'frame-03',
+    number: '03',
+    title: 'Keteguhan dalam Diam',
+    category: 'Portrait',
+    location: 'Surabaya',
+    year: '2025',
+    imageUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1920&q=85',
+    tagline: 'Eksplorasi potret wajah dengan pencahayaan chiaroscuro yang menghormati karakter subjek.',
+  },
+  {
+    id: 'frame-04',
+    number: '04',
+    title: 'Refleksi Keanggunan Minimalis',
+    category: 'Komersial',
+    location: 'Studio Surabaya',
+    year: '2025',
+    imageUrl: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1920&q=85',
+    tagline: 'Kampanye editorial busana dengan tekstur kain alami dan pencahayaan studio terarah.',
+  },
+];
+
 export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
-  const featuredPhoto = PORTFOLIO_PHOTOS[0];
+  const [activeFrameIndex, setActiveFrameIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  // Auto advance slides every 7 seconds
+  useEffect(() => {
+    if (!isPlaying) return;
+    const timer = setInterval(() => {
+      setActiveFrameIndex((prev) => (prev + 1) % FEATURED_HERO_FRAMES.length);
+    }, 7000);
+    return () => clearInterval(timer);
+  }, [isPlaying]);
+
+  const activeFrame = FEATURED_HERO_FRAMES[activeFrameIndex];
 
   return (
-    <section className="pt-28 sm:pt-36 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      {/* 12-Column Asymmetric Bento Matrix */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-5">
-        
-        {/* TILE 1: Headline & Vision Card (8 cols) */}
-        <div className="md:col-span-12 lg:col-span-8 bento-card p-8 sm:p-12 relative overflow-hidden flex flex-col justify-between min-h-[380px]">
-          {/* Subtle Ambient Top Accent */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
-
-          <div>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-300 text-[10px] font-semibold uppercase tracking-[0.2em] mb-6">
-              <Sparkles className="w-3 h-3 text-amber-400" />
-              <span>Arsip Visual &bull; Portofolio Fotografi</span>
+    <section className="relative min-h-[92vh] sm:min-h-screen flex flex-col justify-between pt-28 sm:pt-36 pb-8 sm:pb-12 px-4 sm:px-6 lg:px-12 overflow-hidden select-none">
+      {/* Background Photographic Canvas with Smooth Crossfade */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        {FEATURED_HERO_FRAMES.map((frame, index) => {
+          const isActive = index === activeFrameIndex;
+          return (
+            <div
+              key={frame.id}
+              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                isActive ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+              }`}
+            >
+              <img
+                src={frame.imageUrl}
+                alt={frame.title}
+                className={`w-full h-full object-cover object-center transition-transform duration-[10000ms] ease-out ${
+                  isActive ? 'scale-105' : 'scale-100'
+                }`}
+              />
             </div>
+          );
+        })}
 
-            <h1 className="font-editorial text-4xl sm:text-6xl lg:text-7xl font-normal leading-[1.08] tracking-tight text-white max-w-3xl">
-              Stories Told in the{' '}
-              <span className="italic text-amber-400 font-normal inline-block split-wave cursor-pointer" aria-label="Quiet Spaces">
-                <span aria-hidden="true">
-                  {"Quiet Spaces".split("").map((char, i) => (
-                    <i key={i} style={{ '--i': i } as React.CSSProperties} className={char === ' ' ? 'inline-block w-2 sm:w-3' : ''}>
-                      {char}
-                    </i>
-                  ))}
-                </span>
-              </span>{' '}
-              Between Moments.
-            </h1>
+        {/* Cinematic Multi-Layer Dark Vignette & Atmospheric Gradients */}
+        <div className="absolute inset-0 z-20 bg-gradient-to-t from-[#050505] via-[#050505]/75 to-[#050505]/40" />
+        <div className="absolute inset-0 z-20 bg-gradient-to-r from-[#050505]/90 via-[#050505]/60 to-transparent" />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-3xl pointer-events-none z-20 -mr-32 -mt-32" />
+      </div>
 
-            <p className="text-sm sm:text-base text-slate-400 font-light leading-relaxed mt-6 max-w-2xl">
-              {PHOTOGRAPHER_PROFILE.subheadline} Menghidupkan kembali keheningan, kejujuran rasa, dan keindahan setiap tarikan napas melalui lensa fotografi.
+      {/* Main Editorial Hero Content */}
+      <div className="relative z-30 max-w-5xl my-auto">
+        {/* Prestige Eyebrow Pill */}
+        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-amber-500/30 bg-[#0E1118]/80 backdrop-blur-xl text-amber-300 text-[11px] font-semibold uppercase tracking-[0.25em] mb-6 sm:mb-8 shadow-xl">
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          <span>Arsip Visual &bull; Portofolio Fotografi &bull; Surabaya, ID</span>
+        </div>
+
+        {/* Monumental Editorial Headline with Split Letter Wave */}
+        <h1 className="font-editorial text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal leading-[1.05] tracking-tight text-white max-w-4xl drop-shadow-sm">
+          Stories Told in the{' '}
+          <span
+            className="italic text-amber-400 font-normal inline-block split-wave cursor-pointer"
+            aria-label="Quiet Spaces"
+          >
+            <span aria-hidden="true">
+              {'Quiet Spaces'.split('').map((char, i) => (
+                <i
+                  key={i}
+                  style={{ '--i': i } as React.CSSProperties}
+                  className={char === ' ' ? 'inline-block w-2 sm:w-4' : ''}
+                >
+                  {char}
+                </i>
+              ))}
+            </span>
+          </span>{' '}
+          Between Moments.
+        </h1>
+
+        {/* Narrative Subheadline */}
+        <p className="text-base sm:text-lg md:text-xl text-slate-300 font-light leading-relaxed mt-6 max-w-2xl text-balance">
+          {PHOTOGRAPHER_PROFILE.subheadline} Menghidupkan kembali keheningan, kejujuran rasa, dan keindahan setiap tarikan napas melalui lensa dokumenter dan komersial berstandar tinggi.
+        </p>
+
+        {/* Action Button Row */}
+        <div className="flex flex-wrap items-center gap-4 mt-8 sm:mt-10">
+          <button
+            onClick={onExploreClick}
+            className="inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-[0_4px_24px_rgba(245,158,11,0.4)] hover:scale-105 cursor-pointer"
+          >
+            <span>Jelajahi Galeri Karya</span>
+            <ArrowDown className="w-4 h-4" />
+          </button>
+
+          <a
+            href={createWhatsAppLink()}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 px-7 py-3.5 rounded-full border border-white/25 hover:border-amber-400 bg-white/[0.05] hover:bg-white/10 backdrop-blur-xl text-white hover:text-amber-300 font-semibold text-xs uppercase tracking-wider transition-all duration-300 cursor-pointer shadow-lg"
+          >
+            <MessageCircle className="w-4 h-4 text-amber-400" />
+            <span>Minta Penawaran Sesi</span>
+            <ArrowUpRight className="w-4 h-4" />
+          </a>
+
+          <div className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.03] border border-white/[0.08] text-slate-400 text-xs font-light">
+            <MapPin className="w-3.5 h-3.5 text-amber-400" />
+            <span>Berbasis di Surabaya &bull; Siap Penugasan Nusantara</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom Exhibition HUD: Active Frame Info & Chapter Switcher */}
+      <div className="relative z-30 pt-8 sm:pt-12 border-t border-white/10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+        {/* Left: Active Curated Frame Metadata */}
+        <div className="flex items-start gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-white/[0.06] border border-white/15 backdrop-blur-xl flex flex-col items-center justify-center text-amber-400 shrink-0 shadow-lg">
+            <span className="text-[10px] uppercase font-bold tracking-widest text-slate-400">Arsip</span>
+            <span className="font-editorial text-lg font-bold text-amber-400 leading-none">{activeFrame.number}</span>
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-[10px] font-bold uppercase tracking-wider text-amber-300">
+                {activeFrame.category}
+              </span>
+              <span className="text-xs text-slate-400 font-light">
+                {activeFrame.location} &bull; {activeFrame.year}
+              </span>
+            </div>
+            <h3 className="font-editorial text-xl sm:text-2xl text-white font-medium mt-1">
+              {activeFrame.title}
+            </h3>
+            <p className="text-xs text-slate-400 font-light mt-0.5 max-w-md hidden sm:block">
+              {activeFrame.tagline}
             </p>
           </div>
+        </div>
 
-          <div className="flex flex-wrap items-center gap-4 mt-8 pt-6 border-t border-white/[0.08]">
+        {/* Right: Chapter Switcher Tabs & Progress Controls */}
+        <div className="flex items-center gap-3">
+          <div className="flex items-center p-1.5 rounded-2xl bg-[#0E1118]/85 border border-white/15 backdrop-blur-xl shadow-2xl">
+            {FEATURED_HERO_FRAMES.map((frame, index) => {
+              const isActive = index === activeFrameIndex;
+              return (
+                <button
+                  key={frame.id}
+                  onClick={() => {
+                    setActiveFrameIndex(index);
+                    setIsPlaying(false);
+                  }}
+                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs transition-all duration-300 cursor-pointer ${
+                    isActive
+                      ? 'bg-amber-500 text-slate-950 font-bold shadow-md'
+                      : 'text-slate-400 hover:text-white hover:bg-white/[0.06] font-medium'
+                  }`}
+                  aria-label={`Lihat karya ${frame.title}`}
+                >
+                  <span className="text-[10px] opacity-75">{frame.number}</span>
+                  <span className="hidden sm:inline tracking-wider">{frame.category}</span>
+                </button>
+              );
+            })}
+
+            {/* Play / Pause Toggle Button */}
             <button
-              onClick={onExploreClick}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-slate-950 font-semibold text-xs uppercase tracking-wider hover:bg-amber-400 transition-all cursor-pointer shadow-lg hover:scale-105"
+              onClick={() => setIsPlaying(!isPlaying)}
+              className="p-2 ml-1 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+              title={isPlaying ? 'Jeda rotasi otomatis' : 'Lanjutkan rotasi otomatis'}
+              aria-label={isPlaying ? 'Jeda rotasi otomatis' : 'Lanjutkan rotasi otomatis'}
             >
-              <span>Jelajahi Galeri Bento</span>
-              <ArrowDown className="w-3.5 h-3.5" />
+              {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 text-amber-400" />}
             </button>
-
-            <a
-              href={createWhatsAppLink()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/20 text-white hover:border-amber-400 hover:text-amber-400 font-semibold text-xs uppercase tracking-wider transition-all cursor-pointer"
-            >
-              <span>Minta Penawaran Sesi</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
-            </a>
           </div>
         </div>
-
-        {/* TILE 2: Live Status & Quick Action Card (4 cols) */}
-        <div className="md:col-span-12 lg:col-span-4 bento-card p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden">
-          <div>
-            <div className="flex items-center justify-between border-b border-white/[0.08] pb-4">
-              <span className="text-[10px] uppercase tracking-[0.2em] text-slate-400 font-medium">
-                Pusat Operasional
-              </span>
-              <div className="flex items-center gap-1.5 text-xs text-emerald-400 font-medium">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span>Aktif</span>
-              </div>
-            </div>
-
-            <div className="mt-6 space-y-4">
-              <div className="flex items-start gap-3">
-                <div className="w-9 h-9 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center shrink-0 text-amber-400">
-                  <MapPin className="w-4 h-4" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-white">Surabaya, Jawa Timur</h3>
-                  <p className="text-xs text-slate-400 font-light mt-0.5">
-                    Siap penugasan di seluruh nusantara & internasional
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <div className="w-9 h-9 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center shrink-0 text-amber-400">
-                  <Clock className="w-4 h-4" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-white">Zona Waktu: WIB (UTC+7)</h3>
-                  <p className="text-xs text-slate-400 font-light mt-0.5">
-                    Respons cepat via WhatsApp resmi
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-8 pt-6 border-t border-white/[0.08]">
-            <a
-              href={createWhatsAppLink()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full flex items-center justify-between p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 hover:bg-amber-500/20 transition-colors group"
-            >
-              <div className="flex items-center gap-2.5">
-                <MessageCircle className="w-4 h-4 text-amber-400" />
-                <span className="text-xs font-semibold uppercase tracking-wider">Chat WhatsApp</span>
-              </div>
-              <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-            </a>
-          </div>
-        </div>
-
-        {/* TILE 3: Centerpiece Visual Showcase Tile (7 cols) */}
-        <div className="md:col-span-12 lg:col-span-7 bento-card p-0 relative overflow-hidden min-h-[400px] sm:min-h-[460px] group cursor-pointer" onClick={onExploreClick}>
-          <img
-            src={featuredPhoto.imageUrl}
-            alt={featuredPhoto.title}
-            className="w-full h-full object-cover object-center absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent flex flex-col justify-between p-6 sm:p-8">
-            <div className="flex justify-between items-center">
-              <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[10px] uppercase tracking-[0.2em] text-amber-400 font-medium">
-                Karya Pilihan Editor
-              </span>
-              <span className="text-[11px] text-white/70 font-light backdrop-blur-md px-2.5 py-0.5 rounded-full bg-black/40">
-                {featuredPhoto.year}
-              </span>
-            </div>
-
-            <div>
-              <span className="text-xs uppercase tracking-wider text-amber-400 font-medium">
-                {featuredPhoto.category} &bull; {featuredPhoto.location}
-              </span>
-              <h2 className="font-editorial text-2xl sm:text-3xl text-white font-medium mt-1">
-                {featuredPhoto.title}
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-300 font-light mt-1 max-w-lg line-clamp-2">
-                {featuredPhoto.description}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* TILE 4: Metrics & Philosophy Bento Module (5 cols) */}
-        <div className="md:col-span-12 lg:col-span-5 flex flex-col gap-4 sm:gap-5">
-          {/* Sub-tile 4A: 3 Metrics Grid */}
-          <div className="bento-card p-6 sm:p-8">
-            <span className="text-[10px] uppercase tracking-[0.2em] text-slate-400 font-medium block mb-4">
-              Rekam Jejak Karya
-            </span>
-            <div className="grid grid-cols-3 gap-4 text-center">
-              <div className="p-3 rounded-xl bg-white/[0.03] border border-white/[0.06]">
-                <div className="font-editorial text-2xl sm:text-3xl text-amber-400 font-bold">7+</div>
-                <div className="text-[9px] uppercase tracking-wider text-slate-400 mt-1">Tahun Lensa</div>
-              </div>
-              <div className="p-3 rounded-xl bg-white/[0.03] border border-white/[0.06]">
-                <div className="font-editorial text-2xl sm:text-3xl text-white font-bold">100%</div>
-                <div className="text-[9px] uppercase tracking-wider text-slate-400 mt-1">Emosi Alami</div>
-              </div>
-              <div className="p-3 rounded-xl bg-white/[0.03] border border-white/[0.06]">
-                <div className="font-editorial text-2xl sm:text-3xl text-amber-400 font-bold">SBY</div>
-                <div className="text-[9px] uppercase tracking-wider text-slate-400 mt-1">Basis Nusantara</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Sub-tile 4B: Signature Philosophy Card */}
-          <div className="bento-card p-6 sm:p-8 flex-1 flex flex-col justify-between relative overflow-hidden bg-gradient-to-br from-[#121520]/80 to-[#0A0C12]/80">
-            <div>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-amber-400 font-semibold block mb-3">
-                Filosofi Visual
-              </span>
-              <blockquote className="font-editorial text-lg sm:text-xl text-white italic font-normal leading-relaxed">
-                &ldquo;{PHOTOGRAPHER_PROFILE.philosophy}&rdquo;
-              </blockquote>
-            </div>
-            <div className="mt-6 pt-4 border-t border-white/[0.08] flex items-center justify-between text-xs text-slate-400 font-light">
-              <span>Husein Rosid</span>
-              <span className="text-[10px] uppercase tracking-widest text-amber-400 font-medium">
-                Dokumentasi Abadi
-              </span>
-            </div>
-          </div>
-        </div>
-
       </div>
     </section>
   );
