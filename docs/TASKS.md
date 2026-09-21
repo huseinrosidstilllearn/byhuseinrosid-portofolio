@@ -34,3 +34,9 @@ Proyek dipecah menjadi tugas-tugas mikro terstruktur (*vertical slices*) dan sel
 
 ## Phase 8: Pengujian, Review & Finalisasi
 - [x] **TASK-015:** Jalankan typecheck, build production (`npm run build`), verifikasi responsivitas layar (375px, 768px, 1440px), dan update dokumentasi status akhir.
+
+## Phase 9: Perombakan Eksplorasi Spasial 360° Bebas (Award-Winning Spatial Canvas)
+- [x] **TASK-016:** Implementasi komponen `SpatialCanvas.tsx` (pan/drag bebas 360 derajat, momentum inersia Framer Motion, rentang zoom 0.5x–1.4x, tombol recenter, dan filter kategori floating).
+- [x] **TASK-017:** Implementasi komponen HUD Radar Mini-Map `CanvasMiniMap.tsx` dengan pelacak posisi viewport dan titik foto real-time.
+- [x] **TASK-018:** Integrasi Dual-Mode Switcher di `Navbar.tsx` dan `App.tsx` (Kanvas Spasial 360° vs Mode Editorial Vertikal).
+- [x] **TASK-019:** Optimasi mobile UI & visual QA via Playwright, verifikasi build production, dan sinkronisasi Git.

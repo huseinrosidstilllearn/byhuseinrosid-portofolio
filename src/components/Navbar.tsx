@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Sun, Moon, Menu, X, MessageCircle } from 'lucide-react';
+import { Sun, Moon, Menu, X, MessageCircle, Compass, LayoutGrid } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { createWhatsAppLink } from '../utils/whatsapp';
 
-export const Navbar: React.FC = () => {
+interface NavbarProps {
+  viewMode: 'spatial' | 'editorial';
+  onToggleViewMode: () => void;
+  onNavigateToSection: (sectionId: string) => void;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({
+  viewMode,
+  onToggleViewMode,
+  onNavigateToSection,
+}) => {
   const { theme, toggleTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -17,24 +27,33 @@ export const Navbar: React.FC = () => {
   }, []);
 
   const navLinks = [
-    { label: 'Karya', href: '#galeri' },
-    { label: 'Kisah Visual', href: '#kisah' },
-    { label: 'Tentang', href: '#tentang' },
-    { label: 'Layanan', href: '#layanan' },
-    { label: 'Kontak', href: '#kontak' },
+    { label: 'Karya', id: 'galeri' },
+    { label: 'Kisah Visual', id: 'kisah' },
+    { label: 'Tentang', id: 'tentang' },
+    { label: 'Layanan', id: 'layanan' },
+    { label: 'Kontak', id: 'kontak' },
   ];
+
+  const handleLinkClick = (e: React.MouseEvent, id: string) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+    onNavigateToSection(id);
+  };
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
-        isScrolled
-          ? 'bg-[#090d16]/90 dark:bg-[#090d16]/90 bg-white/90 backdrop-blur-md py-3 shadow-lg border-b border-white/5 dark:border-white/5 border-slate-200'
+        isScrolled || viewMode === 'spatial'
+          ? 'bg-[#070a11]/85 dark:bg-[#070a11]/85 bg-white/90 backdrop-blur-xl py-3 shadow-lg border-b border-white/5 dark:border-white/5 border-slate-200'
           : 'bg-transparent py-6'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Brand Monogram & Name */}
-        <a href="#" className="flex items-center gap-3 group">
+        <button
+          onClick={() => onToggleViewMode()}
+          className="flex items-center gap-3 group text-left cursor-pointer"
+        >
           <div className="w-8 h-8 rounded-full border border-amber-500/40 overflow-hidden flex items-center justify-center group-hover:border-amber-400 group-hover:scale-105 transition-all bg-[#111827]">
             <img src="/favicon-96x96.png" alt="By Husein Rosid Logo" className="w-full h-full object-cover" />
           </div>
@@ -46,23 +65,54 @@ export const Navbar: React.FC = () => {
               Surabaya &bull; Visual Storyteller
             </span>
           </div>
-        </a>
+        </button>
+
+        {/* View Mode Pill Switcher (Central Attraction) */}
+        <div className="hidden sm:flex items-center p-1 rounded-full bg-black/40 dark:bg-white/5 border border-white/10 backdrop-blur-md">
+          <button
+            onClick={() => {
+              if (viewMode !== 'spatial') onToggleViewMode();
+            }}
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wider transition-all cursor-pointer ${
+              viewMode === 'spatial'
+                ? 'bg-amber-500 text-slate-950 font-semibold shadow-[0_0_15px_rgba(245,158,11,0.35)]'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <Compass className="w-3.5 h-3.5" />
+            <span>Kanvas Spasial 360°</span>
+          </button>
+
+          <button
+            onClick={() => {
+              if (viewMode !== 'editorial') onToggleViewMode();
+            }}
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wider transition-all cursor-pointer ${
+              viewMode === 'editorial'
+                ? 'bg-amber-500 text-slate-950 font-semibold shadow-[0_0_15px_rgba(245,158,11,0.35)]'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <LayoutGrid className="w-3.5 h-3.5" />
+            <span>Mode Editorial</span>
+          </button>
+        </div>
 
         {/* Desktop Nav Links */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden lg:flex items-center gap-7">
           {navLinks.map(link => (
-            <a
+            <button
               key={link.label}
-              href={link.href}
-              className="text-xs uppercase tracking-[0.2em] font-medium text-slate-600 dark:text-slate-300 hover:text-amber-500 dark:hover:text-amber-400 transition-colors"
+              onClick={(e) => handleLinkClick(e, link.id)}
+              className="text-xs uppercase tracking-[0.2em] font-medium text-slate-600 dark:text-slate-300 hover:text-amber-500 dark:hover:text-amber-400 transition-colors cursor-pointer"
             >
               {link.label}
-            </a>
+            </button>
           ))}
         </nav>
 
         {/* Right Actions: Theme Toggle & WhatsApp CTA */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-3">
           <button
             onClick={toggleTheme}
             aria-label="Ubah Tema Tampilan"
@@ -89,6 +139,13 @@ export const Navbar: React.FC = () => {
         {/* Mobile Hamburger Button */}
         <div className="flex md:hidden items-center gap-2">
           <button
+            onClick={onToggleViewMode}
+            aria-label="Ganti Tampilan"
+            className="p-2 rounded-full text-amber-400 border border-amber-500/30"
+          >
+            {viewMode === 'spatial' ? <LayoutGrid className="w-4 h-4" /> : <Compass className="w-4 h-4" />}
+          </button>
+          <button
             onClick={toggleTheme}
             aria-label="Ubah Tema"
             className="p-2 rounded-full text-slate-700 dark:text-slate-200"
@@ -107,18 +164,32 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#090d16]/98 dark:bg-[#090d16]/98 bg-white/98 border-b border-white/10 dark:border-white/10 border-slate-200 px-6 py-8 animate-in fade-in duration-200">
+        <div className="md:hidden bg-[#070a11]/98 dark:bg-[#070a11]/98 bg-white/98 border-b border-white/10 dark:border-white/10 border-slate-200 px-6 py-8 animate-in fade-in duration-200">
           <nav className="flex flex-col gap-5">
+            {/* View mode toggle in mobile menu */}
+            <div className="flex items-center justify-between pb-4 border-b border-white/10 dark:border-white/10 border-slate-200">
+              <span className="text-xs uppercase tracking-wider text-slate-400">Mode Tampilan:</span>
+              <button
+                onClick={() => {
+                  onToggleViewMode();
+                  setMobileMenuOpen(false);
+                }}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-semibold bg-amber-500 text-slate-950"
+              >
+                {viewMode === 'spatial' ? 'Buka Mode Editorial' : 'Buka Kanvas Spasial 360°'}
+              </button>
+            </div>
+
             {navLinks.map(link => (
-              <a
+              <button
                 key={link.label}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-sm uppercase tracking-[0.2em] font-medium text-slate-700 dark:text-slate-200 hover:text-amber-500 transition-colors"
+                onClick={(e) => handleLinkClick(e, link.id)}
+                className="text-left text-sm uppercase tracking-[0.2em] font-medium text-slate-700 dark:text-slate-200 hover:text-amber-500 transition-colors"
               >
                 {link.label}
-              </a>
+              </button>
             ))}
+
             <div className="pt-4 border-t border-white/10 dark:border-white/10 border-slate-200">
               <a
                 href={createWhatsAppLink()}
