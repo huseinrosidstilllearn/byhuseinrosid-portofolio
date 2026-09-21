@@ -5,6 +5,8 @@ import { PHOTO_CATEGORIES, PORTFOLIO_PHOTOS, PHOTOGRAPHER_PROFILE } from '../dat
 import type { PhotoItem } from '../types/portfolio';
 import { LightboxModal } from './LightboxModal';
 import { CanvasMiniMap } from './CanvasMiniMap';
+import { TiltCard } from './TiltCard';
+import { AmbientAura } from './AmbientAura';
 
 const CANVAS_WIDTH = 4000;
 const CANVAS_HEIGHT = 3000;
@@ -31,6 +33,7 @@ export const SpatialCanvas: React.FC = () => {
   const [activePhoto, setActivePhoto] = useState<PhotoItem | null>(null);
   const [zoom, setZoom] = useState<number>(0.9);
   const [isHintVisible, setIsHintVisible] = useState<boolean>(true);
+  const [hoveredGlowColor, setHoveredGlowColor] = useState<string | null>(null);
 
   // Initial center position
   const initialX = -(CANVAS_WIDTH / 2 - (typeof window !== 'undefined' ? window.innerWidth / 2 : 700));
@@ -60,39 +63,38 @@ export const SpatialCanvas: React.FC = () => {
 
   const handleDragStart = () => {
     isDraggingRef.current = true;
-    setIsHintVisible(false);
+    if (isHintVisible) setIsHintVisible(false);
   };
 
   const handleDragEnd = () => {
     setTimeout(() => {
       isDraggingRef.current = false;
-    }, 150);
+    }, 50);
   };
 
   const handlePhotoClick = (photo: PhotoItem) => {
-    if (!isDraggingRef.current) {
-      setActivePhoto(photo);
-    }
+    if (isDraggingRef.current) return;
+    setActivePhoto(photo);
   };
 
   const handleZoomIn = () => {
-    setZoom(prev => Math.min(1.4, prev + 0.15));
+    setZoom(prev => Math.min(prev + 0.15, 1.4));
   };
 
   const handleZoomOut = () => {
-    setZoom(prev => Math.max(0.5, prev - 0.15));
+    setZoom(prev => Math.max(prev - 0.15, 0.5));
   };
 
   const handleRecenter = () => {
+    setZoom(0.9);
     animate(x, initialX, { type: 'spring', damping: 25, stiffness: 120 });
     animate(y, initialY, { type: 'spring', damping: 25, stiffness: 120 });
     setCurrentPan({ x: initialX, y: initialY });
-    setZoom(0.9);
+    setSelectedCategory('Semua');
   };
 
   const focusOnCategory = (category: string) => {
     setSelectedCategory(category);
-    setIsHintVisible(false);
     if (category === 'Semua') {
       handleRecenter();
       return;
@@ -112,6 +114,9 @@ export const SpatialCanvas: React.FC = () => {
       ref={containerRef}
       className="relative w-screen h-screen overflow-hidden select-none bg-[#070a11] dark:bg-[#070a11] cursor-grab active:cursor-grabbing"
     >
+      {/* Dynamic Ambient Light Aura */}
+      <AmbientAura glowColor={hoveredGlowColor} />
+
       {/* Subtle Spatial Ambient Grid Background */}
       <div className="absolute inset-0 pointer-events-none z-0 opacity-25">
         <div className="w-full h-full bg-[radial-gradient(#ffffff18_1px,transparent_1px)] [background-size:32px_32px]" />
@@ -144,12 +149,13 @@ export const SpatialCanvas: React.FC = () => {
       >
         {/* CENTERPIECE: Grand Exhibition Hub */}
         <div
-          className="absolute flex flex-col items-center justify-center text-center p-12 rounded-3xl border border-white/10 bg-black/40 backdrop-blur-xl shadow-2xl pointer-events-none"
+          className="absolute flex flex-col items-center justify-center text-center p-12 rounded-3xl border border-white/10 bg-black/50 backdrop-blur-2xl shadow-2xl pointer-events-none"
           style={{
             left: `${CANVAS_WIDTH / 2}px`,
             top: `${CANVAS_HEIGHT / 2}px`,
             width: '640px',
             transform: 'translate(-50%, -50%)',
+            boxShadow: '0 25px 60px -15px rgba(0,0,0,0.9), 0 0 50px rgba(245,158,11,0.15)',
           }}
         >
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-amber-500/30 bg-amber-500/10 mb-4">
@@ -177,24 +183,32 @@ export const SpatialCanvas: React.FC = () => {
           </div>
         </div>
 
-        {/* Spatial Photographs Floating Across The Canvas */}
+        {/* Spatial Photographs Floating Across The Canvas as 3D TiltCards */}
         {spatialPhotos.map(photo => {
           const isCategoryMatch = selectedCategory === 'Semua' || photo.category === selectedCategory;
 
           return (
-            <div
+            <TiltCard
               key={photo.id}
+              glowColor={photo.glowColor}
+              maxTilt={12}
               onClick={() => handlePhotoClick(photo)}
+              onHoverChange={(hovered, color) => {
+                if (!isDraggingRef.current) {
+                  setHoveredGlowColor(hovered ? color || null : null);
+                }
+              }}
               style={{
+                position: 'absolute',
                 left: `${photo.x}px`,
                 top: `${photo.y}px`,
                 width: `${photo.width}px`,
                 height: `${photo.height}px`,
               }}
-              className={`group absolute rounded-2xl overflow-hidden border transition-all duration-500 cursor-pointer shadow-2xl ${
+              className={`group rounded-2xl overflow-hidden border transition-all duration-500 cursor-pointer shadow-2xl ${
                 isCategoryMatch
-                  ? 'border-white/10 hover:border-amber-400/80 hover:shadow-[0_0_35px_rgba(245,158,11,0.35)] opacity-100 scale-100'
-                  : 'border-white/5 opacity-30 grayscale scale-95'
+                  ? 'border-white/15 opacity-100'
+                  : 'border-white/5 opacity-25 grayscale'
               }`}
             >
               {/* Photo Image */}
@@ -206,11 +220,21 @@ export const SpatialCanvas: React.FC = () => {
                 className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
               />
 
-              {/* Spatial Photo Overlay on Hover */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
+              {/* Spatial Photo Overlay with 3D Parallax Pop */}
+              <div
+                style={{ transform: 'translateZ(35px)' }}
+                className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5 pointer-events-none"
+              >
                 <div className="transform translate-y-3 group-hover:translate-y-0 transition-transform duration-300">
                   <div className="flex items-center justify-between gap-2 mb-1">
-                    <span className="text-[9px] uppercase tracking-[0.2em] font-semibold text-amber-400 bg-amber-400/10 border border-amber-400/30 px-2 py-0.5 rounded-full">
+                    <span
+                      style={{
+                        backgroundColor: `${photo.glowColor || '#f59e0b'}20`,
+                        borderColor: `${photo.glowColor || '#f59e0b'}50`,
+                        color: photo.glowColor || '#f59e0b',
+                      }}
+                      className="text-[9px] uppercase tracking-[0.2em] font-semibold border px-2 py-0.5 rounded-full"
+                    >
                       {photo.category}
                     </span>
                     <Maximize2 className="w-3.5 h-3.5 text-white/70" />
@@ -226,7 +250,7 @@ export const SpatialCanvas: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </TiltCard>
           );
         })}
       </motion.div>

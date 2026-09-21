@@ -10,6 +10,7 @@ export interface PhotoItem {
   year: string;
   description: string;
   featured?: boolean;
+  glowColor?: string;
 }
 
 export interface PhotoStory {

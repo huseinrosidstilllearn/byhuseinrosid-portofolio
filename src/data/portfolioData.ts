@@ -46,7 +46,8 @@ export const PORTFOLIO_PHOTOS: PhotoItem[] = [
     location: 'Surabaya, Jawa Timur',
     year: '2025',
     description: 'Permainan siluet dan cahaya pagi yang membelah koridor arsitektur klasik di kawasan Surabaya Utara.',
-    featured: true
+    featured: true,
+    glowColor: '#f59e0b' // amber gold
   },
   {
     id: 'p-02',
@@ -57,7 +58,8 @@ export const PORTFOLIO_PHOTOS: PhotoItem[] = [
     location: 'Studio Surabaya',
     year: '2025',
     description: 'Kampanye editorial fashion lokal dengan pendekatan warna monokrom dan aksen tekstur alami kain tenun.',
-    featured: true
+    featured: true,
+    glowColor: '#94a3b8' // cool slate pearl
   },
   {
     id: 'p-03',
@@ -68,7 +70,8 @@ export const PORTFOLIO_PHOTOS: PhotoItem[] = [
     location: 'Kenjeran, Surabaya',
     year: '2024',
     description: 'Potret seorang nelayan sepuh dengan kerutan wajah yang menjadi arsip hidup puluhan tahun berlayar.',
-    featured: true
+    featured: true,
+    glowColor: '#06b6d4' // ocean cyan
   },
   {
     id: 'p-04',
@@ -79,7 +82,8 @@ export const PORTFOLIO_PHOTOS: PhotoItem[] = [
     location: 'Taman Nasional Bromo Tengger Semeru',
     year: '2024',
     description: 'Kabut fajar yang merayap di lautan pasir kaldera sebelum matahari pertama menyentuh punggung gunung.',
-    featured: true
+    featured: true,
+    glowColor: '#3b82f6' // mountain blue
   },
   {
     id: 'p-05',
@@ -90,7 +94,8 @@ export const PORTFOLIO_PHOTOS: PhotoItem[] = [
     location: 'Batu, Jawa Timur',
     year: '2025',
     description: 'Momen hening sepasang kekasih di penghujung hari resepsi, dirayakan tanpa kepalsuan di alam terbuka.',
-    featured: true
+    featured: true,
+    glowColor: '#f43f5e' // rose twilight
   },
   {
     id: 'p-06',
@@ -101,7 +106,8 @@ export const PORTFOLIO_PHOTOS: PhotoItem[] = [
     location: 'Surabaya Barat',
     year: '2024',
     description: 'Pemotretan produk artisanal roastery dengan pencahayaan samping terarah untuk menonjolkan karakter biji kopi.',
-    featured: false
+    featured: false,
+    glowColor: '#d97706' // warm caramel
   },
   {
     id: 'p-07',
@@ -112,7 +118,8 @@ export const PORTFOLIO_PHOTOS: PhotoItem[] = [
     location: 'Jembatan Merah, Surabaya',
     year: '2024',
     description: 'Ritme senja perkotaan ketika para pejuang nafkah menyusuri trotoar tua saat lampu kota mulai menyala.',
-    featured: false
+    featured: false,
+    glowColor: '#f97316' // sunset orange
   },
   {
     id: 'p-08',
@@ -123,7 +130,8 @@ export const PORTFOLIO_PHOTOS: PhotoItem[] = [
     location: 'Surabaya',
     year: '2025',
     description: 'Eksplorasi potret wajah dengan pencahayaan chiaroscuro lembut yang membiarkan separuh bayang berbicara.',
-    featured: true
+    featured: true,
+    glowColor: '#a855f7' // royal shadow purple
   },
   {
     id: 'p-09',
@@ -134,7 +142,8 @@ export const PORTFOLIO_PHOTOS: PhotoItem[] = [
     location: 'Mojokerto, Jawa Timur',
     year: '2024',
     description: 'Gradasi cermin air yang tak bergerak di bawah langit fajar yang lembut membiru.',
-    featured: false
+    featured: false,
+    glowColor: '#10b981' // emerald water
   },
   {
     id: 'p-10',
@@ -145,7 +154,8 @@ export const PORTFOLIO_PHOTOS: PhotoItem[] = [
     location: 'Surabaya',
     year: '2024',
     description: 'Tawa lepas mempelai wanita saat bersiap-siap, ditangkap dari celah pintu tanpa rekayasa pose.',
-    featured: false
+    featured: false,
+    glowColor: '#ec4899' // warm magenta
   },
   {
     id: 'p-11',
@@ -156,7 +166,8 @@ export const PORTFOLIO_PHOTOS: PhotoItem[] = [
     location: 'Surabaya Pusat',
     year: '2025',
     description: 'Studi garis simetris fasad bangunan perkantoran modern dalam pancaran sinar matahari siang yang tegas.',
-    featured: false
+    featured: false,
+    glowColor: '#38bdf8' // sky azure
   },
   {
     id: 'p-12',
@@ -167,7 +178,8 @@ export const PORTFOLIO_PHOTOS: PhotoItem[] = [
     location: 'Surabaya',
     year: '2024',
     description: 'Bias lampu kendaraan di atas aspal basah, membingkai kesendirian di tengah riuh kota pahlawan.',
-    featured: false
+    featured: false,
+    glowColor: '#eab308' // amber street lamp
   }
 ];
 

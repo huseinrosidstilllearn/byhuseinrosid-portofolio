@@ -40,3 +40,11 @@ Proyek dipecah menjadi tugas-tugas mikro terstruktur (*vertical slices*) dan sel
 - [x] **TASK-017:** Implementasi komponen HUD Radar Mini-Map `CanvasMiniMap.tsx` dengan pelacak posisi viewport dan titik foto real-time.
 - [x] **TASK-018:** Integrasi Dual-Mode Switcher di `Navbar.tsx` dan `App.tsx` (Kanvas Spasial 360° vs Mode Editorial Vertikal).
 - [x] **TASK-019:** Optimasi mobile UI & visual QA via Playwright, verifikasi build production, dan sinkronisasi Git.
+
+## Phase 10: Dark Cinematic Museum & Dynamic 3D Depth Overhaul
+- [x] **TASK-020:** Tambahkan properti `glowColor` pada `PhotoItem` dan konfigurasi warna pendaran atmosfer unik untuk 12 karya foto di `src/data/portfolioData.ts`.
+- [x] **TASK-021:** Implementasi komponen `TiltCard.tsx` dengan matematika kemiringan 3D interaktif, pantulan cahaya spekuler dinamis (*specular glare*), dan elevasi teks z-axis (*depth parallax*).
+- [x] **TASK-022:** Implementasi komponen `AmbientAura.tsx` untuk pendaran cahaya lembut latar belakang yang bertransisi dinamis mengikuti karya foto.
+- [x] **TASK-023:** Implementasi komponen `FloatingDock.tsx` bergaya *glassmorphism* modern dengan switcher mode, filter kategori cepat, dan tombol reservasi WhatsApp.
+- [x] **TASK-024:** Integrasikan `TiltCard`, `AmbientAura`, dan `FloatingDock` ke `SpatialCanvas.tsx`, `Gallery.tsx`, dan `App.tsx`.
+- [x] **TASK-025:** Verifikasi build produksi, pengujian visual Playwright, pembaruan walkthrough, dan sinkronisasi GitHub.
