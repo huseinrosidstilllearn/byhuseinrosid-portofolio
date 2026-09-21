@@ -1,54 +1,59 @@
 # Design System
 
 ## 1. Style & Aesthetic
-- **Konsep Visual:** *Cinematic Editorial & Contemporary Fine-Art Gallery*
-- **Karakter:** Mewah, bersih, fokus penuh pada ketajaman dan emosi foto, tanpa distraksi visual yang berlebihan.
-- **Dua Mode (Dynamic Dual Theme):**
-  - **Dark Mode (Default):** Memberikan kontras maksimal seperti di ruang pameran malam atau teater, warna foto terlihat lebih hidup.
-  - **Light Mode:** Suasana galeri seni modern kontemporer yang bersih, cerah, dan berkelas.
+- **Konsep Visual:** *Cinematic Editorial & Humanist Visual Gallery*
+- **Karakter:** Hangat, puitis, jujur, dan berkelas. Menghormati setiap bingkai foto sebagai karya seni yang bernyawa.
+- **Dynamic Dual Theme:**
+  - **Dark Mode (Default):** Deep Obsidian Charcoal (`#090d16`) dengan kontras tinggi yang menonjolkan warna, saturasi, dan cahaya asli foto layaknya bioskop atau pameran galeri malam.
+  - **Light Mode:** Ultra-light Slate White (`#f8fafc`) dengan nuansa majalah seni rupa modern.
 
 ## 2. Typography
-- **Heading & Judul Editorial:** Serif elegan (*Playfair Display* / *Cinzel* / Serif fallback) untuk kesan puitis, artistik, dan berbobot.
-- **Body & Metadata EXIF:** Sans-Serif modern (*Plus Jakarta Sans* / *Inter* / system sans) dengan pembacaan yang jernih dan proporsional.
-- **Tag / Micro-copy:** Huruf kapital tipis dengan tracking lebar (*tracking-wider / tracking-widest*).
+- **Heading & Judul Editorial:** Serif elegan (*Playfair Display* / *Cinzel* / Serif luxury fallback) dengan bobot medium-semibold, memberikan kesan berbobot dan sinematik.
+- **Body Text & Narasi:** Modern Humanist Sans-Serif (*Plus Jakarta Sans* / *Inter*) dengan *line-height* longgar (1.6 - 1.8) untuk kenyamanan membaca esai foto yang mendalam.
+- **Label Teknis & EXIF Data:** Monospace / Sans-Serif presisi (*tracking-wider / uppercase / text-xs*) untuk menampilkan spesifikasi kamera secara profesional.
 
 ## 3. Color Palette
 
 ### Dark Mode (Default)
 - **Background Utama:** `#090d16` (Deep Obsidian Charcoal)
-- **Surface / Card:** `#111827` (Rich Slate Gray)
-- **Borders & Dividers:** `rgba(255, 255, 255, 0.08)`
-- **Teks Utama:** `#f8fafc` (Bright Ivory / Snow White)
-- **Teks Sekunder / Muted:** `#94a3b8` (Muted Slate)
+- **Surface / Cards:** `#111827` (Rich Slate Gray)
+- **Card Hover Overlay:** `linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%)`
+- **Borders & Subtle Lines:** `rgba(255, 255, 255, 0.08)`
+- **Teks Utama:** `#f8fafc` (Snow / Bright Ivory)
+- **Teks Narasi / Muted:** `#94a3b8` (Muted Slate)
 - **Aksen Mewah (Highlights/Gold):** `#f59e0b` / `#fbbf24` (Warm Amber Gold)
 
 ### Light Mode
 - **Background Utama:** `#f8fafc` (Ultra-light Slate White)
-- **Surface / Card:** `#ffffff` (Pure White)
-- **Borders & Dividers:** `#e2e8f0` (Light Slate Border)
+- **Surface / Cards:** `#ffffff` (Pure White)
+- **Card Hover Overlay:** `linear-gradient(to top, rgba(15,23,42,0.85) 0%, rgba(15,23,42,0.2) 60%, transparent 100%)`
+- **Borders & Subtle Lines:** `#e2e8f0` (Light Slate Border)
 - **Teks Utama:** `#0f172a` (Deep Slate Black)
-- **Teks Sekunder / Muted:** `#64748b` (Slate Gray)
+- **Teks Narasi / Muted:** `#64748b` (Slate Gray)
 - **Aksen Mewah:** `#b45309` / `#d97706` (Refined Ochre Gold)
 
-## 4. UI Components
+## 4. UI Components & Micro-Interactions
 
-### Buttons
-- **Primary Action (CTA):** Pill button (`rounded-full`), aksen emas/hitam, efek hover glow halus.
-- **Secondary / Filter Tabs:** Tombol kapsul dengan transisi warna latar belakang dan teks aktif.
-- **Floating WhatsApp:** Tombol melayang di pojok kanan bawah hijau elegan dengan badge notifikasi halus.
+### Masonry Grid Dinamis
+- Kolom multi-kolom yang mengalir secara alami (1 kolom di mobile, 2 kolom di tablet, 3-4 kolom di desktop).
+- Mempertahankan rasio asli foto (portrait 4:5 / 2:3, landscape 3:2 / 16:9, square 1:1) tanpa memotong konten visual.
 
-### Cards & Grid
-- **Border Radius:** `16px` (`rounded-2xl`) untuk kartu konten, `12px` (`rounded-xl`) untuk kartu kecil.
-- **Rasio Foto:** Masonry / multi-aspect ratio (3:2, 4:5, 16:9, 1:1) tanpa terpotong kaku.
-- **Hover Effect:** Zoom skala halus (`scale-105`), overlay informasi semi-transparan muncul lembut.
+### Micro-Interaction pada Kartu Foto
+- **Smooth Zoom:** Foto membesar perlahan (`scale-105 transition-transform duration-500 ease-out`).
+- **Info Overlay Reveal:** Lapisan gradien gelap muncul perlahan dari bawah menampilkan judul foto, kategori, dan ikon panah/eksplorasi.
 
-### Lightbox Modal
-- Latar belakang backdrop gelap blur (`backdrop-blur-md bg-black/90`).
-- Panel detail foto di samping atau bawah (Judul, lokasi, tanggal, narasi cerita, dan baris badge EXIF).
-- Tombol navigasi (Previous, Next, Close) yang ramah sentuhan (touch-friendly) dan mendukung tombol keyboard (ESC, Panah Kiri, Panah Kanan).
+### Rich Lightbox Modal
+- Backdrop gelap blur (`backdrop-blur-md bg-black/95`).
+- Panel informasi foto yang proporsional (Judul, lokasi, tahun, narasi cerita).
+- Badge spesifikasi teknis kamera (EXIF: Shutter Speed, Aperture, ISO, Lensa).
+- Kontrol sentuh dan keyboard (ESC untuk keluar, panah kiri/kanan untuk navigasi).
 
-## 5. UX & Responsiveness Requirements
-- **Mobile First:** Tata letak fleksibel mulai dari layar 375px (smartphone) hingga 1440px+ (desktop layar lebar).
-- **Smooth Scrolling:** Navigasi anchor meluncur lembut antar seksi.
-- **Empty States & Fallbacks:** Fallback gambar halus jika koneksi lambat.
-- **Accessibility:** Kontras teks terbaca jelas, tombol memiliki label aria (*screen-reader friendly*).
+### Layanan & Tombol Penawaran WhatsApp
+- Kartu layanan berdesain kartu editorial yang merinci cakupan kerja (durasi, output file, konsep).
+- Tombol aksi utama "Minta Rate Card via WhatsApp" dengan animasi hover subtle glow.
+- Tombol mengambang (Floating Action Button) WhatsApp di pojok kanan bawah yang selalu siap membantu pengunjung.
+
+## 5. Responsiveness Requirements
+- **Mobile (375px):** Pengalaman gulir satu kolom yang mulus, modal responsif layar sentuh, menu navigasi slide-out elegan.
+- **Tablet (768px):** Tata letak 2 kolom seimbang.
+- **Desktop (1280px+):** Tampilan sinematik penuh dengan grid masonry 3 kolom dan tipografi besar yang impresif.

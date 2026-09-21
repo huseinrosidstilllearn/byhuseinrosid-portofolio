@@ -25,3 +25,15 @@ Dokumen ini mencatat keputusan-keputusan arsitektur dan teknologi penting yang d
 ## ADR-004: Alur Konversi Booking Langsung ke WhatsApp
 - **Keputusan:** Mengintegrasikan tombol dan formulir pemesanan cerdas yang memformat data ke tautan WhatsApp API resmi (`wa.me`).
 - **Alasan:** Di Indonesia, komunikasi dan penawaran jasa fotografi memiliki tingkat konversi dan respon tertinggi melalui chat personal WhatsApp.
+
+---
+
+## ADR-005: Tata Letak Galeri Masonry Dinamis
+- **Keputusan:** Menggunakan tata letak kolom Masonry yang mempertahankan orientasi alami foto (portrait, landscape, square) daripada grid berbingkai seragam yang memotong foto.
+- **Alasan:** Fotografi profesional sangat bergantung pada komposisi bingkai aslinya; memotong foto secara paksa akan merusak nilai estetika karya.
+
+---
+
+## ADR-006: Model Penawaran Berbasis Konsultasi (Inquiry-Based Rate Card)
+- **Keputusan:** Menampilkan katalog rincian cakupan layanan tanpa mempublikasikan angka nominal harga kaku secara publik, melainkan mengarahkan klien ke tombol "Tanyakan Penawaran / Minta Rate Card via WhatsApp".
+- **Alasan:** Pendekatan standar fotografer komersial dan editorial kelas atas untuk menjaga nilai tawar, mengakomodasi kebutuhan kustom tiap klien, dan membangun relasi personal secara langsung.

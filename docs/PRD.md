@@ -6,37 +6,38 @@
 ## 2. Problem
 Fotografer profesional memerlukan wadah digital resmi yang kredibel, estetis, dan berkinerja tinggi untuk:
 - Memamerkan portofolio karya visual lintas genre (komersial, personal, dokumenter).
-- Menunjukkan kredibilitas dan keahlian teknis (melalui data gear/EXIF dan narasi cerita karya).
-- Memudahkan calon klien (brand, agensi, maupun pasangan/individu) untuk menghubungi dan memesan sesi pemotretan tanpa hambatan rumit.
+- Menampilkan karya dalam rasio aslinya (portrait, landscape, square) tanpa terpotong secara kaku.
+- Menunjukkan kedalaman artistik melalui narasi di balik layar (*photo essays*) dan pembuktian teknis (*EXIF camera data*).
+- Membuka jalur komunikasi bernilai tinggi dengan calon klien melalui sistem penawaran *rate card* / *custom quote* langsung ke WhatsApp.
 
 ## 3. Target Users
-1. **Klien Komersial & Agensi:** Mencari fotografer untuk kebutuhan kampanye brand, produk, lookbook fashion, dan korporat.
-2. **Klien Personal & Pasangan:** Mencari fotografer untuk portrait, wisuda, prewedding, wedding, dan family session.
-3. **Kurator & Publikasi:** Mencari karya dokumenter, street, atau visual fine-art untuk editorial/pameran.
+1. **Klien Komersial & Agensi:** Brand, agensi kreatif, dan media yang mencari fotografer dengan visi kuat dan eksekusi teknis presisi.
+2. **Klien Personal & Pasangan:** Individu dan calon pengantin yang mencari karya bernuansa humanis, hangat, dan sinematik.
+3. **Kurator & Editor Visual:** Penikmat seni dan editor yang mencari cerita visual autentik (*photo essays*).
 
 ## 4. Goal
-Menciptakan website portofolio interaktif dengan estetika editorial modern, performa tinggi, navigasi intuitif, dual-theme (Dark/Light), serta konversi pemesanan langsung melalui WhatsApp.
+Menciptakan website portofolio interaktif dengan estetika editorial sinematik, tata letak dinamis *masonry*, dual-theme (Dark/Light), profil bercerita humanis, serta tombol permintaan *rate card* instan via WhatsApp.
 
 ## 5. Core Features (MVP V1)
-1. **Hero Section Sinematik:** Sambutan visual dengan visual hero, identitas fotografer, tagline, dan tombol CTA.
-2. **Interactive Gallery:** Filter kategori dinamis (All, Commercial, Portrait, Documentary/Street, Landscape, Wedding).
-3. **Rich Lightbox Modal:** Tampilan layar penuh, navigasi next/prev, zoom, deskripsi foto, dan data teknis kamera (EXIF).
-4. **Photo Essays / Visual Stories:** Bagian cerita mendalam di balik karya atau sesi pemotretan tertentu.
-5. **About & Photography Philosophy:** Biografi Husein Rosid, filosofi visual, pengalaman, dan gear kit ("What's in my bag").
-6. **Services & Packages:** Penjelasan paket layanan pemotretan terstruktur.
-7. **Direct WhatsApp Booking & Contact:** Tombol pesan instan dengan pesan otomatis cerdas serta kartu kontak sosial media.
-8. **Dynamic Dual Theme:** Fitur pengubah tema (Dark Luxury Editorial & Clean Minimalist Light) dengan penyimpanan preferensi di local storage.
+1. **Hero Section Sinematik:** Sambutan visual dengan visual hero, identitas fotografer, tagline humanis sinematik, dan tombol CTA.
+2. **Masonry Gallery Dinamis:** Tata letak grid dinamis yang mempertahankan proporsi asli gambar (portrait, landscape, square) dengan filter kategori dinamis (*All, Commercial, Portrait, Documentary, Landscape, Wedding*).
+3. **Micro-Interaction Hover:** Animasi pembesaran halus (*smooth zoom*) dan overlay informasi (judul karya & kategori) saat kursor diarahkan ke kartu foto.
+4. **Rich Lightbox Modal:** Tampilan layar penuh, zoom gambar, navigasi next/prev (klik & tombol keyboard panah), tombol escape, narasi foto, serta badge metadata teknis kamera (*EXIF: Kamera, Lensa, Aperture, Shutter Speed, ISO*).
+5. **Editorial Case Studies (Photo Essays):** Seksi khusus yang membedah proyek foto berseri lengkap dengan narasi di balik layar, lokasi, dan pesan visual mendalam.
+6. **Profil & Filosofi Humanis:** Biografi Husein Rosid dengan gaya narasi hangat dan reflektif, serta seksi perlengkapan andalan (*What's in my bag*).
+7. **Katalog Layanan & Penawaran:** Showcase cakupan layanan pemotretan profesional (tanpa mencantumkan harga kaku), dengan tombol "Tanyakan Penawaran / Minta Rate Card via WhatsApp".
+8. **Direct WhatsApp Smart Booking:** Tombol pemesanan langsung yang otomatis merangkai pesan terstruktur ke nomor WhatsApp resmi Husein Rosid.
+9. **Dynamic Dual Theme:** Pengubah tema (*Dark Luxury Editorial* sebagai default & *Clean Minimalist Light Mode*) dengan persistensi di `localStorage`.
 
 ## 6. Out of Scope (Bukan Bagian dari V1)
-- Toko online cetakan foto fisik dengan cart checkout dan payment gateway otomatis.
-- Client proofing portal dengan autentikasi akun ber-password untuk unduh file foto mentah/RAW.
-- Backend database mandiri yang rumit (seluruh data dikelola melalui file konfigurasi TypeScript terstruktur `portfolioData.ts`).
+- Toko online cetakan fisik dengan cart checkout dan payment gateway otomatis.
+- Client proofing portal dengan autentikasi kata sandi untuk download file RAW.
+- Database CMS eksternal yang rumit (seluruh data dikelola terstruktur di `src/data/portfolioData.ts`).
 
 ## 7. Success Criteria
-Pengguna dapat:
-1. Membuka website dengan waktu muat cepat dan animasi halus di mobile maupun desktop.
-2. Menjelajahi galeri dan beralih filter kategori tanpa reload halaman.
-3. Membuka modal foto layar penuh untuk melihat detail visual, cerita, dan data EXIF kamera.
-4. Membaca photo essay dan memahami gaya naratif fotografer.
-5. Mengubah tema visual dari Gelap ke Terang secara instan.
-6. Menghubungi Husein Rosid secara langsung ke WhatsApp dengan satu klik untuk reservasi sesi foto.
+1. Pengunjung dapat melihat foto resolusi tinggi dengan layout masonry dinamis tanpa distorsi rasio.
+2. Filter kategori dan animasi hover berjalan mulus tanpa lag.
+3. Lightbox menampilkan visual jernih lengkap dengan data EXIF teknis.
+4. Pengunjung dapat membaca editorial case study dengan tata letak majalah visual yang imersif.
+5. Pengunjung dapat beralih antara Dark Mode dan Light Mode dengan satu klik.
+6. Tombol "Minta Rate Card via WhatsApp" langsung membuka aplikasi WhatsApp dengan pesan terformat rapi.
