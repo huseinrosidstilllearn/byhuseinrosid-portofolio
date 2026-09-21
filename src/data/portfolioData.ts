@@ -1,4 +1,4 @@
-import { ContactConfig, PhotographerProfile, PhotoItem, PhotoStory, ServicePackage } from '../types/portfolio';
+import type { ContactConfig, PhotographerProfile, PhotoItem, PhotoStory, ServicePackage } from '../types/portfolio';
 
 export const PHOTOGRAPHER_PROFILE: PhotographerProfile = {
   name: "Husein Rosid",
@@ -107,7 +107,7 @@ export const PORTFOLIO_PHOTOS: PhotoItem[] = [
     id: 'p-07',
     title: 'Langkah Pulang Penarik Gerobak',
     category: 'Dokumenter',
-    imageUrl: 'https://images.unsplash.com/photo-1477959858617-67f30bc75b82?auto=format&fit=crop&w=1200&q=85',
+    imageUrl: 'https://images.unsplash.com/photo-1517732306149-e8f829eb588a?auto=format&fit=crop&w=1200&q=85',
     aspectRatio: 'landscape',
     location: 'Jembatan Merah, Surabaya',
     year: '2024',
@@ -181,7 +181,7 @@ export const PHOTO_STORIES: PhotoStory[] = [
     images: [
       'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1000&q=80',
       'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1000&q=80',
-      'https://images.unsplash.com/photo-1477959858617-67f30bc75b82?auto=format&fit=crop&w=1000&q=80'
+      'https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=1000&q=80'
     ],
     location: 'Kenjeran, Surabaya',
     year: '2024 — 2025',

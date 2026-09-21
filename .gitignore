@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Project specifics
+*.zip
+favicon/
+.env
+.playwright-mcp/
