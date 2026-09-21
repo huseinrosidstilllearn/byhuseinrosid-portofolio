@@ -5,56 +5,76 @@
 @theme {
   --font-serif: "Playfair Display", Georgia, serif;
   --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
-  --color-cream: #FAF8F5;
-  --color-ivory: #F3EFEA;
-  --color-charcoal: #1A1A1A;
-  --color-stone: #8B7355;
-  --color-mist: #8A857D;
-  --color-ink: #0D0D0D;
+  --color-obsidian: #050505;
+  --color-surface: #0D0F15;
+  --color-surface-card: #12151E;
+  --color-amber-gold: #F59E0B;
 }
 
 html {
   scroll-behavior: smooth;
-  background-color: #FAF8F5;
-}
-
-html.dark {
-  background-color: #0E1015;
+  background-color: #050505;
+  color: #F8FAFC;
 }
 
 body {
   font-family: var(--font-sans);
-  color: #1A1A1A;
-  background-color: transparent;
+  background-color: #050505;
+  color: #F8FAFC;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-.dark body {
-  color: #F3EFEA;
 }
 
 .font-editorial {
   font-family: var(--font-serif);
 }
 
-/* Subtle, barely-visible editorial scrollbar */
+/* Subtle architectural linear grid background */
+.bg-grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Radial spotlight mask for subtle hero depth */
+.radial-vignette {
+  background: radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.08) 0%, transparent 60%);
+}
+
+/* Bento Card Glass Style */
+.bento-card {
+  background: rgba(14, 17, 25, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.5rem;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bento-card:hover {
+  border-color: rgba(245, 158, 11, 0.3);
+  box-shadow: 0 10px 35px -10px rgba(0, 0, 0, 0.5), 0 0 25px rgba(245, 158, 11, 0.08);
+  transform: translateY(-2px);
+}
+
+/* Subtle custom scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #050505;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(139, 115, 85, 0.25);
+  background: rgba(255, 255, 255, 0.15);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(139, 115, 85, 0.5);
+  background: rgba(245, 158, 11, 0.5);
 }
 
 /* Utilities */

@@ -1,106 +1,113 @@
 import React from 'react';
+import { BookOpen, MapPin, Calendar, Quote } from 'lucide-react';
 import { PHOTO_STORIES } from '../data/portfolioData';
 
 export const PhotoStories: React.FC = () => {
   return (
-    <section id="kisah" className="py-28 sm:py-36 px-6 sm:px-10 lg:px-16 max-w-7xl mx-auto scroll-mt-24 border-t border-[#1A1A1A]/10 dark:border-white/10">
-      {/* Editorial Section Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 pb-12 border-b border-[#1A1A1A]/10 dark:border-white/10 mb-20">
+    <section id="kisah" className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-28">
+      {/* Stories Bento Header */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 pb-6 border-b border-white/[0.08]">
         <div>
-          <span className="text-[10px] uppercase tracking-[0.3em] text-[#8B7355] font-semibold block mb-3">
-            02 &bull; Esai & Cerita Visual
-          </span>
-          <h2 className="font-editorial text-4xl sm:text-6xl text-[#1A1A1A] dark:text-[#F3EFEA] font-normal tracking-tight">
+          <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-amber-400 mb-2">
+            <BookOpen className="w-3.5 h-3.5" />
+            <span>Esai Foto & Narasi</span>
+          </div>
+          <h2 className="font-editorial text-3xl sm:text-5xl text-white font-medium">
             Kisah di Balik Lensa
           </h2>
         </div>
-
-        <p className="max-w-md text-sm sm:text-base text-[#1A1A1A]/70 dark:text-[#F3EFEA]/70 font-light leading-relaxed">
-          Eksplorasi narasi mendalam yang dirangkai dari dialog hening antara fotografer, subjek, dan lanskap kehidupan.
+        <p className="max-w-md text-xs sm:text-sm text-slate-400 font-light leading-relaxed">
+          Eksplorasi cerita mendalam yang dirangkai dari dialog hening antara fotografer, subjek, dan lanskap kehidupan.
         </p>
       </div>
 
-      {/* Stories Sequence */}
-      <div className="space-y-32 sm:space-y-44">
-        {PHOTO_STORIES.map((story, index) => (
-          <article key={story.id} className="space-y-12 sm:space-y-16">
-            {/* Story Meta Header */}
-            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 border-b border-[#1A1A1A]/10 dark:border-white/10 pb-4">
-              <div className="flex items-center gap-3">
-                <span className="font-editorial text-xl text-[#8B7355] font-medium">
-                  0{index + 1}
-                </span>
-                <span className="text-xs uppercase tracking-[0.22em] text-[#8A857D] font-medium">
-                  {story.category}
-                </span>
-              </div>
-              <div className="text-xs uppercase tracking-[0.2em] text-[#8A857D]">
-                {story.location} &bull; {story.year}
-              </div>
-            </div>
-
-            {/* Story Main Cover Image */}
-            <div className="overflow-hidden bg-[#F3EFEA] dark:bg-[#16181F] max-h-[75vh]">
+      {/* Bento Stories Exhibition */}
+      <div className="space-y-8 sm:space-y-12">
+        {PHOTO_STORIES.map((story, idx) => (
+          <div
+            key={story.id}
+            className="grid grid-cols-1 lg:grid-cols-12 gap-5 bento-card p-6 sm:p-8 relative overflow-hidden"
+          >
+            {/* Story Visual Tile (7 cols) */}
+            <div className="lg:col-span-7 relative rounded-2xl overflow-hidden min-h-[380px] sm:min-h-[440px] group">
               <img
                 src={story.coverImage}
                 alt={story.title}
                 loading="lazy"
-                className="w-full h-full object-cover max-h-[75vh]"
+                className="w-full h-full object-cover object-center absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-between p-6 sm:p-8">
+                <div className="flex items-center gap-2">
+                  <span className="px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-[10px] font-semibold uppercase tracking-wider text-amber-300 backdrop-blur-md">
+                    Esai 0{idx + 1} &bull; {story.category}
+                  </span>
+                </div>
+
+                <div>
+                  <h3 className="font-editorial text-2xl sm:text-3xl text-white font-medium">
+                    {story.title}
+                  </h3>
+                  <p className="text-xs text-amber-300/90 font-light mt-1 italic">
+                    {story.subtitle}
+                  </p>
+                </div>
+              </div>
             </div>
 
-            {/* Story Editorial Body */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 sm:gap-14 pt-4">
-              {/* Title & Subtitle */}
-              <div className="lg:col-span-5">
-                <h3 className="font-editorial text-3xl sm:text-5xl text-[#1A1A1A] dark:text-[#F3EFEA] font-normal leading-snug">
-                  {story.title}
-                </h3>
-                <p className="text-sm font-medium text-[#8B7355] mt-3 italic">
-                  {story.subtitle}
-                </p>
-              </div>
+            {/* Story Narrative & Thumbnails Bento (5 cols) */}
+            <div className="lg:col-span-5 flex flex-col justify-between space-y-6">
+              <div>
+                <div className="flex items-center gap-3 text-xs text-slate-400 font-light mb-4 pb-3 border-b border-white/[0.08]">
+                  <span className="flex items-center gap-1.5 text-amber-400">
+                    <MapPin className="w-3.5 h-3.5" />
+                    <span>{story.location}</span>
+                  </span>
+                  <span>&bull;</span>
+                  <span className="flex items-center gap-1.5">
+                    <Calendar className="w-3.5 h-3.5" />
+                    <span>{story.year}</span>
+                  </span>
+                </div>
 
-              {/* Narrative & Pull Quote */}
-              <div className="lg:col-span-7 space-y-8">
-                <p className="text-base sm:text-lg text-[#1A1A1A]/85 dark:text-[#F3EFEA]/85 font-light leading-relaxed">
+                <p className="text-xs sm:text-sm text-slate-300 font-light leading-relaxed">
                   {story.narrative}
                 </p>
 
-                {/* Minimal Pull Quote */}
-                <div className="py-6 border-y border-[#1A1A1A]/10 dark:border-white/10 my-8">
-                  <blockquote className="font-editorial italic text-xl sm:text-2xl text-[#1A1A1A] dark:text-[#F3EFEA] leading-relaxed">
+                {/* Pull Quote Card */}
+                <div className="mt-6 p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] relative">
+                  <Quote className="w-5 h-5 text-amber-500/30 absolute top-3 right-3" />
+                  <p className="font-editorial text-sm italic text-slate-200 leading-relaxed pr-6">
                     &ldquo;{story.quote}&rdquo;
-                  </blockquote>
-                  <cite className="block text-xs uppercase tracking-widest text-[#8B7355] font-medium mt-3 not-italic">
+                  </p>
+                  <span className="block text-[10px] uppercase tracking-wider text-amber-400 font-medium mt-2">
                     &mdash; Catatan Husein Rosid
-                  </cite>
-                </div>
-
-                {/* Thumbnail Strip */}
-                <div>
-                  <span className="text-[10px] uppercase tracking-[0.25em] text-[#8A857D] font-medium block mb-3">
-                    Dokumentasi Tambahan
                   </span>
-                  <div className="grid grid-cols-3 gap-3 sm:gap-4">
-                    {story.images.map((img, i) => (
-                      <div
-                        key={i}
-                        className="overflow-hidden bg-[#F3EFEA] dark:bg-[#16181F] aspect-[4/3]"
-                      >
-                        <img
-                          src={img}
-                          alt={`${story.title} thumbnail ${i + 1}`}
-                          loading="lazy"
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                        />
-                      </div>
-                    ))}
-                  </div>
+                </div>
+              </div>
+
+              {/* Thumbnails Bento Row */}
+              <div>
+                <span className="text-[10px] uppercase tracking-[0.2em] text-slate-400 font-semibold block mb-2.5">
+                  Dokumentasi Seri
+                </span>
+                <div className="grid grid-cols-3 gap-2.5">
+                  {story.images.map((img, i) => (
+                    <div
+                      key={i}
+                      className="rounded-xl overflow-hidden aspect-[4/3] border border-white/10 group cursor-pointer"
+                    >
+                      <img
+                        src={img}
+                        alt={`${story.title} ${i + 1}`}
+                        loading="lazy"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
-          </article>
+          </div>
         ))}
       </div>
     </section>

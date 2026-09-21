@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Sun, Moon, Menu, X, ArrowLeft } from 'lucide-react';
-import { useTheme } from '../context/ThemeContext';
+import { Menu, X, MessageCircle, ArrowLeft } from 'lucide-react';
+import { createWhatsAppLink } from '../utils/whatsapp';
 
 interface NavbarProps {
-  viewMode: 'spatial' | 'editorial';
+  viewMode: 'bento' | 'spatial';
   onToggleViewMode: () => void;
   onNavigateToSection: (sectionId: string) => void;
 }
@@ -13,13 +13,12 @@ export const Navbar: React.FC<NavbarProps> = ({
   onToggleViewMode,
   onNavigateToSection,
 }) => {
-  const { theme, toggleTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 30);
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -34,113 +33,130 @@ export const Navbar: React.FC<NavbarProps> = ({
   ];
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled || viewMode === 'spatial'
-          ? 'bg-[#FAF8F5]/90 dark:bg-[#0E1015]/90 backdrop-blur-md border-b border-[#1A1A1A]/5 dark:border-white/5 py-4'
-          : 'bg-transparent py-7'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 flex items-center justify-between">
-        {/* Brand Title */}
-        <button
-          onClick={() => {
-            if (viewMode === 'spatial') onToggleViewMode();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-          className="text-left group cursor-pointer"
+    <header className="fixed top-0 left-0 right-0 z-50 pt-4 sm:pt-6 px-4 pointer-events-none">
+      <div className="max-w-6xl mx-auto flex items-center justify-between pointer-events-auto">
+        {/* Floating Glass Bento Capsule */}
+        <div
+          className={`w-full flex items-center justify-between px-4 sm:px-6 py-3 rounded-full border transition-all duration-300 ${
+            isScrolled || viewMode === 'spatial'
+              ? 'bg-[#0E1118]/85 backdrop-blur-xl border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.6)]'
+              : 'bg-[#0E1118]/60 backdrop-blur-md border-white/[0.08] shadow-lg'
+          }`}
         >
-          <span className="font-editorial text-xl sm:text-2xl tracking-tight text-[#1A1A1A] dark:text-[#F3EFEA] font-medium group-hover:text-[#8B7355] transition-colors">
-            By Husein Rosid
-          </span>
-          <span className="hidden sm:block text-[9px] uppercase tracking-[0.25em] text-[#8A857D] font-light">
-            Surabaya &bull; Visual Storyteller
-          </span>
-        </button>
-
-        {/* Center / Spatial Mode Back Indicator */}
-        {viewMode === 'spatial' ? (
+          {/* Brand Logo & Live Indicator */}
           <button
-            onClick={onToggleViewMode}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#1A1A1A]/15 dark:border-white/15 bg-white/70 dark:bg-black/50 text-xs tracking-wider uppercase font-medium text-[#1A1A1A] dark:text-[#F3EFEA] hover:bg-[#1A1A1A] hover:text-[#FAF8F5] dark:hover:bg-white dark:hover:text-black transition-all cursor-pointer"
+            onClick={() => {
+              if (viewMode === 'spatial') onToggleViewMode();
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="flex items-center gap-3 text-left group cursor-pointer"
           >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Kembali ke Editorial</span>
-          </button>
-        ) : (
-          /* Desktop Editorial Navigation */
-          <nav className="hidden md:flex items-center gap-8 lg:gap-12">
-            {navLinks.map((link) => (
-              <button
-                key={link.id}
-                onClick={() => onNavigateToSection(link.id)}
-                className="text-xs uppercase tracking-[0.22em] text-[#1A1A1A]/70 dark:text-[#F3EFEA]/70 hover:text-[#8B7355] dark:hover:text-[#8B7355] transition-colors font-medium cursor-pointer"
-              >
-                {link.label}
-              </button>
-            ))}
-          </nav>
-        )}
-
-        {/* Right Utility: Theme Toggle & Mobile Trigger */}
-        <div className="flex items-center gap-4">
-          <button
-            onClick={toggleTheme}
-            aria-label="Ganti Tema"
-            className="w-9 h-9 flex items-center justify-center text-[#1A1A1A]/70 dark:text-[#F3EFEA]/70 hover:text-[#8B7355] transition-colors cursor-pointer"
-          >
-            {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            <div className="w-8 h-8 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 font-editorial font-bold text-sm group-hover:scale-105 transition-transform">
+              HR
+            </div>
+            <div>
+              <span className="font-editorial text-base sm:text-lg font-medium tracking-tight text-white group-hover:text-amber-400 transition-colors block leading-none">
+                By Husein Rosid
+              </span>
+              <span className="hidden sm:inline-flex items-center gap-1.5 text-[9px] uppercase tracking-[0.2em] text-emerald-400 mt-1 font-medium">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                Terbuka untuk Sesi
+              </span>
+            </div>
           </button>
 
-          {viewMode === 'editorial' && (
+          {/* Center: Spatial Switcher or Bento Navigation Links */}
+          {viewMode === 'spatial' ? (
             <button
-              onClick={() => setMobileMenuOpen(true)}
-              aria-label="Buka Menu"
-              className="md:hidden w-9 h-9 flex items-center justify-center text-[#1A1A1A] dark:text-[#F3EFEA] cursor-pointer"
+              onClick={onToggleViewMode}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 text-xs tracking-wider uppercase font-medium text-amber-300 hover:bg-amber-500/20 transition-all cursor-pointer"
             >
-              <Menu className="w-5 h-5" />
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Kembali ke Bento</span>
             </button>
+          ) : (
+            <nav className="hidden md:flex items-center gap-1 bg-white/[0.03] border border-white/[0.06] rounded-full px-3 py-1">
+              {navLinks.map((link) => (
+                <button
+                  key={link.id}
+                  onClick={() => onNavigateToSection(link.id)}
+                  className="px-3 py-1.5 rounded-full text-xs uppercase tracking-wider text-slate-300 hover:text-white hover:bg-white/[0.08] transition-all font-medium cursor-pointer"
+                >
+                  {link.label}
+                </button>
+              ))}
+            </nav>
           )}
+
+          {/* Right Action: Direct WhatsApp CTA & Mobile Hamburger */}
+          <div className="flex items-center gap-2.5">
+            <a
+              href={createWhatsAppLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(245,158,11,0.25)] transition-all cursor-pointer hover:scale-105"
+            >
+              <MessageCircle className="w-3.5 h-3.5" />
+              <span>Minta Sesi</span>
+            </a>
+
+            {viewMode === 'bento' && (
+              <button
+                onClick={() => setMobileMenuOpen(true)}
+                aria-label="Buka Menu"
+                className="md:hidden w-9 h-9 rounded-full bg-white/[0.05] border border-white/10 flex items-center justify-center text-white cursor-pointer"
+              >
+                <Menu className="w-4 h-4" />
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* Full-Screen Minimalist Mobile Drawer */}
+      {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 bg-[#FAF8F5] dark:bg-[#0E1015] flex flex-col justify-between p-8 sm:p-12 animate-in fade-in duration-300">
-          <div className="flex items-center justify-between border-b border-[#1A1A1A]/10 dark:border-white/10 pb-6">
-            <span className="font-editorial text-xl font-medium tracking-tight text-[#1A1A1A] dark:text-[#F3EFEA]">
+        <div className="fixed inset-0 z-50 bg-[#050505]/95 backdrop-blur-2xl flex flex-col justify-between p-8 animate-in fade-in duration-300 pointer-events-auto">
+          <div className="flex items-center justify-between border-b border-white/10 pb-4">
+            <span className="font-editorial text-xl font-medium text-white">
               By Husein Rosid
             </span>
             <button
               onClick={() => setMobileMenuOpen(false)}
               aria-label="Tutup Menu"
-              className="w-10 h-10 flex items-center justify-center text-[#1A1A1A] dark:text-[#F3EFEA] cursor-pointer"
+              className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white cursor-pointer"
             >
-              <X className="w-6 h-6" />
+              <X className="w-5 h-5" />
             </button>
           </div>
 
-          <div className="flex flex-col space-y-6 my-auto">
-            {navLinks.map((link, idx) => (
+          <div className="flex flex-col space-y-4 my-auto">
+            {navLinks.map((link) => (
               <button
                 key={link.id}
                 onClick={() => {
                   setMobileMenuOpen(false);
                   onNavigateToSection(link.id);
                 }}
-                className="text-left font-editorial text-4xl sm:text-5xl text-[#1A1A1A] dark:text-[#F3EFEA] hover:text-[#8B7355] transition-colors flex items-baseline gap-4"
+                className="text-left font-editorial text-3xl text-white hover:text-amber-400 transition-colors"
               >
-                <span className="text-xs font-sans tracking-widest text-[#8A857D] uppercase">
-                  0{idx + 1}
-                </span>
-                <span>{link.label}</span>
+                {link.label}
               </button>
             ))}
           </div>
 
-          <div className="pt-6 border-t border-[#1A1A1A]/10 dark:border-white/10 flex items-center justify-between text-xs tracking-wider uppercase text-[#8A857D]">
-            <span>Surabaya, Indonesia</span>
-            <span>&copy; {new Date().getFullYear()}</span>
+          <div className="pt-6 border-t border-white/10 flex flex-col gap-4">
+            <a
+              href={createWhatsAppLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-3.5 rounded-full bg-amber-500 text-slate-950 font-bold text-center text-xs uppercase tracking-wider flex items-center justify-center gap-2"
+            >
+              <MessageCircle className="w-4 h-4" />
+              <span>Hubungi via WhatsApp</span>
+            </a>
+            <div className="text-center text-[10px] uppercase tracking-widest text-slate-500">
+              Surabaya, Indonesia &bull; Visual Storyteller
+            </div>
           </div>
         </div>
       )}

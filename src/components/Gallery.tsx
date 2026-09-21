@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Maximize2, MapPin, Grid } from 'lucide-react';
 import { PHOTO_CATEGORIES, PORTFOLIO_PHOTOS } from '../data/portfolioData';
 import type { PhotoItem } from '../types/portfolio';
 import { LightboxModal } from './LightboxModal';
@@ -11,134 +12,95 @@ export const Gallery: React.FC = () => {
     ? PORTFOLIO_PHOTOS
     : PORTFOLIO_PHOTOS.filter(p => p.category === selectedCategory);
 
+  // Bento span rhythm generator
+  const getBentoColSpan = (index: number) => {
+    const cycle = index % 5;
+    if (cycle === 0) return 'col-span-12 lg:col-span-8 min-h-[360px] sm:min-h-[440px]';
+    if (cycle === 1) return 'col-span-12 sm:col-span-6 lg:col-span-4 min-h-[360px] sm:min-h-[440px]';
+    if (cycle === 2) return 'col-span-12 sm:col-span-6 lg:col-span-4 min-h-[300px] sm:min-h-[360px]';
+    if (cycle === 3) return 'col-span-12 sm:col-span-6 lg:col-span-4 min-h-[300px] sm:min-h-[360px]';
+    return 'col-span-12 sm:col-span-6 lg:col-span-4 min-h-[300px] sm:min-h-[360px]';
+  };
+
   return (
-    <section id="galeri" className="py-28 sm:py-36 px-6 sm:px-10 lg:px-16 max-w-7xl mx-auto scroll-mt-24">
-      {/* Editorial Section Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 pb-12 border-b border-[#1A1A1A]/10 dark:border-white/10 mb-14">
+    <section id="galeri" className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-28">
+      {/* Bento Gallery Header */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-white/[0.08]">
         <div>
-          <span className="text-[10px] uppercase tracking-[0.3em] text-[#8B7355] font-semibold block mb-3">
-            01 &bull; Arsip Visual
-          </span>
-          <h2 className="font-editorial text-4xl sm:text-6xl text-[#1A1A1A] dark:text-[#F3EFEA] font-normal tracking-tight">
-            Koleksi Bingkai Pilihan
+          <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-amber-400 mb-2">
+            <Grid className="w-3.5 h-3.5" />
+            <span>Koleksi Eksibisi Bento</span>
+          </div>
+          <h2 className="font-editorial text-3xl sm:text-5xl text-white font-medium">
+            Galeri Rekaman Visual
           </h2>
         </div>
 
-        <p className="max-w-md text-sm sm:text-base text-[#1A1A1A]/70 dark:text-[#F3EFEA]/70 font-light leading-relaxed">
-          Setiap frame adalah jeda hening yang merekam interaksi antara manusia, bayang, dan semesta tanpa kepura-puraan.
-        </p>
-      </div>
-
-      {/* Clean Text-Only Category Filter */}
-      <div className="flex items-center gap-4 sm:gap-6 flex-wrap pb-12 text-xs uppercase tracking-[0.2em] font-medium border-b border-[#1A1A1A]/5 dark:border-white/5 mb-16">
-        {PHOTO_CATEGORIES.map((category, idx) => {
-          const isActive = selectedCategory === category;
-          return (
-            <React.Fragment key={category}>
+        {/* Interactive Category Filter Capsule */}
+        <div className="flex items-center gap-1.5 p-1.5 rounded-full bg-[#0E1118]/80 border border-white/10 backdrop-blur-xl max-w-full overflow-x-auto no-scrollbar">
+          {PHOTO_CATEGORIES.map((category) => {
+            const isActive = selectedCategory === category;
+            return (
               <button
+                key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`transition-colors cursor-pointer ${
+                className={`px-4 py-1.5 rounded-full text-xs font-medium tracking-wider whitespace-nowrap transition-all duration-300 cursor-pointer ${
                   isActive
-                    ? 'text-[#8B7355] font-semibold underline underline-offset-8 decoration-1'
-                    : 'text-[#8A857D] hover:text-[#1A1A1A] dark:hover:text-[#F3EFEA]'
+                    ? 'bg-amber-500 text-slate-950 font-bold shadow-[0_0_15px_rgba(245,158,11,0.4)]'
+                    : 'text-slate-400 hover:text-white hover:bg-white/[0.06]'
                 }`}
               >
                 {category}
               </button>
-              {idx < PHOTO_CATEGORIES.length - 1 && (
-                <span className="text-[#8A857D]/40 font-light select-none">/</span>
-              )}
-            </React.Fragment>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
 
-      {/* Editorial Magazine Photo Layout */}
-      <div className="space-y-20 sm:space-y-28 lg:space-y-36">
-        {filteredPhotos.reduce<PhotoItem[][]>((rows, photo, index) => {
-          // Cadence: 1 full-width, then 2 side-by-side, then 1 wide...
-          if (index % 3 === 0) {
-            rows.push([photo]);
-          } else if (index % 3 === 1) {
-            rows.push([photo]);
-          } else {
-            // Pair with previous if available
-            const lastRow = rows[rows.length - 1];
-            if (lastRow && lastRow.length === 1) {
-              lastRow.push(photo);
-            } else {
-              rows.push([photo]);
-            }
-          }
-          return rows;
-        }, []).map((row, rowIndex) => {
-          const isSingle = row.length === 1;
+      {/* Asymmetric Bento Grid Exhibition */}
+      <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 sm:gap-5">
+        {filteredPhotos.map((photo, index) => {
+          const spanClass = getBentoColSpan(index);
 
-          if (isSingle) {
-            const photo = row[0];
-            return (
-              <div key={photo.id} className="group cursor-pointer" onClick={() => setActivePhoto(photo)}>
-                <div className="overflow-hidden bg-[#F3EFEA] dark:bg-[#16181F] max-h-[78vh] flex items-center justify-center">
-                  <img
-                    src={photo.imageUrl}
-                    alt={photo.title}
-                    loading="lazy"
-                    className="w-full h-full object-cover max-h-[78vh] transition-transform duration-1000 ease-out group-hover:scale-[1.015]"
-                  />
-                </div>
-                {/* Editorial Caption Under Image */}
-                <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-t border-[#1A1A1A]/10 dark:border-white/10 pt-3">
-                  <div>
-                    <h3 className="font-editorial text-xl sm:text-2xl text-[#1A1A1A] dark:text-[#F3EFEA] font-normal group-hover:text-[#8B7355] transition-colors">
-                      {photo.title}
-                    </h3>
-                    <p className="text-xs text-[#8A857D] font-light mt-0.5">
-                      {photo.description}
-                    </p>
+          return (
+            <div
+              key={photo.id}
+              onClick={() => setActivePhoto(photo)}
+              className={`${spanClass} bento-card relative overflow-hidden group cursor-pointer`}
+            >
+              {/* Image with zoom effect */}
+              <img
+                src={photo.imageUrl}
+                alt={photo.title}
+                loading="lazy"
+                className="w-full h-full object-cover object-center absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105"
+              />
+
+              {/* Ambient Top Shadow & Tags */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-black/20 flex flex-col justify-between p-6 sm:p-7 transition-opacity duration-300">
+                <div className="flex items-center justify-between">
+                  <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-semibold uppercase tracking-wider text-amber-400">
+                    {photo.category}
+                  </span>
+
+                  <div className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-md border border-white/15 flex items-center justify-center text-white/80 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                    <Maximize2 className="w-3.5 h-3.5" />
                   </div>
-                  <div className="text-xs uppercase tracking-widest text-[#8A857D] font-medium whitespace-nowrap">
-                    <span>{photo.category}</span> &bull; <span>{photo.location}</span> &bull; <span>{photo.year}</span>
+                </div>
+
+                {/* Bottom Metadata */}
+                <div>
+                  <h3 className="font-editorial text-xl sm:text-2xl text-white font-medium group-hover:text-amber-300 transition-colors">
+                    {photo.title}
+                  </h3>
+                  <div className="flex items-center gap-2 text-xs text-slate-300 font-light mt-1.5">
+                    <MapPin className="w-3 h-3 text-amber-400" />
+                    <span>{photo.location}</span>
+                    <span>&bull;</span>
+                    <span>{photo.year}</span>
                   </div>
                 </div>
               </div>
-            );
-          }
-
-          // Two photos side-by-side spread
-          return (
-            <div key={`row-${rowIndex}`} className="grid grid-cols-1 md:grid-cols-2 gap-10 sm:gap-14 lg:gap-20">
-              {row.map((photo, pIdx) => (
-                <div
-                  key={photo.id}
-                  className={`group cursor-pointer ${pIdx === 1 ? 'md:mt-12 lg:mt-16' : ''}`}
-                  onClick={() => setActivePhoto(photo)}
-                >
-                  <div className="overflow-hidden bg-[#F3EFEA] dark:bg-[#16181F] aspect-[4/5] flex items-center justify-center">
-                    <img
-                      src={photo.imageUrl}
-                      alt={photo.title}
-                      loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.02]"
-                    />
-                  </div>
-                  {/* Editorial Caption Under Image */}
-                  <div className="mt-4 sm:mt-5 border-t border-[#1A1A1A]/10 dark:border-white/10 pt-3 flex flex-col gap-1">
-                    <div className="flex items-baseline justify-between gap-2">
-                      <h3 className="font-editorial text-lg sm:text-xl text-[#1A1A1A] dark:text-[#F3EFEA] font-normal group-hover:text-[#8B7355] transition-colors">
-                        {photo.title}
-                      </h3>
-                      <span className="text-[10px] uppercase tracking-widest text-[#8A857D] font-medium">
-                        {photo.year}
-                      </span>
-                    </div>
-                    <div className="text-xs text-[#8A857D] font-light flex items-center gap-2">
-                      <span>{photo.category}</span>
-                      <span>&bull;</span>
-                      <span>{photo.location}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
             </div>
           );
         })}
