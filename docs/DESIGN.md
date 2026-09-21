@@ -2,15 +2,16 @@
 
 ## 1. Style & Aesthetic
 - **Konsep Visual:** *Cinematic Editorial & Humanist Visual Gallery*
-- **Karakter:** Hangat, puitis, jujur, dan berkelas. Menghormati setiap bingkai foto sebagai karya seni yang bernyawa.
+- **Karakter:** Hangat, puitis, jujur, dan berkelas. Menghormati setiap foto sebagai rekaman momen hidup yang bernyawa.
+- **Bahasa Desain & Teks:** 100% Bahasa Indonesia baku dan puitis.
 - **Dynamic Dual Theme:**
-  - **Dark Mode (Default):** Deep Obsidian Charcoal (`#090d16`) dengan kontras tinggi yang menonjolkan warna, saturasi, dan cahaya asli foto layaknya bioskop atau pameran galeri malam.
-  - **Light Mode:** Ultra-light Slate White (`#f8fafc`) dengan nuansa majalah seni rupa modern.
+  - **Dark Mode (Default):** Deep Obsidian Charcoal (`#090d16`) dengan kontras tinggi yang menonjolkan saturasi warna foto dan emosi cahaya.
+  - **Light Mode:** Ultra-light Slate White (`#f8fafc`) dengan atmosfer pameran galeri kontemporer yang bersih.
 
 ## 2. Typography
-- **Heading & Judul Editorial:** Serif elegan (*Playfair Display* / *Cinzel* / Serif luxury fallback) dengan bobot medium-semibold, memberikan kesan berbobot dan sinematik.
-- **Body Text & Narasi:** Modern Humanist Sans-Serif (*Plus Jakarta Sans* / *Inter*) dengan *line-height* longgar (1.6 - 1.8) untuk kenyamanan membaca esai foto yang mendalam.
-- **Label Teknis & EXIF Data:** Monospace / Sans-Serif presisi (*tracking-wider / uppercase / text-xs*) untuk menampilkan spesifikasi kamera secara profesional.
+- **Heading & Judul Editorial:** Serif elegan (*Playfair Display* / *Cinzel* / Serif luxury fallback) untuk kesan berbobot, sinematik, dan artistik.
+- **Body Text & Narasi:** Modern Humanist Sans-Serif (*Plus Jakarta Sans* / *Inter*) dengan jarak baris longgar (1.6 - 1.8) agar esai foto nyaman dinikmati.
+- **Mikro-teks / Navigasi:** Huruf kapital dengan spasi lebar (*tracking-wider / tracking-widest / text-xs*) untuk menu dan kategori karya.
 
 ## 3. Color Palette
 
@@ -35,25 +36,24 @@
 ## 4. UI Components & Micro-Interactions
 
 ### Masonry Grid Dinamis
-- Kolom multi-kolom yang mengalir secara alami (1 kolom di mobile, 2 kolom di tablet, 3-4 kolom di desktop).
-- Mempertahankan rasio asli foto (portrait 4:5 / 2:3, landscape 3:2 / 16:9, square 1:1) tanpa memotong konten visual.
+- Kolom multi-kolom yang mengalir alami (1 kolom di mobile, 2 kolom di tablet, 3 kolom di desktop).
+- Menampilkan foto portrait, landscape, dan square dalam proporsi alaminya tanpa pemotongan kaku.
 
 ### Micro-Interaction pada Kartu Foto
-- **Smooth Zoom:** Foto membesar perlahan (`scale-105 transition-transform duration-500 ease-out`).
-- **Info Overlay Reveal:** Lapisan gradien gelap muncul perlahan dari bawah menampilkan judul foto, kategori, dan ikon panah/eksplorasi.
+- **Smooth Zoom:** Pembesaran foto secara halus saat kursor melayang (`scale-105 transition-transform duration-500 ease-out`).
+- **Info Overlay Reveal:** Lapisan bayangan gelap muncul lembut dari bawah menampilkan judul karya dan kategori foto.
 
 ### Rich Lightbox Modal
-- Backdrop gelap blur (`backdrop-blur-md bg-black/95`).
-- Panel informasi foto yang proporsional (Judul, lokasi, tahun, narasi cerita).
-- Badge spesifikasi teknis kamera (EXIF: Shutter Speed, Aperture, ISO, Lensa).
-- Kontrol sentuh dan keyboard (ESC untuk keluar, panah kiri/kanan untuk navigasi).
+- Latar belakang layar penuh gelap blur (`backdrop-blur-md bg-black/95`).
+- Panel narasi cerita karya dan lokasi pemotretan.
+- Kontrol ramah sentuhan dan keyboard (ESC untuk keluar, panah kiri/kanan untuk navigasi).
 
-### Layanan & Tombol Penawaran WhatsApp
-- Kartu layanan berdesain kartu editorial yang merinci cakupan kerja (durasi, output file, konsep).
-- Tombol aksi utama "Minta Rate Card via WhatsApp" dengan animasi hover subtle glow.
-- Tombol mengambang (Floating Action Button) WhatsApp di pojok kanan bawah yang selalu siap membantu pengunjung.
+### Layanan & Tombol WhatsApp
+- Kartu layanan berdesain editorial yang merinci cakupan pemotretan.
+- Tombol aksi utama "Minta Penawaran via WhatsApp" yang langsung terhubung ke nomor `088992806757`.
+- Tombol mengambang (Floating Action Button) WhatsApp di pojok kanan bawah layar.
 
-## 5. Responsiveness Requirements
-- **Mobile (375px):** Pengalaman gulir satu kolom yang mulus, modal responsif layar sentuh, menu navigasi slide-out elegan.
-- **Tablet (768px):** Tata letak 2 kolom seimbang.
-- **Desktop (1280px+):** Tampilan sinematik penuh dengan grid masonry 3 kolom dan tipografi besar yang impresif.
+## 5. Responsiveness
+- **Mobile (375px):** Tampilan satu kolom yang mengalir nyaman, drawer menu samping responsif.
+- **Tablet (768px):** Grid 2 kolom seimbang.
+- **Desktop (1280px+):** Tampilan sinematik 3 kolom penuh dengan tipografi editorial megah.

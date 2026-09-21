@@ -2,10 +2,11 @@
 
 ## 1. Tech Stack
 - **Frontend Framework:** React 19 + TypeScript
-- **Build Tool:** Vite (cepat, modern HMR, output bundler teroptimasi)
+- **Build Tool:** Vite (cepat, HMR instan, bundle ringan teroptimasi)
 - **Styling:** Tailwind CSS (utility-first, responsive utilities, seamless dark mode class support)
-- **Icons:** Lucide React (ringan, konsisten, tajam)
+- **Icons:** Lucide React (ringan, tajam, konsisten)
 - **Motion & Transitions:** Framer Motion (reveal animations, layout animations, modal transitions)
+- **Bahasa Antarmuka:** 100% Bahasa Indonesia
 - **Deployment Target:** Vercel / Netlify / GitHub Pages
 
 ## 2. System Flow
@@ -18,21 +19,20 @@ React Application (Vite Root)
   ├── ThemeContext (State Dark / Light Mode)
   │
   ├── UI Components (Presentation Layer)
-  │     ├── Navbar (Navigasi & Theme Toggle)
-  │     ├── Hero (Visual Hook & CTA)
-  │     ├── Gallery (Filterable Grid Layout)
-  │     ├── LightboxModal (Full-screen view + EXIF details)
-  │     ├── PhotoStories (Editorial Narrative)
-  │     ├── About & Gear (Profil & Camera Kit)
-  │     ├── Services (Daftar Paket Jasa)
-  │     └── ContactSection (Direct WA CTA & Sosmed)
+  │     ├── Navbar (Navigasi Berbahasa Indonesia & Theme Toggle)
+  │     ├── Hero (Visual Hook, Tagline, Domisili Surabaya, & CTA)
+  │     ├── Gallery (Masonry Grid Dinamis + Filter Kategori)
+  │     ├── LightboxModal (Tampilan Layar Penuh + Narasi Karya)
+  │     ├── PhotoStories (Kisah Visual / Editorial Photo Essay)
+  │     ├── About (Profil Humanis Husein Rosid & Filosofi Visual)
+  │     ├── Services (Katalog Layanan & Tombol Penawaran)
+  │     └── ContactSection (Direct WhatsApp 088992806757, IG @byhuseinrosid, Email)
   │
   └── Data Layer (`src/data/portfolioData.ts`)
-        ├── Profil & Bio Husein Rosid
-        ├── Foto Galeri & EXIF Metadata
-        ├── Cerita Foto (Photo Essays)
-        ├── Daftar Gear Kamera
-        └── Paket Layanan & Kontak WhatsApp
+        ├── Profil & Bio Husein Rosid (Surabaya, Indonesia)
+        ├── Foto Galeri Resolusi Tinggi & Data Karya
+        ├── Cerita di Balik Karya (Kisah Visual)
+        └── Paket Layanan & Konfigurasi Kontak Resmi
 ```
 
 ## 3. Folder Structure
@@ -58,7 +58,6 @@ By Husein Rosid PORTOFOLIO/
 │   │   ├── LightboxModal.tsx
 │   │   ├── PhotoStories.tsx
 │   │   ├── About.tsx
-│   │   ├── GearSection.tsx
 │   │   ├── Services.tsx
 │   │   ├── ContactSection.tsx
 │   │   └── Footer.tsx
@@ -85,7 +84,7 @@ By Husein Rosid PORTOFOLIO/
 ```
 
 ## 4. Architectural Rules
-1. **Pemisahan Data & Komponen:** Komponen UI tidak boleh menyematkan data foto mentah secara hardcoded. Seluruh data (foto, deskripsi, EXIF, nomor WA, bio) harus diimpor dari `src/data/portfolioData.ts`.
-2. **Kesesuaian Tipe Data (Type-Safety):** Semua data foto dan konfigurasi wajib memiliki interface TypeScript eksplisit di `src/types/portfolio.ts`.
-3. **Penyimpanan Preferensi Tema:** Pengaturan Dark/Light mode dikelola melalui `ThemeContext` dan tersimpan di `localStorage` agar pilihan pengunjung bertahan saat refresh.
-4. **Komponen Mandiri & Reusable:** Komponen seperti modal lightbox, kartu foto, dan kartu layanan dibuat modular agar mudah di-refactor atau diuji.
+1. **Bahasa Standar Proyek:** Seluruh teks yang tampil di layar wajib menggunakan Bahasa Indonesia yang komunikatif, profesional, dan estetik.
+2. **Pemisahan Data & Komponen:** Semua konten foto, teks biografi, kategori layanan, dan tautan sosial media dikelola terpusat di `src/data/portfolioData.ts`.
+3. **Kesesuaian Tipe Data (Type-Safety):** Semua data foto dan konfigurasi wajib memiliki interface TypeScript eksplisit di `src/types/portfolio.ts`.
+4. **Fokus Visual:** Tidak ada komponen atau kebocoran data gear/kamera; fokus 100% pada karya visual dan cerita di baliknya.
