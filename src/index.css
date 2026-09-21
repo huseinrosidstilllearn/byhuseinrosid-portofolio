@@ -75,6 +75,50 @@ body {
   transform: translateY(-3px) scale(1.003);
 }
 
+/* Split Letter / Staggered Wave Effect (CodeFronts) */
+.split-wave {
+  display: inline-block;
+  text-decoration: none;
+}
+.split-wave span {
+  display: inline-flex;
+}
+.split-wave i {
+  display: inline-block;
+  font-style: normal;
+  transform: translateY(0);
+  transition: transform 0.45s cubic-bezier(0.34, 1.8, 0.5, 1), color 0.35s ease;
+  transition-delay: calc(var(--i) * 35ms);
+}
+.split-wave:hover i {
+  transform: translateY(-0.25em);
+  color: #F59E0B;
+}
+
+/* Infinite Marquee animations */
+@keyframes marquee-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-right {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.animate-marquee-left {
+  animation: marquee-left 38s linear infinite;
+}
+
+.animate-marquee-right {
+  animation: marquee-right 38s linear infinite;
+}
+
+.marquee-container:hover .animate-marquee-left,
+.marquee-container:hover .animate-marquee-right {
+  animation-play-state: paused;
+}
+
 /* Subtle custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;

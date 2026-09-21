@@ -55,8 +55,14 @@ export const Navbar: React.FC<NavbarProps> = ({
               HR
             </div>
             <div>
-              <span className="font-editorial text-base sm:text-lg font-medium tracking-tight text-white group-hover:text-amber-400 transition-colors block leading-none">
-                By Husein Rosid
+              <span className="font-editorial text-base sm:text-lg font-medium tracking-tight text-white block leading-none split-wave" aria-label="By Husein Rosid">
+                <span aria-hidden="true">
+                  {"By Husein Rosid".split("").map((char, i) => (
+                    <i key={i} style={{ '--i': i } as React.CSSProperties} className={char === ' ' ? 'inline-block w-1.5' : ''}>
+                      {char}
+                    </i>
+                  ))}
+                </span>
               </span>
               <span className="hidden sm:inline-flex items-center gap-1.5 text-[9px] uppercase tracking-[0.2em] text-emerald-400 mt-1 font-medium">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />

@@ -28,7 +28,15 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
 
             <h1 className="font-editorial text-4xl sm:text-6xl lg:text-7xl font-normal leading-[1.08] tracking-tight text-white max-w-3xl">
               Stories Told in the{' '}
-              <span className="italic text-amber-400 font-normal">Quiet Spaces</span>{' '}
+              <span className="italic text-amber-400 font-normal inline-block split-wave cursor-pointer" aria-label="Quiet Spaces">
+                <span aria-hidden="true">
+                  {"Quiet Spaces".split("").map((char, i) => (
+                    <i key={i} style={{ '--i': i } as React.CSSProperties} className={char === ' ' ? 'inline-block w-2 sm:w-3' : ''}>
+                      {char}
+                    </i>
+                  ))}
+                </span>
+              </span>{' '}
               Between Moments.
             </h1>
 

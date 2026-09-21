@@ -4,11 +4,23 @@ import { PHOTO_CATEGORIES, PORTFOLIO_PHOTOS } from '../data/portfolioData';
 import type { PhotoItem } from '../types/portfolio';
 import { LightboxModal } from './LightboxModal';
 
-export const Gallery: React.FC = () => {
+interface GalleryProps {
+  onSelectPhoto?: (photo: PhotoItem) => void;
+}
+
+export const Gallery: React.FC<GalleryProps> = ({ onSelectPhoto }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('Semua');
   const [activePhoto, setActivePhoto] = useState<PhotoItem | null>(null);
   const [galleryMode, setGalleryMode] = useState<'matrix' | 'filmstrip'>('matrix');
   const filmstripRef = useRef<HTMLDivElement>(null);
+
+  const handlePhotoClick = (photo: PhotoItem) => {
+    if (onSelectPhoto) {
+      onSelectPhoto(photo);
+    } else {
+      setActivePhoto(photo);
+    }
+  };
 
   const filteredPhotos = selectedCategory === 'Semua'
     ? PORTFOLIO_PHOTOS
@@ -46,14 +58,18 @@ export const Gallery: React.FC = () => {
 
         {/* Action Controls: Layout Mode Switcher & Category Filters */}
         <div className="flex flex-wrap items-center gap-3">
-          {/* Mode Switcher: Bento Matrix vs Rol Film Bebas */}
-          <div className="flex items-center p-1 rounded-full bg-[#0E1118]/80 border border-white/10 backdrop-blur-xl">
+          {/* iOS Style Segmented Control with Sliding Thumb */}
+          <div className="relative flex items-center p-1 rounded-full bg-[#0E1118]/80 border border-white/10 backdrop-blur-xl w-60 sm:w-64 h-10 select-none">
+            {/* Sliding Thumb Indicator */}
+            <div
+              className={`absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] bg-amber-500 rounded-full shadow-[0_2px_10px_rgba(245,158,11,0.3)] transition-transform duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] pointer-events-none ${
+                galleryMode === 'matrix' ? 'translate-x-0' : 'translate-x-full'
+              }`}
+            />
             <button
               onClick={() => setGalleryMode('matrix')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium tracking-wider transition-all cursor-pointer ${
-                galleryMode === 'matrix'
-                  ? 'bg-amber-500 text-slate-950 font-bold shadow-md'
-                  : 'text-slate-400 hover:text-white'
+              className={`relative z-10 w-1/2 h-full flex items-center justify-center gap-1.5 rounded-full text-xs tracking-wider transition-colors duration-200 cursor-pointer ${
+                galleryMode === 'matrix' ? 'text-slate-950 font-bold' : 'text-slate-400 hover:text-white font-medium'
               }`}
             >
               <Grid className="w-3.5 h-3.5" />
@@ -61,10 +77,8 @@ export const Gallery: React.FC = () => {
             </button>
             <button
               onClick={() => setGalleryMode('filmstrip')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium tracking-wider transition-all cursor-pointer ${
-                galleryMode === 'filmstrip'
-                  ? 'bg-amber-500 text-slate-950 font-bold shadow-md'
-                  : 'text-slate-400 hover:text-white'
+              className={`relative z-10 w-1/2 h-full flex items-center justify-center gap-1.5 rounded-full text-xs tracking-wider transition-colors duration-200 cursor-pointer ${
+                galleryMode === 'filmstrip' ? 'text-slate-950 font-bold' : 'text-slate-400 hover:text-white font-medium'
               }`}
             >
               <Film className="w-3.5 h-3.5" />
@@ -103,7 +117,7 @@ export const Gallery: React.FC = () => {
             return (
               <div
                 key={photo.id}
-                onClick={() => setActivePhoto(photo)}
+                onClick={() => handlePhotoClick(photo)}
                 className={`${spanClass} bento-card relative overflow-hidden group cursor-pointer`}
               >
                 <img
@@ -176,7 +190,7 @@ export const Gallery: React.FC = () => {
             {filteredPhotos.map((photo) => (
               <div
                 key={photo.id}
-                onClick={() => setActivePhoto(photo)}
+                onClick={() => handlePhotoClick(photo)}
                 className="snap-start shrink-0 w-[300px] sm:w-[380px] lg:w-[440px] h-[480px] sm:h-[540px] bento-card relative overflow-hidden group cursor-pointer"
               >
                 <img
@@ -217,13 +231,15 @@ export const Gallery: React.FC = () => {
         </div>
       )}
 
-      {/* Lightbox Modal */}
-      <LightboxModal
-        photo={activePhoto}
-        allPhotos={filteredPhotos}
-        onClose={() => setActivePhoto(null)}
-        onSelectPhoto={p => setActivePhoto(p)}
-      />
+      {/* Lightbox Modal (fallback if not handled by parent) */}
+      {!onSelectPhoto && (
+        <LightboxModal
+          photo={activePhoto}
+          allPhotos={filteredPhotos}
+          onClose={() => setActivePhoto(null)}
+          onSelectPhoto={p => setActivePhoto(p)}
+        />
+      )}
     </section>
   );
 };

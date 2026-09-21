@@ -4,20 +4,26 @@ import { ThemeProvider } from './context/ThemeContext';
 import { Navbar } from './components/Navbar';
 import { SpatialCanvas } from './components/SpatialCanvas';
 import { Hero } from './components/Hero';
+import { DualMarquee } from './components/DualMarquee';
 import { Gallery } from './components/Gallery';
+import { AccordionCarousel } from './components/AccordionCarousel';
 import { PhotoStories } from './components/PhotoStories';
 import { About } from './components/About';
 import { Services } from './components/Services';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
+import { LightboxModal } from './components/LightboxModal';
+import { PORTFOLIO_PHOTOS } from './data/portfolioData';
+import type { PhotoItem } from './types/portfolio';
 
 export function App() {
   const [viewMode, setViewMode] = useState<'bento' | 'spatial'>('bento');
+  const [activePhoto, setActivePhoto] = useState<PhotoItem | null>(null);
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
-    // If in spatial mode, disable lenis so the canvas can pan freely
-    if (viewMode === 'spatial') {
+    // If in spatial mode or lightbox is open, pause lenis
+    if (viewMode === 'spatial' || activePhoto !== null) {
       if (lenisRef.current) {
         lenisRef.current.destroy();
         lenisRef.current = null;
@@ -47,7 +53,7 @@ export function App() {
       lenis.destroy();
       lenisRef.current = null;
     };
-  }, [viewMode]);
+  }, [viewMode, activePhoto]);
 
   const handleToggleViewMode = () => {
     setViewMode(prev => (prev === 'spatial' ? 'bento' : 'spatial'));
@@ -99,7 +105,9 @@ export function App() {
           ) : (
             <main className="flex-grow space-y-24 sm:space-y-36 pb-20">
               <Hero onExploreClick={() => handleNavigateToSection('galeri')} />
-              <Gallery />
+              <DualMarquee onSelectPhoto={setActivePhoto} />
+              <Gallery onSelectPhoto={setActivePhoto} />
+              <AccordionCarousel onSelectPhoto={setActivePhoto} />
               <PhotoStories />
               <About />
               <Services />
@@ -107,6 +115,14 @@ export function App() {
               <Footer onSwitchToSpatial={() => setViewMode('spatial')} />
             </main>
           )}
+
+          {/* Global Lightbox for all photographic interactive surfaces */}
+          <LightboxModal
+            photo={activePhoto}
+            allPhotos={PORTFOLIO_PHOTOS}
+            onClose={() => setActivePhoto(null)}
+            onSelectPhoto={setActivePhoto}
+          />
         </div>
       </div>
     </ThemeProvider>
