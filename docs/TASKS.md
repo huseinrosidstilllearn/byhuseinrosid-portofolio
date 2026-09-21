@@ -10,12 +10,12 @@ Proyek dipecah menjadi tugas-tugas mikro terstruktur (*vertical slices*) agar te
 
 ## Phase 2: Core Data & Theme System
 - [ ] **TASK-003:** Buat definisi tipe data TypeScript di `src/types/portfolio.ts` (PhotoItem, PhotoStory, ServicePackage, ContactInfo).
-- [ ] **TASK-004:** Buat data terpusat di `src/data/portfolioData.ts` dalam Bahasa Indonesia (Profil Husein Rosid, domisili Surabaya, foto resolusi tinggi, cerita di balik karya, dan kontak resmi).
+- [ ] **TASK-004:** Buat data terpusat di `src/data/portfolioData.ts` (Headline *"Stories Told in the Quiet Spaces Between Moments"*, profil Husein Rosid, domisili Surabaya, foto resolusi tinggi, cerita di balik karya, dan kontak resmi).
 - [ ] **TASK-005:** Implementasikan `ThemeContext.tsx` untuk toggle mode Gelap (*Dark Luxury*) & Terang (*Clean Gallery*) dengan sinkronisasi `localStorage`.
 
 ## Phase 3: Navigasi & Hero Section
 - [ ] **TASK-006:** Buat komponen `Navbar.tsx` berbahasa Indonesia dengan logo "By Husein Rosid", tautan seksi, tombol toggle tema, dan tombol kontak.
-- [ ] **TASK-007:** Buat komponen `Hero.tsx` sinematik dengan headline *"Menangkap Emosi Jujur & Keabadian Cahaya"*, info domisili Surabaya, dan tombol CTA.
+- [ ] **TASK-007:** Buat komponen `Hero.tsx` sinematik dengan headline *"Stories Told in the Quiet Spaces Between Moments"*, sub-teks puitis, info domisili Surabaya, dan tombol CTA.
 
 ## Phase 4: Galeri Masonry Interaktif & Lightbox Modal
 - [ ] **TASK-008:** Buat komponen `Gallery.tsx` dengan tata letak Masonry dinamis, filter kategori dinamis, serta efek hover smooth zoom & overlay judul karya.
