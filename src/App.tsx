@@ -11,6 +11,7 @@ import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { AmbientAura } from './components/AmbientAura';
 import { FloatingDock } from './components/FloatingDock';
+import { SmoothCursor } from './components/SmoothCursor';
 
 export function App() {
   const [viewMode, setViewMode] = useState<'spatial' | 'editorial'>('spatial');
@@ -40,6 +41,9 @@ export function App() {
   return (
     <ThemeProvider>
       <div className="min-h-screen bg-[#070a11] text-[#f8fafc] dark:bg-[#070a11] dark:text-[#f8fafc] transition-colors duration-500 flex flex-col selection:bg-amber-500/30 selection:text-amber-300 overflow-x-hidden relative">
+        {/* Smooth Custom Cursor — Desktop Only */}
+        <SmoothCursor />
+
         {/* Dynamic Global Ambient Light Aura for Museum Vibe */}
         {viewMode === 'editorial' && <AmbientAura />}
 

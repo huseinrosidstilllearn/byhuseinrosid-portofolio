@@ -1,9 +1,31 @@
 import React, { useState } from 'react';
 import { Maximize2, MapPin } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { PHOTO_CATEGORIES, PORTFOLIO_PHOTOS } from '../data/portfolioData';
 import type { PhotoItem } from '../types/portfolio';
 import { LightboxModal } from './LightboxModal';
 import { TiltCard } from './TiltCard';
+
+const ImageWithShimmer = ({ src, alt }: { src: string, alt: string }) => {
+  const [loaded, setLoaded] = useState(false);
+
+  return (
+    <div className="relative w-full h-auto bg-slate-800/50 min-h-[200px]">
+      {!loaded && (
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 bg-[length:200%_100%] animate-shimmer" />
+      )}
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        onLoad={() => setLoaded(true)}
+        className={`w-full h-auto object-cover transform transition-all duration-700 ease-out group-hover:scale-105 ${
+          loaded ? 'opacity-100' : 'opacity-0'
+        }`}
+      />
+    </div>
+  );
+};
 
 export const Gallery: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('Semua');
@@ -51,58 +73,82 @@ export const Gallery: React.FC = () => {
         </div>
       </div>
 
-      {/* Dynamic Masonry Columns Grid with 3D TiltCards */}
-      <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
-        {filteredPhotos.map((photo) => (
-          <div key={photo.id} className="break-inside-avoid">
-            <TiltCard
-              glowColor={photo.glowColor}
-              maxTilt={10}
-              onClick={() => setActivePhoto(photo)}
-              className="group rounded-2xl overflow-hidden cursor-pointer bg-slate-200 dark:bg-[#111827] border border-slate-200 dark:border-white/10 shadow-lg hover:shadow-2xl transition-all duration-500"
+      {/* Dynamic Masonry Columns Grid with 3D TiltCards & Staggered Animations */}
+      <AnimatePresence mode="wait">
+        <motion.div 
+          key={selectedCategory}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          variants={{
+            visible: {
+              transition: {
+                staggerChildren: 0.06
+              }
+            },
+            exit: {
+              transition: {
+                staggerChildren: 0.02,
+                staggerDirection: -1
+              }
+            }
+          }}
+          className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6"
+        >
+          {filteredPhotos.map((photo) => (
+            <motion.div 
+              key={photo.id} 
+              className="break-inside-avoid"
+              variants={{
+                hidden: { opacity: 0, y: 40 },
+                visible: { opacity: 1, y: 0 },
+                exit: { opacity: 0, scale: 0.95 }
+              }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
             >
-              {/* Image with smooth zoom micro-interaction */}
-              <img
-                src={photo.imageUrl}
-                alt={photo.title}
-                loading="lazy"
-                className="w-full h-auto object-cover transform transition-transform duration-700 ease-out group-hover:scale-105"
-              />
-
-              {/* Subtle Gradient Info Overlay Reveal with 3D Z-Axis Elevation */}
-              <div
-                style={{ transform: 'translateZ(30px)' }}
-                className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/35 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 pointer-events-none"
+              <TiltCard
+                glowColor={photo.glowColor}
+                maxTilt={10}
+                onClick={() => setActivePhoto(photo)}
+                className="group rounded-2xl overflow-hidden cursor-pointer bg-slate-200 dark:bg-[#111827] border border-slate-200 dark:border-white/10 shadow-lg hover:shadow-2xl transition-all duration-500"
               >
-                <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                  <div className="flex items-center justify-between gap-2 mb-1.5">
-                    <span
-                      style={{
-                        backgroundColor: `${photo.glowColor || '#f59e0b'}20`,
-                        borderColor: `${photo.glowColor || '#f59e0b'}50`,
-                        color: photo.glowColor || '#f59e0b',
-                      }}
-                      className="text-[10px] uppercase tracking-[0.2em] font-medium border px-2.5 py-0.5 rounded-full"
-                    >
-                      {photo.category}
-                    </span>
-                    <Maximize2 className="w-4 h-4 text-white/70" />
-                  </div>
-                  <h3 className="font-editorial text-lg sm:text-xl text-white font-medium">
-                    {photo.title}
-                  </h3>
-                  <div className="flex items-center gap-1.5 text-xs text-slate-300 mt-1 font-light">
-                    <MapPin className="w-3 h-3 text-amber-400" />
-                    <span>{photo.location}</span>
-                    <span>&bull;</span>
-                    <span>{photo.year}</span>
+                <ImageWithShimmer src={photo.imageUrl} alt={photo.title} />
+
+                {/* Subtle Gradient Info Overlay Reveal with 3D Z-Axis Elevation */}
+                <div
+                  style={{ transform: 'translateZ(30px)' }}
+                  className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/35 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 pointer-events-none"
+                >
+                  <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                    <div className="flex items-center justify-between gap-2 mb-1.5">
+                      <span
+                        style={{
+                          backgroundColor: `${photo.glowColor || '#f59e0b'}20`,
+                          borderColor: `${photo.glowColor || '#f59e0b'}50`,
+                          color: photo.glowColor || '#f59e0b',
+                        }}
+                        className="text-[10px] uppercase tracking-[0.2em] font-medium border px-2.5 py-0.5 rounded-full"
+                      >
+                        {photo.category}
+                      </span>
+                      <Maximize2 className="w-4 h-4 text-white/70" />
+                    </div>
+                    <h3 className="font-editorial text-lg sm:text-xl text-white font-medium">
+                      {photo.title}
+                    </h3>
+                    <div className="flex items-center gap-1.5 text-xs text-slate-300 mt-1 font-light">
+                      <MapPin className="w-3 h-3 text-amber-400" />
+                      <span>{photo.location}</span>
+                      <span>&bull;</span>
+                      <span>{photo.year}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </TiltCard>
-          </div>
-        ))}
-      </div>
+              </TiltCard>
+            </motion.div>
+          ))}
+        </motion.div>
+      </AnimatePresence>
 
       {/* Lightbox Modal Component */}
       <LightboxModal

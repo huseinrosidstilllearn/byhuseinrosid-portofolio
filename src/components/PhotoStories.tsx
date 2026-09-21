@@ -1,6 +1,9 @@
 import React from 'react';
 import { Quote, MapPin, Calendar } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { PHOTO_STORIES } from '../data/portfolioData';
+import { BlurReveal } from './animations/BlurReveal';
+import { ScrollReveal } from './animations/ScrollReveal';
 
 export const PhotoStories: React.FC = () => {
   return (
@@ -11,18 +14,23 @@ export const PhotoStories: React.FC = () => {
           <span className="text-[11px] font-semibold tracking-[0.3em] uppercase text-amber-500 mb-3 block">
             Esai & Cerita Visual
           </span>
-          <h2 className="font-editorial text-3xl sm:text-5xl text-slate-900 dark:text-white font-medium">
+          <BlurReveal as="h2" className="font-editorial text-3xl sm:text-5xl text-slate-900 dark:text-white font-medium">
             Kisah di Balik Lensa
-          </h2>
-          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 font-light mt-3">
-            Eksplorasi narasi mendalam yang dirangkai dari dialog hening antara fotografer, subjek, dan lanskap kehidupan.
-          </p>
+          </BlurReveal>
+          <ScrollReveal variant="fade-up" delay={0.2}>
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 font-light mt-3">
+              Eksplorasi narasi mendalam yang dirangkai dari dialog hening antara fotografer, subjek, dan lanskap kehidupan.
+            </p>
+          </ScrollReveal>
         </div>
 
         {/* Stories List */}
         <div className="space-y-28">
           {PHOTO_STORIES.map((story, index) => {
             const isReversed = index % 2 === 1;
+            const imgVariant = isReversed ? 'fade-left' : 'fade-right';
+            const textVariant = isReversed ? 'fade-right' : 'fade-left';
+
             return (
               <article
                 key={story.id}
@@ -31,14 +39,18 @@ export const PhotoStories: React.FC = () => {
                 } gap-12 lg:gap-16 items-center`}
               >
                 {/* Images Visual Collage */}
-                <div className="w-full lg:w-7/12">
-                  <div className="relative group overflow-hidden rounded-2xl shadow-xl border border-slate-200 dark:border-white/10">
+                <ScrollReveal variant={imgVariant} className="w-full lg:w-7/12">
+                  <motion.div 
+                    whileHover={{ scale: 1.03 }}
+                    transition={{ duration: 0.5, ease: 'easeOut' }}
+                    className="relative group overflow-hidden rounded-2xl shadow-xl border border-slate-200 dark:border-white/10"
+                  >
                     <img
                       src={story.coverImage}
                       alt={story.title}
-                      className="w-full h-[380px] sm:h-[480px] object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="w-full h-[380px] sm:h-[480px] object-cover transition-transform duration-700"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-6 sm:p-8">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-6 sm:p-8 pointer-events-none">
                       <div>
                         <span className="text-[10px] uppercase tracking-[0.25em] font-semibold text-amber-400">
                           {story.category}
@@ -48,27 +60,29 @@ export const PhotoStories: React.FC = () => {
                         </h3>
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
 
                   {/* Thumbnail Spread */}
                   <div className="grid grid-cols-3 gap-3 mt-3">
                     {story.images.map((img, i) => (
-                      <div
+                      <motion.div
                         key={i}
-                        className="overflow-hidden rounded-xl border border-slate-200 dark:border-white/5 h-24 sm:h-32 group"
+                        whileHover={{ scale: 1.08, zIndex: 10 }}
+                        transition={{ duration: 0.3 }}
+                        className="relative overflow-hidden rounded-xl border border-slate-200 dark:border-white/5 h-24 sm:h-32"
                       >
                         <img
                           src={img}
                           alt={`${story.title} thumbnail ${i + 1}`}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                          className="w-full h-full object-cover"
                         />
-                      </div>
+                      </motion.div>
                     ))}
                   </div>
-                </div>
+                </ScrollReveal>
 
                 {/* Narrative & Editorial Copy */}
-                <div className="w-full lg:w-5/12 flex flex-col justify-center">
+                <ScrollReveal variant={textVariant} className="w-full lg:w-5/12 flex flex-col justify-center">
                   <div className="flex items-center gap-2 text-xs text-amber-500 dark:text-amber-400 font-medium mb-3">
                     <MapPin className="w-3.5 h-3.5" />
                     <span>{story.location}</span>
@@ -90,16 +104,25 @@ export const PhotoStories: React.FC = () => {
                   </p>
 
                   {/* Pull Quote */}
-                  <blockquote className="mt-8 p-6 rounded-2xl bg-amber-500/10 border-l-4 border-amber-500 text-slate-800 dark:text-slate-200 relative">
-                    <Quote className="w-6 h-6 text-amber-500/40 absolute top-4 right-4" />
-                    <p className="font-editorial italic text-base leading-relaxed">
-                      "{story.quote}"
-                    </p>
-                    <cite className="block text-xs uppercase tracking-wider text-amber-500 font-medium mt-3 not-italic">
-                      &mdash; Catatan Husein Rosid
-                    </cite>
-                  </blockquote>
-                </div>
+                  <ScrollReveal variant="fade-up" delay={0.2} className="mt-8 relative">
+                    <blockquote className="p-6 rounded-2xl bg-amber-500/10 text-slate-800 dark:text-slate-200 relative overflow-hidden">
+                      <motion.div 
+                        initial={{ height: 0 }}
+                        whileInView={{ height: '100%' }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, delay: 0.4 }}
+                        className="absolute left-0 top-0 w-1 bg-amber-500"
+                      />
+                      <Quote className="w-6 h-6 text-amber-500/40 absolute top-4 right-4" />
+                      <p className="font-editorial italic text-base leading-relaxed relative z-10">
+                        "{story.quote}"
+                      </p>
+                      <cite className="block text-xs uppercase tracking-wider text-amber-500 font-medium mt-3 not-italic relative z-10">
+                        &mdash; Catatan Husein Rosid
+                      </cite>
+                    </blockquote>
+                  </ScrollReveal>
+                </ScrollReveal>
               </article>
             );
           })}

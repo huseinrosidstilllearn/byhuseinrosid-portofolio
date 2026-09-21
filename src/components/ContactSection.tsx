@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { MessageCircle, Mail, MapPin, Send, ArrowUpRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { CONTACT_CONFIG, SERVICE_PACKAGES } from '../data/portfolioData';
 import { createWhatsAppLink } from '../utils/whatsapp';
+import { ScrollReveal } from './animations/ScrollReveal';
+import { StaggerContainer } from './animations/StaggerContainer';
+import { BlurReveal } from './animations/BlurReveal';
 
 const InstagramIcon: React.FC<{ className?: string }> = ({ className = "w-5 h-5" }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -16,6 +20,8 @@ export const ContactSection: React.FC = () => {
   const [selectedService, setSelectedService] = useState('');
   const [sessionLocation, setSessionLocation] = useState('');
   const [notes, setNotes] = useState('');
+
+  const [focusedField, setFocusedField] = useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,17 +39,24 @@ export const ContactSection: React.FC = () => {
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
+  const formFields = [
+    { id: 'name', delay: 0 },
+    { id: 'service', delay: 0.1 },
+    { id: 'location', delay: 0.2 },
+    { id: 'notes', delay: 0.3 },
+  ];
+
   return (
-    <section id="kontak" className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-20">
+    <section id="kontak" className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-20 overflow-hidden">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
         {/* Left Column: Direct Official Contact Info */}
-        <div className="lg:col-span-5 flex flex-col justify-between">
+        <ScrollReveal variant="fade-right" className="lg:col-span-5 flex flex-col justify-between">
           <div>
             <span className="text-[11px] font-semibold tracking-[0.3em] uppercase text-amber-500 mb-3 block">
               Mulai Terhubung
             </span>
             <h2 className="font-editorial text-3xl sm:text-5xl text-slate-900 dark:text-white font-medium leading-tight">
-              Mari Menenun <br />
+              <BlurReveal>Mari Menenun</BlurReveal>
               <span className="italic text-amber-500/90 dark:text-amber-400">Cerita Bersama.</span>
             </h2>
             <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 font-light mt-4 leading-relaxed">
@@ -51,7 +64,7 @@ export const ContactSection: React.FC = () => {
             </p>
 
             {/* Contact Channels List */}
-            <div className="space-y-4 mt-8">
+            <StaggerContainer direction="left" stagger={0.1} className="space-y-4 mt-8">
               {/* WhatsApp */}
               <a
                 href={`https://wa.me/${CONTACT_CONFIG.whatsappNumber}`}
@@ -112,7 +125,7 @@ export const ContactSection: React.FC = () => {
                 </div>
                 <ArrowUpRight className="w-4 h-4 text-slate-400 group-hover:text-amber-500 transition-colors" />
               </a>
-            </div>
+            </StaggerContainer>
           </div>
 
           {/* Base of Operations Callout */}
@@ -123,10 +136,10 @@ export const ContactSection: React.FC = () => {
               {CONTACT_CONFIG.locationDisplay} &mdash; Siap melayani sesi pemotretan ke luar kota dan pulau.
             </div>
           </div>
-        </div>
+        </ScrollReveal>
 
         {/* Right Column: Smart Booking Form */}
-        <div className="lg:col-span-7">
+        <ScrollReveal variant="fade-left" delay={0.15} className="lg:col-span-7">
           <div className="p-8 sm:p-10 rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#111827] shadow-xl">
             <h3 className="font-editorial text-2xl text-slate-900 dark:text-white font-medium mb-2">
               Formulir Penawaran Sesi
@@ -136,7 +149,12 @@ export const ContactSection: React.FC = () => {
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-5">
-              <div>
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: formFields[0].delay }}
+                className="relative pb-1"
+              >
                 <label className="block text-xs uppercase tracking-wider font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                   Nama Anda / Brand *
                 </label>
@@ -145,19 +163,34 @@ export const ContactSection: React.FC = () => {
                   required
                   value={name}
                   onChange={e => setName(e.target.value)}
+                  onFocus={() => setFocusedField('name')}
+                  onBlur={() => setFocusedField(null)}
                   placeholder="Contoh: Rian & Sarah / Brand Lokal"
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-black/30 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-amber-500 transition-colors"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-black/30 text-slate-900 dark:text-white text-sm focus:outline-none transition-colors relative z-10"
                 />
-              </div>
+                <motion.div 
+                  className="absolute bottom-0 left-0 h-0.5 bg-amber-500 z-20 rounded-full"
+                  initial={{ width: '0%' }}
+                  animate={{ width: focusedField === 'name' ? '100%' : '0%' }}
+                  transition={{ duration: 0.3 }}
+                />
+              </motion.div>
 
-              <div>
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: formFields[1].delay }}
+                className="relative pb-1"
+              >
                 <label className="block text-xs uppercase tracking-wider font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                   Pilihan Layanan
                 </label>
                 <select
                   value={selectedService}
                   onChange={e => setSelectedService(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-black/30 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-amber-500 transition-colors"
+                  onFocus={() => setFocusedField('service')}
+                  onBlur={() => setFocusedField(null)}
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-black/30 text-slate-900 dark:text-white text-sm focus:outline-none transition-colors relative z-10"
                 >
                   <option value="">-- Pilih Kategori Layanan --</option>
                   {SERVICE_PACKAGES.map(svc => (
@@ -167,9 +200,20 @@ export const ContactSection: React.FC = () => {
                   ))}
                   <option value="Proyek Kustom / Kolaborasi Visual">Proyek Kustom / Kolaborasi Visual</option>
                 </select>
-              </div>
+                <motion.div 
+                  className="absolute bottom-0 left-0 h-0.5 bg-amber-500 z-20 rounded-full"
+                  initial={{ width: '0%' }}
+                  animate={{ width: focusedField === 'service' ? '100%' : '0%' }}
+                  transition={{ duration: 0.3 }}
+                />
+              </motion.div>
 
-              <div>
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: formFields[2].delay }}
+                className="relative pb-1"
+              >
                 <label className="block text-xs uppercase tracking-wider font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                   Rencana Lokasi & Perkiraan Tanggal
                 </label>
@@ -177,12 +221,25 @@ export const ContactSection: React.FC = () => {
                   type="text"
                   value={sessionLocation}
                   onChange={e => setSessionLocation(e.target.value)}
+                  onFocus={() => setFocusedField('location')}
+                  onBlur={() => setFocusedField(null)}
                   placeholder="Contoh: Surabaya / Bali &mdash; Bulan depan"
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-black/30 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-amber-500 transition-colors"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-black/30 text-slate-900 dark:text-white text-sm focus:outline-none transition-colors relative z-10"
                 />
-              </div>
+                <motion.div 
+                  className="absolute bottom-0 left-0 h-0.5 bg-amber-500 z-20 rounded-full"
+                  initial={{ width: '0%' }}
+                  animate={{ width: focusedField === 'location' ? '100%' : '0%' }}
+                  transition={{ duration: 0.3 }}
+                />
+              </motion.div>
 
-              <div>
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: formFields[3].delay }}
+                className="relative pb-1"
+              >
                 <label className="block text-xs uppercase tracking-wider font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                   Ceritakan Konsep atau Ekspektasi Visual
                 </label>
@@ -190,21 +247,40 @@ export const ContactSection: React.FC = () => {
                   rows={4}
                   value={notes}
                   onChange={e => setNotes(e.target.value)}
+                  onFocus={() => setFocusedField('notes')}
+                  onBlur={() => setFocusedField(null)}
                   placeholder="Gambarkan suasana foto, referensi moodboard, atau cerita yang ingin Anda abadikan..."
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-black/30 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-amber-500 transition-colors resize-none"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-black/30 text-slate-900 dark:text-white text-sm focus:outline-none transition-colors resize-none relative z-10"
                 />
-              </div>
+                <motion.div 
+                  className="absolute bottom-0 left-0 h-0.5 bg-amber-500 z-20 rounded-full"
+                  initial={{ width: '0%' }}
+                  animate={{ width: focusedField === 'notes' ? '100%' : '0%' }}
+                  transition={{ duration: 0.3 }}
+                />
+              </motion.div>
 
-              <button
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.97 }}
                 type="submit"
-                className="w-full inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full text-xs font-semibold uppercase tracking-wider bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-lg hover:shadow-[0_0_25px_rgba(245,158,11,0.35)] transition-all cursor-pointer"
+                className="relative w-full inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full text-xs font-semibold uppercase tracking-wider bg-amber-500 text-slate-950 shadow-lg hover:shadow-[0_0_25px_rgba(245,158,11,0.35)] transition-all cursor-pointer overflow-hidden group"
               >
-                <Send className="w-4 h-4" />
-                <span>Kirim Pesan ke WhatsApp</span>
-              </button>
+                <span className="relative z-10 flex items-center gap-2.5">
+                  <Send className="w-4 h-4" />
+                  <span>Kirim Pesan ke WhatsApp</span>
+                </span>
+                {/* Shimmer animation on hover */}
+                <motion.div 
+                  initial={{ left: '-100%' }}
+                  whileHover={{ left: '200%' }}
+                  transition={{ repeat: Infinity, duration: 1.5, ease: 'linear' }}
+                  className="absolute inset-y-0 w-1/2 skew-x-12 bg-gradient-to-r from-transparent via-white/40 to-transparent" 
+                />
+              </motion.button>
             </form>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );

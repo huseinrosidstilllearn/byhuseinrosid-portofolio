@@ -1,7 +1,9 @@
 import React from 'react';
 import { ArrowUp, Mail, MessageCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { CONTACT_CONFIG } from '../data/portfolioData';
 import { createWhatsAppLink } from '../utils/whatsapp';
+import { ScrollReveal } from './animations/ScrollReveal';
 
 const InstagramIcon: React.FC<{ className?: string }> = ({ className = "w-4 h-4" }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -16,30 +18,44 @@ export const Footer: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const marqueeText = "• Surabaya • Nusantara • Visual Storyteller • Fotografer • Cerita Cahaya • ";
+
   return (
     <>
-      <footer className="bg-[#060910] text-white py-16 px-4 sm:px-6 lg:px-8 border-t border-white/10">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-          {/* Brand & Tagline */}
-          <div className="text-center md:text-left">
-            <a href="#" className="font-editorial text-2xl font-semibold tracking-wider text-white hover:text-amber-400 transition-colors">
-              By Husein Rosid
-            </a>
-            <p className="text-xs text-slate-400 font-light mt-1 max-w-sm">
-              Merekam emosi jujur dan keabadian cahaya. Berbasis di Surabaya, Jawa Timur &mdash; siap melayani penugasan di seluruh nusantara.
-            </p>
-          </div>
+      <footer className="bg-[#060910] text-white py-16 px-4 sm:px-6 lg:px-8 border-t border-white/10 relative overflow-hidden">
+        
+        {/* Marquee Scrolling Text */}
+        <div className="w-full overflow-hidden flex whitespace-nowrap mb-12 border-b border-white/5 pb-4">
+          <motion.div
+            className="text-xs uppercase tracking-[0.3em] text-slate-500 flex"
+            animate={{ x: [0, '-50%'] }}
+            transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
+          >
+            <span className="mr-4">{marqueeText.repeat(4)}</span>
+            <span className="mr-4">{marqueeText.repeat(4)}</span>
+          </motion.div>
+        </div>
+
+        <div className="max-w-7xl mx-auto flex flex-col items-center justify-center gap-12 text-center">
+          
+          {/* Giant Typography */}
+          <ScrollReveal variant="scale" className="w-full">
+            <h1 className="font-editorial font-bold uppercase tracking-wider leading-none text-7xl sm:text-8xl md:text-[120px] lg:text-[160px] bg-gradient-to-r from-amber-400 via-white to-amber-400 bg-clip-text text-transparent pb-4">
+              BY HUSEIN ROSID
+            </h1>
+          </ScrollReveal>
 
           {/* Social Icons & Back to top */}
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-4">
             <a
               href={`https://wa.me/${CONTACT_CONFIG.whatsappNumber}`}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="WhatsApp Resmi"
-              className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-slate-300 hover:text-amber-400 hover:border-amber-400/50 transition-all"
+              className="backdrop-blur-md bg-white/5 border border-white/10 rounded-full px-4 py-2 flex items-center gap-2 text-sm text-slate-300 hover:text-amber-400 hover:border-amber-400/50 hover:bg-white/10 transition-all"
             >
               <MessageCircle className="w-4 h-4" />
+              <span>WhatsApp</span>
             </a>
 
             <a
@@ -47,30 +63,36 @@ export const Footer: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram Portofolio"
-              className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-slate-300 hover:text-amber-400 hover:border-amber-400/50 transition-all"
+              className="backdrop-blur-md bg-white/5 border border-white/10 rounded-full px-4 py-2 flex items-center gap-2 text-sm text-slate-300 hover:text-amber-400 hover:border-amber-400/50 hover:bg-white/10 transition-all"
             >
               <InstagramIcon className="w-4 h-4" />
+              <span>Instagram</span>
             </a>
 
             <a
               href={`mailto:${CONTACT_CONFIG.email}`}
               aria-label="Kirim Email"
-              className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-slate-300 hover:text-amber-400 hover:border-amber-400/50 transition-all"
+              className="backdrop-blur-md bg-white/5 border border-white/10 rounded-full px-4 py-2 flex items-center gap-2 text-sm text-slate-300 hover:text-amber-400 hover:border-amber-400/50 hover:bg-white/10 transition-all"
             >
               <Mail className="w-4 h-4" />
+              <span>Email</span>
             </a>
-
-            <button
-              onClick={scrollToTop}
-              aria-label="Kembali ke atas"
-              className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-amber-500 hover:text-slate-950 transition-all cursor-pointer"
-            >
-              <ArrowUp className="w-4 h-4" />
-            </button>
           </div>
+
+          <p className="text-xs text-slate-400 font-light max-w-lg mt-4">
+            Merekam emosi jujur dan keabadian cahaya. Berbasis di Surabaya, Jawa Timur &mdash; siap melayani penugasan di seluruh nusantara.
+          </p>
+
+          <button
+            onClick={scrollToTop}
+            aria-label="Kembali ke atas"
+            className="w-12 h-12 rounded-full backdrop-blur-md bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-amber-500 hover:text-slate-950 transition-all cursor-pointer mt-4"
+          >
+            <ArrowUp className="w-5 h-5" />
+          </button>
         </div>
 
-        <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 font-light gap-4">
+        <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 font-light gap-4">
           <div>
             &copy; {new Date().getFullYear()} By Husein Rosid. Seluruh hak cipta karya visual dilindungi undang-undang.
           </div>
