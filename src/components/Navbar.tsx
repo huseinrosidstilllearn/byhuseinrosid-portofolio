@@ -54,21 +54,15 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div className="w-8 h-8 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 font-editorial font-bold text-sm group-hover:scale-105 transition-transform">
               HR
             </div>
-            <div>
-              <span className="font-editorial text-base sm:text-lg font-medium tracking-tight text-white block leading-none split-wave" aria-label="By Husein Rosid">
-                <span aria-hidden="true">
-                  {"By Husein Rosid".split("").map((char, i) => (
-                    <i key={i} style={{ '--i': i } as React.CSSProperties} className={char === ' ' ? 'inline-block w-1.5' : ''}>
-                      {char}
-                    </i>
-                  ))}
-                </span>
+            <span className="font-editorial text-base sm:text-lg font-medium tracking-tight text-white block leading-none split-wave" aria-label="By Husein Rosid">
+              <span aria-hidden="true">
+                {"By Husein Rosid".split("").map((char, i) => (
+                  <i key={i} style={{ '--i': i } as React.CSSProperties} className={char === ' ' ? 'inline-block w-1.5' : ''}>
+                    {char}
+                  </i>
+                ))}
               </span>
-              <span className="hidden sm:inline-flex items-center gap-1.5 text-[9px] uppercase tracking-[0.2em] text-emerald-400 mt-1 font-medium">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                Terbuka untuk Sesi
-              </span>
-            </div>
+            </span>
           </button>
 
           {/* Center: Spatial Switcher or Bento Navigation Links */}

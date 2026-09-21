@@ -101,24 +101,24 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
         })}
 
         {/* Cinematic Multi-Layer Dark Vignette & Atmospheric Gradients */}
-        <div className="absolute inset-0 z-20 bg-gradient-to-t from-[#050505] via-[#050505]/75 to-[#050505]/40" />
-        <div className="absolute inset-0 z-20 bg-gradient-to-r from-[#050505]/90 via-[#050505]/60 to-transparent" />
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-3xl pointer-events-none z-20 -mr-32 -mt-32" />
+        <div className="absolute inset-0 z-20 bg-gradient-to-t from-[#050505] via-[#050505]/70 to-[#050505]/45" />
+        <div className="absolute inset-0 z-20 bg-radial from-transparent via-[#050505]/40 to-[#050505]/80" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-amber-500/10 rounded-full blur-[140px] pointer-events-none z-20" />
       </div>
 
-      {/* Main Editorial Hero Content */}
-      <div className="relative z-30 max-w-5xl my-auto">
+      {/* Main Editorial Hero Content - Center Aligned */}
+      <div className="relative z-30 max-w-4xl mx-auto my-auto text-center flex flex-col items-center">
         {/* Prestige Eyebrow Pill */}
         <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-amber-500/30 bg-[#0E1118]/80 backdrop-blur-xl text-amber-300 text-[11px] font-semibold uppercase tracking-[0.25em] mb-6 sm:mb-8 shadow-xl">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
           <span>Arsip Visual &bull; Portofolio Fotografi &bull; Surabaya, ID</span>
         </div>
 
-        {/* Monumental Editorial Headline with Split Letter Wave */}
-        <h1 className="font-editorial text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal leading-[1.05] tracking-tight text-white max-w-4xl drop-shadow-sm">
+        {/* Monumental Bold Editorial Headline with Split Letter Wave */}
+        <h1 className="font-editorial text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[1.06] tracking-tight text-white max-w-4xl drop-shadow-md mx-auto">
           Stories Told in the{' '}
           <span
-            className="italic text-amber-400 font-normal inline-block split-wave cursor-pointer"
+            className="italic text-amber-400 font-bold inline-block split-wave cursor-pointer"
             aria-label="Quiet Spaces"
           >
             <span aria-hidden="true">
@@ -137,15 +137,15 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
         </h1>
 
         {/* Narrative Subheadline */}
-        <p className="text-base sm:text-lg md:text-xl text-slate-300 font-light leading-relaxed mt-6 max-w-2xl text-balance">
+        <p className="text-base sm:text-lg md:text-xl text-slate-300 font-light leading-relaxed mt-6 max-w-2xl mx-auto text-balance">
           {PHOTOGRAPHER_PROFILE.subheadline} Menghidupkan kembali keheningan, kejujuran rasa, dan keindahan setiap tarikan napas melalui lensa dokumenter dan komersial berstandar tinggi.
         </p>
 
         {/* Action Button Row */}
-        <div className="flex flex-wrap items-center gap-4 mt-8 sm:mt-10">
+        <div className="flex flex-wrap items-center justify-center gap-4 mt-8 sm:mt-10 mx-auto">
           <button
             onClick={onExploreClick}
-            className="inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-[0_4px_24px_rgba(245,158,11,0.4)] hover:scale-105 cursor-pointer"
+            className="inline-flex items-center gap-3 px-8 py-3.5 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-[0_4px_24px_rgba(245,158,11,0.45)] hover:scale-105 cursor-pointer"
           >
             <span>Jelajahi Galeri Karya</span>
             <ArrowDown className="w-4 h-4" />
@@ -155,22 +155,23 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             href={createWhatsAppLink()}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 px-7 py-3.5 rounded-full border border-white/25 hover:border-amber-400 bg-white/[0.05] hover:bg-white/10 backdrop-blur-xl text-white hover:text-amber-300 font-semibold text-xs uppercase tracking-wider transition-all duration-300 cursor-pointer shadow-lg"
+            className="inline-flex items-center gap-3 px-8 py-3.5 rounded-full border border-white/25 hover:border-amber-400 bg-white/[0.05] hover:bg-white/10 backdrop-blur-xl text-white hover:text-amber-300 font-semibold text-xs uppercase tracking-wider transition-all duration-300 cursor-pointer shadow-lg"
           >
             <MessageCircle className="w-4 h-4 text-amber-400" />
             <span>Minta Penawaran Sesi</span>
             <ArrowUpRight className="w-4 h-4" />
           </a>
+        </div>
 
-          <div className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.03] border border-white/[0.08] text-slate-400 text-xs font-light">
-            <MapPin className="w-3.5 h-3.5 text-amber-400" />
-            <span>Berbasis di Surabaya &bull; Siap Penugasan Nusantara</span>
-          </div>
+        {/* Location Badge */}
+        <div className="inline-flex items-center gap-2 mt-5 px-4 py-1.5 rounded-full bg-black/40 border border-white/10 backdrop-blur-md text-slate-400 text-xs font-light">
+          <MapPin className="w-3.5 h-3.5 text-amber-400" />
+          <span>Berbasis di Surabaya &bull; Siap Penugasan Seluruh Nusantara</span>
         </div>
       </div>
 
       {/* Bottom Exhibition HUD: Active Frame Info & Chapter Switcher */}
-      <div className="relative z-30 pt-8 sm:pt-12 border-t border-white/10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div className="relative z-30 pt-6 sm:pt-8 border-t border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
         {/* Left: Active Curated Frame Metadata */}
         <div className="flex items-start gap-4">
           <div className="w-12 h-12 rounded-2xl bg-white/[0.06] border border-white/15 backdrop-blur-xl flex flex-col items-center justify-center text-amber-400 shrink-0 shadow-lg">
