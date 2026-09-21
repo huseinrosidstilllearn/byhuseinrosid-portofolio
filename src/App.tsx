@@ -14,7 +14,7 @@ import { FloatingDock } from './components/FloatingDock';
 import { SmoothCursor } from './components/SmoothCursor';
 
 export function App() {
-  const [viewMode, setViewMode] = useState<'spatial' | 'editorial'>('spatial');
+  const [viewMode, setViewMode] = useState<'spatial' | 'editorial'>('editorial');
   const [selectedCategory, setSelectedCategory] = useState<string>('Semua');
 
   const handleToggleViewMode = () => {
