@@ -112,7 +112,10 @@ export function App() {
               <About />
               <Services />
               <ContactSection />
-              <Footer onSwitchToSpatial={() => setViewMode('spatial')} />
+              <Footer
+                onSwitchToSpatial={() => setViewMode('spatial')}
+                onNavigateToSection={handleNavigateToSection}
+              />
             </main>
           )}
 
