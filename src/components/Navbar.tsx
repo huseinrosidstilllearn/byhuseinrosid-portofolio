@@ -35,8 +35,8 @@ export const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Brand Monogram & Name */}
         <a href="#" className="flex items-center gap-3 group">
-          <div className="w-8 h-8 rounded-full border border-amber-500/40 flex items-center justify-center text-amber-500 group-hover:border-amber-400 group-hover:scale-105 transition-all">
-            <span className="text-xs font-bold tracking-tighter">HR</span>
+          <div className="w-8 h-8 rounded-full border border-amber-500/40 overflow-hidden flex items-center justify-center group-hover:border-amber-400 group-hover:scale-105 transition-all bg-[#111827]">
+            <img src="/favicon-96x96.png" alt="By Husein Rosid Logo" className="w-full h-full object-cover" />
           </div>
           <div className="flex flex-col">
             <span className="font-editorial text-lg tracking-widest uppercase font-semibold text-slate-900 dark:text-white group-hover:text-amber-500 transition-colors">
