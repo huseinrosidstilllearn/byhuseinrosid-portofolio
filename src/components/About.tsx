@@ -1,109 +1,97 @@
-import React, { useRef } from 'react';
-import { MapPin, Compass, Eye, Heart } from 'lucide-react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React from 'react';
 import { PHOTOGRAPHER_PROFILE } from '../data/portfolioData';
-import { ScrollReveal } from './animations/ScrollReveal';
-import { StaggerContainer } from './animations/StaggerContainer';
-import { BlurReveal } from './animations/BlurReveal';
 
 export const About: React.FC = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"]
-  });
-
-  // Moves the image at a slightly slower speed than scroll (parallax)
-  const imageY = useTransform(scrollYProgress, [0, 1], ['-10%', '10%']);
-
   return (
-    <section ref={sectionRef} id="tentang" className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-20 overflow-hidden">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-        {/* Photographer Portrait Image */}
-        <ScrollReveal variant="fade-right" className="lg:col-span-5 relative">
-          <div className="relative mx-auto max-w-md lg:max-w-none">
-            {/* Ambient Border Backdrop */}
-            <div className="absolute -inset-3 rounded-3xl bg-gradient-to-tr from-amber-500/20 via-transparent to-amber-500/10 blur-lg" />
-            
-            <div className="relative overflow-hidden rounded-3xl border border-slate-200 dark:border-white/10 shadow-2xl h-[480px] sm:h-[560px]">
-              <motion.img
-                style={{ y: imageY, scale: 1.15 }}
-                src={PHOTOGRAPHER_PROFILE.avatarUrl}
-                alt="Husein Rosid — Fotografer"
-                className="w-full h-full object-cover filter contrast-[1.05]"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-8 text-white">
-                <span className="text-[11px] font-semibold tracking-[0.25em] uppercase text-amber-400">
-                  Fotografer & Visual Storyteller
-                </span>
-                <h3 className="font-editorial text-2xl font-medium mt-1">
-                  Husein Rosid
-                </h3>
-                <div className="flex items-center gap-2 text-xs text-slate-300 mt-1 font-light">
-                  <MapPin className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Surabaya, Jawa Timur</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </ScrollReveal>
-
-        {/* Biography & Philosophy Copy */}
-        <ScrollReveal variant="fade-left" delay={0.15} className="lg:col-span-7 flex flex-col justify-center">
-          <span className="text-[11px] font-semibold tracking-[0.3em] uppercase text-amber-500 mb-3 block">
-            Mengenal Lebih Dekat
+    <section id="tentang" className="py-28 sm:py-36 px-6 sm:px-10 lg:px-16 max-w-7xl mx-auto scroll-mt-24 border-t border-[#1A1A1A]/10 dark:border-white/10">
+      {/* Section Header */}
+      <div className="pb-12 border-b border-[#1A1A1A]/10 dark:border-white/10 mb-16">
+        <span className="text-[10px] uppercase tracking-[0.3em] text-[#8B7355] font-semibold block mb-3">
+          03 &bull; Mengenal Lebih Dekat
+        </span>
+        <h2 className="font-editorial text-4xl sm:text-6xl text-[#1A1A1A] dark:text-[#F3EFEA] font-normal tracking-tight max-w-3xl leading-[1.1]">
+          Mendengar Melalui Mata,{' '}
+          <span className="italic font-normal text-[#8B7355] dark:text-[#C4A47C]">
+            Bercerita Melalui Rasa.
           </span>
-          
-          <h2 className="font-editorial text-3xl sm:text-5xl text-slate-900 dark:text-white font-medium leading-tight">
-            <BlurReveal>Mendengar Melalui Mata,</BlurReveal>
-            <span className="italic text-amber-500/90 dark:text-amber-400">Bercerita Melalui Rasa.</span>
-          </h2>
+        </h2>
+      </div>
 
-          <StaggerContainer direction="up" stagger={0.1} className="space-y-4 text-sm sm:text-base text-slate-700 dark:text-slate-300 font-light leading-relaxed mt-6">
+      {/* Main Editorial Spread: Portrait & Bio */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+        {/* Left: Portrait */}
+        <div className="lg:col-span-5">
+          <div className="overflow-hidden bg-[#F3EFEA] dark:bg-[#16181F]">
+            <img
+              src={PHOTOGRAPHER_PROFILE.avatarUrl}
+              alt="Husein Rosid — Fotografer"
+              loading="lazy"
+              className="w-full h-auto aspect-[3/4] object-cover filter contrast-[1.03]"
+            />
+          </div>
+          <div className="mt-4 flex items-baseline justify-between text-xs text-[#8A857D] border-t border-[#1A1A1A]/10 dark:border-white/10 pt-3">
+            <span className="font-editorial text-base text-[#1A1A1A] dark:text-[#F3EFEA] font-medium">
+              Husein Rosid
+            </span>
+            <span className="uppercase tracking-widest text-[10px]">
+              Surabaya, Indonesia
+            </span>
+          </div>
+        </div>
+
+        {/* Right: Long-form Bio */}
+        <div className="lg:col-span-7 flex flex-col justify-between space-y-8">
+          <div className="space-y-6 text-base sm:text-lg text-[#1A1A1A]/85 dark:text-[#F3EFEA]/85 font-light leading-relaxed">
             {PHOTOGRAPHER_PROFILE.bioFull.map((paragraph, index) => (
               <p key={index}>{paragraph}</p>
             ))}
-          </StaggerContainer>
+          </div>
 
-          {/* Pillars of Visual Work */}
-          <StaggerContainer direction="up" stagger={0.15} delay={0.3} className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-10 pt-8 border-t border-slate-200 dark:border-white/10">
-            <div className="flex flex-col">
-              <motion.div whileHover={{ rotate: 12, scale: 1.1 }} className="w-10 h-10 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-500 mb-3 cursor-pointer">
-                <Eye className="w-5 h-5" />
-              </motion.div>
-              <h4 className="font-editorial text-base text-slate-900 dark:text-white font-medium">
-                Ketajaman Observasi
-              </h4>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                Menemukan keindahan dalam detil kecil yang kerap terlewatkan mata biasa.
-              </p>
-            </div>
+          <div className="p-6 sm:p-8 bg-[#F3EFEA]/60 dark:bg-white/[0.03] border-l-2 border-[#8B7355] mt-6">
+            <p className="font-editorial text-xl sm:text-2xl text-[#1A1A1A] dark:text-[#F3EFEA] italic font-normal">
+              &ldquo;{PHOTOGRAPHER_PROFILE.philosophy}&rdquo;
+            </p>
+          </div>
+        </div>
+      </div>
 
-            <div className="flex flex-col">
-              <motion.div whileHover={{ rotate: 12, scale: 1.1 }} className="w-10 h-10 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-500 mb-3 cursor-pointer">
-                <Heart className="w-5 h-5" />
-              </motion.div>
-              <h4 className="font-editorial text-base text-slate-900 dark:text-white font-medium">
-                Kejujuran Emosi
-              </h4>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                Tanpa kepura-puraan; membiarkan subjek tampil apa adanya dengan rasa nyaman.
-              </p>
-            </div>
+      {/* Pillars of Visual Work */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-12 mt-20 sm:mt-28 pt-12 border-t border-[#1A1A1A]/10 dark:border-white/10">
+        <div>
+          <span className="text-[10px] uppercase tracking-[0.25em] text-[#8B7355] font-semibold block mb-2">
+            Pilar 01
+          </span>
+          <h3 className="font-editorial text-xl text-[#1A1A1A] dark:text-[#F3EFEA] font-normal mb-2">
+            Ketajaman Observasi
+          </h3>
+          <p className="text-sm text-[#8A857D] font-light leading-relaxed">
+            Menemukan keindahan dalam detil kecil yang kerap terlewatkan mata biasa.
+          </p>
+        </div>
 
-            <div className="flex flex-col">
-              <motion.div whileHover={{ rotate: 12, scale: 1.1 }} className="w-10 h-10 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-500 mb-3 cursor-pointer">
-                <Compass className="w-5 h-5" />
-              </motion.div>
-              <h4 className="font-editorial text-base text-slate-900 dark:text-white font-medium">
-                Eksplorasi Tak Henti
-              </h4>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                Siap menjelajahi ragam sudut nusantara untuk proyek visual bernilai tinggi.
-              </p>
-            </div>
-          </StaggerContainer>
-        </ScrollReveal>
+        <div>
+          <span className="text-[10px] uppercase tracking-[0.25em] text-[#8B7355] font-semibold block mb-2">
+            Pilar 02
+          </span>
+          <h3 className="font-editorial text-xl text-[#1A1A1A] dark:text-[#F3EFEA] font-normal mb-2">
+            Kejujuran Emosi
+          </h3>
+          <p className="text-sm text-[#8A857D] font-light leading-relaxed">
+            Tanpa kepura-puraan; membiarkan subjek tampil apa adanya dengan rasa nyaman.
+          </p>
+        </div>
+
+        <div>
+          <span className="text-[10px] uppercase tracking-[0.25em] text-[#8B7355] font-semibold block mb-2">
+            Pilar 03
+          </span>
+          <h3 className="font-editorial text-xl text-[#1A1A1A] dark:text-[#F3EFEA] font-normal mb-2">
+            Eksplorasi Tak Henti
+          </h3>
+          <p className="text-sm text-[#8A857D] font-light leading-relaxed">
+            Siap menjelajahi ragam sudut nusantara untuk proyek visual bernilai tinggi.
+          </p>
+        </div>
       </div>
     </section>
   );

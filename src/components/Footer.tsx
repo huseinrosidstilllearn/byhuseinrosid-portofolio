@@ -1,119 +1,96 @@
 import React from 'react';
-import { ArrowUp, Mail, MessageCircle } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { ArrowUp, Compass, MessageCircle } from 'lucide-react';
 import { CONTACT_CONFIG } from '../data/portfolioData';
 import { createWhatsAppLink } from '../utils/whatsapp';
-import { ScrollReveal } from './animations/ScrollReveal';
 
-const InstagramIcon: React.FC<{ className?: string }> = ({ className = "w-4 h-4" }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-  </svg>
-);
+interface FooterProps {
+  onSwitchToSpatial?: () => void;
+}
 
-export const Footer: React.FC = () => {
+export const Footer: React.FC<FooterProps> = ({ onSwitchToSpatial }) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const marqueeText = "• Surabaya • Nusantara • Visual Storyteller • Fotografer • Cerita Cahaya • ";
-
   return (
     <>
-      <footer className="bg-[#060910] text-white py-16 px-4 sm:px-6 lg:px-8 border-t border-white/10 relative overflow-hidden">
-        
-        {/* Marquee Scrolling Text */}
-        <div className="w-full overflow-hidden flex whitespace-nowrap mb-12 border-b border-white/5 pb-4">
-          <motion.div
-            className="text-xs uppercase tracking-[0.3em] text-slate-500 flex"
-            animate={{ x: [0, '-50%'] }}
-            transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
-          >
-            <span className="mr-4">{marqueeText.repeat(4)}</span>
-            <span className="mr-4">{marqueeText.repeat(4)}</span>
-          </motion.div>
-        </div>
+      <footer className="border-t border-[#1A1A1A]/10 dark:border-white/10 py-16 sm:py-24 px-6 sm:px-10 lg:px-16 max-w-7xl mx-auto w-full">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 pb-16 border-b border-[#1A1A1A]/10 dark:border-white/10">
+          {/* Brand & Philosophy */}
+          <div>
+            <span className="font-editorial text-3xl sm:text-4xl text-[#1A1A1A] dark:text-[#F3EFEA] font-normal tracking-tight block">
+              By Husein Rosid
+            </span>
+            <p className="text-sm text-[#8A857D] font-light mt-2 max-w-md">
+              Merekam emosi jujur dan keabadian cahaya. Berbasis di Surabaya, siap menerima penugasan di seluruh nusantara.
+            </p>
+          </div>
 
-        <div className="max-w-7xl mx-auto flex flex-col items-center justify-center gap-12 text-center">
-          
-          {/* Giant Typography */}
-          <ScrollReveal variant="scale" className="w-full">
-            <h1 className="font-editorial font-bold uppercase tracking-wider leading-none text-7xl sm:text-8xl md:text-[120px] lg:text-[160px] bg-gradient-to-r from-amber-400 via-white to-amber-400 bg-clip-text text-transparent pb-4">
-              BY HUSEIN ROSID
-            </h1>
-          </ScrollReveal>
-
-          {/* Social Icons & Back to top */}
-          <div className="flex flex-wrap items-center justify-center gap-4">
+          {/* Social & Direct Contact Links */}
+          <div className="flex flex-wrap items-center gap-6 sm:gap-8 text-xs uppercase tracking-[0.2em] font-medium text-[#1A1A1A] dark:text-[#F3EFEA]">
             <a
               href={`https://wa.me/${CONTACT_CONFIG.whatsappNumber}`}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="WhatsApp Resmi"
-              className="backdrop-blur-md bg-white/5 border border-white/10 rounded-full px-4 py-2 flex items-center gap-2 text-sm text-slate-300 hover:text-amber-400 hover:border-amber-400/50 hover:bg-white/10 transition-all"
+              className="hover:text-[#8B7355] transition-colors"
             >
-              <MessageCircle className="w-4 h-4" />
-              <span>WhatsApp</span>
+              WhatsApp
             </a>
-
             <a
               href={CONTACT_CONFIG.instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Instagram Portofolio"
-              className="backdrop-blur-md bg-white/5 border border-white/10 rounded-full px-4 py-2 flex items-center gap-2 text-sm text-slate-300 hover:text-amber-400 hover:border-amber-400/50 hover:bg-white/10 transition-all"
+              className="hover:text-[#8B7355] transition-colors"
             >
-              <InstagramIcon className="w-4 h-4" />
-              <span>Instagram</span>
+              Instagram
             </a>
-
             <a
               href={`mailto:${CONTACT_CONFIG.email}`}
-              aria-label="Kirim Email"
-              className="backdrop-blur-md bg-white/5 border border-white/10 rounded-full px-4 py-2 flex items-center gap-2 text-sm text-slate-300 hover:text-amber-400 hover:border-amber-400/50 hover:bg-white/10 transition-all"
+              className="hover:text-[#8B7355] transition-colors"
             >
-              <Mail className="w-4 h-4" />
-              <span>Email</span>
+              Email
             </a>
+            {onSwitchToSpatial && (
+              <button
+                onClick={onSwitchToSpatial}
+                className="inline-flex items-center gap-1.5 text-[#8B7355] hover:text-[#1A1A1A] dark:hover:text-white transition-colors cursor-pointer"
+              >
+                <Compass className="w-3.5 h-3.5" />
+                <span>Kanvas Spasial 360&deg;</span>
+              </button>
+            )}
           </div>
-
-          <p className="text-xs text-slate-400 font-light max-w-lg mt-4">
-            Merekam emosi jujur dan keabadian cahaya. Berbasis di Surabaya, Jawa Timur &mdash; siap melayani penugasan di seluruh nusantara.
-          </p>
-
-          <button
-            onClick={scrollToTop}
-            aria-label="Kembali ke atas"
-            className="w-12 h-12 rounded-full backdrop-blur-md bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-amber-500 hover:text-slate-950 transition-all cursor-pointer mt-4"
-          >
-            <ArrowUp className="w-5 h-5" />
-          </button>
         </div>
 
-        <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 font-light gap-4">
+        {/* Bottom Colophon & Scroll to Top */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#8A857D] font-light">
           <div>
-            &copy; {new Date().getFullYear()} By Husein Rosid. Seluruh hak cipta karya visual dilindungi undang-undang.
+            &copy; {new Date().getFullYear()} By Husein Rosid. Seluruh hak cipta karya visual dilindungi.
           </div>
-          <div>
-            Dibuat dengan dedikasi visual &bull; Surabaya, Indonesia
+
+          <div className="flex items-center gap-6">
+            <span>Surabaya &bull; Indonesia</span>
+            <button
+              onClick={scrollToTop}
+              className="inline-flex items-center gap-1 text-[#1A1A1A] dark:text-[#F3EFEA] hover:text-[#8B7355] transition-colors cursor-pointer uppercase tracking-wider text-[11px] font-medium"
+            >
+              <span>Kembali ke Atas</span>
+              <ArrowUp className="w-3.5 h-3.5" />
+            </button>
           </div>
         </div>
       </footer>
 
-      {/* Floating Direct WhatsApp Button */}
+      {/* Floating Minimal WhatsApp Contact Trigger */}
       <a
         href={createWhatsAppLink()}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Hubungi Langsung via WhatsApp"
-        className="fixed bottom-6 right-6 z-40 group flex items-center gap-2.5 px-4 py-3 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold shadow-2xl hover:shadow-[0_0_25px_rgba(16,185,129,0.5)] hover:scale-105 transition-all cursor-pointer"
+        aria-label="Hubungi via WhatsApp"
+        className="fixed bottom-6 right-6 z-40 flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#1A1A1A] dark:bg-[#FAF8F5] text-[#FAF8F5] dark:text-[#1A1A1A] shadow-xl hover:bg-[#8B7355] dark:hover:bg-[#8B7355] dark:hover:text-white transition-all duration-300 cursor-pointer text-xs font-medium uppercase tracking-wider"
       >
-        <MessageCircle className="w-5 h-5" />
-        <span className="text-xs tracking-wider uppercase hidden sm:inline">
-          Chat WhatsApp
-        </span>
+        <MessageCircle className="w-4 h-4 text-[#8B7355] dark:text-[#8B7355]" />
+        <span className="hidden sm:inline">WhatsApp</span>
       </a>
     </>
   );

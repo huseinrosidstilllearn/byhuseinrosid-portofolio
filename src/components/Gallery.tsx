@@ -1,31 +1,7 @@
 import React, { useState } from 'react';
-import { Maximize2, MapPin } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { PHOTO_CATEGORIES, PORTFOLIO_PHOTOS } from '../data/portfolioData';
 import type { PhotoItem } from '../types/portfolio';
 import { LightboxModal } from './LightboxModal';
-import { TiltCard } from './TiltCard';
-
-const ImageWithShimmer = ({ src, alt }: { src: string, alt: string }) => {
-  const [loaded, setLoaded] = useState(false);
-
-  return (
-    <div className="relative w-full h-auto bg-slate-800/50 min-h-[200px]">
-      {!loaded && (
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 bg-[length:200%_100%] animate-shimmer" />
-      )}
-      <img
-        src={src}
-        alt={alt}
-        loading="lazy"
-        onLoad={() => setLoaded(true)}
-        className={`w-full h-auto object-cover transform transition-all duration-700 ease-out group-hover:scale-105 ${
-          loaded ? 'opacity-100' : 'opacity-0'
-        }`}
-      />
-    </div>
-  );
-};
 
 export const Gallery: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('Semua');
@@ -36,126 +12,144 @@ export const Gallery: React.FC = () => {
     : PORTFOLIO_PHOTOS.filter(p => p.category === selectedCategory);
 
   return (
-    <section id="galeri" className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-20 relative z-10">
-      {/* Section Header */}
-      <div className="flex flex-col items-center text-center mb-14">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-amber-500/30 bg-amber-500/10 mb-3">
-          <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-          <span className="text-[10px] font-semibold tracking-[0.25em] uppercase text-amber-400">
-            Arsip Visual Museum
+    <section id="galeri" className="py-28 sm:py-36 px-6 sm:px-10 lg:px-16 max-w-7xl mx-auto scroll-mt-24">
+      {/* Editorial Section Header */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 pb-12 border-b border-[#1A1A1A]/10 dark:border-white/10 mb-14">
+        <div>
+          <span className="text-[10px] uppercase tracking-[0.3em] text-[#8B7355] font-semibold block mb-3">
+            01 &bull; Arsip Visual
           </span>
+          <h2 className="font-editorial text-4xl sm:text-6xl text-[#1A1A1A] dark:text-[#F3EFEA] font-normal tracking-tight">
+            Koleksi Bingkai Pilihan
+          </h2>
         </div>
-        <h2 className="font-editorial text-3xl sm:text-5xl text-slate-900 dark:text-white font-medium">
-          Galeri Pilihan
-        </h2>
-        <p className="max-w-xl text-sm sm:text-base text-slate-600 dark:text-slate-400 font-light mt-3">
-          Eksplorasi kumpulan bingkai cerita lintas genre dalam kedalaman 3D dan pencahayaan dinamis.
-        </p>
 
-        {/* Dynamic Category Filter Tabs */}
-        <div className="flex items-center sm:justify-center gap-1.5 sm:gap-2 mt-8 p-1.5 rounded-full border border-slate-200 dark:border-white/10 bg-slate-100/80 dark:bg-white/5 backdrop-blur-md max-w-[95vw] overflow-x-auto no-scrollbar">
-          {PHOTO_CATEGORIES.map(category => {
-            const isActive = selectedCategory === category;
-            return (
+        <p className="max-w-md text-sm sm:text-base text-[#1A1A1A]/70 dark:text-[#F3EFEA]/70 font-light leading-relaxed">
+          Setiap frame adalah jeda hening yang merekam interaksi antara manusia, bayang, dan semesta tanpa kepura-puraan.
+        </p>
+      </div>
+
+      {/* Clean Text-Only Category Filter */}
+      <div className="flex items-center gap-4 sm:gap-6 flex-wrap pb-12 text-xs uppercase tracking-[0.2em] font-medium border-b border-[#1A1A1A]/5 dark:border-white/5 mb-16">
+        {PHOTO_CATEGORIES.map((category, idx) => {
+          const isActive = selectedCategory === category;
+          return (
+            <React.Fragment key={category}>
               <button
-                key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-4 sm:px-5 py-2 rounded-full text-xs font-medium tracking-wider whitespace-nowrap transition-all duration-300 cursor-pointer ${
+                className={`transition-colors cursor-pointer ${
                   isActive
-                    ? 'bg-slate-900 text-white dark:bg-amber-500 dark:text-slate-950 shadow-md font-semibold'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white'
+                    ? 'text-[#8B7355] font-semibold underline underline-offset-8 decoration-1'
+                    : 'text-[#8A857D] hover:text-[#1A1A1A] dark:hover:text-[#F3EFEA]'
                 }`}
               >
                 {category}
               </button>
-            );
-          })}
-        </div>
+              {idx < PHOTO_CATEGORIES.length - 1 && (
+                <span className="text-[#8A857D]/40 font-light select-none">/</span>
+              )}
+            </React.Fragment>
+          );
+        })}
       </div>
 
-      {/* Dynamic Masonry Columns Grid with 3D TiltCards & Staggered Animations */}
-      <AnimatePresence mode="wait">
-        <motion.div 
-          key={selectedCategory}
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-          variants={{
-            visible: {
-              transition: {
-                staggerChildren: 0.06
-              }
-            },
-            exit: {
-              transition: {
-                staggerChildren: 0.02,
-                staggerDirection: -1
-              }
+      {/* Editorial Magazine Photo Layout */}
+      <div className="space-y-20 sm:space-y-28 lg:space-y-36">
+        {filteredPhotos.reduce<PhotoItem[][]>((rows, photo, index) => {
+          // Cadence: 1 full-width, then 2 side-by-side, then 1 wide...
+          if (index % 3 === 0) {
+            rows.push([photo]);
+          } else if (index % 3 === 1) {
+            rows.push([photo]);
+          } else {
+            // Pair with previous if available
+            const lastRow = rows[rows.length - 1];
+            if (lastRow && lastRow.length === 1) {
+              lastRow.push(photo);
+            } else {
+              rows.push([photo]);
             }
-          }}
-          className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6"
-        >
-          {filteredPhotos.map((photo) => (
-            <motion.div 
-              key={photo.id} 
-              className="break-inside-avoid"
-              variants={{
-                hidden: { opacity: 0, y: 40 },
-                visible: { opacity: 1, y: 0 },
-                exit: { opacity: 0, scale: 0.95 }
-              }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-            >
-              <TiltCard
-                glowColor={photo.glowColor}
-                maxTilt={10}
-                onClick={() => setActivePhoto(photo)}
-                className="group rounded-2xl overflow-hidden cursor-pointer bg-slate-200 dark:bg-[#111827] border border-slate-200 dark:border-white/10 shadow-lg hover:shadow-2xl transition-all duration-500"
-              >
-                <ImageWithShimmer src={photo.imageUrl} alt={photo.title} />
+          }
+          return rows;
+        }, []).map((row, rowIndex) => {
+          const isSingle = row.length === 1;
 
-                {/* Subtle Gradient Info Overlay Reveal with 3D Z-Axis Elevation */}
-                <div
-                  style={{ transform: 'translateZ(30px)' }}
-                  className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/35 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 pointer-events-none"
-                >
-                  <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                    <div className="flex items-center justify-between gap-2 mb-1.5">
-                      <span
-                        style={{
-                          backgroundColor: `${photo.glowColor || '#f59e0b'}20`,
-                          borderColor: `${photo.glowColor || '#f59e0b'}50`,
-                          color: photo.glowColor || '#f59e0b',
-                        }}
-                        className="text-[10px] uppercase tracking-[0.2em] font-medium border px-2.5 py-0.5 rounded-full"
-                      >
-                        {photo.category}
-                      </span>
-                      <Maximize2 className="w-4 h-4 text-white/70" />
-                    </div>
-                    <h3 className="font-editorial text-lg sm:text-xl text-white font-medium">
+          if (isSingle) {
+            const photo = row[0];
+            return (
+              <div key={photo.id} className="group cursor-pointer" onClick={() => setActivePhoto(photo)}>
+                <div className="overflow-hidden bg-[#F3EFEA] dark:bg-[#16181F] max-h-[78vh] flex items-center justify-center">
+                  <img
+                    src={photo.imageUrl}
+                    alt={photo.title}
+                    loading="lazy"
+                    className="w-full h-full object-cover max-h-[78vh] transition-transform duration-1000 ease-out group-hover:scale-[1.015]"
+                  />
+                </div>
+                {/* Editorial Caption Under Image */}
+                <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-t border-[#1A1A1A]/10 dark:border-white/10 pt-3">
+                  <div>
+                    <h3 className="font-editorial text-xl sm:text-2xl text-[#1A1A1A] dark:text-[#F3EFEA] font-normal group-hover:text-[#8B7355] transition-colors">
                       {photo.title}
                     </h3>
-                    <div className="flex items-center gap-1.5 text-xs text-slate-300 mt-1 font-light">
-                      <MapPin className="w-3 h-3 text-amber-400" />
-                      <span>{photo.location}</span>
+                    <p className="text-xs text-[#8A857D] font-light mt-0.5">
+                      {photo.description}
+                    </p>
+                  </div>
+                  <div className="text-xs uppercase tracking-widest text-[#8A857D] font-medium whitespace-nowrap">
+                    <span>{photo.category}</span> &bull; <span>{photo.location}</span> &bull; <span>{photo.year}</span>
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
+          // Two photos side-by-side spread
+          return (
+            <div key={`row-${rowIndex}`} className="grid grid-cols-1 md:grid-cols-2 gap-10 sm:gap-14 lg:gap-20">
+              {row.map((photo, pIdx) => (
+                <div
+                  key={photo.id}
+                  className={`group cursor-pointer ${pIdx === 1 ? 'md:mt-12 lg:mt-16' : ''}`}
+                  onClick={() => setActivePhoto(photo)}
+                >
+                  <div className="overflow-hidden bg-[#F3EFEA] dark:bg-[#16181F] aspect-[4/5] flex items-center justify-center">
+                    <img
+                      src={photo.imageUrl}
+                      alt={photo.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.02]"
+                    />
+                  </div>
+                  {/* Editorial Caption Under Image */}
+                  <div className="mt-4 sm:mt-5 border-t border-[#1A1A1A]/10 dark:border-white/10 pt-3 flex flex-col gap-1">
+                    <div className="flex items-baseline justify-between gap-2">
+                      <h3 className="font-editorial text-lg sm:text-xl text-[#1A1A1A] dark:text-[#F3EFEA] font-normal group-hover:text-[#8B7355] transition-colors">
+                        {photo.title}
+                      </h3>
+                      <span className="text-[10px] uppercase tracking-widest text-[#8A857D] font-medium">
+                        {photo.year}
+                      </span>
+                    </div>
+                    <div className="text-xs text-[#8A857D] font-light flex items-center gap-2">
+                      <span>{photo.category}</span>
                       <span>&bull;</span>
-                      <span>{photo.year}</span>
+                      <span>{photo.location}</span>
                     </div>
                   </div>
                 </div>
-              </TiltCard>
-            </motion.div>
-          ))}
-        </motion.div>
-      </AnimatePresence>
+              ))}
+            </div>
+          );
+        })}
+      </div>
 
-      {/* Lightbox Modal Component */}
+      {/* Lightbox Modal */}
       <LightboxModal
         photo={activePhoto}
         allPhotos={filteredPhotos}
         onClose={() => setActivePhoto(null)}
-        onSelectPhoto={photo => setActivePhoto(photo)}
+        onSelectPhoto={p => setActivePhoto(p)}
       />
     </section>
   );

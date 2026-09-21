@@ -1,27 +1,13 @@
 import React, { useState } from 'react';
-import { MessageCircle, Mail, MapPin, Send, ArrowUpRight } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { ArrowUpRight } from 'lucide-react';
 import { CONTACT_CONFIG, SERVICE_PACKAGES } from '../data/portfolioData';
 import { createWhatsAppLink } from '../utils/whatsapp';
-import { ScrollReveal } from './animations/ScrollReveal';
-import { StaggerContainer } from './animations/StaggerContainer';
-import { BlurReveal } from './animations/BlurReveal';
-
-const InstagramIcon: React.FC<{ className?: string }> = ({ className = "w-5 h-5" }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-  </svg>
-);
 
 export const ContactSection: React.FC = () => {
   const [name, setName] = useState('');
   const [selectedService, setSelectedService] = useState('');
   const [sessionLocation, setSessionLocation] = useState('');
   const [notes, setNotes] = useState('');
-
-  const [focusedField, setFocusedField] = useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,248 +25,163 @@ export const ContactSection: React.FC = () => {
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
-  const formFields = [
-    { id: 'name', delay: 0 },
-    { id: 'service', delay: 0.1 },
-    { id: 'location', delay: 0.2 },
-    { id: 'notes', delay: 0.3 },
-  ];
-
   return (
-    <section id="kontak" className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-20 overflow-hidden">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-        {/* Left Column: Direct Official Contact Info */}
-        <ScrollReveal variant="fade-right" className="lg:col-span-5 flex flex-col justify-between">
+    <section id="kontak" className="py-28 sm:py-36 px-6 sm:px-10 lg:px-16 max-w-7xl mx-auto scroll-mt-24 border-t border-[#1A1A1A]/10 dark:border-white/10">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-20">
+        {/* Left Column: Direct Contacts */}
+        <div className="lg:col-span-5 flex flex-col justify-between">
           <div>
-            <span className="text-[11px] font-semibold tracking-[0.3em] uppercase text-amber-500 mb-3 block">
-              Mulai Terhubung
+            <span className="text-[10px] uppercase tracking-[0.3em] text-[#8B7355] font-semibold block mb-3">
+              05 &bull; Mulai Terhubung
             </span>
-            <h2 className="font-editorial text-3xl sm:text-5xl text-slate-900 dark:text-white font-medium leading-tight">
-              <BlurReveal>Mari Menenun</BlurReveal>
-              <span className="italic text-amber-500/90 dark:text-amber-400">Cerita Bersama.</span>
+            <h2 className="font-editorial text-4xl sm:text-6xl text-[#1A1A1A] dark:text-[#F3EFEA] font-normal tracking-tight leading-[1.1]">
+              Mari Menenun <br />
+              <span className="italic font-normal text-[#8B7355] dark:text-[#C4A47C]">
+                Cerita Bersama.
+              </span>
             </h2>
-            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 font-light mt-4 leading-relaxed">
-              Apakah Anda merencanakan kampanye brand, dokumentasi intim, atau sekadar ingin bertukar ide visual, saya selalu menyambut setiap pesan dengan antusias.
+
+            <p className="text-sm sm:text-base text-[#1A1A1A]/70 dark:text-[#F3EFEA]/70 font-light mt-6 leading-relaxed">
+              Apakah Anda merencanakan kampanye brand, dokumentasi intim, atau sekadar ingin bertukar gagasan visual, saya selalu menyambut setiap dialog dengan terbuka.
             </p>
 
-            {/* Contact Channels List */}
-            <StaggerContainer direction="left" stagger={0.1} className="space-y-4 mt-8">
-              {/* WhatsApp */}
-              <a
-                href={`https://wa.me/${CONTACT_CONFIG.whatsappNumber}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-4 p-4 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#111827] hover:border-amber-500/50 group transition-all"
-              >
-                <div className="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <MessageCircle className="w-5 h-5" />
-                </div>
-                <div className="flex-1">
-                  <div className="text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold">
-                    WhatsApp Resmi
-                  </div>
-                  <div className="text-sm font-medium text-slate-900 dark:text-white group-hover:text-amber-500 transition-colors">
-                    {CONTACT_CONFIG.whatsappDisplay}
-                  </div>
-                </div>
-                <ArrowUpRight className="w-4 h-4 text-slate-400 group-hover:text-amber-500 transition-colors" />
-              </a>
+            {/* Editorial Contact Links */}
+            <div className="space-y-6 mt-12 pt-8 border-t border-[#1A1A1A]/10 dark:border-white/10">
+              <div>
+                <span className="text-[10px] uppercase tracking-[0.22em] text-[#8A857D] block mb-1">
+                  WhatsApp Resmi
+                </span>
+                <a
+                  href={`https://wa.me/${CONTACT_CONFIG.whatsappNumber}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-editorial text-xl sm:text-2xl text-[#1A1A1A] dark:text-[#F3EFEA] hover:text-[#8B7355] transition-colors inline-flex items-center gap-2"
+                >
+                  <span>{CONTACT_CONFIG.whatsappDisplay}</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </a>
+              </div>
 
-              {/* Instagram */}
-              <a
-                href={CONTACT_CONFIG.instagramUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-4 p-4 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#111827] hover:border-amber-500/50 group transition-all"
-              >
-                <div className="w-11 h-11 rounded-xl bg-pink-500/10 border border-pink-500/20 text-pink-500 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <InstagramIcon className="w-5 h-5" />
-                </div>
-                <div className="flex-1">
-                  <div className="text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold">
-                    Instagram Portofolio
-                  </div>
-                  <div className="text-sm font-medium text-slate-900 dark:text-white group-hover:text-amber-500 transition-colors">
-                    {CONTACT_CONFIG.instagram}
-                  </div>
-                </div>
-                <ArrowUpRight className="w-4 h-4 text-slate-400 group-hover:text-amber-500 transition-colors" />
-              </a>
+              <div>
+                <span className="text-[10px] uppercase tracking-[0.22em] text-[#8A857D] block mb-1">
+                  Instagram Portofolio
+                </span>
+                <a
+                  href={CONTACT_CONFIG.instagramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-editorial text-xl sm:text-2xl text-[#1A1A1A] dark:text-[#F3EFEA] hover:text-[#8B7355] transition-colors inline-flex items-center gap-2"
+                >
+                  <span>{CONTACT_CONFIG.instagram}</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </a>
+              </div>
 
-              {/* Email */}
-              <a
-                href={`mailto:${CONTACT_CONFIG.email}`}
-                className="flex items-center gap-4 p-4 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#111827] hover:border-amber-500/50 group transition-all"
-              >
-                <div className="w-11 h-11 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-500 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Mail className="w-5 h-5" />
-                </div>
-                <div className="flex-1">
-                  <div className="text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold">
-                    Email Bisnis
-                  </div>
-                  <div className="text-sm font-medium text-slate-900 dark:text-white group-hover:text-amber-500 transition-colors">
-                    {CONTACT_CONFIG.email}
-                  </div>
-                </div>
-                <ArrowUpRight className="w-4 h-4 text-slate-400 group-hover:text-amber-500 transition-colors" />
-              </a>
-            </StaggerContainer>
-          </div>
-
-          {/* Base of Operations Callout */}
-          <div className="mt-8 p-5 rounded-2xl border border-amber-500/20 bg-amber-500/5 flex items-center gap-3">
-            <MapPin className="w-5 h-5 text-amber-500 shrink-0" />
-            <div className="text-xs text-slate-600 dark:text-slate-300">
-              <strong className="text-slate-900 dark:text-white block font-medium">Studio & Domisili:</strong>
-              {CONTACT_CONFIG.locationDisplay} &mdash; Siap melayani sesi pemotretan ke luar kota dan pulau.
+              <div>
+                <span className="text-[10px] uppercase tracking-[0.22em] text-[#8A857D] block mb-1">
+                  Surat Elektronik
+                </span>
+                <a
+                  href={`mailto:${CONTACT_CONFIG.email}`}
+                  className="font-editorial text-xl sm:text-2xl text-[#1A1A1A] dark:text-[#F3EFEA] hover:text-[#8B7355] transition-colors inline-flex items-center gap-2"
+                >
+                  <span>{CONTACT_CONFIG.email}</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </a>
+              </div>
             </div>
           </div>
-        </ScrollReveal>
 
-        {/* Right Column: Smart Booking Form */}
-        <ScrollReveal variant="fade-left" delay={0.15} className="lg:col-span-7">
-          <div className="p-8 sm:p-10 rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#111827] shadow-xl">
-            <h3 className="font-editorial text-2xl text-slate-900 dark:text-white font-medium mb-2">
+          <div className="mt-12 text-xs text-[#8A857D] font-light">
+            <span className="uppercase tracking-widest text-[10px] block font-medium mb-1">
+              Domisili & Jangkauan:
+            </span>
+            {CONTACT_CONFIG.locationDisplay} &bull; Melayani sesi penugasan ke seluruh nusantara.
+          </div>
+        </div>
+
+        {/* Right Column: Underline-Only Minimal Form */}
+        <div className="lg:col-span-7">
+          <div className="bg-[#F3EFEA]/40 dark:bg-white/[0.02] p-8 sm:p-12 border border-[#1A1A1A]/10 dark:border-white/10">
+            <h3 className="font-editorial text-2xl sm:text-3xl text-[#1A1A1A] dark:text-[#F3EFEA] font-normal mb-2">
               Formulir Penawaran Sesi
             </h3>
-            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-light mb-8">
-              Isi preferensi Anda di bawah ini, lalu klik kirim untuk langsung tersambung ke WhatsApp saya dengan pesan terstruktur.
+            <p className="text-xs sm:text-sm text-[#8A857D] font-light mb-10">
+              Isi kebutuhan Anda untuk langsung tersambung ke WhatsApp dengan pesan terstruktur.
             </p>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: formFields[0].delay }}
-                className="relative pb-1"
-              >
-                <label className="block text-xs uppercase tracking-wider font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                  Nama Anda / Brand *
+            <form onSubmit={handleSubmit} className="space-y-8">
+              <div>
+                <label className="block text-[10px] uppercase tracking-[0.25em] font-medium text-[#8A857D] mb-1">
+                  Nama Anda / Entitas Brand *
                 </label>
                 <input
                   type="text"
                   required
                   value={name}
                   onChange={e => setName(e.target.value)}
-                  onFocus={() => setFocusedField('name')}
-                  onBlur={() => setFocusedField(null)}
-                  placeholder="Contoh: Rian & Sarah / Brand Lokal"
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-black/30 text-slate-900 dark:text-white text-sm focus:outline-none transition-colors relative z-10"
+                  placeholder="Contoh: Rian & Sarah / Brand Mode"
+                  className="w-full bg-transparent border-0 border-b border-[#1A1A1A]/20 dark:border-white/20 px-0 py-3 text-sm sm:text-base text-[#1A1A1A] dark:text-[#F3EFEA] placeholder:text-[#8A857D]/50 focus:outline-none focus:border-[#8B7355] transition-colors"
                 />
-                <motion.div 
-                  className="absolute bottom-0 left-0 h-0.5 bg-amber-500 z-20 rounded-full"
-                  initial={{ width: '0%' }}
-                  animate={{ width: focusedField === 'name' ? '100%' : '0%' }}
-                  transition={{ duration: 0.3 }}
-                />
-              </motion.div>
+              </div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: formFields[1].delay }}
-                className="relative pb-1"
-              >
-                <label className="block text-xs uppercase tracking-wider font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+              <div>
+                <label className="block text-[10px] uppercase tracking-[0.25em] font-medium text-[#8A857D] mb-1">
                   Pilihan Layanan
                 </label>
                 <select
                   value={selectedService}
                   onChange={e => setSelectedService(e.target.value)}
-                  onFocus={() => setFocusedField('service')}
-                  onBlur={() => setFocusedField(null)}
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-black/30 text-slate-900 dark:text-white text-sm focus:outline-none transition-colors relative z-10"
+                  className="w-full bg-transparent border-0 border-b border-[#1A1A1A]/20 dark:border-white/20 px-0 py-3 text-sm sm:text-base text-[#1A1A1A] dark:text-[#F3EFEA] focus:outline-none focus:border-[#8B7355] transition-colors cursor-pointer"
                 >
-                  <option value="">-- Pilih Kategori Layanan --</option>
+                  <option value="" className="bg-[#FAF8F5] dark:bg-[#1A1A1A]">-- Pilih Kategori Layanan --</option>
                   {SERVICE_PACKAGES.map(svc => (
-                    <option key={svc.id} value={svc.title}>
+                    <option key={svc.id} value={svc.title} className="bg-[#FAF8F5] dark:bg-[#1A1A1A]">
                       {svc.title}
                     </option>
                   ))}
-                  <option value="Proyek Kustom / Kolaborasi Visual">Proyek Kustom / Kolaborasi Visual</option>
+                  <option value="Proyek Kustom / Kolaborasi Visual" className="bg-[#FAF8F5] dark:bg-[#1A1A1A]">
+                    Proyek Kustom / Kolaborasi Visual
+                  </option>
                 </select>
-                <motion.div 
-                  className="absolute bottom-0 left-0 h-0.5 bg-amber-500 z-20 rounded-full"
-                  initial={{ width: '0%' }}
-                  animate={{ width: focusedField === 'service' ? '100%' : '0%' }}
-                  transition={{ duration: 0.3 }}
-                />
-              </motion.div>
+              </div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: formFields[2].delay }}
-                className="relative pb-1"
-              >
-                <label className="block text-xs uppercase tracking-wider font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                  Rencana Lokasi & Perkiraan Tanggal
+              <div>
+                <label className="block text-[10px] uppercase tracking-[0.25em] font-medium text-[#8A857D] mb-1">
+                  Rencana Lokasi & Perkiraan Jadwal
                 </label>
                 <input
                   type="text"
                   value={sessionLocation}
                   onChange={e => setSessionLocation(e.target.value)}
-                  onFocus={() => setFocusedField('location')}
-                  onBlur={() => setFocusedField(null)}
                   placeholder="Contoh: Surabaya / Bali &mdash; Bulan depan"
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-black/30 text-slate-900 dark:text-white text-sm focus:outline-none transition-colors relative z-10"
+                  className="w-full bg-transparent border-0 border-b border-[#1A1A1A]/20 dark:border-white/20 px-0 py-3 text-sm sm:text-base text-[#1A1A1A] dark:text-[#F3EFEA] placeholder:text-[#8A857D]/50 focus:outline-none focus:border-[#8B7355] transition-colors"
                 />
-                <motion.div 
-                  className="absolute bottom-0 left-0 h-0.5 bg-amber-500 z-20 rounded-full"
-                  initial={{ width: '0%' }}
-                  animate={{ width: focusedField === 'location' ? '100%' : '0%' }}
-                  transition={{ duration: 0.3 }}
-                />
-              </motion.div>
+              </div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: formFields[3].delay }}
-                className="relative pb-1"
-              >
-                <label className="block text-xs uppercase tracking-wider font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                  Ceritakan Konsep atau Ekspektasi Visual
+              <div>
+                <label className="block text-[10px] uppercase tracking-[0.25em] font-medium text-[#8A857D] mb-1">
+                  Konsep Visual / Ekspektasi
                 </label>
                 <textarea
-                  rows={4}
+                  rows={3}
                   value={notes}
                   onChange={e => setNotes(e.target.value)}
-                  onFocus={() => setFocusedField('notes')}
-                  onBlur={() => setFocusedField(null)}
-                  placeholder="Gambarkan suasana foto, referensi moodboard, atau cerita yang ingin Anda abadikan..."
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-black/30 text-slate-900 dark:text-white text-sm focus:outline-none transition-colors resize-none relative z-10"
+                  placeholder="Gambarkan suasana foto, moodboard, atau narasi yang ingin Anda abadikan..."
+                  className="w-full bg-transparent border-0 border-b border-[#1A1A1A]/20 dark:border-white/20 px-0 py-3 text-sm sm:text-base text-[#1A1A1A] dark:text-[#F3EFEA] placeholder:text-[#8A857D]/50 focus:outline-none focus:border-[#8B7355] transition-colors resize-none"
                 />
-                <motion.div 
-                  className="absolute bottom-0 left-0 h-0.5 bg-amber-500 z-20 rounded-full"
-                  initial={{ width: '0%' }}
-                  animate={{ width: focusedField === 'notes' ? '100%' : '0%' }}
-                  transition={{ duration: 0.3 }}
-                />
-              </motion.div>
+              </div>
 
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.97 }}
+              <button
                 type="submit"
-                className="relative w-full inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full text-xs font-semibold uppercase tracking-wider bg-amber-500 text-slate-950 shadow-lg hover:shadow-[0_0_25px_rgba(245,158,11,0.35)] transition-all cursor-pointer overflow-hidden group"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-10 py-4 bg-[#1A1A1A] dark:bg-white text-[#FAF8F5] dark:text-black text-xs font-semibold uppercase tracking-[0.25em] hover:bg-[#8B7355] dark:hover:bg-[#8B7355] dark:hover:text-white transition-colors cursor-pointer"
               >
-                <span className="relative z-10 flex items-center gap-2.5">
-                  <Send className="w-4 h-4" />
-                  <span>Kirim Pesan ke WhatsApp</span>
-                </span>
-                {/* Shimmer animation on hover */}
-                <motion.div 
-                  initial={{ left: '-100%' }}
-                  whileHover={{ left: '200%' }}
-                  transition={{ repeat: Infinity, duration: 1.5, ease: 'linear' }}
-                  className="absolute inset-y-0 w-1/2 skew-x-12 bg-gradient-to-r from-transparent via-white/40 to-transparent" 
-                />
-              </motion.button>
+                <span>Kirim Pesan via WhatsApp</span>
+                <ArrowUpRight className="w-4 h-4" />
+              </button>
             </form>
           </div>
-        </ScrollReveal>
+        </div>
       </div>
     </section>
   );

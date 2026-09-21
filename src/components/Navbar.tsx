@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Sun, Moon, Menu, X, MessageCircle, Compass, LayoutGrid } from 'lucide-react';
+import { Sun, Moon, Menu, X, ArrowLeft } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
-import { createWhatsAppLink } from '../utils/whatsapp';
 
 interface NavbarProps {
   viewMode: 'spatial' | 'editorial';
@@ -20,7 +19,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 40);
+      setIsScrolled(window.scrollY > 30);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -28,180 +27,121 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   const navLinks = [
     { label: 'Karya', id: 'galeri' },
-    { label: 'Kisah Visual', id: 'kisah' },
+    { label: 'Kisah', id: 'kisah' },
     { label: 'Tentang', id: 'tentang' },
     { label: 'Layanan', id: 'layanan' },
     { label: 'Kontak', id: 'kontak' },
   ];
 
-  const handleLinkClick = (e: React.MouseEvent, id: string) => {
-    e.preventDefault();
-    setMobileMenuOpen(false);
-    onNavigateToSection(id);
-  };
-
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled || viewMode === 'spatial'
-          ? 'bg-[#070a11]/85 dark:bg-[#070a11]/85 bg-white/90 backdrop-blur-xl py-3 shadow-lg border-b border-white/5 dark:border-white/5 border-slate-200'
-          : 'bg-transparent py-6'
+          ? 'bg-[#FAF8F5]/90 dark:bg-[#0E1015]/90 backdrop-blur-md border-b border-[#1A1A1A]/5 dark:border-white/5 py-4'
+          : 'bg-transparent py-7'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        {/* Brand Monogram & Name */}
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 flex items-center justify-between">
+        {/* Brand Title */}
         <button
-          onClick={() => onToggleViewMode()}
-          className="flex items-center gap-3 group text-left cursor-pointer"
+          onClick={() => {
+            if (viewMode === 'spatial') onToggleViewMode();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className="text-left group cursor-pointer"
         >
-          <div className="w-8 h-8 rounded-full border border-amber-500/40 overflow-hidden flex items-center justify-center group-hover:border-amber-400 group-hover:scale-105 transition-all bg-[#111827]">
-            <img src="/favicon-96x96.png" alt="By Husein Rosid Logo" className="w-full h-full object-cover" />
-          </div>
-          <div className="flex flex-col">
-            <span className="font-editorial text-lg tracking-widest uppercase font-semibold text-slate-900 dark:text-white group-hover:text-amber-500 transition-colors">
-              By Husein Rosid
-            </span>
-            <span className="text-[10px] tracking-[0.25em] text-slate-500 dark:text-slate-400 uppercase -mt-1">
-              Surabaya &bull; Visual Storyteller
-            </span>
-          </div>
+          <span className="font-editorial text-xl sm:text-2xl tracking-tight text-[#1A1A1A] dark:text-[#F3EFEA] font-medium group-hover:text-[#8B7355] transition-colors">
+            By Husein Rosid
+          </span>
+          <span className="hidden sm:block text-[9px] uppercase tracking-[0.25em] text-[#8A857D] font-light">
+            Surabaya &bull; Visual Storyteller
+          </span>
         </button>
 
-        {/* View Mode Pill Switcher (Central Attraction) */}
-        <div className="hidden sm:flex items-center p-1 rounded-full bg-black/40 dark:bg-white/5 border border-white/10 backdrop-blur-md">
-          <button
-            onClick={() => {
-              if (viewMode !== 'spatial') onToggleViewMode();
-            }}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wider transition-all cursor-pointer ${
-              viewMode === 'spatial'
-                ? 'bg-amber-500 text-slate-950 font-semibold shadow-[0_0_15px_rgba(245,158,11,0.35)]'
-                : 'text-slate-400 hover:text-white'
-            }`}
-          >
-            <Compass className="w-3.5 h-3.5" />
-            <span>Kanvas Spasial 360°</span>
-          </button>
-
-          <button
-            onClick={() => {
-              if (viewMode !== 'editorial') onToggleViewMode();
-            }}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wider transition-all cursor-pointer ${
-              viewMode === 'editorial'
-                ? 'bg-amber-500 text-slate-950 font-semibold shadow-[0_0_15px_rgba(245,158,11,0.35)]'
-                : 'text-slate-400 hover:text-white'
-            }`}
-          >
-            <LayoutGrid className="w-3.5 h-3.5" />
-            <span>Mode Editorial</span>
-          </button>
-        </div>
-
-        {/* Desktop Nav Links */}
-        <nav className="hidden lg:flex items-center gap-7">
-          {navLinks.map(link => (
-            <button
-              key={link.label}
-              onClick={(e) => handleLinkClick(e, link.id)}
-              className="text-xs uppercase tracking-[0.2em] font-medium text-slate-600 dark:text-slate-300 hover:text-amber-500 dark:hover:text-amber-400 transition-colors cursor-pointer"
-            >
-              {link.label}
-            </button>
-          ))}
-        </nav>
-
-        {/* Right Actions: Theme Toggle & WhatsApp CTA */}
-        <div className="hidden md:flex items-center gap-3">
-          <button
-            onClick={toggleTheme}
-            aria-label="Ubah Tema Tampilan"
-            className="p-2.5 rounded-full border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-200 hover:border-amber-500/50 hover:text-amber-500 transition-all cursor-pointer"
-          >
-            {theme === 'dark' ? (
-              <Sun className="w-4 h-4 text-amber-400" />
-            ) : (
-              <Moon className="w-4 h-4 text-slate-700" />
-            )}
-          </button>
-
-          <a
-            href={createWhatsAppLink()}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-medium uppercase tracking-wider bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all hover:shadow-[0_0_20px_rgba(245,158,11,0.3)] cursor-pointer"
-          >
-            <MessageCircle className="w-3.5 h-3.5" />
-            <span>Reservasi</span>
-          </a>
-        </div>
-
-        {/* Mobile Hamburger Button */}
-        <div className="flex md:hidden items-center gap-2">
+        {/* Center / Spatial Mode Back Indicator */}
+        {viewMode === 'spatial' ? (
           <button
             onClick={onToggleViewMode}
-            aria-label="Ganti Tampilan"
-            className="p-2 rounded-full text-amber-400 border border-amber-500/30"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#1A1A1A]/15 dark:border-white/15 bg-white/70 dark:bg-black/50 text-xs tracking-wider uppercase font-medium text-[#1A1A1A] dark:text-[#F3EFEA] hover:bg-[#1A1A1A] hover:text-[#FAF8F5] dark:hover:bg-white dark:hover:text-black transition-all cursor-pointer"
           >
-            {viewMode === 'spatial' ? <LayoutGrid className="w-4 h-4" /> : <Compass className="w-4 h-4" />}
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Kembali ke Editorial</span>
           </button>
-          <button
-            onClick={toggleTheme}
-            aria-label="Ubah Tema"
-            className="p-2 rounded-full text-slate-700 dark:text-slate-200"
-          >
-            {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4" />}
-          </button>
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Buka Menu"
-            className="p-2 rounded-lg text-slate-900 dark:text-white hover:text-amber-500"
-          >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Drawer Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-[#070a11]/98 dark:bg-[#070a11]/98 bg-white/98 border-b border-white/10 dark:border-white/10 border-slate-200 px-6 py-8 animate-in fade-in duration-200">
-          <nav className="flex flex-col gap-5">
-            {/* View mode toggle in mobile menu */}
-            <div className="flex items-center justify-between pb-4 border-b border-white/10 dark:border-white/10 border-slate-200">
-              <span className="text-xs uppercase tracking-wider text-slate-400">Mode Tampilan:</span>
+        ) : (
+          /* Desktop Editorial Navigation */
+          <nav className="hidden md:flex items-center gap-8 lg:gap-12">
+            {navLinks.map((link) => (
               <button
-                onClick={() => {
-                  onToggleViewMode();
-                  setMobileMenuOpen(false);
-                }}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-semibold bg-amber-500 text-slate-950"
-              >
-                {viewMode === 'spatial' ? 'Buka Mode Editorial' : 'Buka Kanvas Spasial 360°'}
-              </button>
-            </div>
-
-            {navLinks.map(link => (
-              <button
-                key={link.label}
-                onClick={(e) => handleLinkClick(e, link.id)}
-                className="text-left text-sm uppercase tracking-[0.2em] font-medium text-slate-700 dark:text-slate-200 hover:text-amber-500 transition-colors"
+                key={link.id}
+                onClick={() => onNavigateToSection(link.id)}
+                className="text-xs uppercase tracking-[0.22em] text-[#1A1A1A]/70 dark:text-[#F3EFEA]/70 hover:text-[#8B7355] dark:hover:text-[#8B7355] transition-colors font-medium cursor-pointer"
               >
                 {link.label}
               </button>
             ))}
-
-            <div className="pt-4 border-t border-white/10 dark:border-white/10 border-slate-200">
-              <a
-                href={createWhatsAppLink()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full text-xs font-semibold uppercase tracking-wider bg-amber-500 text-slate-950"
-              >
-                <MessageCircle className="w-4 h-4" />
-                <span>Hubungi via WhatsApp</span>
-              </a>
-            </div>
           </nav>
+        )}
+
+        {/* Right Utility: Theme Toggle & Mobile Trigger */}
+        <div className="flex items-center gap-4">
+          <button
+            onClick={toggleTheme}
+            aria-label="Ganti Tema"
+            className="w-9 h-9 flex items-center justify-center text-[#1A1A1A]/70 dark:text-[#F3EFEA]/70 hover:text-[#8B7355] transition-colors cursor-pointer"
+          >
+            {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </button>
+
+          {viewMode === 'editorial' && (
+            <button
+              onClick={() => setMobileMenuOpen(true)}
+              aria-label="Buka Menu"
+              className="md:hidden w-9 h-9 flex items-center justify-center text-[#1A1A1A] dark:text-[#F3EFEA] cursor-pointer"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Full-Screen Minimalist Mobile Drawer */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-50 bg-[#FAF8F5] dark:bg-[#0E1015] flex flex-col justify-between p-8 sm:p-12 animate-in fade-in duration-300">
+          <div className="flex items-center justify-between border-b border-[#1A1A1A]/10 dark:border-white/10 pb-6">
+            <span className="font-editorial text-xl font-medium tracking-tight text-[#1A1A1A] dark:text-[#F3EFEA]">
+              By Husein Rosid
+            </span>
+            <button
+              onClick={() => setMobileMenuOpen(false)}
+              aria-label="Tutup Menu"
+              className="w-10 h-10 flex items-center justify-center text-[#1A1A1A] dark:text-[#F3EFEA] cursor-pointer"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+
+          <div className="flex flex-col space-y-6 my-auto">
+            {navLinks.map((link, idx) => (
+              <button
+                key={link.id}
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onNavigateToSection(link.id);
+                }}
+                className="text-left font-editorial text-4xl sm:text-5xl text-[#1A1A1A] dark:text-[#F3EFEA] hover:text-[#8B7355] transition-colors flex items-baseline gap-4"
+              >
+                <span className="text-xs font-sans tracking-widest text-[#8A857D] uppercase">
+                  0{idx + 1}
+                </span>
+                <span>{link.label}</span>
+              </button>
+            ))}
+          </div>
+
+          <div className="pt-6 border-t border-[#1A1A1A]/10 dark:border-white/10 flex items-center justify-between text-xs tracking-wider uppercase text-[#8A857D]">
+            <span>Surabaya, Indonesia</span>
+            <span>&copy; {new Date().getFullYear()}</span>
+          </div>
         </div>
       )}
     </header>
