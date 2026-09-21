@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "lenis/dist/lenis.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -12,16 +13,31 @@
 }
 
 html {
-  scroll-behavior: smooth;
   background-color: #050505;
   color: #F8FAFC;
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
 }
 
 body {
   font-family: var(--font-sans);
   background-color: #050505;
   color: #F8FAFC;
-  overflow-x: hidden;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -43,25 +59,26 @@ body {
   background: radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.08) 0%, transparent 60%);
 }
 
-/* Bento Card Glass Style */
+/* Bento Card Glass Style - softer curves & fluid hover */
 .bento-card {
   background: rgba(14, 17, 25, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 1.5rem;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 1.75rem;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .bento-card:hover {
-  border-color: rgba(245, 158, 11, 0.3);
-  box-shadow: 0 10px 35px -10px rgba(0, 0, 0, 0.5), 0 0 25px rgba(245, 158, 11, 0.08);
-  transform: translateY(-2px);
+  border-color: rgba(245, 158, 11, 0.35);
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.6), 0 0 30px rgba(245, 158, 11, 0.1);
+  transform: translateY(-3px) scale(1.003);
 }
 
 /* Subtle custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -84,4 +101,12 @@ body {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Grab cursor for draggable horizontal containers */
+.cursor-grab {
+  cursor: grab;
+}
+.cursor-grab:active {
+  cursor: grabbing;
 }

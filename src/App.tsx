@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import Lenis from 'lenis';
 import { ThemeProvider } from './context/ThemeContext';
 import { Navbar } from './components/Navbar';
 import { SpatialCanvas } from './components/SpatialCanvas';
@@ -12,6 +13,41 @@ import { Footer } from './components/Footer';
 
 export function App() {
   const [viewMode, setViewMode] = useState<'bento' | 'spatial'>('bento');
+  const lenisRef = useRef<Lenis | null>(null);
+
+  useEffect(() => {
+    // If in spatial mode, disable lenis so the canvas can pan freely
+    if (viewMode === 'spatial') {
+      if (lenisRef.current) {
+        lenisRef.current.destroy();
+        lenisRef.current = null;
+      }
+      return;
+    }
+
+    // Initialize Lenis with smooth momentum physics
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      touchMultiplier: 1.5,
+    });
+
+    lenisRef.current = lenis;
+
+    let animId: number;
+    function raf(time: number) {
+      lenis.raf(time);
+      animId = requestAnimationFrame(raf);
+    }
+    animId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(animId);
+      lenis.destroy();
+      lenisRef.current = null;
+    };
+  }, [viewMode]);
 
   const handleToggleViewMode = () => {
     setViewMode(prev => (prev === 'spatial' ? 'bento' : 'spatial'));
@@ -23,13 +59,21 @@ export function App() {
       setTimeout(() => {
         const el = document.getElementById(sectionId);
         if (el) {
-          el.scrollIntoView({ behavior: 'smooth' });
+          if (lenisRef.current) {
+            lenisRef.current.scrollTo(el, { offset: -80, duration: 1.2 });
+          } else {
+            el.scrollIntoView({ behavior: 'smooth' });
+          }
         }
-      }, 100);
+      }, 150);
     } else {
       const el = document.getElementById(sectionId);
       if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
+        if (lenisRef.current) {
+          lenisRef.current.scrollTo(el, { offset: -80, duration: 1.2 });
+        } else {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
       }
     }
   };
