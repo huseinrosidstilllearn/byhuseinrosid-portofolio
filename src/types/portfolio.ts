@@ -87,3 +87,13 @@ export interface JourneyStats {
 
 export type SiteMode = 'landing' | 'karya' | 'perjalanan';
 
+export interface SiteContentData {
+  profile: PhotographerProfile;
+  contact: ContactConfig;
+  timeline: TimelineMilestone[];
+  skills: SkillItem[];
+  services: ServicePackage[];
+  stats: JourneyStats;
+}
+
+

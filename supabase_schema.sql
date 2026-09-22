@@ -109,3 +109,29 @@ values
     'Dinding tua bukan sekadar batu bata lapuk, ia adalah kanvas waktu yang melukiskan ketabahan.',
     2
   );
+
+-- ==============================================================================
+-- 7. Buat Tabel Penyimpanan Konten Teks Web Dinamis (site_content)
+-- Menyimpan profil, biografi, timeline perjalanan, keahlian, dan layanan
+-- ==============================================================================
+create table if not exists public.site_content (
+  id text primary key,          -- 'profile' | 'contact' | 'timeline' | 'skills' | 'services' | 'stats'
+  value jsonb not null,
+  updated_at timestamptz default now()
+);
+
+alter table public.site_content enable row level security;
+
+drop policy if exists "Publik dapat membaca konten situs" on public.site_content;
+drop policy if exists "Admin dapat mengelola konten situs" on public.site_content;
+
+create policy "Publik dapat membaca konten situs"
+  on public.site_content for select
+  using (true);
+
+create policy "Admin dapat mengelola konten situs"
+  on public.site_content for all
+  to authenticated
+  using (true)
+  with check (true);
+

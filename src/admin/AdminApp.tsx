@@ -14,12 +14,14 @@ import {
 } from 'lucide-react';
 import { AdminLogin } from './AdminLogin';
 import { UploadModal } from './UploadModal';
+import { ContentEditor } from './ContentEditor';
 import { supabase, getPhotos } from '../lib/supabase';
 import type { PhotoItem } from '../types/portfolio';
 
 export const AdminApp: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [userEmail, setUserEmail] = useState<string>('husein@admin');
+  const [activeTab, setActiveTab] = useState<'photos' | 'content'>('photos');
   const [photos, setPhotos] = useState<PhotoItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedCategory, setSelectedCategory] = useState<string>('Semua');
@@ -166,41 +168,78 @@ export const AdminApp: React.FC = () => {
       <div className="fixed inset-0 bg-grid-pattern opacity-25 pointer-events-none z-0" />
 
       {/* TOPBAR */}
-      <header className="sticky top-0 z-40 bg-[#0E1118]/85 backdrop-blur-xl border-b border-white/10 px-4 sm:px-8 py-3.5 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center font-editorial font-bold text-sm">
-            HR
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="font-editorial text-base font-bold text-white tracking-tight leading-none">
-                By Husein Rosid
-              </span>
-              <span className="px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/30 text-[9px] font-mono uppercase font-bold text-amber-300">
-                Portal Admin
+      <header className="sticky top-0 z-40 bg-[#0E1118]/85 backdrop-blur-xl border-b border-white/10 px-4 sm:px-8 py-3.5 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-3 w-full md:w-auto justify-between md:justify-start">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center font-editorial font-bold text-sm">
+              HR
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="font-editorial text-base font-bold text-white tracking-tight leading-none">
+                  The Journey of Husein Rosid
+                </span>
+                <span className="px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/30 text-[9px] font-mono uppercase font-bold text-amber-300">
+                  Portal Admin
+                </span>
+              </div>
+              <span className="text-[11px] text-slate-400 font-light block leading-none mt-1">
+                Login: {userEmail}
               </span>
             </div>
-            <span className="text-[11px] text-slate-400 font-light block leading-none mt-1">
-              Login: {userEmail}
-            </span>
+          </div>
+
+          <div className="flex md:hidden items-center gap-2">
+            <button
+              onClick={handleLogout}
+              className="w-8 h-8 rounded-full border border-white/10 text-slate-400 hover:text-red-300 flex items-center justify-center"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+            </button>
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex items-center gap-2.5">
+        {/* Center Main Tab Switcher */}
+        <div className="flex items-center p-1 rounded-full bg-white/[0.05] border border-white/10 shadow-inner">
           <button
-            onClick={() => setIsUploadModalOpen(true)}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(245,158,11,0.3)] cursor-pointer hover:scale-105"
+            onClick={() => setActiveTab('photos')}
+            className={`px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider transition-all cursor-pointer ${
+              activeTab === 'photos'
+                ? 'bg-amber-500 text-slate-950 font-bold shadow-md'
+                : 'text-slate-400 hover:text-white'
+            }`}
           >
-            <Plus className="w-4 h-4" />
-            <span>Unggah Karya</span>
+            📷 Arsip Foto ({photos.length})
           </button>
+          <button
+            onClick={() => setActiveTab('content')}
+            className={`px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider transition-all cursor-pointer ${
+              activeTab === 'content'
+                ? 'bg-amber-500 text-slate-950 font-bold shadow-md'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            ✍️ Editor Konten Web
+          </button>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="hidden md:flex items-center gap-2.5">
+          {activeTab === 'photos' && (
+            <button
+              onClick={() => setIsUploadModalOpen(true)}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(245,158,11,0.3)] cursor-pointer hover:scale-105"
+            >
+              <Plus className="w-4 h-4" />
+              <span>Unggah Karya</span>
+            </button>
+          )}
 
           <a
             href="/"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-white/15 hover:bg-white/10 text-xs text-slate-300 font-medium transition-all"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-white/15 hover:bg-white/10 text-xs text-slate-300 font-medium transition-all"
             title="Buka Website Publik di Tab Baru"
           >
             <span>Lihat Website</span>
@@ -227,9 +266,13 @@ export const AdminApp: React.FC = () => {
 
       {/* MAIN CONTENT AREA */}
       <main className="relative z-10 flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-8">
-        {/* STATS METRIC SUMMARY */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
-          <div className="bento-card p-4 text-center">
+        {activeTab === 'content' ? (
+          <ContentEditor />
+        ) : (
+          <>
+            {/* STATS METRIC SUMMARY */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+              <div className="bento-card p-4 text-center">
             <span className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">
               Total Arsip
             </span>
@@ -432,10 +475,12 @@ export const AdminApp: React.FC = () => {
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
-      </main>
+              ))}
+            </div>
+          )}
+        </>
+      )}
+    </main>
 
       {/* UPLOAD MODAL */}
       <UploadModal

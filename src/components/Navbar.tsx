@@ -61,9 +61,9 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div className="w-8 h-8 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 font-editorial font-bold text-sm group-hover:scale-105 transition-transform">
               HR
             </div>
-            <span className="font-editorial text-base sm:text-lg font-medium tracking-tight text-white block leading-none split-wave" aria-label="By Husein Rosid">
+            <span className="font-editorial text-sm sm:text-base font-medium tracking-tight text-white block leading-none split-wave max-w-[180px] sm:max-w-none truncate" aria-label="The Journey of Husein Rosid">
               <span aria-hidden="true">
-                {"By Husein Rosid".split("").map((char, i) => (
+                {"The Journey of Husein Rosid".split("").map((char, i) => (
                   <i key={i} style={{ '--i': i } as React.CSSProperties} className={char === ' ' ? 'inline-block w-1.5' : ''}>
                     {char}
                   </i>
@@ -152,7 +152,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="fixed inset-0 z-50 bg-[#050505]/95 backdrop-blur-2xl flex flex-col justify-between p-8 animate-in fade-in duration-300 pointer-events-auto">
           <div className="flex items-center justify-between border-b border-white/10 pb-4">
             <span className="font-editorial text-xl font-medium text-white">
-              By Husein Rosid
+              The Journey of Husein Rosid
             </span>
             <button
               onClick={() => setMobileMenuOpen(false)}

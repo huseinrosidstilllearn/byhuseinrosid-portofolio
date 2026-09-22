@@ -10,7 +10,6 @@ import { Gallery } from './components/Gallery';
 import { AccordionCarousel } from './components/AccordionCarousel';
 import { PhotoStories } from './components/PhotoStories';
 import { Services } from './components/Services';
-
 import { ContactSection } from './components/ContactSection';
 import { LightboxModal } from './components/LightboxModal';
 import { JourneyHero } from './components/journey/JourneyHero';
@@ -19,10 +18,8 @@ import { Skills } from './components/journey/Skills';
 import { JourneyFooter } from './components/journey/JourneyFooter';
 import { KaryaFooter } from './components/journey/KaryaFooter';
 import { PORTFOLIO_PHOTOS } from './data/portfolioData';
-import { getPhotos } from './lib/supabase';
-import type { PhotoItem, SiteMode } from './types/portfolio';
-
-
+import { getPhotos, getSiteContent, DEFAULT_SITE_CONTENT } from './lib/supabase';
+import type { PhotoItem, SiteMode, SiteContentData } from './types/portfolio';
 
 // Persistensi mode terakhir di localStorage
 const STORAGE_KEY = 'bhr_site_mode';
@@ -40,6 +37,7 @@ export function App() {
   const [viewMode, setViewMode] = useState<'bento' | 'spatial'>('bento');
   const [activePhoto, setActivePhoto] = useState<PhotoItem | null>(null);
   const [photos, setPhotos] = useState<PhotoItem[]>(PORTFOLIO_PHOTOS);
+  const [siteContent, setSiteContent] = useState<SiteContentData>(DEFAULT_SITE_CONTENT);
   const lenisRef = useRef<Lenis | null>(null);
 
   // Simpan pilihan mode ke localStorage
@@ -55,13 +53,17 @@ export function App() {
     window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
-  // Ambil data foto dari Supabase
+  // Ambil data foto & teks konten situs dari Supabase / cache lokal
   useEffect(() => {
-    async function loadPhotos() {
-      const data = await getPhotos();
-      if (data && data.length > 0) setPhotos(data);
+    async function loadInitialData() {
+      const [photosData, contentData] = await Promise.all([
+        getPhotos(),
+        getSiteContent(),
+      ]);
+      if (photosData && photosData.length > 0) setPhotos(photosData);
+      if (contentData) setSiteContent(contentData);
     }
-    loadPhotos();
+    loadInitialData();
   }, []);
 
   // Lenis smooth scroll — hanya aktif di mode bento/perjalanan
@@ -102,7 +104,7 @@ export function App() {
   }, [siteMode, viewMode, activePhoto]);
 
   const handleToggleViewMode = () => {
-    setViewMode(prev => (prev === 'spatial' ? 'bento' : 'spatial'));
+    setViewMode((prev) => (prev === 'spatial' ? 'bento' : 'spatial'));
   };
 
   const handleNavigateToSection = (sectionId: string) => {
@@ -148,12 +150,16 @@ export function App() {
               onSwitchSiteMode={handleSetSiteMode}
             />
             <main className="flex-grow">
-              <JourneyHero />
-              <Timeline />
-              <Skills />
+              <JourneyHero
+                profile={siteContent.profile}
+                contact={siteContent.contact}
+                stats={siteContent.stats}
+              />
+              <Timeline milestones={siteContent.timeline} />
+              <Skills skills={siteContent.skills} />
               <PhotoStories />
-              <Services />
-              <ContactSection />
+              <Services packages={siteContent.services} />
+              <ContactSection contact={siteContent.contact} />
               <JourneyFooter onSwitchMode={handleSetSiteMode} />
             </main>
           </div>
@@ -196,7 +202,6 @@ export function App() {
               />
             </main>
           )}
-
 
           <LightboxModal
             photo={activePhoto}

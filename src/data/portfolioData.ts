@@ -2,7 +2,7 @@ import type { ContactConfig, PhotographerProfile, PhotoItem, PhotoStory, Service
 
 export const PHOTOGRAPHER_PROFILE: PhotographerProfile = {
   name: "Husein Rosid",
-  brandName: "By Husein Rosid",
+  brandName: "The Journey of Husein Rosid",
   headline: "Stories Told in the Quiet Spaces Between Moments",
   subheadline: "Kumpulan rekaman visual, emosi jujur, dan keabadian cahaya yang tertangkap di antara detak waktu.",
   bioShort: "Fotografer berbasis di Surabaya yang mendedikasikan lensa untuk menangkap keheningan, keaslian manusia, dan emosi yang tak terucap.",

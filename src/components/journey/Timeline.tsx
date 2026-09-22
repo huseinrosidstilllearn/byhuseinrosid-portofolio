@@ -76,9 +76,11 @@ function MilestoneCard({ milestone, index }: { milestone: typeof TIMELINE_MILEST
   );
 }
 
-export function Timeline() {
+export function Timeline({ milestones = TIMELINE_MILESTONES }: { milestones?: typeof TIMELINE_MILESTONES }) {
   const titleRef = useRef<HTMLDivElement>(null);
   const isTitleInView = useInView(titleRef, { once: true });
+
+  const activeMilestones = milestones && milestones.length > 0 ? milestones : TIMELINE_MILESTONES;
 
   return (
     <section id="timeline" className="relative py-24 px-4 sm:px-8 overflow-hidden">
@@ -114,7 +116,7 @@ export function Timeline() {
 
           {/* Milestones */}
           <div className="flex flex-col gap-8">
-            {TIMELINE_MILESTONES.map((milestone, index) => (
+            {activeMilestones.map((milestone, index) => (
               <MilestoneCard key={milestone.id} milestone={milestone} index={index} />
             ))}
           </div>

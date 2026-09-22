@@ -3,7 +3,15 @@ import { Briefcase, ArrowUpRight, MessageCircle } from 'lucide-react';
 import { SERVICE_PACKAGES } from '../data/portfolioData';
 import { createWhatsAppLink } from '../utils/whatsapp';
 
-export const Services: React.FC = () => {
+import type { ServicePackage } from '../types/portfolio';
+
+interface ServicesProps {
+  packages?: ServicePackage[];
+}
+
+export const Services: React.FC<ServicesProps> = ({ packages = SERVICE_PACKAGES }) => {
+  const activePackages = packages && packages.length > 0 ? packages : SERVICE_PACKAGES;
+
   return (
     <section id="layanan" className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-28">
       {/* Header */}
@@ -24,7 +32,7 @@ export const Services: React.FC = () => {
 
       {/* Services 3 Bento Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {SERVICE_PACKAGES.map((service, index) => {
+        {activePackages.map((service, index) => {
           const numberLabel = `0${index + 1}`;
 
           return (

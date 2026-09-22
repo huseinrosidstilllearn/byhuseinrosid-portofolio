@@ -57,9 +57,11 @@ function SkillCard({ skill, index }: { skill: SkillItem; index: number }) {
   );
 }
 
-export function Skills() {
+export function Skills({ skills = SKILLS }: { skills?: SkillItem[] }) {
   const titleRef = useRef<HTMLDivElement>(null);
   const isTitleInView = useInView(titleRef, { once: true });
+
+  const activeSkills = skills && skills.length > 0 ? skills : SKILLS;
 
   return (
     <section id="keahlian" className="relative py-24 px-4 sm:px-8 overflow-hidden">
@@ -91,7 +93,7 @@ export function Skills() {
         <div className="space-y-12">
           {CATEGORIES.map((cat) => {
             const catMeta = CATEGORY_META[cat];
-            const catSkills = SKILLS.filter((s) => s.category === cat);
+            const catSkills = activeSkills.filter((s) => s.category === cat);
 
             return (
               <div key={cat}>

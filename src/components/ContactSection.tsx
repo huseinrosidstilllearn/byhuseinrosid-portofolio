@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { MessageCircle, Mail, MapPin, Send, ArrowUpRight } from 'lucide-react';
+import { MessageCircle, Mail, MapPin, ArrowUpRight, Send } from 'lucide-react';
 import { CONTACT_CONFIG, SERVICE_PACKAGES } from '../data/portfolioData';
-import { createWhatsAppLink } from '../utils/whatsapp';
+import type { ContactConfig } from '../types/portfolio';
 
 const InstagramIcon: React.FC<{ className?: string }> = ({ className = "w-5 h-5" }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -11,7 +11,12 @@ const InstagramIcon: React.FC<{ className?: string }> = ({ className = "w-5 h-5"
   </svg>
 );
 
-export const ContactSection: React.FC = () => {
+interface ContactSectionProps {
+  contact?: ContactConfig;
+}
+
+export const ContactSection: React.FC<ContactSectionProps> = ({ contact = CONTACT_CONFIG }) => {
+  const activeContact = contact || CONTACT_CONFIG;
   const [name, setName] = useState('');
   const [selectedService, setSelectedService] = useState('');
   const [sessionLocation, setSessionLocation] = useState('');
@@ -29,29 +34,35 @@ export const ContactSection: React.FC = () => {
     if (notes) {
       message += `\nKonsep / Ide: ${notes}`;
     }
-    const url = createWhatsAppLink(selectedService, message);
-    window.open(url, '_blank', 'noopener,noreferrer');
+
+    const encoded = encodeURIComponent(message);
+    window.open(`https://wa.me/${activeContact.whatsappNumber}?text=${encoded}`, '_blank');
   };
 
   return (
     <section id="kontak" className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-28">
       {/* Header */}
-      <div className="mb-10 pb-6 border-b border-white/[0.08]">
-        <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-amber-400 mb-2">
-          <MessageCircle className="w-3.5 h-3.5" />
-          <span>Mulai Terhubung</span>
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-white/[0.08]">
+        <div>
+          <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-amber-400 mb-2">
+            <Mail className="w-3.5 h-3.5" />
+            <span>Kanal Komunikasi Langsung</span>
+          </div>
+          <h2 className="font-editorial text-3xl sm:text-5xl text-white font-medium">
+            Mulai Diskusi & Kolaborasi
+          </h2>
         </div>
-        <h2 className="font-editorial text-3xl sm:text-5xl text-white font-medium">
-          Mari Menenun Cerita Bersama
-        </h2>
+        <p className="max-w-md text-xs sm:text-sm text-slate-400 font-light leading-relaxed">
+          Punya ide konsep pemotretan, proyek komersial, atau ingin merekam momen bermakna? Hubungi langsung melalui kanal di bawah.
+        </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Column: Contact Channels Bento (5 cols) */}
         <div className="lg:col-span-5 flex flex-col gap-4">
           {/* WhatsApp Card */}
           <a
-            href={`https://wa.me/${CONTACT_CONFIG.whatsappNumber}`}
+            href={`https://wa.me/${activeContact.whatsappNumber}`}
             target="_blank"
             rel="noopener noreferrer"
             className="bento-card p-5 flex items-center justify-between group"
@@ -65,7 +76,7 @@ export const ContactSection: React.FC = () => {
                   WhatsApp Resmi
                 </span>
                 <span className="text-sm sm:text-base font-semibold text-white group-hover:text-amber-400 transition-colors">
-                  {CONTACT_CONFIG.whatsappDisplay}
+                  {activeContact.whatsappDisplay}
                 </span>
               </div>
             </div>
@@ -74,21 +85,21 @@ export const ContactSection: React.FC = () => {
 
           {/* Instagram Card */}
           <a
-            href={CONTACT_CONFIG.instagramUrl}
+            href={activeContact.instagramUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="bento-card p-5 flex items-center justify-between group"
           >
             <div className="flex items-center gap-4">
-              <div className="w-11 h-11 rounded-2xl bg-pink-500/10 border border-pink-500/20 text-pink-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+              <div className="w-11 h-11 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center group-hover:scale-110 transition-transform">
                 <InstagramIcon className="w-5 h-5" />
               </div>
               <div>
                 <span className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">
-                  Instagram Portofolio
+                  Instagram
                 </span>
                 <span className="text-sm sm:text-base font-semibold text-white group-hover:text-amber-400 transition-colors">
-                  {CONTACT_CONFIG.instagram}
+                  {activeContact.instagram}
                 </span>
               </div>
             </div>
@@ -97,7 +108,7 @@ export const ContactSection: React.FC = () => {
 
           {/* Email Card */}
           <a
-            href={`mailto:${CONTACT_CONFIG.email}`}
+            href={`mailto:${activeContact.email}`}
             className="bento-card p-5 flex items-center justify-between group"
           >
             <div className="flex items-center gap-4">
@@ -106,28 +117,28 @@ export const ContactSection: React.FC = () => {
               </div>
               <div>
                 <span className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">
-                  Surat Elektronik
+                  Surel / Email
                 </span>
                 <span className="text-sm sm:text-base font-semibold text-white group-hover:text-amber-400 transition-colors">
-                  {CONTACT_CONFIG.email}
+                  {activeContact.email}
                 </span>
               </div>
             </div>
             <ArrowUpRight className="w-4 h-4 text-slate-400 group-hover:text-amber-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
           </a>
 
-          {/* Domisili Bento Card */}
-          <div className="bento-card p-5 flex items-start gap-3.5 mt-auto">
-            <div className="w-9 h-9 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center shrink-0 text-amber-400">
-              <MapPin className="w-4 h-4" />
+          {/* Studio Location Card */}
+          <div className="bento-card p-5 flex items-center gap-4">
+            <div className="w-11 h-11 rounded-2xl bg-sky-500/10 border border-sky-500/20 text-sky-400 flex items-center justify-center">
+              <MapPin className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-xs font-semibold text-white block">
-                Studio & Domisili
+              <span className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">
+                Pangkalan & Domisili
               </span>
-              <p className="text-xs text-slate-400 font-light mt-0.5 leading-relaxed">
-                {CONTACT_CONFIG.locationDisplay} &bull; Melayani sesi penugasan ke seluruh nusantara.
-              </p>
+              <span className="text-sm sm:text-base font-semibold text-white">
+                {activeContact.locationDisplay}
+              </span>
             </div>
           </div>
         </div>
