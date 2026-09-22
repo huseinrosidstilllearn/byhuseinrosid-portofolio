@@ -58,3 +58,32 @@ export interface ContactConfig {
   email: string;
   locationDisplay: string;
 }
+
+export interface TimelineMilestone {
+  id: string;
+  year: string;
+  title: string;
+  description: string;
+  icon: string;
+  imageUrl?: string;
+  tags?: string[];
+  highlight?: boolean;
+}
+
+export interface SkillItem {
+  name: string;
+  category: 'teknis' | 'editing' | 'softskill' | 'gear';
+  level: 'Terampil' | 'Mahir' | 'Ahli';
+  icon: string;
+  description?: string;
+}
+
+export interface JourneyStats {
+  totalProjects: number;
+  yearsExperience: number;
+  citiesVisited: number;
+  clientsServed: number;
+}
+
+export type SiteMode = 'landing' | 'karya' | 'perjalanan';
+

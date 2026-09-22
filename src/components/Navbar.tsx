@@ -1,36 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, MessageCircle, ArrowLeft } from 'lucide-react';
 import { createWhatsAppLink } from '../utils/whatsapp';
+import type { SiteMode } from '../types/portfolio';
 
 interface NavbarProps {
   viewMode: 'bento' | 'spatial';
+  siteMode: SiteMode;
   onToggleViewMode: () => void;
   onNavigateToSection: (sectionId: string) => void;
+  onSwitchSiteMode: (mode: SiteMode) => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
   viewMode,
+  siteMode,
   onToggleViewMode,
   onNavigateToSection,
+  onSwitchSiteMode,
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { label: 'Karya', id: 'galeri' },
-    { label: 'Kisah', id: 'kisah' },
-    { label: 'Tentang', id: 'tentang' },
-    { label: 'Layanan', id: 'layanan' },
-    { label: 'Kontak', id: 'kontak' },
-  ];
+  // Nav links berubah sesuai mode
+  const navLinks =
+    siteMode === 'perjalanan'
+      ? [
+          { label: 'Perjalanan', id: 'timeline' },
+          { label: 'Keahlian', id: 'keahlian' },
+          { label: 'Kisah', id: 'kisah' },
+          { label: 'Layanan', id: 'layanan' },
+          { label: 'Kontak', id: 'kontak' },
+        ]
+      : [
+          { label: 'Karya', id: 'galeri' },
+          { label: 'Kisah', id: 'kisah' },
+          { label: 'Tentang', id: 'tentang' },
+          { label: 'Layanan', id: 'layanan' },
+          { label: 'Kontak', id: 'kontak' },
+        ];
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 pt-4 sm:pt-6 px-4 pointer-events-none">
@@ -43,12 +56,9 @@ export const Navbar: React.FC<NavbarProps> = ({
               : 'bg-[#0E1118]/60 backdrop-blur-md border-white/[0.08] shadow-lg'
           }`}
         >
-          {/* Brand Logo & Live Indicator */}
+          {/* Brand Logo — klik kembali ke Landing Gate */}
           <button
-            onClick={() => {
-              if (viewMode === 'spatial') onToggleViewMode();
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
+            onClick={() => onSwitchSiteMode('landing')}
             className="flex items-center gap-3 text-left group cursor-pointer"
           >
             <div className="w-8 h-8 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 font-editorial font-bold text-sm group-hover:scale-105 transition-transform">
@@ -65,7 +75,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </span>
           </button>
 
-          {/* Center: Spatial Switcher or Bento Navigation Links */}
+          {/* Center: Mode-aware navigation */}
           {viewMode === 'spatial' ? (
             <button
               onClick={onToggleViewMode}
@@ -75,20 +85,47 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>Kembali ke Bento</span>
             </button>
           ) : (
-            <nav className="hidden md:flex items-center gap-1 bg-white/[0.03] border border-white/[0.06] rounded-full px-3 py-1">
-              {navLinks.map((link) => (
+            <div className="hidden md:flex items-center gap-2">
+              {/* Nav links */}
+              <nav className="flex items-center gap-1 bg-white/[0.03] border border-white/[0.06] rounded-full px-3 py-1">
+                {navLinks.map((link) => (
+                  <button
+                    key={link.id}
+                    onClick={() => onNavigateToSection(link.id)}
+                    className="px-3 py-1.5 rounded-full text-xs uppercase tracking-wider text-slate-300 hover:text-white hover:bg-white/[0.08] transition-all font-medium cursor-pointer"
+                  >
+                    {link.label}
+                  </button>
+                ))}
+              </nav>
+
+              {/* Mode Toggle Pill */}
+              <div className="flex items-center bg-white/[0.03] border border-white/[0.06] rounded-full p-1 gap-0.5 ml-1">
                 <button
-                  key={link.id}
-                  onClick={() => onNavigateToSection(link.id)}
-                  className="px-3 py-1.5 rounded-full text-xs uppercase tracking-wider text-slate-300 hover:text-white hover:bg-white/[0.08] transition-all font-medium cursor-pointer"
+                  onClick={() => onSwitchSiteMode('karya')}
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium tracking-wide transition-all cursor-pointer ${
+                    siteMode === 'karya'
+                      ? 'bg-amber-500 text-black'
+                      : 'text-white/40 hover:text-white/70'
+                  }`}
                 >
-                  {link.label}
+                  📷 Karya
                 </button>
-              ))}
-            </nav>
+                <button
+                  onClick={() => onSwitchSiteMode('perjalanan')}
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium tracking-wide transition-all cursor-pointer ${
+                    siteMode === 'perjalanan'
+                      ? 'bg-sky-500 text-white'
+                      : 'text-white/40 hover:text-white/70'
+                  }`}
+                >
+                  🧭 Perjalanan
+                </button>
+              </div>
+            </div>
           )}
 
-          {/* Right Action: Direct WhatsApp CTA & Mobile Hamburger */}
+          {/* Right Action: WhatsApp CTA & Mobile Hamburger */}
           <div className="flex items-center gap-2.5">
             <a
               href={createWhatsAppLink()}
@@ -100,7 +137,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>Minta Sesi</span>
             </a>
 
-            {viewMode === 'bento' && (
+            {viewMode !== 'spatial' && (
               <button
                 onClick={() => setMobileMenuOpen(true)}
                 aria-label="Buka Menu"
@@ -126,6 +163,26 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white cursor-pointer"
             >
               <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Mode toggle (mobile) */}
+          <div className="flex gap-2 mt-4">
+            <button
+              onClick={() => { setMobileMenuOpen(false); onSwitchSiteMode('karya'); }}
+              className={`flex-1 py-2.5 rounded-full text-sm font-semibold transition-all ${
+                siteMode === 'karya' ? 'bg-amber-500 text-black' : 'border border-white/20 text-white/60'
+              }`}
+            >
+              📷 Karya
+            </button>
+            <button
+              onClick={() => { setMobileMenuOpen(false); onSwitchSiteMode('perjalanan'); }}
+              className={`flex-1 py-2.5 rounded-full text-sm font-semibold transition-all ${
+                siteMode === 'perjalanan' ? 'bg-sky-500 text-white' : 'border border-white/20 text-white/60'
+              }`}
+            >
+              🧭 Perjalanan
             </button>
           </div>
 
@@ -155,7 +212,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>Hubungi via WhatsApp</span>
             </a>
             <div className="text-center text-[10px] uppercase tracking-widest text-slate-500">
-              Surabaya, Indonesia &bull; Visual Storyteller
+              Surabaya, Indonesia • Visual Storyteller
             </div>
           </div>
         </div>
