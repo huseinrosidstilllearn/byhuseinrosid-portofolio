@@ -123,7 +123,30 @@ export const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose, onPho
           console.warn('Endpoint /api/upload tidak merespons (mungkin sedang di mode dev lokal).');
         }
 
-        // Jika upload ke endpoint belum terpasang atau gagal (mode lokal preview), gunakan preview URL
+        // 1b. Jika R2 belum terpasang atau di lingkungan lokal, coba unggah ke Supabase Storage
+        if (!finalImageUrl && supabase) {
+          try {
+            const cleanName = compressionResult.file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+            const storagePath = `${Date.now()}-${cleanName}`;
+            const { data: sData, error: sError } = await supabase.storage
+              .from('photos')
+              .upload(storagePath, compressionResult.file, {
+                contentType: 'image/webp',
+                upsert: true,
+              });
+
+            if (!sError && sData) {
+              const { data: pubData } = supabase.storage.from('photos').getPublicUrl(storagePath);
+              if (pubData?.publicUrl) {
+                finalImageUrl = pubData.publicUrl;
+              }
+            }
+          } catch (storageErr) {
+            console.warn('Supabase storage fallback error:', storageErr);
+          }
+        }
+
+        // 1c. Jika kedua cloud storage belum siap (preview lokal), gunakan previewUrl
         if (!finalImageUrl) {
           finalImageUrl = compressionResult.previewUrl;
         }
