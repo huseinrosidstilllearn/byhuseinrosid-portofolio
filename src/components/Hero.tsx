@@ -114,10 +114,10 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
         </div>
 
         {/* Monumental Bold Editorial Headline with Split Letter Wave */}
-        <h1 className="font-editorial text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[1.06] tracking-tight text-white max-w-4xl drop-shadow-md mx-auto">
+        <h1 className="font-editorial text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold leading-[1.05] tracking-tight text-white max-w-4xl drop-shadow-md mx-auto">
           Stories Told in the{' '}
           <span
-            className="italic text-amber-400 font-bold inline-block split-wave cursor-pointer"
+            className="italic text-amber-400 font-extrabold inline-block split-wave cursor-pointer"
             aria-label="Quiet Spaces"
           >
             <span aria-hidden="true">
