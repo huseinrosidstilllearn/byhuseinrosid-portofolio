@@ -1,5 +1,5 @@
 import React from 'react';
-import { User, MapPin, Eye, Heart, Compass } from 'lucide-react';
+import { User, MapPin } from 'lucide-react';
 import { PHOTOGRAPHER_PROFILE } from '../data/portfolioData';
 
 export const About: React.FC = () => {
@@ -54,42 +54,53 @@ export const About: React.FC = () => {
             </div>
           </div>
 
-          {/* 3 Modular Pillar Bento Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="bento-card p-5">
-              <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center mb-3">
-                <Eye className="w-4 h-4" />
+          {/* Spesialisasi & Nilai Praktik Editorial */}
+          <div className="bento-card p-6 sm:p-8">
+            <span className="text-[10px] uppercase tracking-[0.2em] text-slate-400 font-semibold block mb-5">
+              Fokus & Spesialisasi Visual
+            </span>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              <div className="space-y-2 border-l-2 border-amber-500/40 pl-4">
+                <span className="text-[11px] font-mono text-amber-400 uppercase tracking-widest block">01 / Esai</span>
+                <h4 className="font-editorial text-lg text-white font-medium">
+                  Dokumenter Kehidupan
+                </h4>
+                <p className="text-xs text-slate-400 font-light leading-relaxed">
+                  Menangkap dinamika kultural, ritual manusia, dan denyut keseharian secara autentik tanpa rekayasa.
+                </p>
               </div>
-              <h4 className="font-editorial text-base text-white font-medium">
-                Ketajaman Observasi
-              </h4>
-              <p className="text-[11px] text-slate-400 font-light mt-1 leading-relaxed">
-                Menemukan keindahan dalam detil kecil yang kerap terlewatkan.
-              </p>
+
+              <div className="space-y-2 border-l-2 border-amber-500/40 pl-4">
+                <span className="text-[11px] font-mono text-amber-400 uppercase tracking-widest block">02 / Ruang</span>
+                <h4 className="font-editorial text-lg text-white font-medium">
+                  Lanskap & Arsitektur
+                </h4>
+                <p className="text-xs text-slate-400 font-light leading-relaxed">
+                  Mengamati keheningan alam kaldera hingga geometri tegas struktur perkotaan dalam pencahayaan murni.
+                </p>
+              </div>
+
+              <div className="space-y-2 border-l-2 border-amber-500/40 pl-4">
+                <span className="text-[11px] font-mono text-amber-400 uppercase tracking-widest block">03 / Subjek</span>
+                <h4 className="font-editorial text-lg text-white font-medium">
+                  Potret Karakter
+                </h4>
+                <p className="text-xs text-slate-400 font-light leading-relaxed">
+                  Pencahayaan terarah yang menghormati martabat personal dan memancarkan kejujuran raut wajah.
+                </p>
+              </div>
             </div>
 
-            <div className="bento-card p-5">
-              <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center mb-3">
-                <Heart className="w-4 h-4" />
+            {/* Provenance Metadata Strip */}
+            <div className="mt-8 pt-6 border-t border-white/[0.08] flex flex-wrap items-center justify-between gap-4 text-xs text-slate-400 font-light">
+              <div className="flex items-center gap-2">
+                <span className="text-amber-400 font-medium">Domisili Operasional:</span>
+                <span>Surabaya &bull; Penugasan Terbuka Nusantara</span>
               </div>
-              <h4 className="font-editorial text-base text-white font-medium">
-                Kejujuran Emosi
-              </h4>
-              <p className="text-[11px] text-slate-400 font-light mt-1 leading-relaxed">
-                Tanpa kepura-puraan; membiarkan subjek tampil apa adanya.
-              </p>
-            </div>
-
-            <div className="bento-card p-5">
-              <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center mb-3">
-                <Compass className="w-4 h-4" />
+              <div className="flex items-center gap-2">
+                <span className="text-amber-400 font-medium">Standar Output:</span>
+                <span>Arsip Digital Resolusi Penuh & Cetakan Seni Galeri</span>
               </div>
-              <h4 className="font-editorial text-base text-white font-medium">
-                Eksplorasi Tak Henti
-              </h4>
-              <p className="text-[11px] text-slate-400 font-light mt-1 leading-relaxed">
-                Siap menjelajahi ragam sudut nusantara untuk proyek visual tinggi.
-              </p>
             </div>
           </div>
         </div>

@@ -108,10 +108,9 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
 
       {/* Main Editorial Hero Content - Center Aligned */}
       <div className="relative z-30 max-w-4xl mx-auto my-auto text-center flex flex-col items-center">
-        {/* Prestige Eyebrow Pill */}
-        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-amber-500/30 bg-[#0E1118]/80 backdrop-blur-xl text-amber-300 text-[11px] font-semibold uppercase tracking-[0.25em] mb-6 sm:mb-8 shadow-xl">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span>Arsip Visual &bull; Portofolio Fotografi &bull; Surabaya, ID</span>
+        {/* Prestige Eyebrow */}
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/15 bg-white/[0.04] backdrop-blur-md text-amber-300 text-[11px] font-medium uppercase tracking-[0.25em] mb-6 sm:mb-8">
+          <span>Arsip Visual &bull; Portofolio Fotografi &bull; Surabaya</span>
         </div>
 
         {/* Monumental Bold Editorial Headline with Split Letter Wave */}
@@ -163,11 +162,11 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           </a>
         </div>
 
-        {/* Location Badge */}
-        <div className="inline-flex items-center gap-2 mt-5 px-4 py-1.5 rounded-full bg-black/40 border border-white/10 backdrop-blur-md text-slate-400 text-xs font-light">
-          <MapPin className="w-3.5 h-3.5 text-amber-400" />
-          <span>Berbasis di Surabaya &bull; Siap Penugasan Seluruh Nusantara</span>
-        </div>
+        {/* Location & Availability Note */}
+        <p className="mt-5 text-xs text-slate-400 font-light tracking-wide flex items-center justify-center gap-2">
+          <MapPin className="w-3.5 h-3.5 text-amber-400/80" />
+          <span>Berbasis di Surabaya &bull; Tersedia penugasan ke seluruh Nusantara</span>
+        </p>
       </div>
 
       {/* Bottom Exhibition HUD: Active Frame Info & Chapter Switcher */}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Maximize2, MapPin } from 'lucide-react';
+import { Layers, MapPin } from 'lucide-react';
 import { PORTFOLIO_PHOTOS } from '../data/portfolioData';
 import type { PhotoItem } from '../types/portfolio';
 
@@ -13,18 +13,18 @@ export const AccordionCarousel: React.FC<AccordionCarouselProps> = ({ onSelectPh
 
   return (
     <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-12" aria-label="Accordion Expanding Panels">
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
         <div>
           <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-amber-400 mb-1.5">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Panel Interaktif &bull; Sorotan Lensa</span>
+            <Layers className="w-3.5 h-3.5" />
+            <span>Sorotan Kuratorial</span>
           </div>
           <h3 className="font-editorial text-2xl sm:text-3xl text-white font-medium">
-            Eksplorasi Ruang Dinamis
+            Ruang & Bingkai Pilihan
           </h3>
         </div>
-        <span className="hidden sm:inline-block text-xs text-slate-400 font-light">
-          Arahkan kursor pada panel untuk memperluas
+        <span className="text-xs text-slate-400 font-light">
+          Arahkan kursor atau sentuh untuk memperluas bingkai
         </span>
       </div>
 
@@ -41,7 +41,7 @@ export const AccordionCarousel: React.FC<AccordionCarouselProps> = ({ onSelectPh
                 src={photo.imageUrl}
                 alt={photo.title}
                 loading="lazy"
-                className="size-full object-cover block brightness-[0.7] contrast-[1.05] transition-[filter,transform] duration-500 group-hover:brightness-100 group-hover:scale-105"
+                className="size-full object-cover block brightness-[0.75] contrast-[1.05] transition-[filter,transform] duration-500 group-hover:brightness-100 group-hover:scale-105"
               />
 
               {/* Collapsed Vertical Category Label */}
@@ -57,9 +57,9 @@ export const AccordionCarousel: React.FC<AccordionCarouselProps> = ({ onSelectPh
                   <span className="px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-[10px] uppercase font-bold tracking-wider text-amber-300">
                     {photo.category}
                   </span>
-                  <div className="w-8 h-8 rounded-full bg-black/60 border border-white/20 flex items-center justify-center text-white">
-                    <Maximize2 className="w-3.5 h-3.5" />
-                  </div>
+                  <span className="text-[10px] uppercase font-mono tracking-widest text-slate-400 bg-black/50 px-2.5 py-1 rounded-md border border-white/10">
+                    Buka Arsip
+                  </span>
                 </div>
 
                 <h4 className="font-editorial text-xl sm:text-2xl text-white font-medium leading-snug">

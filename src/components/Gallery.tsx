@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Maximize2, MapPin, Grid, Film, ChevronLeft, ChevronRight, MoveHorizontal } from 'lucide-react';
+import { MapPin, Grid, Film, ChevronLeft, ChevronRight, MoveHorizontal } from 'lucide-react';
 import { PHOTO_CATEGORIES, PORTFOLIO_PHOTOS } from '../data/portfolioData';
 import type { PhotoItem } from '../types/portfolio';
 import { LightboxModal } from './LightboxModal';
@@ -133,9 +133,9 @@ export const Gallery: React.FC<GalleryProps> = ({ onSelectPhoto }) => {
                       {photo.category}
                     </span>
 
-                    <div className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-md border border-white/15 flex items-center justify-center text-white/80 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-                      <Maximize2 className="w-3.5 h-3.5" />
-                    </div>
+                    <span className="text-[10px] uppercase font-mono tracking-widest text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/50 px-2.5 py-1 rounded-md border border-white/10">
+                      Lihat Karya
+                    </span>
                   </div>
 
                   <div>
@@ -160,7 +160,7 @@ export const Gallery: React.FC<GalleryProps> = ({ onSelectPhoto }) => {
           {/* Controls & Gesture Hint */}
           <div className="flex items-center justify-between px-2 text-xs text-slate-400">
             <span className="inline-flex items-center gap-1.5 text-amber-300">
-              <MoveHorizontal className="w-4 h-4 animate-pulse" />
+              <MoveHorizontal className="w-4 h-4" />
               <span>Scroll atau geser bebas ke samping</span>
             </span>
             <div className="flex items-center gap-2">
@@ -205,9 +205,9 @@ export const Gallery: React.FC<GalleryProps> = ({ onSelectPhoto }) => {
                     <span className="px-3.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-semibold uppercase tracking-wider text-amber-400">
                       {photo.category}
                     </span>
-                    <div className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-md border border-white/15 flex items-center justify-center text-white/80">
-                      <Maximize2 className="w-3.5 h-3.5" />
-                    </div>
+                    <span className="text-[10px] uppercase font-mono tracking-widest text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/50 px-2.5 py-1 rounded-md border border-white/10">
+                      Lihat Karya
+                    </span>
                   </div>
 
                   <div>
