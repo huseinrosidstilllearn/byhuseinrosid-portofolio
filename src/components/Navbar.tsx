@@ -43,8 +43,8 @@ export const Navbar: React.FC<NavbarProps> = ({
 
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 pt-4 sm:pt-6 px-4 pointer-events-none">
-      <div className="max-w-6xl mx-auto flex items-center justify-between pointer-events-auto">
+    <header className="fixed top-0 left-0 right-0 z-50 pt-4 sm:pt-6 px-2 sm:px-4 pointer-events-none">
+      <div className="w-full max-w-[1920px] px-2 sm:px-4 lg:px-8 xl:px-12 2xl:px-16 mx-auto flex items-center justify-between pointer-events-auto">
         {/* Floating Glass Bento Capsule */}
         <div
           className={`w-full flex items-center justify-between px-4 sm:px-6 py-3 rounded-full border transition-all duration-300 ${

@@ -15,7 +15,7 @@ export const AccordionCarousel: React.FC<AccordionCarouselProps> = ({ photos = P
   const featuredSet = (featured.length >= 3 ? featured : activePhotos).slice(0, 5);
 
   return (
-    <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-12" aria-label="Accordion Expanding Panels">
+    <section className="w-full px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 max-w-[1920px] mx-auto py-12" aria-label="Accordion Expanding Panels">
       <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
         <div>
           <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-amber-400 mb-1.5">
@@ -32,7 +32,7 @@ export const AccordionCarousel: React.FC<AccordionCarouselProps> = ({ photos = P
       </div>
 
       {/* Expanding Accordion Row */}
-      <ul className="list-none flex gap-2.5 sm:gap-4 w-full h-[420px] sm:h-[480px] lg:h-[540px] m-0 p-0">
+      <ul className="list-none flex gap-2.5 sm:gap-4 w-full h-[420px] sm:h-[480px] lg:h-[560px] 2xl:h-[640px] m-0 p-0">
         {featuredSet.map((photo) => (
           <li
             key={photo.id}

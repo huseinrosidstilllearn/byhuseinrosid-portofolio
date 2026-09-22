@@ -12,7 +12,7 @@ export function KaryaFooter({ onSwitchToSpatial, onSwitchSiteMode }: KaryaFooter
 
   return (
     <footer className="relative border-t border-white/5 py-10 px-4 sm:px-8">
-      <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div className="w-full max-w-[1920px] px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
 
         {/* Brand */}
         <div className="text-center sm:text-left">

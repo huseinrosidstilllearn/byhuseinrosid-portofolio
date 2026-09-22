@@ -30,7 +30,7 @@ export const JourneyHero: React.FC<JourneyHeroProps> = ({
       <div className="absolute inset-0 bg-grid-pattern opacity-30 pointer-events-none" />
       <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-amber-500/5 to-transparent pointer-events-none" />
 
-      <div className="relative max-w-7xl mx-auto w-full">
+      <div className="relative w-full max-w-[1920px] px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Left — Portrait & Badge */}
           <motion.div

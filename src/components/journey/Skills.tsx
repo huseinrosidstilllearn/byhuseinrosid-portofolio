@@ -67,7 +67,7 @@ export function Skills({ skills = SKILLS }: { skills?: SkillItem[] }) {
     <section id="keahlian" className="relative py-24 px-4 sm:px-8 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-amber-500/3 to-transparent pointer-events-none" />
 
-      <div className="relative max-w-7xl mx-auto">
+      <div className="relative w-full max-w-[1920px] px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 mx-auto">
         {/* Section Header */}
         <motion.div
           ref={titleRef}
@@ -105,7 +105,7 @@ export function Skills({ skills = SKILLS }: { skills?: SkillItem[] }) {
                 </div>
 
                 {/* Skills Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-3.5">
                   {catSkills.map((skill, i) => (
                     <SkillCard key={skill.name} skill={skill} index={i} />
                   ))}

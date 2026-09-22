@@ -14,7 +14,7 @@ export function JourneyFooter({ onSwitchMode }: JourneyFooterProps) {
     <footer className="relative border-t border-white/5 pt-16 pb-8 px-4 sm:px-8 overflow-hidden">
       <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none" />
 
-      <div className="relative max-w-7xl mx-auto">
+      <div className="relative w-full max-w-[1920px] px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 mx-auto">
         {/* CTA Band */}
         <motion.div
           className="bento-card p-8 sm:p-12 rounded-3xl border border-amber-500/20 mb-12 text-center"

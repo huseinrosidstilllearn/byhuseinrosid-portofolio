@@ -13,7 +13,7 @@ export const Services: React.FC<ServicesProps> = ({ packages = SERVICE_PACKAGES 
   const activePackages = packages && packages.length > 0 ? packages : SERVICE_PACKAGES;
 
   return (
-    <section id="layanan" className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-28">
+    <section id="layanan" className="w-full px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 max-w-[1920px] mx-auto scroll-mt-28">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-white/[0.08]">
         <div>

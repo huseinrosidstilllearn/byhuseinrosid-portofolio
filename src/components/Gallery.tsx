@@ -84,11 +84,11 @@ export const Gallery: React.FC<GalleryProps> = ({ photos = PORTFOLIO_PHOTOS, onS
   // Bento span rhythm generator
   const getBentoColSpan = (index: number) => {
     const cycle = index % 5;
-    if (cycle === 0) return 'col-span-12 lg:col-span-8 min-h-[360px] sm:min-h-[440px]';
-    if (cycle === 1) return 'col-span-12 sm:col-span-6 lg:col-span-4 min-h-[360px] sm:min-h-[440px]';
-    if (cycle === 2) return 'col-span-12 sm:col-span-6 lg:col-span-4 min-h-[300px] sm:min-h-[360px]';
-    if (cycle === 3) return 'col-span-12 sm:col-span-6 lg:col-span-4 min-h-[300px] sm:min-h-[360px]';
-    return 'col-span-12 sm:col-span-6 lg:col-span-4 min-h-[300px] sm:min-h-[360px]';
+    if (cycle === 0) return 'col-span-12 lg:col-span-8 min-h-[380px] sm:min-h-[460px] 2xl:min-h-[540px]';
+    if (cycle === 1) return 'col-span-12 sm:col-span-6 lg:col-span-4 min-h-[380px] sm:min-h-[460px] 2xl:min-h-[540px]';
+    if (cycle === 2) return 'col-span-12 sm:col-span-6 lg:col-span-4 min-h-[320px] sm:min-h-[380px] 2xl:min-h-[440px]';
+    if (cycle === 3) return 'col-span-12 sm:col-span-6 lg:col-span-4 min-h-[320px] sm:min-h-[380px] 2xl:min-h-[440px]';
+    return 'col-span-12 sm:col-span-6 lg:col-span-4 min-h-[320px] sm:min-h-[380px] 2xl:min-h-[440px]';
   };
 
   const handleScrollFilmstrip = (direction: 'left' | 'right') => {
@@ -110,7 +110,7 @@ export const Gallery: React.FC<GalleryProps> = ({ photos = PORTFOLIO_PHOTOS, onS
   const currentSpotlightPhoto = filteredPhotos[spotlightIndex] || filteredPhotos[0] || null;
 
   return (
-    <section id="galeri" className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-28">
+    <section id="galeri" className="w-full px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 max-w-[1920px] mx-auto scroll-mt-28">
       {/* Gallery Header & Controls */}
       <div className="flex flex-col gap-6 mb-8 pb-6 border-b border-white/[0.08]">
         {/* Title & Subtitle */}
@@ -257,9 +257,9 @@ export const Gallery: React.FC<GalleryProps> = ({ photos = PORTFOLIO_PHOTOS, onS
         </div>
       )}
 
-      {/* MODE 2: Grid Seragam (3-Column Symmetrical Precision) */}
+      {/* MODE 2: Grid Seragam (3-Column / 4-Column Symmetrical Precision) */}
       {galleryMode === 'grid' && filteredPhotos.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 animate-in fade-in duration-300">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 sm:gap-6 animate-in fade-in duration-300">
           {filteredPhotos.map((photo) => (
             <div
               key={photo.id}
@@ -315,7 +315,7 @@ export const Gallery: React.FC<GalleryProps> = ({ photos = PORTFOLIO_PHOTOS, onS
 
       {/* MODE 3: Masonry Dinamis (Natural Vertical Aspect Ratios) */}
       {galleryMode === 'masonry' && filteredPhotos.length > 0 && (
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-5 space-y-5 animate-in fade-in duration-300">
+        <div className="columns-1 sm:columns-2 lg:columns-3 2xl:columns-4 gap-5 space-y-5 animate-in fade-in duration-300">
           {filteredPhotos.map((photo) => {
             const isTall = photo.aspectRatio === 'portrait';
             return (
@@ -324,7 +324,7 @@ export const Gallery: React.FC<GalleryProps> = ({ photos = PORTFOLIO_PHOTOS, onS
                 onClick={() => handlePhotoClick(photo)}
                 className="break-inside-avoid bento-card relative overflow-hidden group cursor-pointer border border-white/10 hover:border-amber-400/40 transition-all duration-300"
               >
-                <div className={`relative overflow-hidden ${isTall ? 'min-h-[380px]' : 'min-h-[260px]'}`}>
+                <div className={`relative overflow-hidden ${isTall ? 'min-h-[400px] 2xl:min-h-[480px]' : 'min-h-[280px] 2xl:min-h-[340px]'}`}>
                   <img
                     src={photo.imageUrl}
                     alt={photo.title}
@@ -333,7 +333,7 @@ export const Gallery: React.FC<GalleryProps> = ({ photos = PORTFOLIO_PHOTOS, onS
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent opacity-80 group-hover:opacity-95 transition-opacity" />
 
-                  <div className="absolute inset-0 p-5 flex flex-col justify-between">
+                  <div className="absolute inset-0 p-5 sm:p-6 flex flex-col justify-between">
                     <div className="flex items-center justify-between">
                       <span className="px-3 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-[10px] font-semibold uppercase tracking-wider text-amber-400">
                         {photo.category}
@@ -344,7 +344,7 @@ export const Gallery: React.FC<GalleryProps> = ({ photos = PORTFOLIO_PHOTOS, onS
                     </div>
 
                     <div>
-                      <h3 className="font-editorial text-xl text-white font-medium group-hover:text-amber-300 transition-colors">
+                      <h3 className="font-editorial text-xl sm:text-2xl text-white font-medium group-hover:text-amber-300 transition-colors">
                         {photo.title}
                       </h3>
                       <div className="flex items-center gap-2 text-xs text-slate-300 font-light mt-1.5">
@@ -366,7 +366,7 @@ export const Gallery: React.FC<GalleryProps> = ({ photos = PORTFOLIO_PHOTOS, onS
       {galleryMode === 'spotlight' && currentSpotlightPhoto && (
         <div className="space-y-6 animate-in fade-in duration-300">
           {/* Centerpiece Cinema Stage */}
-          <div className="bento-card relative rounded-3xl overflow-hidden border border-white/15 shadow-2xl min-h-[480px] sm:min-h-[580px] flex flex-col justify-between">
+          <div className="bento-card relative rounded-3xl overflow-hidden border border-white/15 shadow-2xl min-h-[520px] sm:min-h-[640px] lg:min-h-[740px] 2xl:min-h-[820px] flex flex-col justify-between">
             {/* Background Image */}
             <img
               src={currentSpotlightPhoto.imageUrl}
@@ -520,7 +520,7 @@ export const Gallery: React.FC<GalleryProps> = ({ photos = PORTFOLIO_PHOTOS, onS
               <div
                 key={photo.id}
                 onClick={() => handlePhotoClick(photo)}
-                className="snap-start shrink-0 w-[300px] sm:w-[380px] lg:w-[440px] h-[480px] sm:h-[540px] bento-card relative overflow-hidden group cursor-pointer"
+                className="snap-start shrink-0 w-[300px] sm:w-[380px] lg:w-[440px] 2xl:w-[520px] h-[480px] sm:h-[540px] 2xl:h-[620px] bento-card relative overflow-hidden group cursor-pointer"
               >
                 <img
                   src={photo.imageUrl}

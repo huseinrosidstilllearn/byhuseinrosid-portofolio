@@ -4,7 +4,7 @@ import { PHOTO_STORIES } from '../data/portfolioData';
 
 export const PhotoStories: React.FC = () => {
   return (
-    <section id="kisah" className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-28">
+    <section id="kisah" className="w-full px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 max-w-[1920px] mx-auto scroll-mt-28">
       {/* Stories Bento Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 pb-6 border-b border-white/[0.08]">
         <div>
