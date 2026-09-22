@@ -9,18 +9,20 @@ import { DualMarquee } from './components/DualMarquee';
 import { Gallery } from './components/Gallery';
 import { AccordionCarousel } from './components/AccordionCarousel';
 import { PhotoStories } from './components/PhotoStories';
-import { About } from './components/About';
 import { Services } from './components/Services';
+
 import { ContactSection } from './components/ContactSection';
-import { Footer } from './components/Footer';
 import { LightboxModal } from './components/LightboxModal';
 import { JourneyHero } from './components/journey/JourneyHero';
 import { Timeline } from './components/journey/Timeline';
 import { Skills } from './components/journey/Skills';
 import { JourneyFooter } from './components/journey/JourneyFooter';
+import { KaryaFooter } from './components/journey/KaryaFooter';
 import { PORTFOLIO_PHOTOS } from './data/portfolioData';
 import { getPhotos } from './lib/supabase';
 import type { PhotoItem, SiteMode } from './types/portfolio';
+
+
 
 // Persistensi mode terakhir di localStorage
 const STORAGE_KEY = 'bhr_site_mode';
@@ -181,21 +183,20 @@ export function App() {
               <SpatialCanvas />
             </main>
           ) : (
-            <main className="flex-grow space-y-24 sm:space-y-36 pb-20">
-              <Hero onExploreClick={() => handleNavigateToSection('galeri')} />
-              <DualMarquee photos={photos} onSelectPhoto={setActivePhoto} />
-              <Gallery photos={photos} onSelectPhoto={setActivePhoto} />
-              <AccordionCarousel photos={photos} onSelectPhoto={setActivePhoto} />
-              <PhotoStories />
-              <About />
-              <Services />
-              <ContactSection />
-              <Footer
+            <main className="flex-grow pb-0">
+              <div className="space-y-24 sm:space-y-36">
+                <Hero onExploreClick={() => handleNavigateToSection('galeri')} />
+                <DualMarquee photos={photos} onSelectPhoto={setActivePhoto} />
+                <Gallery photos={photos} onSelectPhoto={setActivePhoto} />
+                <AccordionCarousel photos={photos} onSelectPhoto={setActivePhoto} />
+              </div>
+              <KaryaFooter
                 onSwitchToSpatial={() => setViewMode('spatial')}
-                onNavigateToSection={handleNavigateToSection}
+                onSwitchSiteMode={handleSetSiteMode}
               />
             </main>
           )}
+
 
           <LightboxModal
             photo={activePhoto}

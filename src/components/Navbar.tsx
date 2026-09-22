@@ -38,12 +38,9 @@ export const Navbar: React.FC<NavbarProps> = ({
           { label: 'Kontak', id: 'kontak' },
         ]
       : [
-          { label: 'Karya', id: 'galeri' },
-          { label: 'Kisah', id: 'kisah' },
-          { label: 'Tentang', id: 'tentang' },
-          { label: 'Layanan', id: 'layanan' },
-          { label: 'Kontak', id: 'kontak' },
+          { label: 'Galeri', id: 'galeri' },
         ];
+
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 pt-4 sm:pt-6 px-4 pointer-events-none">
