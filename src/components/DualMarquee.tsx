@@ -3,13 +3,15 @@ import { PORTFOLIO_PHOTOS } from '../data/portfolioData';
 import type { PhotoItem } from '../types/portfolio';
 
 interface DualMarqueeProps {
+  photos?: PhotoItem[];
   onSelectPhoto: (photo: PhotoItem) => void;
 }
 
-export const DualMarquee: React.FC<DualMarqueeProps> = ({ onSelectPhoto }) => {
+export const DualMarquee: React.FC<DualMarqueeProps> = ({ photos = PORTFOLIO_PHOTOS, onSelectPhoto }) => {
+  const activeSet = photos.length > 0 ? photos : PORTFOLIO_PHOTOS;
   // Split photos into two rows
-  const row1 = [...PORTFOLIO_PHOTOS, ...PORTFOLIO_PHOTOS];
-  const row2 = [...PORTFOLIO_PHOTOS].reverse().concat([...PORTFOLIO_PHOTOS].reverse());
+  const row1 = [...activeSet, ...activeSet];
+  const row2 = [...activeSet].reverse().concat([...activeSet].reverse());
 
   return (
     <section className="w-full py-8 overflow-hidden marquee-container relative z-10" aria-label="Infinite Dual Marquee Gallery">

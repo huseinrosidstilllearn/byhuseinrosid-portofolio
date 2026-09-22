@@ -4,12 +4,15 @@ import { PORTFOLIO_PHOTOS } from '../data/portfolioData';
 import type { PhotoItem } from '../types/portfolio';
 
 interface AccordionCarouselProps {
+  photos?: PhotoItem[];
   onSelectPhoto: (photo: PhotoItem) => void;
 }
 
-export const AccordionCarousel: React.FC<AccordionCarouselProps> = ({ onSelectPhoto }) => {
-  // Select first 5 featured photos
-  const featuredSet = PORTFOLIO_PHOTOS.slice(0, 5);
+export const AccordionCarousel: React.FC<AccordionCarouselProps> = ({ photos = PORTFOLIO_PHOTOS, onSelectPhoto }) => {
+  const activePhotos = photos.length > 0 ? photos : PORTFOLIO_PHOTOS;
+  // Select featured photos, or first 5 photos
+  const featured = activePhotos.filter((p) => p.featured);
+  const featuredSet = (featured.length >= 3 ? featured : activePhotos).slice(0, 5);
 
   return (
     <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-12" aria-label="Accordion Expanding Panels">

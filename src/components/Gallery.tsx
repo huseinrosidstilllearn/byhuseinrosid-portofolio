@@ -5,14 +5,17 @@ import type { PhotoItem } from '../types/portfolio';
 import { LightboxModal } from './LightboxModal';
 
 interface GalleryProps {
+  photos?: PhotoItem[];
   onSelectPhoto?: (photo: PhotoItem) => void;
 }
 
-export const Gallery: React.FC<GalleryProps> = ({ onSelectPhoto }) => {
+export const Gallery: React.FC<GalleryProps> = ({ photos = PORTFOLIO_PHOTOS, onSelectPhoto }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('Semua');
   const [activePhoto, setActivePhoto] = useState<PhotoItem | null>(null);
   const [galleryMode, setGalleryMode] = useState<'matrix' | 'filmstrip'>('matrix');
   const filmstripRef = useRef<HTMLDivElement>(null);
+
+  const activePhotoSet = photos.length > 0 ? photos : PORTFOLIO_PHOTOS;
 
   const handlePhotoClick = (photo: PhotoItem) => {
     if (onSelectPhoto) {
@@ -23,8 +26,8 @@ export const Gallery: React.FC<GalleryProps> = ({ onSelectPhoto }) => {
   };
 
   const filteredPhotos = selectedCategory === 'Semua'
-    ? PORTFOLIO_PHOTOS
-    : PORTFOLIO_PHOTOS.filter(p => p.category === selectedCategory);
+    ? activePhotoSet
+    : activePhotoSet.filter(p => p.category === selectedCategory);
 
   // Bento span rhythm generator
   const getBentoColSpan = (index: number) => {

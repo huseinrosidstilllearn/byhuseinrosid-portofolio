@@ -14,12 +14,25 @@ import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { LightboxModal } from './components/LightboxModal';
 import { PORTFOLIO_PHOTOS } from './data/portfolioData';
+import { getPhotos } from './lib/supabase';
 import type { PhotoItem } from './types/portfolio';
 
 export function App() {
   const [viewMode, setViewMode] = useState<'bento' | 'spatial'>('bento');
   const [activePhoto, setActivePhoto] = useState<PhotoItem | null>(null);
+  const [photos, setPhotos] = useState<PhotoItem[]>(PORTFOLIO_PHOTOS);
   const lenisRef = useRef<Lenis | null>(null);
+
+  // Ambil data foto dari Supabase secara asinkron (fallback ke PORTFOLIO_PHOTOS jika offline/kosong)
+  useEffect(() => {
+    async function loadPhotosFromDatabase() {
+      const data = await getPhotos();
+      if (data && data.length > 0) {
+        setPhotos(data);
+      }
+    }
+    loadPhotosFromDatabase();
+  }, []);
 
   useEffect(() => {
     // If in spatial mode or lightbox is open, pause lenis
@@ -105,9 +118,9 @@ export function App() {
           ) : (
             <main className="flex-grow space-y-24 sm:space-y-36 pb-20">
               <Hero onExploreClick={() => handleNavigateToSection('galeri')} />
-              <DualMarquee onSelectPhoto={setActivePhoto} />
-              <Gallery onSelectPhoto={setActivePhoto} />
-              <AccordionCarousel onSelectPhoto={setActivePhoto} />
+              <DualMarquee photos={photos} onSelectPhoto={setActivePhoto} />
+              <Gallery photos={photos} onSelectPhoto={setActivePhoto} />
+              <AccordionCarousel photos={photos} onSelectPhoto={setActivePhoto} />
               <PhotoStories />
               <About />
               <Services />
@@ -122,7 +135,7 @@ export function App() {
           {/* Global Lightbox for all photographic interactive surfaces */}
           <LightboxModal
             photo={activePhoto}
-            allPhotos={PORTFOLIO_PHOTOS}
+            allPhotos={photos}
             onClose={() => setActivePhoto(null)}
             onSelectPhoto={setActivePhoto}
           />
