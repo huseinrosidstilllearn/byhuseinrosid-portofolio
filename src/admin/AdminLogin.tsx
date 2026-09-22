@@ -31,7 +31,11 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess, onBypass
       });
 
       if (error) {
-        setErrorMsg(error.message || 'Login gagal. Periksa kembali email dan kata sandi Anda.');
+        if (error.message.toLowerCase().includes('invalid login credentials')) {
+          setErrorMsg('Akun belum terdaftar di Supabase atau kata sandi salah. Silakan buat akun di dashboard Supabase (Authentication -> Users -> Add User) atau klik "Masuk Mode Demo / Uji Coba" di bawah.');
+        } else {
+          setErrorMsg(error.message || 'Login gagal. Periksa kembali email dan kata sandi Anda.');
+        }
       } else if (data.user) {
         onLoginSuccess(data.user.email || 'Admin');
       }

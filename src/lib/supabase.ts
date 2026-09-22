@@ -3,12 +3,12 @@ import type { PhotoItem, PhotoStory } from '../types/portfolio';
 import { PORTFOLIO_PHOTOS, PHOTO_STORIES } from '../data/portfolioData';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://bvghcotenyvbembvgvck.supabase.co';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+const supabaseAnonKey =
+  import.meta.env.VITE_SUPABASE_ANON_KEY ||
+  'sb_publishable_YFTuWVf3f5A-VJ0nAMwxKQ_NoV350T7';
 
-// Inisialisasi Klien Supabase (jika key belum diisi, client akan bersifat dummy)
-export const supabase = supabaseAnonKey
-  ? createClient(supabaseUrl, supabaseAnonKey)
-  : null;
+// Inisialisasi Klien Supabase
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 /**
  * Mengambil daftar foto galeri dari database Supabase
