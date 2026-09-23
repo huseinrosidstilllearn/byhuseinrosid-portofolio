@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import type { SiteMode } from '../types/portfolio';
 import { PHOTOGRAPHER_PROFILE } from '../data/portfolioData';
@@ -25,17 +25,21 @@ export function LandingGate({ onSelectMode }: LandingGateProps) {
   const [activeKarya, setActiveKarya] = useState(0);
   const [activeJourney, setActiveJourney] = useState(0);
 
-  // Cycle preview images
-  const handleKaryaHover = () => {
-    setHovered('karya');
-    const interval = setInterval(() => setActiveKarya((p) => (p + 1) % KARYA_PREVIEW.length), 1200);
-    return () => clearInterval(interval);
-  };
-  const handleJourneyHover = () => {
-    setHovered('perjalanan');
-    const interval = setInterval(() => setActiveJourney((p) => (p + 1) % JOURNEY_PREVIEW.length), 1200);
-    return () => clearInterval(interval);
-  };
+  // Ganti foto secara halus dan lambat (setiap 5.5 detik)
+  useEffect(() => {
+    const karyaTimer = setInterval(() => {
+      setActiveKarya((p) => (p + 1) % KARYA_PREVIEW.length);
+    }, 5500);
+
+    const journeyTimer = setInterval(() => {
+      setActiveJourney((p) => (p + 1) % JOURNEY_PREVIEW.length);
+    }, 5500);
+
+    return () => {
+      clearInterval(karyaTimer);
+      clearInterval(journeyTimer);
+    };
+  }, []);
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col overflow-hidden bg-[#050505]">
@@ -65,20 +69,23 @@ export function LandingGate({ onSelectMode }: LandingGateProps) {
             flexBasis: hovered === 'karya' ? '62%' : hovered === 'perjalanan' ? '38%' : '50%',
             transition: 'flex-basis 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
           }}
-          onMouseEnter={handleKaryaHover}
+          onMouseEnter={() => setHovered('karya')}
           onMouseLeave={() => setHovered(null)}
           onClick={() => onSelectMode('karya')}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.1 }}
         >
-          {/* Background Images */}
+          {/* Background Images with smooth, slow 1.8s crossfade */}
           {KARYA_PREVIEW.map((src, i) => (
             <motion.div
               key={src}
               className="absolute inset-0"
-              animate={{ opacity: i === activeKarya ? 1 : 0 }}
-              transition={{ duration: 0.8 }}
+              animate={{
+                opacity: i === activeKarya ? 1 : 0,
+                scale: i === activeKarya ? 1.04 : 1,
+              }}
+              transition={{ duration: 1.8, ease: 'easeInOut' }}
             >
               <img src={src} alt="" className="w-full h-full object-cover" />
             </motion.div>
@@ -162,20 +169,23 @@ export function LandingGate({ onSelectMode }: LandingGateProps) {
             flexBasis: hovered === 'perjalanan' ? '62%' : hovered === 'karya' ? '38%' : '50%',
             transition: 'flex-basis 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
           }}
-          onMouseEnter={handleJourneyHover}
+          onMouseEnter={() => setHovered('perjalanan')}
           onMouseLeave={() => setHovered(null)}
           onClick={() => onSelectMode('perjalanan')}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.2 }}
         >
-          {/* Background Images */}
+          {/* Background Images with smooth, slow 1.8s crossfade */}
           {JOURNEY_PREVIEW.map((src, i) => (
             <motion.div
               key={src}
               className="absolute inset-0"
-              animate={{ opacity: i === activeJourney ? 1 : 0 }}
-              transition={{ duration: 0.8 }}
+              animate={{
+                opacity: i === activeJourney ? 1 : 0,
+                scale: i === activeJourney ? 1.04 : 1,
+              }}
+              transition={{ duration: 1.8, ease: 'easeInOut' }}
             >
               <img src={src} alt="" className="w-full h-full object-cover" />
             </motion.div>
@@ -203,9 +213,9 @@ export function LandingGate({ onSelectMode }: LandingGateProps) {
               className="flex flex-col items-center gap-4"
             >
               <div className="flex items-center gap-2 mb-2">
-                <div className="w-4 h-px bg-sky-400/60" />
+                <div className="w-4 h-px bg-sky-500/60" />
                 <span className="text-sky-400/70 text-[10px] font-mono tracking-[0.3em] uppercase">Mode</span>
-                <div className="w-4 h-px bg-sky-400/60" />
+                <div className="w-4 h-px bg-sky-500/60" />
               </div>
               <h2 className="font-headline text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black text-white leading-none tracking-tight">
                 Perjalanan
@@ -223,30 +233,30 @@ export function LandingGate({ onSelectMode }: LandingGateProps) {
                 transition={{ duration: 0.3 }}
                 className="mt-4 flex items-center gap-2 px-5 py-2 rounded-full border border-sky-500/50 text-sky-400 text-xs font-mono tracking-wider uppercase bg-black/30 backdrop-blur-sm"
               >
-                <span>Masuk ke Cerita</span>
+                <span>Lihat Profil & CV</span>
                 <span>→</span>
               </motion.div>
             </motion.div>
           </div>
+
+          {/* Left edge hint arrow (desktop) */}
+          <div className="absolute left-0 inset-y-0 hidden md:flex items-center pl-4 opacity-20 group-hover:opacity-0 transition-opacity">
+            <div className="w-px h-24 bg-white/30" />
+          </div>
         </motion.div>
       </div>
 
-      {/* Bottom instruction */}
+      {/* Bottom Hint */}
       <motion.div
-        className="absolute bottom-6 left-0 right-0 flex justify-center"
+        className="absolute bottom-4 left-0 right-0 z-10 flex items-center justify-center pointer-events-none"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.2, duration: 0.8 }}
+        transition={{ delay: 1, duration: 0.6 }}
       >
-        <p className="text-white/20 text-xs font-mono tracking-wider">
-          Pilih mode untuk melanjutkan — tersimpan otomatis untuk kunjungan berikutnya
-        </p>
+        <span className="text-white/20 text-xs font-mono tracking-widest uppercase">
+          Pilih mode untuk melanjutkan &bull; tersimpan otomatis untuk kunjungan berikutnya
+        </span>
       </motion.div>
-
-      {/* Mobile: horizontal divider hint */}
-      <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 md:hidden flex justify-center pointer-events-none">
-        <div className="w-12 h-px bg-white/15" />
-      </div>
     </div>
   );
 }
