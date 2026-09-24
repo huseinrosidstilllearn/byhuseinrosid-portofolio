@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, MessageCircle, ArrowLeft } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Menu, X, MessageCircle, ArrowLeft, Camera, Compass } from 'lucide-react';
 import { createWhatsAppLink } from '../utils/whatsapp';
 import type { SiteMode } from '../types/portfolio';
 
@@ -96,27 +97,44 @@ export const Navbar: React.FC<NavbarProps> = ({
                 ))}
               </nav>
 
-              {/* Mode Toggle Pill */}
-              <div className="flex items-center bg-white/[0.03] border border-white/[0.06] rounded-full p-1 gap-0.5 ml-1">
+              {/* Mode Toggle Pill with Animated Sliding Thumb */}
+              <div className="relative flex items-center bg-[#07090E]/90 border border-white/10 rounded-full p-1 shadow-inner select-none ml-2">
                 <button
                   onClick={() => onSwitchSiteMode('karya')}
-                  className={`px-3 py-1.5 rounded-full text-xs font-medium tracking-wide transition-all cursor-pointer ${
-                    siteMode === 'karya'
-                      ? 'bg-amber-500 text-black'
-                      : 'text-white/40 hover:text-white/70'
+                  className={`relative z-10 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs tracking-wider uppercase font-semibold transition-colors duration-200 cursor-pointer ${
+                    siteMode === 'karya' ? 'text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
                   }`}
                 >
-                  📷 Karya
+                  {siteMode === 'karya' && (
+                    <motion.div
+                      layoutId="navbarActivePill"
+                      className="absolute inset-0 bg-amber-500 rounded-full shadow-[0_2px_12px_rgba(245,158,11,0.4)]"
+                      transition={{ type: 'spring', stiffness: 450, damping: 32 }}
+                    />
+                  )}
+                  <span className="relative z-10 flex items-center gap-1.5">
+                    <Camera className="w-3.5 h-3.5" />
+                    <span>Karya</span>
+                  </span>
                 </button>
+
                 <button
                   onClick={() => onSwitchSiteMode('perjalanan')}
-                  className={`px-3 py-1.5 rounded-full text-xs font-medium tracking-wide transition-all cursor-pointer ${
-                    siteMode === 'perjalanan'
-                      ? 'bg-sky-500 text-white'
-                      : 'text-white/40 hover:text-white/70'
+                  className={`relative z-10 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs tracking-wider uppercase font-semibold transition-colors duration-200 cursor-pointer ${
+                    siteMode === 'perjalanan' ? 'text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
                   }`}
                 >
-                  🧭 Perjalanan
+                  {siteMode === 'perjalanan' && (
+                    <motion.div
+                      layoutId="navbarActivePill"
+                      className="absolute inset-0 bg-amber-500 rounded-full shadow-[0_2px_12px_rgba(245,158,11,0.4)]"
+                      transition={{ type: 'spring', stiffness: 450, damping: 32 }}
+                    />
+                  )}
+                  <span className="relative z-10 flex items-center gap-1.5">
+                    <Compass className="w-3.5 h-3.5" />
+                    <span>Perjalanan</span>
+                  </span>
                 </button>
               </div>
             </div>
@@ -164,22 +182,38 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
 
           {/* Mode toggle (mobile) */}
-          <div className="flex gap-2 mt-4">
+          <div className="relative flex p-1 rounded-full bg-white/[0.06] border border-white/10 mt-4 backdrop-blur-md">
             <button
               onClick={() => { setMobileMenuOpen(false); onSwitchSiteMode('karya'); }}
-              className={`flex-1 py-2.5 rounded-full text-sm font-semibold transition-all ${
-                siteMode === 'karya' ? 'bg-amber-500 text-black' : 'border border-white/20 text-white/60'
+              className={`relative flex-1 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors flex items-center justify-center gap-2 cursor-pointer z-10 ${
+                siteMode === 'karya' ? 'text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
               }`}
             >
-              📷 Karya
+              {siteMode === 'karya' && (
+                <motion.div
+                  layoutId="mobileNavbarActivePill"
+                  className="absolute inset-0 bg-amber-500 rounded-full shadow-[0_2px_12px_rgba(245,158,11,0.4)] -z-10"
+                  transition={{ type: "spring", stiffness: 450, damping: 32 }}
+                />
+              )}
+              <Camera className="w-4 h-4" />
+              <span>Karya</span>
             </button>
             <button
               onClick={() => { setMobileMenuOpen(false); onSwitchSiteMode('perjalanan'); }}
-              className={`flex-1 py-2.5 rounded-full text-sm font-semibold transition-all ${
-                siteMode === 'perjalanan' ? 'bg-sky-500 text-white' : 'border border-white/20 text-white/60'
+              className={`relative flex-1 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors flex items-center justify-center gap-2 cursor-pointer z-10 ${
+                siteMode === 'perjalanan' ? 'text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
               }`}
             >
-              🧭 Perjalanan
+              {siteMode === 'perjalanan' && (
+                <motion.div
+                  layoutId="mobileNavbarActivePill"
+                  className="absolute inset-0 bg-amber-500 rounded-full shadow-[0_2px_12px_rgba(245,158,11,0.4)] -z-10"
+                  transition={{ type: "spring", stiffness: 450, damping: 32 }}
+                />
+              )}
+              <Compass className="w-4 h-4" />
+              <span>Perjalanan</span>
             </button>
           </div>
 

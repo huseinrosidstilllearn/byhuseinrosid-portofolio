@@ -1,3 +1,4 @@
+import { Sparkles, Compass, MessageCircle } from 'lucide-react';
 import { PHOTOGRAPHER_PROFILE, CONTACT_CONFIG } from '../../data/portfolioData';
 import type { SiteMode } from '../../types/portfolio';
 import { createWhatsAppLink } from '../../utils/whatsapp';
@@ -25,19 +26,19 @@ export function KaryaFooter({ onSwitchToSpatial, onSwitchSiteMode }: KaryaFooter
           {/* Spatial canvas */}
           <button
             onClick={onSwitchToSpatial}
-            className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 hover:border-amber-500/40 text-white/40 hover:text-amber-400 text-xs transition-all duration-300 group"
+            className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 hover:border-amber-500/40 text-white/50 hover:text-amber-400 text-xs transition-all duration-300 group cursor-pointer"
           >
-            <span>🗺</span>
+            <Sparkles className="w-3.5 h-3.5 text-amber-400/80 group-hover:text-amber-400 group-hover:scale-110 transition-transform" />
             <span>Kanvas 360°</span>
           </button>
 
           {/* Switch to Perjalanan */}
           <button
             onClick={() => onSwitchSiteMode('perjalanan')}
-            className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 hover:border-sky-500/40 text-white/40 hover:text-sky-400 text-xs transition-all duration-300"
+            className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 hover:border-amber-500/40 text-white/50 hover:text-white text-xs transition-all duration-300 group cursor-pointer"
           >
-            <span>🧭</span>
-            <span>Lihat Perjalanan Saya</span>
+            <Compass className="w-3.5 h-3.5 text-amber-400 group-hover:rotate-45 transition-transform" />
+            <span>Mode Perjalanan & CV</span>
           </button>
 
           {/* WhatsApp */}
@@ -45,9 +46,9 @@ export function KaryaFooter({ onSwitchToSpatial, onSwitchSiteMode }: KaryaFooter
             href={createWhatsAppLink()}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-5 py-2 rounded-full bg-amber-500 hover:bg-amber-400 text-black font-semibold text-xs transition-all duration-300 hover:scale-105"
+            className="flex items-center gap-2 px-5 py-2 rounded-full bg-amber-500 hover:bg-amber-400 text-black font-semibold text-xs transition-all duration-300 hover:scale-105 shadow-[0_0_20px_rgba(245,158,11,0.25)]"
           >
-            <span>💬</span>
+            <MessageCircle className="w-3.5 h-3.5" />
             <span>Minta Sesi</span>
           </a>
         </div>

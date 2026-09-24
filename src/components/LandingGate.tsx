@@ -24,6 +24,15 @@ export function LandingGate({ onSelectMode }: LandingGateProps) {
   const [hovered, setHovered] = useState<'karya' | 'perjalanan' | null>(null);
   const [activeKarya, setActiveKarya] = useState(0);
   const [activeJourney, setActiveJourney] = useState(0);
+  const [enteringMode, setEnteringMode] = useState<SiteMode | null>(null);
+
+  const handleSelect = (mode: SiteMode) => {
+    if (enteringMode) return;
+    setEnteringMode(mode);
+    setTimeout(() => {
+      onSelectMode(mode);
+    }, 380);
+  };
 
   // Ganti foto secara halus dan lambat (setiap 5.5 detik)
   useEffect(() => {
@@ -47,7 +56,7 @@ export function LandingGate({ onSelectMode }: LandingGateProps) {
       <motion.div
         className="absolute top-0 left-0 right-0 z-10 flex items-center justify-center h-16 px-8"
         initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
+        animate={{ opacity: enteringMode ? 0 : 1, y: enteringMode ? -20 : 0 }}
         transition={{ delay: 0.3, duration: 0.7 }}
       >
         <div className="flex items-center gap-3">
@@ -66,15 +75,18 @@ export function LandingGate({ onSelectMode }: LandingGateProps) {
         <motion.div
           className="relative flex-1 overflow-hidden cursor-pointer group"
           style={{
-            flexBasis: hovered === 'karya' ? '62%' : hovered === 'perjalanan' ? '38%' : '50%',
-            transition: 'flex-basis 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
+            flexBasis: enteringMode
+              ? (enteringMode === 'karya' ? '100%' : '0%')
+              : (hovered === 'karya' ? '62%' : hovered === 'perjalanan' ? '38%' : '50%'),
+            transition: 'flex-basis 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease',
+            opacity: enteringMode && enteringMode !== 'karya' ? 0 : 1,
           }}
-          onMouseEnter={() => setHovered('karya')}
-          onMouseLeave={() => setHovered(null)}
-          onClick={() => onSelectMode('karya')}
+          onMouseEnter={() => !enteringMode && setHovered('karya')}
+          onMouseLeave={() => !enteringMode && setHovered(null)}
+          onClick={() => handleSelect('karya')}
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.1 }}
+          animate={{ opacity: enteringMode && enteringMode !== 'karya' ? 0 : 1 }}
+          transition={{ duration: 0.8, delay: 0.1 }}
         >
           {/* Background Images with smooth, slow 1.8s crossfade */}
           {KARYA_PREVIEW.map((src, i) => (
@@ -151,8 +163,8 @@ export function LandingGate({ onSelectMode }: LandingGateProps) {
           <motion.div
             className="absolute flex flex-col items-center gap-3"
             initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.8, duration: 0.6 }}
+            animate={{ opacity: enteringMode ? 0 : 1, scale: enteringMode ? 0.8 : 1 }}
+            transition={{ delay: enteringMode ? 0 : 0.8, duration: 0.4 }}
           >
             <div className="w-px h-20 bg-gradient-to-b from-transparent to-white/20" />
             <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center bg-[#050505] text-white/30 text-xs font-mono">
@@ -166,15 +178,18 @@ export function LandingGate({ onSelectMode }: LandingGateProps) {
         <motion.div
           className="relative flex-1 overflow-hidden cursor-pointer group"
           style={{
-            flexBasis: hovered === 'perjalanan' ? '62%' : hovered === 'karya' ? '38%' : '50%',
-            transition: 'flex-basis 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
+            flexBasis: enteringMode
+              ? (enteringMode === 'perjalanan' ? '100%' : '0%')
+              : (hovered === 'perjalanan' ? '62%' : hovered === 'karya' ? '38%' : '50%'),
+            transition: 'flex-basis 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease',
+            opacity: enteringMode && enteringMode !== 'perjalanan' ? 0 : 1,
           }}
-          onMouseEnter={() => setHovered('perjalanan')}
-          onMouseLeave={() => setHovered(null)}
-          onClick={() => onSelectMode('perjalanan')}
+          onMouseEnter={() => !enteringMode && setHovered('perjalanan')}
+          onMouseLeave={() => !enteringMode && setHovered(null)}
+          onClick={() => handleSelect('perjalanan')}
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.2 }}
+          animate={{ opacity: enteringMode && enteringMode !== 'perjalanan' ? 0 : 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
         >
           {/* Background Images with smooth, slow 1.8s crossfade */}
           {JOURNEY_PREVIEW.map((src, i) => (
@@ -250,8 +265,8 @@ export function LandingGate({ onSelectMode }: LandingGateProps) {
       <motion.div
         className="absolute bottom-4 left-0 right-0 z-10 flex items-center justify-center pointer-events-none"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 0.6 }}
+        animate={{ opacity: enteringMode ? 0 : 1 }}
+        transition={{ delay: enteringMode ? 0 : 1, duration: 0.4 }}
       >
         <span className="text-white/20 text-xs font-mono tracking-widest uppercase">
           Pilih mode untuk melanjutkan &bull; tersimpan otomatis untuk kunjungan berikutnya

@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Camera, MessageCircle, Mail } from 'lucide-react';
 import { CONTACT_CONFIG, PHOTOGRAPHER_PROFILE } from '../../data/portfolioData';
 import type { SiteMode } from '../../types/portfolio';
 
@@ -36,16 +37,16 @@ export function JourneyFooter({ onSwitchMode }: JourneyFooterProps) {
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-amber-500 hover:bg-amber-400 text-black font-semibold text-sm transition-all duration-300 hover:scale-105"
+              className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-amber-500 hover:bg-amber-400 text-black font-semibold text-sm transition-all duration-300 hover:scale-105 shadow-[0_0_20px_rgba(245,158,11,0.25)]"
             >
-              <span>💬</span>
+              <MessageCircle className="w-4 h-4" />
               <span>Mulai via WhatsApp</span>
             </a>
             <a
               href={`mailto:${CONTACT_CONFIG.email}`}
               className="inline-flex items-center gap-2 px-7 py-3 rounded-full border border-white/20 hover:border-amber-500/50 text-white/70 hover:text-white text-sm transition-all duration-300"
             >
-              <span>📧</span>
+              <Mail className="w-4 h-4 text-amber-400" />
               <span>Kirim Email</span>
             </a>
           </div>
@@ -62,10 +63,10 @@ export function JourneyFooter({ onSwitchMode }: JourneyFooterProps) {
           {/* Switch mode */}
           <button
             onClick={() => onSwitchMode('karya')}
-            className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 hover:border-amber-500/40 text-white/40 hover:text-amber-400 text-xs transition-all duration-300 group"
+            className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 hover:border-amber-500/40 text-white/50 hover:text-white text-xs transition-all duration-300 group cursor-pointer"
           >
-            <span className="group-hover:-translate-x-0.5 transition-transform">←</span>
-            <span>Lihat Mode Karya</span>
+            <Camera className="w-3.5 h-3.5 text-amber-400 group-hover:scale-110 transition-transform" />
+            <span>Buka Mode Galeri Karya</span>
           </button>
 
           {/* Copyright */}

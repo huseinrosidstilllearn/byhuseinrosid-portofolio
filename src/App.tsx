@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 import Lenis from 'lenis';
 import { ThemeProvider } from './context/ThemeContext';
 import { Navbar } from './components/Navbar';
@@ -17,6 +18,7 @@ import { Timeline } from './components/journey/Timeline';
 import { Skills } from './components/journey/Skills';
 import { JourneyFooter } from './components/journey/JourneyFooter';
 import { KaryaFooter } from './components/journey/KaryaFooter';
+import { ModeTransitionOverlay } from './components/ModeTransitionOverlay';
 import { PORTFOLIO_PHOTOS } from './data/portfolioData';
 import { getPhotos, getSiteContent, DEFAULT_SITE_CONTENT } from './lib/supabase';
 import type { PhotoItem, SiteMode, SiteContentData } from './types/portfolio';
@@ -38,19 +40,33 @@ export function App() {
   const [activePhoto, setActivePhoto] = useState<PhotoItem | null>(null);
   const [photos, setPhotos] = useState<PhotoItem[]>(PORTFOLIO_PHOTOS);
   const [siteContent, setSiteContent] = useState<SiteContentData>(DEFAULT_SITE_CONTENT);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [targetMode, setTargetMode] = useState<SiteMode | null>(null);
   const lenisRef = useRef<Lenis | null>(null);
 
-  // Simpan pilihan mode ke localStorage
+  // Perpindahan mode sinematik dan halus
   const handleSetSiteMode = (mode: SiteMode) => {
-    setSiteMode(mode);
-    if (mode !== 'landing') {
-      try { localStorage.setItem(STORAGE_KEY, mode); } catch {}
-    } else {
-      try { localStorage.removeItem(STORAGE_KEY); } catch {}
-    }
-    // Reset spatial canvas saat ganti mode
-    setViewMode('bento');
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    if (mode === siteMode && !isTransitioning) return;
+    setTargetMode(mode);
+    setIsTransitioning(true);
+
+    // Di saat tirai transisi tertutup penuh (280ms), ganti mode & reset scroll instan
+    setTimeout(() => {
+      setSiteMode(mode);
+      if (mode !== 'landing') {
+        try { localStorage.setItem(STORAGE_KEY, mode); } catch {}
+      } else {
+        try { localStorage.removeItem(STORAGE_KEY); } catch {}
+      }
+      setViewMode('bento');
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }, 280);
+
+    // Tirai dibuka kembali dengan lembut (550ms)
+    setTimeout(() => {
+      setIsTransitioning(false);
+      setTargetMode(null);
+    }, 550);
   };
 
   // Ambil data foto & teks konten situs dari Supabase / cache lokal
@@ -126,20 +142,26 @@ export function App() {
     }
   }
 
-  // ── Landing Gate ──────────────────────────────────────────────────────────
-  if (siteMode === 'landing') {
-    return (
-      <ThemeProvider>
-        <LandingGate onSelectMode={handleSetSiteMode} />
-      </ThemeProvider>
-    );
-  }
+  return (
+    <ThemeProvider>
+      {/* Mode Transition Overlay (Curtain) */}
+      <ModeTransitionOverlay
+        isTransitioning={isTransitioning}
+        targetMode={targetMode}
+      />
 
-  // ── Mode Perjalanan ───────────────────────────────────────────────────────
-  if (siteMode === 'perjalanan') {
-    return (
-      <ThemeProvider>
-        <div className="min-h-screen bg-[#050505] text-[#F8FAFC] selection:bg-amber-500/30 selection:text-amber-300 relative overflow-x-hidden">
+      {/* ── Landing Gate ────────────────────────────────────────────────────────── */}
+      {siteMode === 'landing' ? (
+        <LandingGate onSelectMode={handleSetSiteMode} />
+      ) : siteMode === 'perjalanan' ? (
+        /* ── Mode Perjalanan ─────────────────────────────────────────────────────── */
+        <motion.div
+          key="perjalanan-view"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4 }}
+          className="min-h-screen bg-[#050505] text-[#F8FAFC] selection:bg-amber-500/30 selection:text-amber-300 relative overflow-x-hidden"
+        >
           <div className="fixed inset-0 bg-grid-pattern pointer-events-none opacity-30 z-0" />
           <div className="relative z-10 flex flex-col min-h-screen">
             <Navbar
@@ -163,54 +185,56 @@ export function App() {
               <JourneyFooter onSwitchMode={handleSetSiteMode} />
             </main>
           </div>
-        </div>
-      </ThemeProvider>
-    );
-  }
+        </motion.div>
+      ) : (
+        /* ── Mode Karya (default) ────────────────────────────────────────────────── */
+        <motion.div
+          key="karya-view"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4 }}
+          className="min-h-screen bg-[#050505] text-[#F8FAFC] selection:bg-amber-500/30 selection:text-amber-300 relative overflow-x-hidden"
+        >
+          <div className="fixed inset-0 bg-grid-pattern pointer-events-none opacity-40 z-0" />
+          <div className="fixed top-0 left-0 right-0 h-[600px] radial-vignette pointer-events-none z-0" />
 
-  // ── Mode Karya (default) ──────────────────────────────────────────────────
-  return (
-    <ThemeProvider>
-      <div className="min-h-screen bg-[#050505] text-[#F8FAFC] selection:bg-amber-500/30 selection:text-amber-300 relative overflow-x-hidden">
-        <div className="fixed inset-0 bg-grid-pattern pointer-events-none opacity-40 z-0" />
-        <div className="fixed top-0 left-0 right-0 h-[600px] radial-vignette pointer-events-none z-0" />
+          <div className="relative z-10 flex flex-col min-h-screen">
+            <Navbar
+              viewMode={viewMode}
+              siteMode={siteMode}
+              onToggleViewMode={handleToggleViewMode}
+              onNavigateToSection={handleNavigateToSection}
+              onSwitchSiteMode={handleSetSiteMode}
+            />
 
-        <div className="relative z-10 flex flex-col min-h-screen">
-          <Navbar
-            viewMode={viewMode}
-            siteMode={siteMode}
-            onToggleViewMode={handleToggleViewMode}
-            onNavigateToSection={handleNavigateToSection}
-            onSwitchSiteMode={handleSetSiteMode}
-          />
+            {viewMode === 'spatial' ? (
+              <main className="w-screen h-screen overflow-hidden">
+                <SpatialCanvas />
+              </main>
+            ) : (
+              <main className="flex-grow pb-0">
+                <div className="space-y-24 sm:space-y-36">
+                  <Hero onExploreClick={() => handleNavigateToSection('galeri')} />
+                  <DualMarquee photos={photos} onSelectPhoto={setActivePhoto} />
+                  <Gallery photos={photos} onSelectPhoto={setActivePhoto} />
+                  <AccordionCarousel photos={photos} onSelectPhoto={setActivePhoto} />
+                </div>
+                <KaryaFooter
+                  onSwitchToSpatial={() => setViewMode('spatial')}
+                  onSwitchSiteMode={handleSetSiteMode}
+                />
+              </main>
+            )}
 
-          {viewMode === 'spatial' ? (
-            <main className="w-screen h-screen overflow-hidden">
-              <SpatialCanvas />
-            </main>
-          ) : (
-            <main className="flex-grow pb-0">
-              <div className="space-y-24 sm:space-y-36">
-                <Hero onExploreClick={() => handleNavigateToSection('galeri')} />
-                <DualMarquee photos={photos} onSelectPhoto={setActivePhoto} />
-                <Gallery photos={photos} onSelectPhoto={setActivePhoto} />
-                <AccordionCarousel photos={photos} onSelectPhoto={setActivePhoto} />
-              </div>
-              <KaryaFooter
-                onSwitchToSpatial={() => setViewMode('spatial')}
-                onSwitchSiteMode={handleSetSiteMode}
-              />
-            </main>
-          )}
-
-          <LightboxModal
-            photo={activePhoto}
-            allPhotos={photos}
-            onClose={() => setActivePhoto(null)}
-            onSelectPhoto={setActivePhoto}
-          />
-        </div>
-      </div>
+            <LightboxModal
+              photo={activePhoto}
+              allPhotos={photos}
+              onClose={() => setActivePhoto(null)}
+              onSelectPhoto={setActivePhoto}
+            />
+          </div>
+        </motion.div>
+      )}
     </ThemeProvider>
   );
 }
