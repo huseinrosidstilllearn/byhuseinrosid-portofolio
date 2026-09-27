@@ -197,7 +197,7 @@ export const Gallery: React.FC<GalleryProps> = ({
 
             <span className="w-px h-4 bg-white/10 mx-1 hidden sm:block shrink-0" />
 
-            {PHOTO_CATEGORIES.map((category) => {
+            {PHOTO_CATEGORIES.filter((c) => c !== 'Semua').map((category) => {
               const count = getCategoryCount(category);
               return (
                 <button

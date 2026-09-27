@@ -50,11 +50,11 @@ export const CategoryShowcase: React.FC<CategoryShowcaseProps> = ({
           const Icon = info.icon;
           const { count, samplePhotos } = getCategoryStats(catName);
 
-          // Asymmetric column spans: first 2 are wide (6 cols each), next 3 are 4 cols each
-          const colSpanClass =
-            index < 2
-              ? 'md:col-span-6 min-h-[440px] sm:min-h-[500px]'
-              : 'md:col-span-4 min-h-[380px] sm:min-h-[440px]';
+          // Asymmetric editorial rhythm for 7 categories: 2 (6-col) + 3 (4-col) + 2 (6-col)
+          const isWide = index < 2 || index >= 5;
+          const colSpanClass = isWide
+            ? 'md:col-span-6 min-h-[420px] sm:min-h-[480px]'
+            : 'md:col-span-4 min-h-[380px] sm:min-h-[440px]';
 
           return (
             <motion.div

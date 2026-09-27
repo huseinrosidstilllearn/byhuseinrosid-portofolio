@@ -16,6 +16,7 @@ import { AdminLogin } from './AdminLogin';
 import { UploadModal } from './UploadModal';
 import { ContentEditor } from './ContentEditor';
 import { supabase, getPhotos } from '../lib/supabase';
+import { PHOTO_CATEGORIES } from '../data/portfolioData';
 import type { PhotoItem } from '../types/portfolio';
 
 export const AdminApp: React.FC = () => {
@@ -139,10 +140,6 @@ export const AdminApp: React.FC = () => {
   // Hitung Statistik
   const stats = {
     total: photos.length,
-    lanskap: photos.filter((p) => p.category === 'Lanskap').length,
-    dokumenter: photos.filter((p) => p.category === 'Dokumenter').length,
-    portrait: photos.filter((p) => p.category === 'Portrait').length,
-    komersial: photos.filter((p) => p.category === 'Komersial').length,
     featured: photos.filter((p) => p.featured).length,
   };
 
@@ -273,85 +270,74 @@ export const AdminApp: React.FC = () => {
         ) : (
           <>
             {/* STATS METRIC SUMMARY */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-9 gap-3 sm:gap-4">
               <div className="bento-card p-4 text-center">
-            <span className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">
-              Total Arsip
-            </span>
-            <span className="font-editorial text-2xl font-bold text-white mt-1 block">
-              {stats.total}
-            </span>
-          </div>
+                <span className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">
+                  Total Arsip
+                </span>
+                <span className="font-editorial text-2xl font-bold text-white mt-1 block">
+                  {stats.total}
+                </span>
+              </div>
 
-          <div className="bento-card p-4 text-center">
-            <span className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">
-              Lanskap
-            </span>
-            <span className="font-editorial text-2xl font-bold text-amber-400 mt-1 block">
-              {stats.lanskap}
-            </span>
-          </div>
+              <div className="bento-card p-4 text-center border-amber-500/30">
+                <span className="text-[10px] uppercase tracking-wider text-amber-400 font-semibold block">
+                  Unggulan Hero
+                </span>
+                <span className="font-editorial text-2xl font-bold text-amber-400 mt-1 block">
+                  {stats.featured}
+                </span>
+              </div>
 
-          <div className="bento-card p-4 text-center">
-            <span className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">
-              Dokumenter
-            </span>
-            <span className="font-editorial text-2xl font-bold text-slate-200 mt-1 block">
-              {stats.dokumenter}
-            </span>
-          </div>
-
-          <div className="bento-card p-4 text-center">
-            <span className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">
-              Portrait
-            </span>
-            <span className="font-editorial text-2xl font-bold text-slate-200 mt-1 block">
-              {stats.portrait}
-            </span>
-          </div>
-
-          <div className="bento-card p-4 text-center">
-            <span className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">
-              Komersial
-            </span>
-            <span className="font-editorial text-2xl font-bold text-slate-200 mt-1 block">
-              {stats.komersial}
-            </span>
-          </div>
-
-          <div className="bento-card p-4 text-center border-amber-500/30">
-            <span className="text-[10px] uppercase tracking-wider text-amber-400 font-semibold block">
-              Unggulan Hero
-            </span>
-            <span className="font-editorial text-2xl font-bold text-amber-400 mt-1 block">
-              {stats.featured}
-            </span>
-          </div>
-        </div>
-
-        {/* CONTROLS: CATEGORIES, SEARCH & REFRESH */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-white/[0.08]">
-          {/* Category Tabs */}
-          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar p-1 rounded-full bg-white/[0.03] border border-white/10 w-fit max-w-full">
-            {['Semua', 'Lanskap', 'Dokumenter', 'Portrait', 'Komersial', 'Unggulan'].map(
-              (cat) => {
-                const isActive = selectedCategory === cat;
+              {PHOTO_CATEGORIES.filter((c) => c !== 'Semua').map((cat) => {
+                const count = photos.filter((p) => p.category === cat).length;
                 return (
-                  <button
-                    key={cat}
-                    onClick={() => setSelectedCategory(cat)}
-                    className={`px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wider whitespace-nowrap transition-all cursor-pointer ${
-                      isActive
-                        ? 'bg-amber-500 text-slate-950 font-bold shadow-md'
-                        : 'text-slate-400 hover:text-white hover:bg-white/10'
-                    }`}
-                  >
-                    {cat}
-                  </button>
+                  <div key={cat} className="bento-card p-4 text-center">
+                    <span className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block truncate" title={cat}>
+                      {cat}
+                    </span>
+                    <span className="font-editorial text-2xl font-bold text-slate-200 mt-1 block">
+                      {count}
+                    </span>
+                  </div>
                 );
-              }
-            )}
-          </div>
+              })}
+            </div>
+
+            {/* CONTROLS: CATEGORIES, SEARCH & REFRESH */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-white/[0.08]">
+              {/* Category Tabs */}
+              <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar p-1 rounded-full bg-white/[0.03] border border-white/10 w-fit max-w-full">
+                {[...PHOTO_CATEGORIES, 'Unggulan'].map((cat) => {
+                  const count =
+                    cat === 'Semua'
+                      ? photos.length
+                      : cat === 'Unggulan'
+                      ? stats.featured
+                      : photos.filter((p) => p.category === cat).length;
+                  const isActive = selectedCategory === cat;
+                  return (
+                    <button
+                      key={cat}
+                      onClick={() => setSelectedCategory(cat)}
+                      className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wider whitespace-nowrap transition-all cursor-pointer ${
+                        isActive
+                          ? 'bg-amber-500 text-slate-950 font-bold shadow-md'
+                          : 'text-slate-400 hover:text-white hover:bg-white/10'
+                      }`}
+                    >
+                      <span>{cat}</span>
+                      <span
+                        className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+                          isActive ? 'bg-slate-950 text-amber-300 font-bold' : 'bg-white/10 text-slate-400'
+                        }`}
+                      >
+                        {count}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
 
           {/* Search Box */}
           <div className="relative w-full sm:w-72">

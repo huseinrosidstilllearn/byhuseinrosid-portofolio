@@ -175,11 +175,11 @@ export const SpatialCanvas: React.FC = () => {
           </p>
 
           <div className="flex items-center gap-6 mt-6 pt-6 border-t border-white/10 text-[11px] uppercase tracking-widest text-slate-400">
-            <span>&larr; Dokumenter</span>
+            <span>&larr; Street</span>
             <span>&bull;</span>
-            <span>&uarr; Portrait</span>
+            <span>&uarr; Solo Potrait</span>
             <span>&bull;</span>
-            <span>Lanskap &rarr;</span>
+            <span>Commercial &rarr;</span>
           </div>
         </div>
 

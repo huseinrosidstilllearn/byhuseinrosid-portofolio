@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { X, UploadCloud, Image as ImageIcon, CheckCircle, AlertCircle, Sparkles, RefreshCw } from 'lucide-react';
 import { compressImage, type CompressedImageResult } from '../utils/imageCompressor';
 import { supabase } from '../lib/supabase';
+import { PHOTO_CATEGORIES } from '../data/portfolioData';
 import type { PhotoItem } from '../types/portfolio';
 
 interface UploadModalProps {
@@ -17,7 +18,7 @@ export const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose, onPho
 
   // Form State
   const [title, setTitle] = useState('');
-  const [category, setCategory] = useState('Lanskap');
+  const [category, setCategory] = useState<string>('Event Documentation');
   const [location, setLocation] = useState('');
   const [year, setYear] = useState(new Date().getFullYear().toString());
   const [description, setDescription] = useState('');
@@ -375,10 +376,11 @@ export const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose, onPho
                 onChange={(e) => setCategory(e.target.value)}
                 className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white text-sm focus:outline-none focus:border-amber-400 transition-colors"
               >
-                <option value="Lanskap" className="bg-[#0E1118]">Lanskap</option>
-                <option value="Dokumenter" className="bg-[#0E1118]">Dokumenter</option>
-                <option value="Portrait" className="bg-[#0E1118]">Portrait</option>
-                <option value="Komersial" className="bg-[#0E1118]">Komersial</option>
+                {PHOTO_CATEGORIES.filter((c) => c !== 'Semua').map((cat) => (
+                  <option key={cat} value={cat} className="bg-[#0E1118]">
+                    {cat}
+                  </option>
+                ))}
               </select>
             </div>
 

@@ -30,7 +30,7 @@ export function JourneyFooter({ onSwitchMode }: JourneyFooterProps) {
             <span className="text-amber-400">Ingin Diwujudkan?</span>
           </h3>
           <p className="text-white/40 text-sm max-w-md mx-auto mb-8 leading-relaxed">
-            Saya terbuka untuk penugasan komersial, dokumenter, potret, dan pernikahan. Mari bicara tentang visi Anda.
+            Saya terbuka untuk penugasan komersial, event, graduation, BTS production, dan potret personal. Mari bicara tentang visi Anda.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <a

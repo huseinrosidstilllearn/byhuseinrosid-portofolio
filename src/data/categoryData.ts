@@ -1,10 +1,12 @@
 import React from 'react';
 import {
+  Calendar,
+  GraduationCap,
+  Clapperboard,
+  Heart,
+  Camera,
   Briefcase,
   User,
-  Camera,
-  Mountain,
-  Heart,
 } from 'lucide-react';
 
 export interface CategoryInfo {
@@ -23,51 +25,127 @@ export interface CategoryInfo {
 }
 
 export const CATEGORY_DETAILS: Record<string, CategoryInfo> = {
-  'Dokumenter': {
-    name: 'Dokumenter',
-    slug: 'dokumenter',
-    title: 'Dokumenter & Realitas Sosial',
-    subtitle: 'Napas Jalanan, Jejak Tradisi & Momen Kemanusiaan',
+  'Event Documentation': {
+    name: 'Event Documentation',
+    slug: 'event-documentation',
+    title: 'Event Documentation',
+    subtitle: 'Dokumentasi Acara, Panggung & Momen Kolektif',
     statement:
-      'Mendokumentasikan realitas adalah latihan kerendahan hati. Bergerak di lorong kota tua, pesisir nelayan, dan denyut jalanan Surabaya, saya hadir sebagai saksi sunyi atas dinamika manusia. Setiap foto adalah potongan arsip sejarah emosional yang menolak dilupakan oleh percepatan modernitas.',
+      'Merekam atmosfer, dinamika, dan energi otentik dari setiap perhelatan acara tanpa kehilangan detail momen penting yang bergulir cepat. Dari gathering korporat hingga festival panggung, setiap bingkai merangkum memori kebersamaan yang hidup.',
     philosophyQuote:
-      'Fotografi dokumenter bukan tentang mencari keindahan semata, melainkan menemukan kebenaran yang tak bersuara.',
-    icon: Camera,
+      'Di tengah keramaian acara, ada ribuan cerita kecil yang menunggu untuk dicatat dengan ketajaman rasa.',
+    icon: Calendar,
     accentColor: 'text-amber-400',
     glowColor: '#f59e0b',
     coverImage:
-      'https://images.unsplash.com/photo-1477959858617-67f30bc75b82?auto=format&fit=crop&w=1600&q=85',
-    tags: ['Street Photography', 'Esai Nelayan', 'Arsip Kota Lama', 'Human Interest'],
+      'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1600&q=85',
+    tags: ['Live Event', 'Stage & Concert', 'Corporate Gathering', 'Festival Budaya'],
     waTemplate:
-      'Halo Mas Husein Rosid, saya tertarik dengan karya dokumenter Anda dan ingin berdiskusi mengenai penugasan / proyek esai visual.',
+      'Halo Mas Husein Rosid, saya tertarik untuk mendiskusikan dokumentasi event / acara bersama Anda.',
   },
 
-  'Komersial': {
-    name: 'Komersial',
-    slug: 'komersial',
-    title: 'Komersial & Brand',
-    subtitle: 'Kampanye Visual, Produk Artisanal & Desain Arsitektural',
+  'Graduation': {
+    name: 'Graduation',
+    slug: 'graduation',
+    title: 'Graduation',
+    subtitle: 'Perayaan Kelulusan, Kebanggaan & Babak Baru Kehidupan',
     statement:
-      'Di ranah komersial, fotografi bukan sekadar menampilkan produk, melainkan mengartikulasikan nilai, identitas, dan prestise brand ke dalam bahasa visual yang tak terbantahkan. Dengan pencahayaan terukur dan arahan gaya yang presisi, setiap bingkai dirancang untuk memikat indra dan membangun loyalitas audiens.',
+      'Mengabadikan senyum kebanggaan, pelukan hangat keluarga, dan tonggak pencapaian akademik dalam potret kelulusan yang berkesan dan abadi. Sebuah momen selebrasi perjuangan yang layak dikenang sepanjang masa.',
+    philosophyQuote:
+      'Kelulusan bukan sekadar akhir sebuah babak, melainkan gerbang awal menuju jejak langkah yang lebih besar.',
+    icon: GraduationCap,
+    accentColor: 'text-blue-400',
+    glowColor: '#3b82f6',
+    coverImage:
+      'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=85',
+    tags: ['Wisuda Sarjana', 'Kebanggaan Keluarga', 'Toga & Selebrasi', 'Potret Kelulusan'],
+    waTemplate:
+      'Halo Mas Husein Rosid, saya ingin memesan sesi foto wisuda / graduation bersama Anda.',
+  },
+
+  'Behind The Scene Production': {
+    name: 'Behind The Scene Production',
+    slug: 'behind-the-scene-production',
+    title: 'Behind The Scene Production',
+    subtitle: 'Dokumentasi Proses Kreatif, Set Syuting & Di Balik Layar',
+    statement:
+      'Menangkap dedikasi kru, ketegangan kreatif di balik layar, dan etos kerja produksi film, komersial, maupun seni pertunjukan. Menyingkap keajaiban proses yang jarang terlihat di depan kamera utama.',
+    philosophyQuote:
+      'Karya besar tidak pernah lahir tiba-tiba; ia ditempa dalam peluh, konsentrasi, dan kolaborasi tanpa batas di balik layar.',
+    icon: Clapperboard,
+    accentColor: 'text-purple-400',
+    glowColor: '#a855f7',
+    coverImage:
+      'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1600&q=85',
+    tags: ['Film Set', 'Shooting Production', 'Etos Kru', 'Proses Kreatif'],
+    waTemplate:
+      'Halo Mas Husein Rosid, saya membutuhkan fotografer Behind The Scene untuk proyek produksi kami.',
+  },
+
+  'Couple Session': {
+    name: 'Couple Session',
+    slug: 'couple-session',
+    title: 'Couple Session',
+    subtitle: 'Kisah Kasih Otentik, Prewedding & Kehangatan Bersama',
+    statement:
+      'Merekam kehangatan tatapan, tawa lepas, dan sentuhan tulus dua insan dalam suasana santai tanpa rekayasa pose yang kaku. Menghadirkan narasi cinta yang apa adanya dan penuh kejujuran emosi.',
+    philosophyQuote:
+      'Cinta sejati tidak membutuhkan kepalsuan; getarannya sudah terpancar dari kejujuran tatapan.',
+    icon: Heart,
+    accentColor: 'text-rose-400',
+    glowColor: '#f43f5e',
+    coverImage:
+      'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=85',
+    tags: ['Prewedding', 'Intimate Story', 'Romansa Alami', 'Cinta Dua Insan'],
+    waTemplate:
+      'Halo Mas Husein Rosid, saya ingin berkonsultasi mengenai sesi foto couple / prewedding bersama Anda.',
+  },
+
+  'Street Photography': {
+    name: 'Street Photography',
+    slug: 'street-photography',
+    title: 'Street Photography',
+    subtitle: 'Denyut Jalanan, Realitas Sosial & Momen Spontan Publik',
+    statement:
+      'Menelusuri lorong dan denyut jalanan untuk menangkap siluet waktu, kebiasaan manusia perkotaan, dan keindahan tak terduga di ruang publik. Setiap jepretan adalah arsip visual tentang kemanusiaan yang berdetak bebas.',
+    philosophyQuote:
+      'Jalanan adalah panggung teater terbuka tanpa naskah, tempat kehidupan paling murni dipentaskan setiap detik.',
+    icon: Camera,
+    accentColor: 'text-yellow-400',
+    glowColor: '#eab308',
+    coverImage:
+      'https://images.unsplash.com/photo-1477959858617-67f30bc75b82?auto=format&fit=crop&w=1600&q=85',
+    tags: ['Urban Geometry', 'Human Interest', 'Kota Tua', 'Siluet & Cahaya'],
+    waTemplate:
+      'Halo Mas Husein Rosid, saya tertarik dengan karya street photography Anda untuk lisensi / proyek visual.',
+  },
+
+  'Commercial & Brand Campaign': {
+    name: 'Commercial & Brand Campaign',
+    slug: 'commercial-brand-campaign',
+    title: 'Commercial & Brand Campaign',
+    subtitle: 'Kampanye Komersial, Identitas Brand & Editorial Visual',
+    statement:
+      'Mengartikulasikan nilai, esensi produk, dan narasi brand ke dalam bahasa visual berkualitas tinggi yang memperkuat positioning pasar. Dengan pencahayaan terukur dan arahan gaya yang presisi, setiap bingkai dirancang memikat audiens.',
     philosophyQuote:
       'Estetika visual adalah jembatan paling intim antara esensi sebuah produk dan hasrat penikmatnya.',
     icon: Briefcase,
-    accentColor: 'text-amber-400',
-    glowColor: '#f59e0b',
+    accentColor: 'text-emerald-400',
+    glowColor: '#10b981',
     coverImage:
       'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1600&q=85',
-    tags: ['Brand Campaign', 'Editorial Fashion', 'Artisanal Roastery', 'Arsitektur Modern'],
+    tags: ['Brand Campaign', 'Editorial Fashion', 'Artisanal Product', 'Visual Identity'],
     waTemplate:
-      'Halo Mas Husein Rosid, saya tertarik untuk mendiskusikan proyek fotografi komersial / kampanye brand bersama Anda.',
+      'Halo Mas Husein Rosid, saya ingin berdiskusi mengenai proyek komersial & kampanye brand bersama Anda.',
   },
 
-  'Portrait': {
-    name: 'Portrait',
-    slug: 'portrait',
-    title: 'Potret Personal & Karakter',
-    subtitle: 'Keaslian Emosi, Chiaroscuro & Karakter Manusia',
+  'Solo Potrait': {
+    name: 'Solo Potrait',
+    slug: 'solo-potrait',
+    title: 'Solo Potrait',
+    subtitle: 'Potret Diri Otentik, Karakter & Personal Branding',
     statement:
-      'Setiap manusia menyimpan semesta tak terucap di balik sorot matanya. Pendekatan potret saya menjauh dari kepalsuan pose mekanis; saya menciptakan ruang hening yang aman bagi subjek untuk hadir seutuhnya, membiarkan gradasi bayangan dan cahaya alami memahat karakter yang jujur dan berwibawa.',
+      'Mengeksplorasi kepribadian dan karakter terdalam subjek melalui pencahayaan terarah, menghasilkan potret diri yang kuat, jujur, dan berwibawa. Membiarkan gradasi bayangan dan cahaya alami memahat karakter tanpa kepura-puraan.',
     philosophyQuote:
       'Potret yang baik tidak menelanjangi wajah, melainkan menghormati rahasia di kedalaman jiwa.',
     icon: User,
@@ -75,66 +153,34 @@ export const CATEGORY_DETAILS: Record<string, CategoryInfo> = {
     glowColor: '#0ea5e9',
     coverImage:
       'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1600&q=85',
-    tags: ['Personal Branding', 'Editorial Portrait', 'Chiaroscuro', 'Artistik & Karakter'],
+    tags: ['Personal Branding', 'Editorial Portrait', 'Chiaroscuro', 'Karakter Wajah'],
     waTemplate:
-      'Halo Mas Husein Rosid, saya ingin menjadwalkan sesi pemotretan potret personal / artistik bersama Anda.',
-  },
-
-  'Lanskap': {
-    name: 'Lanskap',
-    slug: 'lanskap',
-    title: 'Lanskap & Alam Nusantara',
-    subtitle: 'Keagungan Semesta, Kaldera Bromo & Keheningan Fajar',
-    statement:
-      'Menatap alam mengajarkan kita akan kecilnya diri di hadapan waktu. Dari kabut hening lautan pasir Bromo hingga riak tenang waduk di pedalaman Jawa Timur, seri lanskap ini mengejar cahaya fajar dan senja yang fana—membekukan keagungan yang hanya tercipta dalam hitungan detik.',
-    philosophyQuote:
-      'Di hadapan lanskap yang megah, keheningan adalah musik terindah yang bisa ditangkap oleh lensa.',
-    icon: Mountain,
-    accentColor: 'text-emerald-400',
-    glowColor: '#10b981',
-    coverImage:
-      'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=85',
-    tags: ['Bromo Tengger', 'Fajar & Kabut', 'Lanskap Nusantara', 'Fine Art Nature'],
-    waTemplate:
-      'Halo Mas Husein Rosid, saya tertarik dengan karya lanskap Anda untuk kebutuhan lisensi / print fine art / proyek visual.',
-  },
-
-  'Pernikahan': {
-    name: 'Pernikahan',
-    slug: 'pernikahan',
-    title: 'Pernikahan & Kisah Intim',
-    subtitle: 'Sentuhan Kasih, Janji Suci & Tangis Bahagia Apa Adanya',
-    statement:
-      'Hari pernikahan adalah perayaan cinta yang penuh getaran tulus. Dengan pendekatan fotojurnalistik yang tidak menginterupsi jalannya momen, saya mengabadikan pelukan hangat keluarga, senyum sembunyi-sembunyi, dan janji suci tanpa rekayasa—menghasilkan kenangan berharga yang tetap hidup selamanya.',
-    philosophyQuote:
-      'Cinta sejati tidak membutuhkan pose yang berlebihan; getarannya sudah terpancar dari kejujuran tatapan.',
-    icon: Heart,
-    accentColor: 'text-rose-400',
-    glowColor: '#f43f5e',
-    coverImage:
-      'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=85',
-    tags: ['Intimate Wedding', 'Fotojurnalistik', 'Janji Suci', 'Momen Keluarga'],
-    waTemplate:
-      'Halo Mas Husein Rosid, saya ingin berkonsultasi mengenai dokumentasi foto untuk hari pernikahan / momen sakral kami.',
+      'Halo Mas Husein Rosid, saya ingin menjadwalkan sesi pemotretan solo potret personal bersama Anda.',
   },
 };
 
 export const CATEGORY_ORDER = [
-  'Dokumenter',
-  'Komersial',
-  'Portrait',
-  'Lanskap',
-  'Pernikahan',
+  'Event Documentation',
+  'Graduation',
+  'Behind The Scene Production',
+  'Couple Session',
+  'Street Photography',
+  'Commercial & Brand Campaign',
+  'Solo Potrait',
 ] as const;
 
 export function getCategoryInfo(categoryName: string): CategoryInfo {
   if (CATEGORY_DETAILS[categoryName]) {
     return CATEGORY_DETAILS[categoryName];
   }
+  // Gracefully handle 'Solo Portrait' with 'i'
+  if (categoryName.toLowerCase() === 'solo portrait') {
+    return CATEGORY_DETAILS['Solo Potrait'];
+  }
   // Fallback for custom or unmapped categories
   return {
     name: categoryName,
-    slug: categoryName.toLowerCase().replace(/\s+/g, '-'),
+    slug: categoryName.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
     title: categoryName,
     subtitle: `Koleksi kurasi khusus ${categoryName}`,
     statement: `Kumpulan karya visual terkurasi dalam kategori ${categoryName}, ditangkap dengan kepekaan rasa dan ketajaman teknis Husein Rosid.`,
@@ -150,10 +196,13 @@ export function getCategoryInfo(categoryName: string): CategoryInfo {
 }
 
 export function getCategoryBySlug(slug: string): CategoryInfo | null {
+  const cleanSlug = slug.toLowerCase().replace(/[^a-z0-9]+/g, '-');
   const found = Object.values(CATEGORY_DETAILS).find(
-    (c) => c.slug.toLowerCase() === slug.toLowerCase()
+    (c) => c.slug.toLowerCase() === cleanSlug
   );
-  return found || null;
+  if (found) return found;
+  if (cleanSlug === 'solo-portrait') return CATEGORY_DETAILS['Solo Potrait'];
+  return null;
 }
 
 export function getNextCategory(currentName: string): CategoryInfo {
