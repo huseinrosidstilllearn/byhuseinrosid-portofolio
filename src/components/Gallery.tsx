@@ -13,7 +13,7 @@ import {
   Maximize2,
   Calendar,
   Compass,
-  ArrowRight,
+  ArrowUpRight,
 } from 'lucide-react';
 import { PHOTO_CATEGORIES, PORTFOLIO_PHOTOS } from '../data/portfolioData';
 import type { PhotoItem } from '../types/portfolio';
@@ -35,11 +35,11 @@ interface ModeOption {
 }
 
 const GALLERY_MODES: ModeOption[] = [
-  { id: 'matrix', label: 'Bento Matrix', icon: Grid, description: 'Komposisi asimetris ritmik' },
-  { id: 'grid', label: 'Grid Seragam', icon: Columns3, description: 'Tata letak 3-kolom presisi' },
-  { id: 'masonry', label: 'Masonry Bebas', icon: Layers, description: 'Proporsi alami tanpa crop' },
-  { id: 'spotlight', label: 'Sorotan Tunggal', icon: Sparkles, description: 'Pameran panggung sinematik' },
-  { id: 'filmstrip', label: 'Rol Film', icon: Film, description: 'Gulir horizontal tanpa batas' },
+  { id: 'matrix', label: 'Bento', icon: Grid, description: 'Komposisi asimetris ritmik' },
+  { id: 'grid', label: 'Grid', icon: Columns3, description: 'Tata letak 3-kolom presisi' },
+  { id: 'masonry', label: 'Masonry', icon: Layers, description: 'Proporsi alami tanpa crop' },
+  { id: 'spotlight', label: 'Spotlight', icon: Sparkles, description: 'Pameran panggung sinematik' },
+  { id: 'filmstrip', label: 'Filmstrip', icon: Film, description: 'Gulir horizontal tanpa batas' },
 ];
 
 export const Gallery: React.FC<GalleryProps> = ({
@@ -85,8 +85,6 @@ export const Gallery: React.FC<GalleryProps> = ({
     return activePhotoSet.filter((p) => p.category === category).length;
   };
 
-  const categoriesWithFeatured = [...PHOTO_CATEGORIES, 'Unggulan'];
-
   // Bento span rhythm generator
   const getBentoColSpan = (index: number) => {
     const cycle = index % 5;
@@ -124,10 +122,10 @@ export const Gallery: React.FC<GalleryProps> = ({
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-amber-400 mb-2">
               <LayoutGrid className="w-3.5 h-3.5" />
-              <span>Arsip Eksibisi Visual</span>
+              <span>Koleksi Pilihan</span>
             </div>
             <h2 className="font-editorial text-3xl sm:text-5xl text-white font-medium">
-              Galeri Rekaman Visual
+              Showcase Utama
             </h2>
           </div>
 
@@ -170,22 +168,22 @@ export const Gallery: React.FC<GalleryProps> = ({
             })}
           </div>
 
-          {/* Category Filter Pills with Item Counts */}
+          {/* Category Filter Pills & Direct Category Navigation */}
           <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-[#0E1118]/85 border border-white/10 backdrop-blur-xl overflow-x-auto no-scrollbar shadow-lg">
-            {categoriesWithFeatured.map((category) => {
-              const count = getCategoryCount(category);
-              const isActive = selectedCategory === category;
+            {(['Semua', 'Unggulan'] as const).map((filter) => {
+              const count = getCategoryCount(filter);
+              const isActive = selectedCategory === filter;
               return (
                 <button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
+                  key={filter}
+                  onClick={() => setSelectedCategory(filter)}
                   className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wider whitespace-nowrap transition-all duration-200 cursor-pointer ${
                     isActive
                       ? 'bg-white/15 text-amber-300 font-bold border border-amber-400/40 shadow-sm'
                       : 'text-slate-400 hover:text-white hover:bg-white/[0.06]'
                   }`}
                 >
-                  <span>{category}</span>
+                  <span>{filter}</span>
                   <span
                     className={`text-[10px] px-1.5 py-0.2 rounded-full ${
                       isActive ? 'bg-amber-400 text-slate-950 font-bold' : 'bg-white/10 text-slate-400'
@@ -196,18 +194,33 @@ export const Gallery: React.FC<GalleryProps> = ({
                 </button>
               );
             })}
-          </div>
 
-          {/* Quick jump to Category Page */}
-          {selectedCategory !== 'Semua' && selectedCategory !== 'Unggulan' && onSelectCategory && (
-            <button
-              onClick={() => onSelectCategory(selectedCategory)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold tracking-wider uppercase text-amber-300 bg-amber-500/15 border border-amber-500/40 hover:bg-amber-500 hover:text-black transition-all cursor-pointer shadow-sm hover:scale-105 shrink-0"
-            >
-              <span>Buka Ruang {selectedCategory} Penuh</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          )}
+            <span className="w-px h-4 bg-white/10 mx-1 hidden sm:block shrink-0" />
+
+            {PHOTO_CATEGORIES.map((category) => {
+              const count = getCategoryCount(category);
+              return (
+                <button
+                  key={category}
+                  onClick={() => {
+                    if (onSelectCategory) {
+                      onSelectCategory(category);
+                    } else {
+                      setSelectedCategory(category);
+                    }
+                  }}
+                  className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wider whitespace-nowrap transition-all duration-200 cursor-pointer text-slate-400 hover:text-amber-300 hover:bg-amber-500/10 border border-transparent hover:border-amber-500/20 group"
+                  title={`Buka Halaman Kategori ${category}`}
+                >
+                  <span>{category}</span>
+                  <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-white/10 text-slate-400 group-hover:bg-amber-500/20 group-hover:text-amber-300">
+                    {count}
+                  </span>
+                  <ArrowUpRight className="w-3 h-3 text-slate-500 group-hover:text-amber-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 
@@ -301,9 +314,20 @@ export const Gallery: React.FC<GalleryProps> = ({
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
                 <div className="absolute top-3 left-3">
-                  <span className="px-3 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-[10px] font-semibold uppercase tracking-wider text-amber-400">
-                    {photo.category}
-                  </span>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      if (onSelectCategory) {
+                        e.stopPropagation();
+                        onSelectCategory(photo.category);
+                      }
+                    }}
+                    className="px-3 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-[10px] font-semibold uppercase tracking-wider text-amber-400 hover:bg-amber-500 hover:text-black hover:border-amber-400 transition-all cursor-pointer flex items-center gap-1"
+                    title={`Buka Ruang Kategori ${photo.category}`}
+                  >
+                    <span>{photo.category}</span>
+                    <ArrowUpRight className="w-2.5 h-2.5" />
+                  </button>
                 </div>
                 <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="w-8 h-8 rounded-full bg-black/70 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:text-amber-400">
@@ -362,9 +386,20 @@ export const Gallery: React.FC<GalleryProps> = ({
 
                   <div className="absolute inset-0 p-5 sm:p-6 flex flex-col justify-between">
                     <div className="flex items-center justify-between">
-                      <span className="px-3 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-[10px] font-semibold uppercase tracking-wider text-amber-400">
-                        {photo.category}
-                      </span>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          if (onSelectCategory) {
+                            e.stopPropagation();
+                            onSelectCategory(photo.category);
+                          }
+                        }}
+                        className="px-3 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-[10px] font-semibold uppercase tracking-wider text-amber-400 hover:bg-amber-500 hover:text-black hover:border-amber-400 transition-all cursor-pointer flex items-center gap-1"
+                        title={`Buka Ruang Kategori ${photo.category}`}
+                      >
+                        <span>{photo.category}</span>
+                        <ArrowUpRight className="w-2.5 h-2.5" />
+                      </button>
                       <span className="text-[10px] font-mono uppercase text-slate-400 bg-black/60 px-2 py-0.5 rounded border border-white/10">
                         {photo.aspectRatio}
                       </span>
@@ -405,9 +440,20 @@ export const Gallery: React.FC<GalleryProps> = ({
             {/* Top Bar HUD */}
             <div className="relative z-10 p-6 sm:p-8 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <span className="px-3.5 py-1 rounded-full bg-amber-500 text-slate-950 text-xs font-bold uppercase tracking-wider shadow-md">
-                  {currentSpotlightPhoto.category}
-                </span>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    if (onSelectCategory) {
+                      e.stopPropagation();
+                      onSelectCategory(currentSpotlightPhoto.category);
+                    }
+                  }}
+                  className="px-3.5 py-1 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold uppercase tracking-wider shadow-md transition-all cursor-pointer flex items-center gap-1.5"
+                  title={`Buka Ruang Kategori ${currentSpotlightPhoto.category}`}
+                >
+                  <span>{currentSpotlightPhoto.category}</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </button>
                 <span className="text-xs font-mono text-slate-300 bg-black/60 px-3 py-1 rounded-full border border-white/15">
                   Frame {spotlightIndex + 1} dari {filteredPhotos.length}
                 </span>
@@ -558,9 +604,20 @@ export const Gallery: React.FC<GalleryProps> = ({
 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/35 to-black/20 flex flex-col justify-between p-6 sm:p-8">
                   <div className="flex items-center justify-between">
-                    <span className="px-3.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-semibold uppercase tracking-wider text-amber-400">
-                      {photo.category}
-                    </span>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        if (onSelectCategory) {
+                          e.stopPropagation();
+                          onSelectCategory(photo.category);
+                        }
+                      }}
+                      className="px-3.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-semibold uppercase tracking-wider text-amber-400 hover:bg-amber-500 hover:text-black hover:border-amber-400 transition-all cursor-pointer flex items-center gap-1"
+                      title={`Buka Ruang Kategori ${photo.category}`}
+                    >
+                      <span>{photo.category}</span>
+                      <ArrowUpRight className="w-2.5 h-2.5" />
+                    </button>
                     <span className="text-[10px] uppercase font-mono tracking-widest text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/50 px-2.5 py-1 rounded-md border border-white/10">
                       Buka Eksibisi
                     </span>

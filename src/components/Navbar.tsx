@@ -44,9 +44,9 @@ export const Navbar: React.FC<NavbarProps> = ({
           { label: 'Kontak', id: 'kontak' },
         ]
       : [
-          { label: 'Showcase Utama', id: 'top' },
+          { label: 'Beranda', id: 'top' },
           { label: 'Kategori', id: 'kategori-showcase' },
-          { label: 'Sorotan Karya', id: 'galeri' },
+          { label: 'Showcase Utama', id: 'galeri' },
         ];
 
 

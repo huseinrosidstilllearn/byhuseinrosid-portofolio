@@ -11,7 +11,6 @@ import {
   ChevronLeft,
   ChevronRight,
   MessageCircle,
-  Quote,
 } from 'lucide-react';
 import {
   getCategoryInfo,
@@ -39,10 +38,10 @@ interface LayoutOption {
 }
 
 const LAYOUT_OPTIONS: LayoutOption[] = [
-  { id: 'masonry', label: 'Masonry Alami', icon: Layers, description: 'Proporsi murni tanpa crop' },
-  { id: 'grid', label: 'Grid Presisi', icon: Columns3, description: 'Tata letak teratur dengan info' },
-  { id: 'matrix', label: 'Bento Matrix', icon: Grid, description: 'Ritme asimetris editorial' },
-  { id: 'spotlight', label: 'Sorotan Sinematik', icon: Sparkles, description: 'Pameran panggung tunggal' },
+  { id: 'masonry', label: 'Masonry', icon: Layers, description: 'Proporsi murni tanpa crop' },
+  { id: 'grid', label: 'Grid', icon: Columns3, description: 'Tata letak teratur dengan info' },
+  { id: 'matrix', label: 'Bento', icon: Grid, description: 'Ritme asimetris editorial' },
+  { id: 'spotlight', label: 'Spotlight', icon: Sparkles, description: 'Pameran panggung tunggal' },
 ];
 
 export const CategoryPage: React.FC<CategoryPageProps> = ({
@@ -126,95 +125,29 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
       </div>
 
       <div className="w-full max-w-[1920px] px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 mx-auto">
-        {/* ── CATEGORY HERO & CURATORIAL PHILOSOPHY ── */}
-        <div className="relative rounded-3xl overflow-hidden bento-card p-8 sm:p-12 lg:p-16 mb-12 border border-white/10">
-          {/* Ambient Radial Glow */}
-          <div
-            className="absolute top-0 right-0 w-96 h-96 rounded-full blur-3xl opacity-20 pointer-events-none -z-10"
-            style={{ backgroundColor: info.glowColor }}
-          />
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Left 7 cols: Title, Philosophy & Curatorial Statement */}
-            <div className="lg:col-span-8 flex flex-col justify-center">
-              {/* Category Badge */}
-              <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold uppercase tracking-widest w-fit mb-5">
-                <Icon className="w-4 h-4" />
-                <span>Ruang Kurasi {info.name}</span>
-              </div>
-
-              <h1 className="font-editorial text-4xl sm:text-5xl lg:text-6xl text-white font-medium tracking-tight mb-4 leading-[1.1]">
-                {info.title}
-              </h1>
-
-              <p className="text-base sm:text-lg text-slate-300 font-light leading-relaxed mb-6">
-                {info.statement}
-              </p>
-
-              {/* Philosophy Quote */}
-              <div className="relative p-5 rounded-2xl bg-white/[0.02] border border-white/[0.08] mb-8">
-                <Quote className="w-6 h-6 text-amber-400/40 mb-2" />
-                <p className="font-editorial text-lg sm:text-xl text-amber-200/90 italic font-light leading-relaxed">
-                  "{info.philosophyQuote}"
-                </p>
-                <span className="text-[11px] font-mono tracking-widest uppercase text-slate-400 mt-2 block">
-                  — Husein Rosid &bull; Pendekatan Visual
-                </span>
-              </div>
-
-              {/* Category Tags */}
-              <div className="flex flex-wrap gap-2">
-                {info.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-xs font-mono tracking-wider uppercase text-slate-400 bg-white/[0.04] px-3 py-1 rounded-lg border border-white/[0.08]"
-                  >
-                    #{tag}
-                  </span>
-                ))}
-              </div>
+        {/* ── MINIMAL PHOTO-FIRST CATEGORY HEADER ── */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 pb-5 border-b border-white/[0.08]">
+          <div>
+            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-amber-400 mb-2">
+              <Icon className="w-3.5 h-3.5" />
+              <span>Kategori</span>
             </div>
-
-            {/* Right 4 cols: Metric Summary Card */}
-            <div className="lg:col-span-4 flex flex-col gap-4">
-              <div className="p-6 rounded-2xl bg-[#0E1118]/80 border border-white/10 backdrop-blur-md">
-                <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-slate-400 block mb-1">
-                  Arsip Terdaftar
-                </span>
-                <span className="font-editorial text-4xl sm:text-5xl text-amber-400 font-bold block mb-1">
-                  {categoryPhotos.length}
-                </span>
-                <span className="text-xs text-slate-400 font-light block pb-4 border-b border-white/[0.08]">
-                  Foto resolusi tinggi telah terkurasi dalam kategori ini.
-                </span>
-
-                <div className="pt-4 space-y-2.5 text-xs text-slate-300">
-                  <div className="flex items-center justify-between">
-                    <span className="text-slate-400">Kurator & Fotografer:</span>
-                    <span className="font-medium text-white">Husein Rosid</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-slate-400">Rentang Waktu:</span>
-                    <span className="font-medium text-white">2024 — 2025</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-slate-400">Lokasi Utama:</span>
-                    <span className="font-medium text-white">Surabaya & Sekitarnya</span>
-                  </div>
-                </div>
-
-                <a
-                  href={createWhatsAppLink(info.waTemplate)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-6 w-full py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-[0_0_20px_rgba(245,158,11,0.25)] hover:scale-[1.02]"
-                >
-                  <MessageCircle className="w-4 h-4" />
-                  <span>Konsultasi Proyek Ini</span>
-                </a>
-              </div>
-            </div>
+            <h1 className="font-editorial text-3xl sm:text-5xl text-white font-medium tracking-tight">
+              {info.name}
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-400 font-light mt-1.5">
+              {categoryPhotos.length} foto dalam arsip ini
+            </p>
           </div>
+          <a
+            href={createWhatsAppLink(info.waTemplate)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(245,158,11,0.2)] w-fit"
+          >
+            <MessageCircle className="w-3.5 h-3.5" />
+            <span>Tanya Sesi {info.name}</span>
+          </a>
         </div>
 
         {/* ── TOOLBAR: LAYOUT SWITCHER & FILTER CONTROLS ── */}

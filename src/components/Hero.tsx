@@ -146,7 +146,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             onClick={onExploreClick}
             className="inline-flex items-center gap-3 px-8 py-3.5 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-[0_4px_24px_rgba(245,158,11,0.45)] hover:scale-105 cursor-pointer"
           >
-            <span>Jelajahi Galeri Karya</span>
+            <span>Jelajahi Showcase Utama</span>
             <ArrowDown className="w-4 h-4" />
           </button>
 
