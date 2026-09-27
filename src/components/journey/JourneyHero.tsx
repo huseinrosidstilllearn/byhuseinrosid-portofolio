@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { MessageCircle, ArrowDown } from 'lucide-react';
 import { PHOTOGRAPHER_PROFILE, CONTACT_CONFIG } from '../../data/portfolioData';
 import { JOURNEY_STATS } from '../../data/journeyData';
 import type { PhotographerProfile, ContactConfig, JourneyStats } from '../../types/portfolio';
@@ -128,9 +129,9 @@ export const JourneyHero: React.FC<JourneyHeroProps> = ({
                 href={waLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-amber-500 hover:bg-amber-400 text-black font-semibold text-sm transition-all duration-300 hover:scale-105"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-amber-500 hover:bg-amber-400 text-black font-semibold text-sm transition-all duration-300 hover:scale-105 shadow-[0_0_20px_rgba(245,158,11,0.25)]"
               >
-                <span>💬</span>
+                <MessageCircle className="w-4 h-4" />
                 <span>Hubungi via WhatsApp</span>
               </a>
               <a
@@ -142,7 +143,7 @@ export const JourneyHero: React.FC<JourneyHeroProps> = ({
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/20 hover:border-amber-500/50 text-white/70 hover:text-white text-sm transition-all duration-300"
               >
                 <span>Lihat Perjalanan</span>
-                <span>↓</span>
+                <ArrowDown className="w-4 h-4" />
               </a>
             </div>
           </motion.div>

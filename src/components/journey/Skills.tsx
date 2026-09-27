@@ -1,14 +1,68 @@
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import {
+  Camera,
+  Palette,
+  Users,
+  Wrench,
+  Sun,
+  Lightbulb,
+  Compass,
+  Mountain,
+  Package,
+  Edit3,
+  Clapperboard,
+  BookOpen,
+  Eye,
+  Plane,
+  Crop,
+} from 'lucide-react';
 import { SKILLS } from '../../data/journeyData';
 import type { SkillItem } from '../../types/portfolio';
 
-const CATEGORY_META: Record<SkillItem['category'], { label: string; icon: string; color: string }> = {
-  teknis: { label: 'Teknis Fotografi', icon: '📷', color: 'text-amber-400' },
-  editing: { label: 'Post-Processing', icon: '🎨', color: 'text-sky-400' },
-  softskill: { label: 'Keahlian Lunak', icon: '🤝', color: 'text-emerald-400' },
-  gear: { label: 'Peralatan', icon: '🔧', color: 'text-rose-400' },
+const CATEGORY_META: Record<
+  SkillItem['category'],
+  { label: string; icon: React.ComponentType<{ className?: string }>; color: string }
+> = {
+  teknis: { label: 'Teknis Fotografi', icon: Camera, color: 'text-amber-400' },
+  editing: { label: 'Post-Processing', icon: Palette, color: 'text-sky-400' },
+  softskill: { label: 'Keahlian Lunak', icon: Users, color: 'text-emerald-400' },
+  gear: { label: 'Peralatan', icon: Wrench, color: 'text-rose-400' },
 };
+
+function getSkillIcon(iconKey: string): React.ComponentType<{ className?: string }> {
+  switch (iconKey) {
+    case 'framing':
+      return Crop;
+    case 'sun':
+      return Sun;
+    case 'lightbulb':
+      return Lightbulb;
+    case 'compass':
+      return Compass;
+    case 'mountain':
+      return Mountain;
+    case 'package':
+      return Package;
+    case 'palette':
+      return Palette;
+    case 'edit':
+      return Edit3;
+    case 'clapperboard':
+      return Clapperboard;
+    case 'book':
+      return BookOpen;
+    case 'users':
+      return Users;
+    case 'eye':
+      return Eye;
+    case 'plane':
+      return Plane;
+    case 'camera':
+    default:
+      return Camera;
+  }
+}
 
 const LEVEL_META: Record<SkillItem['level'], { dots: number; color: string }> = {
   Terampil: { dots: 1, color: 'bg-white/30' },
@@ -22,7 +76,7 @@ function SkillCard({ skill, index }: { skill: SkillItem; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-40px' });
   const { dots, color } = LEVEL_META[skill.level];
-
+  const IconComponent = getSkillIcon(skill.icon);
 
   return (
     <motion.div
@@ -33,7 +87,9 @@ function SkillCard({ skill, index }: { skill: SkillItem; index: number }) {
       transition={{ duration: 0.5, delay: index * 0.05 }}
     >
       <div className="flex items-start gap-3 mb-2">
-        <span className="text-xl flex-shrink-0">{skill.icon}</span>
+        <div className="w-8 h-8 rounded-lg bg-white/[0.04] border border-white/10 flex items-center justify-center text-amber-400 flex-shrink-0 group-hover:scale-105 group-hover:border-amber-400/40 transition-all">
+          <IconComponent className="w-4 h-4" />
+        </div>
         <div className="flex-1 min-w-0">
           <p className="text-white/85 text-sm font-semibold leading-tight group-hover:text-white transition-colors truncate">
             {skill.name}
@@ -99,7 +155,9 @@ export function Skills({ skills = SKILLS }: { skills?: SkillItem[] }) {
               <div key={cat}>
                 {/* Category Header */}
                 <div className="flex items-center gap-3 mb-5">
-                  <span className="text-xl">{catMeta.icon}</span>
+                  <div className="w-8 h-8 rounded-lg bg-white/[0.04] border border-white/10 flex items-center justify-center text-amber-400">
+                    <catMeta.icon className="w-4 h-4" />
+                  </div>
                   <h3 className={`font-headline text-xl font-black ${catMeta.color}`}>{catMeta.label}</h3>
                   <div className="flex-1 h-px bg-white/5 ml-2" />
                 </div>

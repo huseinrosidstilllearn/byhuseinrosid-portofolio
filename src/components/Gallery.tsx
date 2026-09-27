@@ -13,6 +13,7 @@ import {
   Maximize2,
   Calendar,
   Compass,
+  ArrowRight,
 } from 'lucide-react';
 import { PHOTO_CATEGORIES, PORTFOLIO_PHOTOS } from '../data/portfolioData';
 import type { PhotoItem } from '../types/portfolio';
@@ -21,6 +22,7 @@ import { LightboxModal } from './LightboxModal';
 interface GalleryProps {
   photos?: PhotoItem[];
   onSelectPhoto?: (photo: PhotoItem) => void;
+  onSelectCategory?: (categoryName: string) => void;
 }
 
 export type GalleryLayoutMode = 'matrix' | 'filmstrip' | 'grid' | 'masonry' | 'spotlight';
@@ -40,7 +42,11 @@ const GALLERY_MODES: ModeOption[] = [
   { id: 'filmstrip', label: 'Rol Film', icon: Film, description: 'Gulir horizontal tanpa batas' },
 ];
 
-export const Gallery: React.FC<GalleryProps> = ({ photos = PORTFOLIO_PHOTOS, onSelectPhoto }) => {
+export const Gallery: React.FC<GalleryProps> = ({
+  photos = PORTFOLIO_PHOTOS,
+  onSelectPhoto,
+  onSelectCategory,
+}) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('Semua');
   const [activePhoto, setActivePhoto] = useState<PhotoItem | null>(null);
   const [galleryMode, setGalleryMode] = useState<GalleryLayoutMode>('matrix');
@@ -191,6 +197,17 @@ export const Gallery: React.FC<GalleryProps> = ({ photos = PORTFOLIO_PHOTOS, onS
               );
             })}
           </div>
+
+          {/* Quick jump to Category Page */}
+          {selectedCategory !== 'Semua' && selectedCategory !== 'Unggulan' && onSelectCategory && (
+            <button
+              onClick={() => onSelectCategory(selectedCategory)}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold tracking-wider uppercase text-amber-300 bg-amber-500/15 border border-amber-500/40 hover:bg-amber-500 hover:text-black transition-all cursor-pointer shadow-sm hover:scale-105 shrink-0"
+            >
+              <span>Buka Ruang {selectedCategory} Penuh</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          )}
         </div>
       </div>
 
@@ -230,9 +247,19 @@ export const Gallery: React.FC<GalleryProps> = ({ photos = PORTFOLIO_PHOTOS, onS
 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-black/20 flex flex-col justify-between p-6 sm:p-7 transition-opacity duration-300">
                   <div className="flex items-center justify-between">
-                    <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-semibold uppercase tracking-wider text-amber-400">
-                      {photo.category}
-                    </span>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        if (onSelectCategory) {
+                          e.stopPropagation();
+                          onSelectCategory(photo.category);
+                        }
+                      }}
+                      className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-semibold uppercase tracking-wider text-amber-400 hover:bg-amber-500 hover:text-black hover:border-amber-400 transition-all cursor-pointer"
+                      title={`Buka Ruang Kategori ${photo.category}`}
+                    >
+                      {photo.category} &rarr;
+                    </button>
 
                     <span className="text-[10px] uppercase font-mono tracking-widest text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/50 px-2.5 py-1 rounded-md border border-white/10">
                       Buka Eksibisi

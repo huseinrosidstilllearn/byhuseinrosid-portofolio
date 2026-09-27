@@ -180,6 +180,78 @@ export const PORTFOLIO_PHOTOS: PhotoItem[] = [
     description: 'Bias lampu kendaraan di atas aspal basah, membingkai kesendirian di tengah riuh kota pahlawan.',
     featured: false,
     glowColor: '#eab308' // amber street lamp
+  },
+  {
+    id: 'p-13',
+    title: 'Esensi Elegan Botol Kaca',
+    category: 'Komersial',
+    imageUrl: 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=1200&q=85',
+    aspectRatio: 'portrait',
+    location: 'Studio Surabaya',
+    year: '2025',
+    description: 'Refleksi mikro cahaya pada botol parfum artisanal, mempertegas kejernihan dan sudut kaca mewah.',
+    featured: true,
+    glowColor: '#f59e0b'
+  },
+  {
+    id: 'p-14',
+    title: 'Tangan Pemahat Kenangan',
+    category: 'Portrait',
+    imageUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=1200&q=85',
+    aspectRatio: 'portrait',
+    location: 'Surabaya Timur',
+    year: '2024',
+    description: 'Sorot mata tajam seorang perajin keramik dengan ketulusan yang terpatri dalam setiap helai rambut.',
+    featured: false,
+    glowColor: '#38bdf8'
+  },
+  {
+    id: 'p-15',
+    title: 'Batu Karang & Debur Ombak',
+    category: 'Lanskap',
+    imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=85',
+    aspectRatio: 'landscape',
+    location: 'Pesisir Selatan Jawa Timur',
+    year: '2024',
+    description: 'Eksposur panjang 30 detik yang mengubah ombak liar Samudra Hindia menjadi kabut putih sutra.',
+    featured: true,
+    glowColor: '#10b981'
+  },
+  {
+    id: 'p-16',
+    title: 'Janji dalam Cincin Suci',
+    category: 'Pernikahan',
+    imageUrl: 'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=1200&q=85',
+    aspectRatio: 'square',
+    location: 'Surabaya',
+    year: '2025',
+    description: 'Detail pertukaran cincin emas dengan latar renda gaun pengantin dan sentuhan tangan gemetar penuh haru.',
+    featured: true,
+    glowColor: '#f43f5e'
+  },
+  {
+    id: 'p-17',
+    title: 'Denyut Pagi Pasar Pabean',
+    category: 'Dokumenter',
+    imageUrl: 'https://images.unsplash.com/photo-1533900298318-6b8da08a523e?auto=format&fit=crop&w=1200&q=85',
+    aspectRatio: 'landscape',
+    location: 'Pasar Pabean, Surabaya',
+    year: '2024',
+    description: 'Kesibukan transaksi rempah di lorong pasar tertua saat sinar matahari pertama menembus sela atap seng.',
+    featured: true,
+    glowColor: '#f97316'
+  },
+  {
+    id: 'p-18',
+    title: 'Cahaya Senja & Pasir Berbisik',
+    category: 'Lanskap',
+    imageUrl: 'https://images.unsplash.com/photo-1518457607834-6e8d80c183c5?auto=format&fit=crop&w=1200&q=85',
+    aspectRatio: 'landscape',
+    location: 'Bromo Tengger Semeru',
+    year: '2025',
+    description: 'Gelombang bukit pasir kaldera yang tersinari cahaya emas senja terakhir sebelum malam turun.',
+    featured: false,
+    glowColor: '#eab308'
   }
 ];
 

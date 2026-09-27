@@ -18,8 +18,11 @@ import { Timeline } from './components/journey/Timeline';
 import { Skills } from './components/journey/Skills';
 import { JourneyFooter } from './components/journey/JourneyFooter';
 import { KaryaFooter } from './components/journey/KaryaFooter';
+import { CategoryShowcase } from './components/category/CategoryShowcase';
+import { CategoryPage } from './components/category/CategoryPage';
 import { ModeTransitionOverlay } from './components/ModeTransitionOverlay';
 import { PORTFOLIO_PHOTOS } from './data/portfolioData';
+import { getCategoryBySlug, getCategoryInfo } from './data/categoryData';
 import { getPhotos, getSiteContent, DEFAULT_SITE_CONTENT } from './lib/supabase';
 import type { PhotoItem, SiteMode, SiteContentData } from './types/portfolio';
 
@@ -34,8 +37,21 @@ function getSavedMode(): SiteMode {
   return 'landing';
 }
 
+function getInitialCategory(): string | null {
+  try {
+    const hash = window.location.hash;
+    if (hash.startsWith('#kategori=')) {
+      const slug = hash.replace('#kategori=', '');
+      const info = getCategoryBySlug(slug);
+      return info ? info.name : null;
+    }
+  } catch {}
+  return null;
+}
+
 export function App() {
   const [siteMode, setSiteMode] = useState<SiteMode>(getSavedMode);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(getInitialCategory);
   const [viewMode, setViewMode] = useState<'bento' | 'spatial'>('bento');
   const [activePhoto, setActivePhoto] = useState<PhotoItem | null>(null);
   const [photos, setPhotos] = useState<PhotoItem[]>(PORTFOLIO_PHOTOS);
@@ -43,6 +59,34 @@ export function App() {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [targetMode, setTargetMode] = useState<SiteMode | null>(null);
   const lenisRef = useRef<Lenis | null>(null);
+
+  // Navigasi kategori dengan sinkronisasi URL hash
+  const handleSelectCategory = (categoryName: string | null) => {
+    setSelectedCategory(categoryName);
+    if (categoryName) {
+      const info = getCategoryInfo(categoryName);
+      window.location.hash = `kategori=${info.slug}`;
+    } else {
+      window.location.hash = '';
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Dengarkan tombol Back/Forward browser untuk hash kategori
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      if (hash.startsWith('#kategori=')) {
+        const slug = hash.replace('#kategori=', '');
+        const info = getCategoryBySlug(slug);
+        if (info) setSelectedCategory(info.name);
+      } else if (!hash) {
+        setSelectedCategory(null);
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   // Perpindahan mode sinematik dan halus
   const handleSetSiteMode = (mode: SiteMode) => {
@@ -117,13 +161,21 @@ export function App() {
       lenis.destroy();
       lenisRef.current = null;
     };
-  }, [siteMode, viewMode, activePhoto]);
+  }, [siteMode, viewMode, activePhoto, selectedCategory]);
 
   const handleToggleViewMode = () => {
     setViewMode((prev) => (prev === 'spatial' ? 'bento' : 'spatial'));
   };
 
   const handleNavigateToSection = (sectionId: string) => {
+    if (selectedCategory !== null) {
+      // Jika sedang di dalam halaman kategori, kembali ke showcase utama dulu lalu scroll
+      setSelectedCategory(null);
+      window.location.hash = '';
+      setTimeout(() => scrollToSection(sectionId), 200);
+      return;
+    }
+
     if (viewMode === 'spatial') {
       setViewMode('bento');
       setTimeout(() => scrollToSection(sectionId), 150);
@@ -133,6 +185,10 @@ export function App() {
   };
 
   function scrollToSection(id: string) {
+    if (id === 'top') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
     const el = document.getElementById(id);
     if (!el) return;
     if (lenisRef.current) {
@@ -202,21 +258,47 @@ export function App() {
             <Navbar
               viewMode={viewMode}
               siteMode={siteMode}
+              activeCategory={selectedCategory}
               onToggleViewMode={handleToggleViewMode}
               onNavigateToSection={handleNavigateToSection}
               onSwitchSiteMode={handleSetSiteMode}
+              onSelectCategory={handleSelectCategory}
             />
 
             {viewMode === 'spatial' ? (
               <main className="w-screen h-screen overflow-hidden">
                 <SpatialCanvas />
               </main>
+            ) : selectedCategory !== null ? (
+              /* ── Dedicated Category Deep-Dive Page ────────────────────────────── */
+              <main className="flex-grow pb-0">
+                <CategoryPage
+                  categoryName={selectedCategory}
+                  allPhotos={photos}
+                  onSelectPhoto={setActivePhoto}
+                  onSelectCategory={handleSelectCategory}
+                  onBackToMain={() => handleSelectCategory(null)}
+                />
+                <KaryaFooter
+                  onSwitchToSpatial={() => setViewMode('spatial')}
+                  onSwitchSiteMode={handleSetSiteMode}
+                />
+              </main>
             ) : (
+              /* ── Main Showcase Hub (Showcase Utama) ────────────────────────────── */
               <main className="flex-grow pb-0">
                 <div className="space-y-24 sm:space-y-36">
-                  <Hero onExploreClick={() => handleNavigateToSection('galeri')} />
+                  <Hero onExploreClick={() => handleNavigateToSection('kategori-showcase')} />
                   <DualMarquee photos={photos} onSelectPhoto={setActivePhoto} />
-                  <Gallery photos={photos} onSelectPhoto={setActivePhoto} />
+                  <CategoryShowcase
+                    photos={photos}
+                    onSelectCategory={handleSelectCategory}
+                  />
+                  <Gallery
+                    photos={photos}
+                    onSelectPhoto={setActivePhoto}
+                    onSelectCategory={handleSelectCategory}
+                  />
                   <AccordionCarousel photos={photos} onSelectPhoto={setActivePhoto} />
                 </div>
                 <KaryaFooter

@@ -2,22 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Menu, X, MessageCircle, ArrowLeft, Camera, Compass } from 'lucide-react';
 import { createWhatsAppLink } from '../utils/whatsapp';
+import { CATEGORY_ORDER } from '../data/categoryData';
 import type { SiteMode } from '../types/portfolio';
 
 interface NavbarProps {
   viewMode: 'bento' | 'spatial';
   siteMode: SiteMode;
+  activeCategory?: string | null;
   onToggleViewMode: () => void;
   onNavigateToSection: (sectionId: string) => void;
   onSwitchSiteMode: (mode: SiteMode) => void;
+  onSelectCategory?: (categoryName: string | null) => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
   viewMode,
   siteMode,
+  activeCategory,
   onToggleViewMode,
   onNavigateToSection,
   onSwitchSiteMode,
+  onSelectCategory,
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -39,7 +44,9 @@ export const Navbar: React.FC<NavbarProps> = ({
           { label: 'Kontak', id: 'kontak' },
         ]
       : [
-          { label: 'Galeri', id: 'galeri' },
+          { label: 'Showcase Utama', id: 'top' },
+          { label: 'Kategori', id: 'kategori-showcase' },
+          { label: 'Sorotan Karya', id: 'galeri' },
         ];
 
 
@@ -84,18 +91,41 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
           ) : (
             <div className="hidden md:flex items-center gap-2">
-              {/* Nav links */}
-              <nav className="flex items-center gap-1 bg-white/[0.03] border border-white/[0.06] rounded-full px-3 py-1">
-                {navLinks.map((link) => (
+              {/* Nav links or Active Category Breadcrumb */}
+              {siteMode === 'karya' && activeCategory ? (
+                <div className="flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-full px-3 py-1">
                   <button
-                    key={link.id}
-                    onClick={() => onNavigateToSection(link.id)}
-                    className="px-3 py-1.5 rounded-full text-xs uppercase tracking-wider text-slate-300 hover:text-white hover:bg-white/[0.08] transition-all font-medium cursor-pointer"
+                    onClick={() => onSelectCategory?.(null)}
+                    className="px-2.5 py-1 rounded-full text-xs uppercase tracking-wider text-slate-300 hover:text-white hover:bg-white/[0.08] transition-all flex items-center gap-1 cursor-pointer"
                   >
-                    {link.label}
+                    <ArrowLeft className="w-3 h-3" />
+                    <span>Showcase</span>
                   </button>
-                ))}
-              </nav>
+                  <span className="text-white/20 text-xs">/</span>
+                  <span className="px-2.5 py-1 rounded-full text-xs uppercase tracking-wider text-amber-300 font-bold bg-amber-500/20 border border-amber-500/30">
+                    {activeCategory}
+                  </span>
+                </div>
+              ) : (
+                <nav className="flex items-center gap-1 bg-white/[0.03] border border-white/[0.06] rounded-full px-3 py-1">
+                  {navLinks.map((link) => (
+                    <button
+                      key={link.id}
+                      onClick={() => {
+                        if (link.id === 'top') {
+                          onSelectCategory?.(null);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        } else {
+                          onNavigateToSection(link.id);
+                        }
+                      }}
+                      className="px-3 py-1.5 rounded-full text-xs uppercase tracking-wider text-slate-300 hover:text-white hover:bg-white/[0.08] transition-all font-medium cursor-pointer"
+                    >
+                      {link.label}
+                    </button>
+                  ))}
+                </nav>
+              )}
 
               {/* Mode Toggle Pill with Animated Sliding Thumb */}
               <div className="relative flex items-center bg-[#07090E]/90 border border-white/10 rounded-full p-1 shadow-inner select-none ml-2">
@@ -218,18 +248,63 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
 
           <div className="flex flex-col space-y-4 my-auto">
-            {navLinks.map((link) => (
-              <button
-                key={link.id}
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onNavigateToSection(link.id);
-                }}
-                className="text-left font-editorial text-3xl text-white hover:text-amber-400 transition-colors"
-              >
-                {link.label}
-              </button>
-            ))}
+            {siteMode === 'karya' ? (
+              <div className="space-y-4">
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    onSelectCategory?.(null);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className={`text-left font-editorial text-2xl transition-colors block ${
+                    !activeCategory ? 'text-amber-400 font-bold' : 'text-white hover:text-amber-400'
+                  }`}
+                >
+                  Showcase Utama
+                </button>
+
+                <div className="pt-3 border-t border-white/10">
+                  <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-slate-400 block mb-2.5">
+                    Ruang Kategori Spesifik
+                  </span>
+                  <div className="flex flex-wrap gap-2">
+                    {CATEGORY_ORDER.map((cat) => {
+                      const isActive = activeCategory === cat;
+                      return (
+                        <button
+                          key={cat}
+                          onClick={() => {
+                            setMobileMenuOpen(false);
+                            onSelectCategory?.(cat);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className={`px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all ${
+                            isActive
+                              ? 'bg-amber-500 text-slate-950 font-bold shadow-md'
+                              : 'bg-white/[0.06] text-slate-300 border border-white/10 hover:border-amber-400/40'
+                          }`}
+                        >
+                          {cat}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              navLinks.map((link) => (
+                <button
+                  key={link.id}
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    onNavigateToSection(link.id);
+                  }}
+                  className="text-left font-editorial text-3xl text-white hover:text-amber-400 transition-colors"
+                >
+                  {link.label}
+                </button>
+              ))
+            )}
           </div>
 
           <div className="pt-6 border-t border-white/10 flex flex-col gap-4">

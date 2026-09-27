@@ -1,11 +1,48 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import {
+  Camera,
+  Users,
+  Waves,
+  Lightbulb,
+  Coffee,
+  Mountain,
+  Heart,
+  Building2,
+  Sparkles,
+} from 'lucide-react';
 import { TIMELINE_MILESTONES } from '../../data/journeyData';
+
+function getMilestoneIcon(icon: string) {
+  switch (icon) {
+    case 'camera':
+      return Camera;
+    case 'users':
+      return Users;
+    case 'waves':
+      return Waves;
+    case 'lightbulb':
+      return Lightbulb;
+    case 'coffee':
+      return Coffee;
+    case 'mountain':
+      return Mountain;
+    case 'heart':
+      return Heart;
+    case 'building':
+      return Building2;
+    case 'sparkles':
+      return Sparkles;
+    default:
+      return Camera;
+  }
+}
 
 function MilestoneCard({ milestone, index }: { milestone: typeof TIMELINE_MILESTONES[0]; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
   const isLeft = index % 2 === 0;
+  const IconComponent = getMilestoneIcon(milestone.icon);
 
   return (
     <div ref={ref} className={`relative flex items-start gap-0 ${isLeft ? 'flex-row' : 'flex-row-reverse'} md:gap-0`}>
@@ -34,8 +71,10 @@ function MilestoneCard({ milestone, index }: { milestone: typeof TIMELINE_MILEST
 
           {/* Icon + Title */}
           <div className={`flex items-start gap-3 mb-3 ${isLeft ? 'md:flex-row-reverse' : 'flex-row'} flex-row`}>
-            <span className="text-2xl flex-shrink-0">{milestone.icon}</span>
-            <h3 className="font-headline text-lg font-black text-white leading-tight group-hover:text-amber-100 transition-colors">
+            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 flex-shrink-0 group-hover:scale-105 group-hover:border-amber-400/50 transition-all">
+              <IconComponent className="w-5 h-5" />
+            </div>
+            <h3 className="font-headline text-lg font-black text-white leading-tight group-hover:text-amber-100 transition-colors pt-1.5">
               {milestone.title}
             </h3>
           </div>

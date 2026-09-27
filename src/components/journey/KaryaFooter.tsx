@@ -69,9 +69,9 @@ export function KaryaFooter({ onSwitchToSpatial, onSwitchSiteMode }: KaryaFooter
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Hubungi via WhatsApp"
-        className="fixed bottom-6 right-6 z-40 w-12 h-12 flex items-center justify-center rounded-full bg-emerald-500 hover:bg-emerald-400 text-white shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 hover:scale-110 text-xl"
+        className="fixed bottom-6 right-6 z-40 w-12 h-12 flex items-center justify-center rounded-full bg-emerald-500 hover:bg-emerald-400 text-white shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 hover:scale-110"
       >
-        💬
+        <MessageCircle className="w-5 h-5 text-white" />
       </a>
     </footer>
   );

@@ -203,23 +203,25 @@ export const AdminApp: React.FC = () => {
         <div className="flex items-center p-1 rounded-full bg-white/[0.05] border border-white/10 shadow-inner">
           <button
             onClick={() => setActiveTab('photos')}
-            className={`px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider transition-all cursor-pointer ${
+            className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider transition-all cursor-pointer ${
               activeTab === 'photos'
                 ? 'bg-amber-500 text-slate-950 font-bold shadow-md'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
-            📷 Arsip Foto ({photos.length})
+            <ImageIcon className="w-3.5 h-3.5" />
+            <span>Arsip Foto ({photos.length})</span>
           </button>
           <button
             onClick={() => setActiveTab('content')}
-            className={`px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider transition-all cursor-pointer ${
+            className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider transition-all cursor-pointer ${
               activeTab === 'content'
                 ? 'bg-amber-500 text-slate-950 font-bold shadow-md'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
-            ✍️ Editor Konten Web
+            <Database className="w-3.5 h-3.5" />
+            <span>Editor Konten Web</span>
           </button>
         </div>
 

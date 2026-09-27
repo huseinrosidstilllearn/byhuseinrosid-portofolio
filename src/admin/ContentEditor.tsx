@@ -466,7 +466,7 @@ export const ContentEditor: React.FC = () => {
                       year: new Date().getFullYear().toString(),
                       title: 'Milestone Baru',
                       description: 'Tuliskan deskripsi peristiwa atau pencapaian...',
-                      icon: '✨',
+                      icon: 'sparkles',
                       tags: ['Perjalanan'],
                       highlight: false,
                     };
@@ -617,7 +617,7 @@ export const ContentEditor: React.FC = () => {
                       name: 'Keahlian Baru',
                       category: 'teknis',
                       level: 'Mahir',
-                      icon: '📷',
+                      icon: 'camera',
                       description: 'Keterangan kompetensi...',
                     };
                     setContent((prev) => ({
