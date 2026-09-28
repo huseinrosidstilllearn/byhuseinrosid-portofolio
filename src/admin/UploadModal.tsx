@@ -10,6 +10,7 @@ import {
   Trash2,
   Copy,
   Plus,
+  Layers,
   Sparkles,
 } from 'lucide-react';
 import { compressImage } from '../utils/imageCompressor';
@@ -53,6 +54,11 @@ export const UploadModal: React.FC<UploadModalProps> = ({
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isCompressingBatch, setIsCompressingBatch] = useState(false);
   const [compressionProgress, setCompressionProgress] = useState<{ current: number; total: number } | null>(null);
+
+  // Mode penerapan informasi: 'all' (bulk ke semua foto) atau 'single' (1 per 1 jika beda jenis foto)
+  const [applyMode, setApplyMode] = useState<'all' | 'single'>('all');
+  const [titleNamingMode, setTitleNamingMode] = useState<'original' | 'numbered'>('original');
+  const [baseTitle, setBaseTitle] = useState('');
 
   // Single URL upload fallback state
   const [customImageUrl, setCustomImageUrl] = useState('');
@@ -179,8 +185,96 @@ export const UploadModal: React.FC<UploadModalProps> = ({
     });
   };
 
-  // Terapkan Kategori & Lokasi dari foto aktif ke semua foto dalam antrean
-  const applyCommonMetadataToAll = () => {
+  // Ganti mode penerapan informasi (All vs Single)
+  const handleApplyModeChange = (mode: 'all' | 'single') => {
+    setApplyMode(mode);
+    if (mode === 'all' && activePhoto) {
+      setQueuedPhotos((prev) =>
+        prev.map((item) => ({
+          ...item,
+          category: activePhoto.category,
+          location: activePhoto.location,
+          year: activePhoto.year,
+          description: activePhoto.description,
+        }))
+      );
+      setStatusMessage({
+        type: 'success',
+        text: `Mode Massal Aktif: Kategori "${activePhoto.category}", Lokasi, Tahun, dan Deskripsi otomatis diterapkan ke SEMUA ${queuedPhotos.length} foto.`,
+      });
+    } else if (mode === 'single') {
+      setStatusMessage({
+        type: 'success',
+        text: `Mode 1 per 1 Aktif: Anda sekarang dapat mengisi dan meninjau informasi tiap foto secara terpisah.`,
+      });
+    }
+  };
+
+  // Handler perubahan kategori
+  const handleCategoryChange = (newCat: string) => {
+    if (applyMode === 'all') {
+      setQueuedPhotos((prev) => prev.map((item) => ({ ...item, category: newCat })));
+    } else {
+      updateActivePhoto('category', newCat);
+    }
+  };
+
+  // Handler perubahan lokasi
+  const handleLocationChange = (newLoc: string) => {
+    if (applyMode === 'all') {
+      setQueuedPhotos((prev) => prev.map((item) => ({ ...item, location: newLoc })));
+    } else {
+      updateActivePhoto('location', newLoc);
+    }
+  };
+
+  // Handler perubahan tahun
+  const handleYearChange = (newYear: string) => {
+    if (applyMode === 'all') {
+      setQueuedPhotos((prev) => prev.map((item) => ({ ...item, year: newYear })));
+    } else {
+      updateActivePhoto('year', newYear);
+    }
+  };
+
+  // Handler perubahan deskripsi
+  const handleDescriptionChange = (newDesc: string) => {
+    if (applyMode === 'all') {
+      setQueuedPhotos((prev) => prev.map((item) => ({ ...item, description: newDesc })));
+    } else {
+      updateActivePhoto('description', newDesc);
+    }
+  };
+
+  // Handler penamaan judul berurutan
+  const handleBaseTitleChange = (val: string) => {
+    setBaseTitle(val);
+    if (!val.trim()) return;
+    setQueuedPhotos((prev) =>
+      prev.map((item, idx) => ({
+        ...item,
+        title: `${val.trim()} #${idx + 1}`,
+      }))
+    );
+  };
+
+  // Handler ganti mode penamaan judul
+  const handleTitleNamingModeChange = (mode: 'original' | 'numbered') => {
+    setTitleNamingMode(mode);
+    if (mode === 'numbered') {
+      const defaultBase = baseTitle.trim() || activePhoto?.category || 'Karya';
+      setBaseTitle(defaultBase);
+      setQueuedPhotos((prev) =>
+        prev.map((item, idx) => ({
+          ...item,
+          title: `${defaultBase} #${idx + 1}`,
+        }))
+      );
+    }
+  };
+
+  // Aksi Cepat: Salin SEMUA info aktif ke semua foto
+  const applyAllInfoToAll = () => {
     if (!activePhoto) return;
     setQueuedPhotos((prev) =>
       prev.map((item) => ({
@@ -188,11 +282,58 @@ export const UploadModal: React.FC<UploadModalProps> = ({
         category: activePhoto.category,
         location: activePhoto.location,
         year: activePhoto.year,
+        description: activePhoto.description,
       }))
     );
     setStatusMessage({
       type: 'success',
-      text: `Kategori "${activePhoto.category}" dan Lokasi "${activePhoto.location}" diterapkan ke semua ${queuedPhotos.length} foto. Anda dapat melanjutkan menulis deskripsi unik tiap foto!`,
+      text: `Semua informasi (Kategori, Lokasi, Tahun, dan Deskripsi) berhasil disalin ke seluruh ${queuedPhotos.length} foto!`,
+    });
+  };
+
+  // Aksi Cepat: Salin Kategori saja
+  const applyCategoryToAll = () => {
+    if (!activePhoto) return;
+    setQueuedPhotos((prev) =>
+      prev.map((item) => ({
+        ...item,
+        category: activePhoto.category,
+      }))
+    );
+    setStatusMessage({
+      type: 'success',
+      text: `Kategori "${activePhoto.category}" diterapkan ke seluruh ${queuedPhotos.length} foto!`,
+    });
+  };
+
+  // Aksi Cepat: Salin Lokasi & Tahun saja
+  const applyLocationYearToAll = () => {
+    if (!activePhoto) return;
+    setQueuedPhotos((prev) =>
+      prev.map((item) => ({
+        ...item,
+        location: activePhoto.location,
+        year: activePhoto.year,
+      }))
+    );
+    setStatusMessage({
+      type: 'success',
+      text: `Lokasi "${activePhoto.location}" dan Tahun "${activePhoto.year}" diterapkan ke seluruh ${queuedPhotos.length} foto!`,
+    });
+  };
+
+  // Aksi Cepat: Salin Deskripsi saja
+  const applyDescriptionToAll = () => {
+    if (!activePhoto) return;
+    setQueuedPhotos((prev) =>
+      prev.map((item) => ({
+        ...item,
+        description: activePhoto.description,
+      }))
+    );
+    setStatusMessage({
+      type: 'success',
+      text: `Deskripsi foto #${currentIndex + 1} berhasil disalin ke seluruh ${queuedPhotos.length} foto!`,
     });
   };
 
@@ -714,18 +855,41 @@ export const UploadModal: React.FC<UploadModalProps> = ({
                 </button>
               </div>
 
-              {/* Helper Tools */}
+              {/* Helper Tools: Quick Action Dropdown */}
               <div className="flex items-center gap-2">
                 {queuedPhotos.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={applyCommonMetadataToAll}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-300 text-xs font-medium transition-all cursor-pointer"
-                    title="Terapkan Kategori & Lokasi foto ini ke semua foto lain"
-                  >
-                    <Copy className="w-3.5 h-3.5" />
-                    <span>Samakan Kategori &amp; Lokasi ke Semua</span>
-                  </button>
+                  <div className="flex items-center gap-1.5 bg-amber-500/10 px-2.5 py-1 rounded-xl border border-amber-500/30">
+                    <Copy className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                    <select
+                      defaultValue=""
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        if (!val) return;
+                        if (val === 'all_info') applyAllInfoToAll();
+                        else if (val === 'category_only') applyCategoryToAll();
+                        else if (val === 'location_year') applyLocationYearToAll();
+                        else if (val === 'description_only') applyDescriptionToAll();
+                        e.target.value = '';
+                      }}
+                      className="bg-transparent text-amber-300 text-xs font-semibold cursor-pointer focus:outline-none"
+                    >
+                      <option value="" disabled className="bg-[#0E1118] text-slate-400">
+                        Salin Info Foto Ini Ke Semua...
+                      </option>
+                      <option value="all_info" className="bg-[#0E1118] text-white">
+                        Salin SEMUA Info (Kategori, Lokasi, Tahun, Deskripsi)
+                      </option>
+                      <option value="category_only" className="bg-[#0E1118] text-white">
+                        Salin Kategori Saja ({activePhoto.category})
+                      </option>
+                      <option value="location_year" className="bg-[#0E1118] text-white">
+                        Salin Lokasi &amp; Tahun Saja
+                      </option>
+                      <option value="description_only" className="bg-[#0E1118] text-white">
+                        Salin Deskripsi Saja
+                      </option>
+                    </select>
+                  </div>
                 )}
 
                 <button
@@ -775,32 +939,126 @@ export const UploadModal: React.FC<UploadModalProps> = ({
                 </div>
               </div>
 
-              {/* Right Column (7 cols): Per-Photo Detail Form */}
+              {/* Right Column (7 cols): Metadata Form with Bulk / 1-by-1 Switch */}
               <div className="lg:col-span-7 space-y-4">
-                {/* Judul Karya */}
-                <div>
-                  <label className="block text-[10px] uppercase tracking-wider font-semibold text-slate-300 mb-1.5">
-                    Judul Karya Foto #{currentIndex + 1} *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={activePhoto.title}
-                    onChange={(e) => updateActivePhoto('title', e.target.value)}
-                    placeholder="Contoh: Gemerlap Panggung Festival"
-                    className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 text-white text-sm focus:outline-none focus:border-amber-400 transition-colors"
-                  />
+                {/* DROPDOWN MODE SELEKSI PENERAPAN METADATA */}
+                <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-md">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-400 flex items-center justify-center shrink-0">
+                      <Layers className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <span className="text-xs font-bold text-white block">
+                        Penerapan Informasi Foto
+                      </span>
+                      <span className="text-[11px] text-slate-400 font-light">
+                        {applyMode === 'all'
+                          ? `Informasi di bawah otomatis diterapkan serentak ke seluruh ${queuedPhotos.length} foto.`
+                          : `Informasi di bawah hanya diterapkan khusus untuk Foto #${currentIndex + 1}.`}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="shrink-0">
+                    <select
+                      value={applyMode}
+                      onChange={(e) => handleApplyModeChange(e.target.value as 'all' | 'single')}
+                      className="w-full sm:w-auto px-3.5 py-2 rounded-xl bg-black/85 border border-amber-500/60 text-amber-300 font-bold text-xs focus:outline-none focus:ring-2 focus:ring-amber-400 cursor-pointer shadow-lg"
+                    >
+                      <option value="all" className="bg-[#0E1118] text-white">
+                        Terapkan ke SEMUA Foto ({queuedPhotos.length} Foto)
+                      </option>
+                      <option value="single" className="bg-[#0E1118] text-white">
+                        Edit 1 per 1 (Hanya Foto #{currentIndex + 1})
+                      </option>
+                    </select>
+                  </div>
                 </div>
+
+                {/* Judul Karya */}
+                {applyMode === 'all' ? (
+                  <div className="space-y-2 p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.08]">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                      <label className="block text-[10px] uppercase tracking-wider font-semibold text-slate-300">
+                        Penamaan Judul ({queuedPhotos.length} Foto)
+                      </label>
+                      <div className="flex items-center gap-1.5 p-0.5 rounded-lg bg-black/40 border border-white/10">
+                        <button
+                          type="button"
+                          onClick={() => handleTitleNamingModeChange('original')}
+                          className={`px-2.5 py-1 rounded-md text-[10px] font-semibold transition-all cursor-pointer ${
+                            titleNamingMode === 'original'
+                              ? 'bg-amber-500 text-slate-950 font-bold shadow-sm'
+                              : 'text-slate-400 hover:text-white'
+                          }`}
+                        >
+                          Nama File Asli
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleTitleNamingModeChange('numbered')}
+                          className={`px-2.5 py-1 rounded-md text-[10px] font-semibold transition-all cursor-pointer ${
+                            titleNamingMode === 'numbered'
+                              ? 'bg-amber-500 text-slate-950 font-bold shadow-sm'
+                              : 'text-slate-400 hover:text-white'
+                          }`}
+                        >
+                          Nama Seragam + Nomor
+                        </button>
+                      </div>
+                    </div>
+
+                    {titleNamingMode === 'original' ? (
+                      <div className="text-xs text-slate-400 pt-1">
+                        <span>Setiap foto memakai nama file aslinya (Foto aktif saat ini: <strong className="text-white font-mono">{activePhoto.title}</strong>).</span>
+                      </div>
+                    ) : (
+                      <div className="space-y-1.5 pt-1">
+                        <input
+                          type="text"
+                          value={baseTitle}
+                          onChange={(e) => handleBaseTitleChange(e.target.value)}
+                          placeholder="Masukkan judul umum (contoh: Wisuda Akbar Surabaya)"
+                          className="w-full px-3.5 py-2 rounded-xl bg-black/40 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-400"
+                        />
+                        <span className="text-[10px] text-amber-300/80 font-mono block">
+                          Format: "{baseTitle || activePhoto.category} #1", "{baseTitle || activePhoto.category} #2", dst.
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div>
+                    <label className="block text-[10px] uppercase tracking-wider font-semibold text-slate-300 mb-1.5">
+                      Judul Karya Foto #{currentIndex + 1} *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={activePhoto.title}
+                      onChange={(e) => updateActivePhoto('title', e.target.value)}
+                      placeholder="Contoh: Gemerlap Panggung Festival"
+                      className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 text-white text-sm focus:outline-none focus:border-amber-400 transition-colors"
+                    />
+                  </div>
+                )}
 
                 {/* Kategori & Orientasi */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[10px] uppercase tracking-wider font-semibold text-slate-300 mb-1.5">
-                      Kategori
-                    </label>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="block text-[10px] uppercase tracking-wider font-semibold text-slate-300">
+                        Kategori
+                      </label>
+                      {applyMode === 'all' && (
+                        <span className="text-[9px] font-mono text-amber-400 bg-amber-500/10 px-1.5 py-0.2 rounded border border-amber-500/30">
+                          Semua Foto
+                        </span>
+                      )}
+                    </div>
                     <select
                       value={activePhoto.category}
-                      onChange={(e) => updateActivePhoto('category', e.target.value)}
+                      onChange={(e) => handleCategoryChange(e.target.value)}
                       className="w-full px-3 py-2.5 rounded-xl bg-black/40 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-400 transition-colors"
                     >
                       {PHOTO_CATEGORIES.filter((c) => c !== 'Semua').map((cat) => (
@@ -830,46 +1088,64 @@ export const UploadModal: React.FC<UploadModalProps> = ({
                 {/* Lokasi & Tahun */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[10px] uppercase tracking-wider font-semibold text-slate-300 mb-1.5">
-                      Lokasi Pengambilan
-                    </label>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="block text-[10px] uppercase tracking-wider font-semibold text-slate-300">
+                        Lokasi Pengambilan
+                      </label>
+                      {applyMode === 'all' && (
+                        <span className="text-[9px] font-mono text-amber-400 bg-amber-500/10 px-1.5 py-0.2 rounded border border-amber-500/30">
+                          Semua Foto
+                        </span>
+                      )}
+                    </div>
                     <input
                       type="text"
                       value={activePhoto.location}
-                      onChange={(e) => updateActivePhoto('location', e.target.value)}
+                      onChange={(e) => handleLocationChange(e.target.value)}
                       placeholder="Surabaya, Jawa Timur"
                       className="w-full px-3 py-2.5 rounded-xl bg-black/40 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-400 transition-colors"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[10px] uppercase tracking-wider font-semibold text-slate-300 mb-1.5">
-                      Tahun Karya
-                    </label>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="block text-[10px] uppercase tracking-wider font-semibold text-slate-300">
+                        Tahun Karya
+                      </label>
+                      {applyMode === 'all' && (
+                        <span className="text-[9px] font-mono text-amber-400 bg-amber-500/10 px-1.5 py-0.2 rounded border border-amber-500/30">
+                          Semua Foto
+                        </span>
+                      )}
+                    </div>
                     <input
                       type="text"
                       value={activePhoto.year}
-                      onChange={(e) => updateActivePhoto('year', e.target.value)}
+                      onChange={(e) => handleYearChange(e.target.value)}
                       placeholder="2025"
                       className="w-full px-3 py-2.5 rounded-xl bg-black/40 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-400 transition-colors"
                     />
                   </div>
                 </div>
 
-                {/* Deskripsi Khusus Foto Ini */}
+                {/* Deskripsi & Narasi */}
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
                     <label className="block text-[10px] uppercase tracking-wider font-semibold text-slate-300">
-                      Deskripsi &amp; Narasi Foto Ini
+                      {applyMode === 'all'
+                        ? `Deskripsi & Narasi (Diterapkan ke Seluruh ${queuedPhotos.length} Foto)`
+                        : `Deskripsi & Narasi Foto #${currentIndex + 1}`}
                     </label>
                     <span className="text-[10px] text-amber-400/80 font-light">
-                      Cerita unik foto #{currentIndex + 1}
+                      {applyMode === 'all'
+                        ? `Sinkron serentak`
+                        : `Cerita unik foto #${currentIndex + 1}`}
                     </span>
                   </div>
                   <textarea
                     rows={3}
                     value={activePhoto.description}
-                    onChange={(e) => updateActivePhoto('description', e.target.value)}
+                    onChange={(e) => handleDescriptionChange(e.target.value)}
                     placeholder="Tuliskan cerita, momen di balik lensa, pencahayaan, atau emosi yang ingin disampaikan pada foto ini..."
                     className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-slate-600 text-xs focus:outline-none focus:border-amber-400 transition-colors leading-relaxed"
                   />
@@ -884,7 +1160,11 @@ export const UploadModal: React.FC<UploadModalProps> = ({
                       onChange={(e) => updateActivePhoto('featured', e.target.checked)}
                       className="w-4 h-4 rounded accent-amber-500 cursor-pointer"
                     />
-                    <span>Tandai sebagai Unggulan (Tampil di Showcase Utama &amp; Hero Carousel)</span>
+                    <span>
+                      {applyMode === 'all'
+                        ? `Tandai Foto #${currentIndex + 1} sebagai Unggulan Hero Showcase`
+                        : 'Tandai sebagai Unggulan (Tampil di Showcase Utama & Hero Carousel)'}
+                    </span>
                   </label>
                 </div>
               </div>
