@@ -11,6 +11,8 @@ import {
   Search,
   Database,
   CheckCircle2,
+  AlertTriangle,
+  RefreshCw,
 } from 'lucide-react';
 import { AdminLogin } from './AdminLogin';
 import { UploadModal } from './UploadModal';
@@ -123,6 +125,36 @@ export const AdminApp: React.FC = () => {
   const handlePhotosAdded = (newPhotos: PhotoItem[]) => {
     setPhotos((prev) => [...newPhotos, ...prev]);
     showToast(`${newPhotos.length} karya baru berhasil ditambahkan ke galeri!`);
+  };
+
+  const [isCleaning, setIsCleaning] = useState<boolean>(false);
+  const blobPhotosCount = photos.filter((p) => p.imageUrl.startsWith('blob:')).length;
+
+  const handleCleanBrokenBlobPhotos = async () => {
+    if (
+      !window.confirm(
+        `Yakin ingin membersihkan ${blobPhotosCount} karya foto dengan link sementara (blob) yang rusak? Data teks tanpa file fisik valid akan dihapus dari Supabase agar galeri kembali bersih.`
+      )
+    ) {
+      return;
+    }
+
+    setIsCleaning(true);
+    try {
+      if (supabase) {
+        const { error } = await supabase.from('photos').delete().like('image_url', 'blob:%');
+        if (error) {
+          throw error;
+        }
+      }
+      setPhotos((prev) => prev.filter((p) => !p.imageUrl.startsWith('blob:')));
+      showToast(`${blobPhotosCount} foto rusak berhasil dibersihkan dari database!`);
+    } catch (err: any) {
+      console.error('Gagal membersihkan foto rusak:', err);
+      showToast(`Gagal membersihkan: ${err.message || 'Terjadi kesalahan'}`);
+    } finally {
+      setIsCleaning(false);
+    }
   };
 
   // Filter & Pencarian
@@ -344,18 +376,55 @@ export const AdminApp: React.FC = () => {
                 })}
               </div>
 
-          {/* Search Box */}
-          <div className="relative w-full sm:w-72">
-            <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Cari judul, lokasi, tahun..."
-              className="w-full pl-9 pr-4 py-2 rounded-full bg-black/40 border border-white/10 text-white placeholder:text-slate-600 text-xs focus:outline-none focus:border-amber-400 transition-colors"
-            />
+          {/* Search Box & Refresh */}
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            <div className="relative flex-1 sm:w-72">
+              <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Cari judul, lokasi, tahun..."
+                className="w-full pl-9 pr-4 py-2 rounded-full bg-black/40 border border-white/10 text-white placeholder:text-slate-600 text-xs focus:outline-none focus:border-amber-400 transition-colors"
+              />
+            </div>
+            <button
+              onClick={loadPhotos}
+              disabled={loading}
+              className="p-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors cursor-pointer shrink-0"
+              title="Segarkan data dari database"
+            >
+              <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-amber-400' : ''}`} />
+            </button>
           </div>
         </div>
+
+        {/* ALERT FOTO RUSAK KARENA LINK SEMENTARA (BLOB) */}
+        {blobPhotosCount > 0 && (
+          <div className="p-4 sm:p-5 rounded-2xl bg-red-950/40 border border-red-500/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4 animate-in fade-in duration-300">
+            <div className="flex items-start gap-3">
+              <div className="p-2.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 shrink-0">
+                <AlertTriangle className="w-5 h-5" />
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-red-200">
+                  Terdeteksi {blobPhotosCount} Karya dengan Link Sementara (Blob URL)
+                </h4>
+                <p className="text-xs text-red-300/80 mt-1 leading-relaxed max-w-3xl">
+                  Foto-foto ini tersimpan dengan tautan sementara browser yang sudah kedaluwarsa karena Cloudflare R2 Binding (<code className="px-1.5 py-0.5 rounded bg-black/50 text-amber-300 font-mono text-[11px]">PHOTOS_BUCKET</code>) belum terhubung di Cloudflare Pages Dashboard. Bersihkan semua entri rusak ini dengan sekali klik agar galeri bersih, lalu sambungkan R2 dan unggah kembali secara permanen.
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={handleCleanBrokenBlobPhotos}
+              disabled={isCleaning}
+              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-lg cursor-pointer shrink-0 disabled:opacity-50"
+            >
+              <Trash2 className="w-4 h-4" />
+              <span>{isCleaning ? 'Membersihkan...' : `Bersihkan Semua (${blobPhotosCount})`}</span>
+            </button>
+          </div>
+        )}
 
         {/* PHOTO GALLERY GRID */}
         {loading ? (
@@ -396,8 +465,19 @@ export const AdminApp: React.FC = () => {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
 
+                  {/* Warning Overlay if Blob URL */}
+                  {photo.imageUrl.startsWith('blob:') && (
+                    <div className="absolute inset-0 bg-black/85 backdrop-blur-[2px] flex flex-col items-center justify-center p-4 text-center z-10">
+                      <AlertTriangle className="w-6 h-6 text-red-400 mb-1.5" />
+                      <span className="text-xs font-bold text-red-200">Link Rusak (Blob)</span>
+                      <span className="text-[10px] text-red-300/70 mt-1 max-w-[180px]">
+                        File fisik tidak tersimpan di Cloudflare R2
+                      </span>
+                    </div>
+                  )}
+
                   {/* Badges on Top */}
-                  <div className="absolute top-3 inset-x-3 flex items-center justify-between">
+                  <div className="absolute top-3 inset-x-3 flex items-center justify-between z-20">
                     <span className="px-2.5 py-0.5 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-[9px] font-bold uppercase tracking-wider text-amber-300">
                       {photo.category}
                     </span>

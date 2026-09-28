@@ -379,6 +379,7 @@ export const UploadModal: React.FC<UploadModalProps> = ({
         let finalImageUrl = item.previewUrl;
 
         // 1. Unggah WebP ke Cloudflare R2
+        let uploadedUrl = '';
         if (item.compressedFile) {
           try {
             const formData = new FormData();
@@ -387,33 +388,59 @@ export const UploadModal: React.FC<UploadModalProps> = ({
               method: 'POST',
               body: formData,
             });
-            if (uploadRes.ok) {
-              const uploadData = await uploadRes.json();
-              if (uploadData.url) finalImageUrl = uploadData.url;
+            const uploadData = await uploadRes.json();
+            if (uploadRes.ok && uploadData.url) {
+              uploadedUrl = uploadData.url;
+            } else {
+              throw new Error(uploadData.error || uploadData.warning || 'Server upload Cloudflare R2 tidak mengembalikan URL publik.');
             }
-          } catch {
-            // Mode dev offline
-          }
-
-          // 1b. Fallback ke Supabase Storage
-          if (finalImageUrl === item.previewUrl && supabase) {
-            try {
-              const cleanName = item.compressedFile.name.replace(/[^a-zA-Z0-9.-]/g, '_');
-              const storagePath = `${Date.now()}-${i}-${cleanName}`;
-              const { data: sData, error: sError } = await supabase.storage
-                .from('photos')
-                .upload(storagePath, item.compressedFile, {
-                  contentType: 'image/webp',
-                  upsert: true,
-                });
-              if (!sError && sData) {
-                const { data: pubData } = supabase.storage.from('photos').getPublicUrl(storagePath);
-                if (pubData?.publicUrl) finalImageUrl = pubData.publicUrl;
+          } catch (r2Err: any) {
+            // Coba fallback ke Supabase Storage jika ada
+            if (supabase) {
+              try {
+                const cleanName = item.compressedFile.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+                const storagePath = `${Date.now()}-${i}-${cleanName}`;
+                const { data: sData, error: sError } = await supabase.storage
+                  .from('photos')
+                  .upload(storagePath, item.compressedFile, {
+                    contentType: 'image/webp',
+                    upsert: true,
+                  });
+                if (!sError && sData) {
+                  const { data: pubData } = supabase.storage.from('photos').getPublicUrl(storagePath);
+                  if (pubData?.publicUrl) uploadedUrl = pubData.publicUrl;
+                }
+              } catch (storageErr) {
+                console.warn('Supabase storage fallback error:', storageErr);
               }
-            } catch (storageErr) {
-              console.warn('Supabase storage fallback error:', storageErr);
+            }
+
+            // Jika tetap tidak mendapatkan URL permanen dari R2 atau Supabase Storage:
+            if (!uploadedUrl) {
+              setUploading(false);
+              setUploadProgress(null);
+              setCurrentIndex(i);
+              setStatusMessage({
+                type: 'error',
+                text: `Gagal mengunggah foto "${item.title}" ke Cloudflare R2: ${r2Err.message}. Foto Anda tetap aman di antrean dan TIDAK akan disimpan sebagai link sementara (blob).`,
+              });
+              return;
             }
           }
+        }
+
+        finalImageUrl = uploadedUrl || item.previewUrl;
+
+        // PENCEGAHAN MUTLAK: Jangan pernah simpan blob: URL ke database
+        if (finalImageUrl.startsWith('blob:')) {
+          setUploading(false);
+          setUploadProgress(null);
+          setCurrentIndex(i);
+          setStatusMessage({
+            type: 'error',
+            text: `Pencegahan: File foto belum terunggah ke Cloudflare R2. Harap pastikan R2 Binding 'PHOTOS_BUCKET' sudah dihubungkan di Cloudflare Pages Dashboard sebelum mempublikasikan.`,
+          });
+          return;
         }
 
         // 2. Simpan metadata ke Supabase

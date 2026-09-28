@@ -51,13 +51,13 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       );
     }
 
-    // 2. Jika R2 belum dibind (misal saat preview lokal)
+    // 2. Jika R2 belum dibind di Cloudflare Pages Dashboard
     return new Response(
       JSON.stringify({
-        warning: 'PHOTOS_BUCKET belum di-bind di dashboard Cloudflare Pages. File disimpan secara simulasi.',
-        filename,
+        error:
+          'PHOTOS_BUCKET belum di-bind di dashboard Cloudflare Pages. Harap buka Cloudflare Dashboard -> Workers & Pages -> byhuseinrosid-portofolio -> Settings -> Functions -> R2 Bucket Bindings, lalu tambahkan binding bernama PHOTOS_BUCKET ke bucket R2 Anda.',
       }),
-      { status: 200, headers: corsHeaders }
+      { status: 500, headers: corsHeaders }
     );
   } catch (err: any) {
     return new Response(
