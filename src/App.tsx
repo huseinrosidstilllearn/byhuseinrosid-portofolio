@@ -208,7 +208,7 @@ export function App() {
 
       {/* ── Landing Gate ────────────────────────────────────────────────────────── */}
       {siteMode === 'landing' ? (
-        <LandingGate onSelectMode={handleSetSiteMode} />
+        <LandingGate onSelectMode={handleSetSiteMode} photos={photos} />
       ) : siteMode === 'perjalanan' ? (
         /* ── Mode Perjalanan ─────────────────────────────────────────────────────── */
         <motion.div
