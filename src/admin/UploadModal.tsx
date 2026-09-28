@@ -174,6 +174,19 @@ export const UploadModal: React.FC<UploadModalProps> = ({
     );
   };
 
+  // Reset seluruh antrean dan input form
+  const resetForm = () => {
+    setQueuedPhotos([]);
+    setCurrentIndex(0);
+    setBaseTitle('');
+    setCustomImageUrl('');
+    setUrlTitle('');
+    setUrlDescription('');
+    setStatusMessage(null);
+    setUploading(false);
+    setUploadProgress(null);
+  };
+
   // Hapus foto tertentu dari antrean
   const handleRemovePhoto = (indexToRemove: number) => {
     setQueuedPhotos((prev) => {
@@ -448,20 +461,25 @@ export const UploadModal: React.FC<UploadModalProps> = ({
 
       setUploading(false);
       setUploadProgress(null);
-      setStatusMessage({
-        type: 'success',
-        text: `Berhasil mengunggah dan mempublikasikan ${savedPhotos.length} karya foto!`,
-      });
 
+      // Kirim hasil karya foto yang baru diunggah ke tampilan galeri
       if (onPhotosAdded) {
         onPhotosAdded(savedPhotos);
       } else if (onPhotoAdded && savedPhotos[0]) {
         savedPhotos.forEach((p) => onPhotoAdded(p));
       }
 
+      // OTOMATIS BERSIHKAN ANTREAN SEHINGGA TIDAK TERSIMPAN LAGI DI MODAL
+      resetForm();
+
+      setStatusMessage({
+        type: 'success',
+        text: `Berhasil mengunggah dan mempublikasikan ${savedPhotos.length} karya foto! Antrean telah dibersihkan.`,
+      });
+
       setTimeout(() => {
         onClose();
-      }, 1000);
+      }, 1200);
       return;
     }
 
@@ -521,6 +539,7 @@ export const UploadModal: React.FC<UploadModalProps> = ({
         onPhotosAdded([newPhotoData]);
       }
 
+      resetForm();
       setTimeout(() => {
         onClose();
       }, 1000);
@@ -546,7 +565,10 @@ export const UploadModal: React.FC<UploadModalProps> = ({
             </h2>
           </div>
           <button
-            onClick={onClose}
+            onClick={() => {
+              resetForm();
+              onClose();
+            }}
             className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors cursor-pointer"
             title="Tutup Modal"
           >
@@ -901,6 +923,22 @@ export const UploadModal: React.FC<UploadModalProps> = ({
                   <Trash2 className="w-3.5 h-3.5" />
                   <span className="hidden sm:inline">Hapus Foto Ini</span>
                 </button>
+
+                {queuedPhotos.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (window.confirm(`Yakin ingin mengosongkan seluruh antrean (${queuedPhotos.length} foto)?`)) {
+                        resetForm();
+                      }
+                    }}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-500/15 hover:bg-red-500/25 border border-red-500/30 text-red-300 text-xs font-semibold transition-all cursor-pointer"
+                    title="Kosongkan seluruh antrean foto sekaligus"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>Kosongkan Semua ({queuedPhotos.length})</span>
+                  </button>
+                )}
               </div>
             </div>
 
@@ -1176,8 +1214,7 @@ export const UploadModal: React.FC<UploadModalProps> = ({
                 type="button"
                 onClick={() => {
                   if (window.confirm('Kosongkan semua antrean foto?')) {
-                    setQueuedPhotos([]);
-                    setCurrentIndex(0);
+                    resetForm();
                   }
                 }}
                 disabled={uploading}
