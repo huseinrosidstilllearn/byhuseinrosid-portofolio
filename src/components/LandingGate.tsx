@@ -20,12 +20,21 @@ interface LandingGateProps {
 
 export function LandingGate({ onSelectMode, photos = [] }: LandingGateProps) {
   // Ambil foto terbaik fotografer (prioritaskan featured, fallback ke PORTFOLIO_PHOTOS)
-  const displayPhotos: PhotoItem[] = (photos && photos.length > 0)
+  const rawPhotos: PhotoItem[] = (photos && photos.length > 0)
     ? [
         ...photos.filter((p) => p.featured),
         ...photos.filter((p) => !p.featured),
       ].slice(0, 6)
     : PORTFOLIO_PHOTOS.slice(0, 6);
+
+  // Filter aman: Jika foto memiliki blob URL yang telah kadaluarsa dari session sebelumnya, ganti dengan foto portofolio
+  const displayPhotos: PhotoItem[] = rawPhotos.map((p, idx) => {
+    if (p.imageUrl?.startsWith('blob:')) {
+      const fallback = PORTFOLIO_PHOTOS[idx % PORTFOLIO_PHOTOS.length];
+      return { ...p, imageUrl: fallback.imageUrl };
+    }
+    return p;
+  });
 
   const [activeSlide, setActiveSlide] = useState(0);
   const [enteringMode, setEnteringMode] = useState<SiteMode | null>(null);
@@ -104,16 +113,22 @@ export function LandingGate({ onSelectMode, photos = [] }: LandingGateProps) {
           >
             <img
               src={currentPhoto.imageUrl}
-              alt={currentPhoto.title}
-              className="w-full h-full object-cover object-center filter brightness-[0.78] contrast-[1.05]"
+              alt=""
+              onError={(e) => {
+                const fallbackSrc = PORTFOLIO_PHOTOS[activeSlide % PORTFOLIO_PHOTOS.length].imageUrl;
+                if (e.currentTarget.src !== fallbackSrc) {
+                  e.currentTarget.src = fallbackSrc;
+                }
+              }}
+              className="w-full h-full object-cover object-center filter brightness-[0.88] contrast-[1.05]"
             />
           </motion.div>
         </AnimatePresence>
 
         {/* Gradien Sinematik Mewah & Vignette Film */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/85 via-black/45 to-[#050505]/95" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#050505]/75 via-transparent to-[#050505]/75" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-500/[0.04] via-transparent to-black/80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/70 via-black/35 to-[#050505]/90" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#050505]/65 via-transparent to-[#050505]/65" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-black/20 to-[#050505]/75" />
 
         {/* Tekstur Subtle Film Grain */}
         <div className="absolute inset-0 opacity-[0.035] bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]" />
