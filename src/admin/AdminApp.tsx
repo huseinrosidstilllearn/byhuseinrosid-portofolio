@@ -120,6 +120,11 @@ export const AdminApp: React.FC = () => {
     showToast(`Karya baru "${newPhoto.title}" berhasil ditambahkan!`);
   };
 
+  const handlePhotosAdded = (newPhotos: PhotoItem[]) => {
+    setPhotos((prev) => [...newPhotos, ...prev]);
+    showToast(`${newPhotos.length} karya baru berhasil ditambahkan ke galeri!`);
+  };
+
   // Filter & Pencarian
   const filteredPhotos = photos.filter((p) => {
     const matchCategory =
@@ -475,6 +480,7 @@ export const AdminApp: React.FC = () => {
         isOpen={isUploadModalOpen}
         onClose={() => setIsUploadModalOpen(false)}
         onPhotoAdded={handlePhotoAdded}
+        onPhotosAdded={handlePhotosAdded}
       />
     </div>
   );
