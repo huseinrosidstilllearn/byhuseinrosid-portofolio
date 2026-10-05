@@ -28,3 +28,4 @@ dist-ssr
 favicon/
 .env
 .playwright-mcp/
+_worker.bundle
