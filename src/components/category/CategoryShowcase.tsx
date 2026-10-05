@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, ArrowRight, Layers } from 'lucide-react';
+import { ArrowUpRight, ArrowRight } from 'lucide-react';
 import { CATEGORY_ORDER, getCategoryInfo } from '../../data/categoryData';
 import type { PhotoItem } from '../../types/portfolio';
 

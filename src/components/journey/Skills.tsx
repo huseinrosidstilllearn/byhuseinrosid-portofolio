@@ -16,7 +16,6 @@ import {
   Eye,
   Plane,
   Crop,
-  CheckCircle2,
 } from 'lucide-react';
 import { SKILLS } from '../../data/journeyData';
 import type { SkillItem } from '../../types/portfolio';

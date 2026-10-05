@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowDown, ArrowUpRight, MessageCircle, MapPin, Pause, Play } from 'lucide-react';
-import { PHOTOGRAPHER_PROFILE } from '../data/portfolioData';
 import { createWhatsAppLink } from '../utils/whatsapp';
 
 interface HeroProps {

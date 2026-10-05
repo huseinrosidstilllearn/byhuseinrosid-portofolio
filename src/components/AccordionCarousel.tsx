@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layers, MapPin } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import { PORTFOLIO_PHOTOS } from '../data/portfolioData';
 import type { PhotoItem } from '../types/portfolio';
 

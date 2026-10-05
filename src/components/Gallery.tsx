@@ -3,7 +3,6 @@ import {
   MapPin,
   Grid,
   Film,
-  LayoutGrid,
   Columns3,
   Layers,
   Sparkles,
