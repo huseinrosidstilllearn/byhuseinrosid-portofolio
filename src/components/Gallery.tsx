@@ -120,13 +120,12 @@ export const Gallery: React.FC<GalleryProps> = ({
         {/* Title & Subtitle */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-amber-400 mb-2">
-              <LayoutGrid className="w-3.5 h-3.5" />
-              <span>Koleksi Pilihan</span>
-            </div>
-            <h2 className="font-editorial text-3xl sm:text-5xl text-white font-medium">
+            <h2 className="font-editorial text-3xl sm:text-5xl lg:text-6xl text-white font-bold tracking-tight">
               Showcase Utama
             </h2>
+            <p className="text-xs sm:text-sm text-slate-300 font-light mt-2 max-w-md">
+              Koleksi kurasi lintas genre yang mewakili karakter, atmosfer, dan visi visual Husein Rosid.
+            </p>
           </div>
 
           {/* Active Mode Description Badge */}
@@ -154,7 +153,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                 <button
                   key={mode.id}
                   onClick={() => setGalleryMode(mode.id)}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium tracking-wider whitespace-nowrap transition-all duration-200 cursor-pointer ${
+                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium tracking-wider whitespace-nowrap active:scale-[0.98] transition-all duration-200 cursor-pointer ${
                     isActive
                       ? 'bg-amber-500 text-slate-950 font-bold shadow-[0_2px_12px_rgba(245,158,11,0.35)] scale-[1.02]'
                       : 'text-slate-400 hover:text-white hover:bg-white/[0.06]'

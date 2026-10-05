@@ -178,19 +178,17 @@ export function LandingGate({ onSelectMode, photos = [] }: LandingGateProps) {
           transition={{ duration: 0.9, delay: 0.3 }}
         >
           {/* Eyebrow Label */}
-          <div className="inline-flex items-center gap-2.5 px-3.5 py-1 rounded-full bg-white/[0.05] border border-white/10 backdrop-blur-sm">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-            <span className="text-[11px] font-mono uppercase tracking-[0.3em] text-amber-300/90 font-semibold">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.05] border border-white/10 backdrop-blur-sm">
+            <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-amber-300/90 font-semibold">
               Koleksi &amp; Portofolio Visual
             </span>
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
           </div>
 
           {/* Grand Magazine Headline */}
           <div className="space-y-3">
-            <h1 className="font-editorial text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-white font-medium tracking-tight leading-[1.05] drop-shadow-[0_10px_35px_rgba(0,0,0,0.8)]">
+            <h1 className="font-editorial text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-white font-black tracking-tighter leading-[1.03] drop-shadow-[0_10px_35px_rgba(0,0,0,0.8)]">
               The Journey of <br className="hidden sm:inline" />
-              <span className="italic font-light text-amber-300/90">Husein Rosid</span>
+              <span className="font-couture text-amber-300 font-bold inline-block leading-[1.15] pb-1">Husein Rosid</span>
             </h1>
             <p className="max-w-xl mx-auto text-xs sm:text-sm md:text-base text-slate-300 font-light leading-relaxed">
               Merekam keheningan, sukacita, dan keabadian cahaya yang tertangkap di antara detak waktu.
@@ -202,7 +200,7 @@ export function LandingGate({ onSelectMode, photos = [] }: LandingGateProps) {
             {/* Tombol 1: Eksplorasi Karya Visual */}
             <button
               onClick={() => handleSelect('karya')}
-              className="w-full sm:w-auto group relative flex items-center justify-between sm:justify-start gap-4 px-7 py-4 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold transition-all duration-300 shadow-[0_0_35px_rgba(245,158,11,0.35)] hover:shadow-[0_0_50px_rgba(245,158,11,0.55)] hover:scale-105 cursor-pointer"
+              className="w-full sm:w-auto group relative flex items-center justify-between sm:justify-start gap-4 px-7 py-4 rounded-full bg-amber-500 hover:bg-amber-400 active:scale-[0.98] active:translate-y-[1px] text-slate-950 font-bold transition-all duration-200 shadow-[0_4px_30px_rgba(245,158,11,0.4)] cursor-pointer"
             >
               <div className="w-9 h-9 rounded-full bg-slate-950/15 flex items-center justify-center text-slate-950 shrink-0">
                 <Compass className="w-4 h-4" />
@@ -221,7 +219,7 @@ export function LandingGate({ onSelectMode, photos = [] }: LandingGateProps) {
             {/* Tombol 2: Jejak Perjalanan (Profil & Rekam Jejak) */}
             <button
               onClick={() => handleSelect('perjalanan')}
-              className="w-full sm:w-auto group relative flex items-center justify-between sm:justify-start gap-4 px-7 py-4 rounded-full bg-white/[0.08] hover:bg-white/[0.18] border border-white/20 hover:border-white/40 backdrop-blur-xl text-white font-bold transition-all duration-300 shadow-xl hover:scale-105 cursor-pointer"
+              className="w-full sm:w-auto group relative flex items-center justify-between sm:justify-start gap-4 px-7 py-4 rounded-full bg-white/[0.08] hover:bg-white/[0.18] active:scale-[0.98] active:translate-y-[1px] border border-white/20 hover:border-white/40 backdrop-blur-xl text-white font-bold transition-all duration-200 shadow-xl cursor-pointer"
             >
               <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-amber-300 shrink-0">
                 <Sparkles className="w-4 h-4" />

@@ -83,7 +83,7 @@ export const TIMELINE_MILESTONES: TimelineMilestone[] = [
   {
     id: 'tm-09',
     year: '2025',
-    title: 'By Husein Rosid — Brand Visual Resmi',
+    title: 'By Husein Rosid: Identitas Visual Resmi',
     description: 'Meluncurkan brand visual personal "By Husein Rosid" secara resmi dengan portofolio website ini. Merangkum 7+ tahun perjalanan menjadi satu ruang kurasi digital yang bisa dinikmati siapa saja.',
     icon: 'sparkles',
     tags: ['Brand', 'Portofolio', 'Milestone'],
@@ -98,7 +98,7 @@ export const SKILLS: SkillItem[] = [
     category: 'teknis',
     level: 'Ahli',
     icon: 'framing',
-    description: 'Rule of thirds, leading lines, negative space — instingtif',
+    description: 'Rule of thirds, leading lines, dan negative space secara instingtif',
   },
   {
     name: 'Pencahayaan Natural',

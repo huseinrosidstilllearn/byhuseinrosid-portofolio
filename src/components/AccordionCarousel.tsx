@@ -18,11 +18,7 @@ export const AccordionCarousel: React.FC<AccordionCarouselProps> = ({ photos = P
     <section className="w-full px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 max-w-[1920px] mx-auto py-12" aria-label="Accordion Expanding Panels">
       <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
         <div>
-          <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-amber-400 mb-1.5">
-            <Layers className="w-3.5 h-3.5" />
-            <span>Sorotan Kuratorial</span>
-          </div>
-          <h3 className="font-editorial text-2xl sm:text-3xl text-white font-medium">
+          <h3 className="font-editorial text-2xl sm:text-4xl text-white font-bold tracking-tight">
             Ruang & Bingkai Pilihan
           </h3>
         </div>

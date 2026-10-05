@@ -27,18 +27,12 @@ export const CategoryShowcase: React.FC<CategoryShowcaseProps> = ({
       id="kategori-showcase"
       className="w-full px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 max-w-[1920px] mx-auto scroll-mt-28"
     >
-      {/* Section Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 pb-6 border-b border-white/[0.08]">
-        <div>
-          <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-amber-400 mb-2">
-            <Layers className="w-3.5 h-3.5" />
-            <span>Kurasi Berdasarkan Genre</span>
-          </div>
-          <h2 className="font-editorial text-3xl sm:text-5xl text-white font-medium">
-            Jelajahi Berdasarkan Kategori
-          </h2>
-        </div>
-        <p className="max-w-md text-xs sm:text-sm text-slate-400 font-light leading-relaxed">
+      {/* Section Header - Vertical Stack & Eyebrow Restraint */}
+      <div className="mb-10 sm:mb-12 pb-6 border-b border-white/[0.08]">
+        <h2 className="font-editorial text-3xl sm:text-5xl lg:text-6xl text-white font-bold tracking-tight">
+          Eksplorasi Per Kategori
+        </h2>
+        <p className="max-w-xl text-xs sm:text-sm text-slate-300 font-light leading-relaxed mt-3">
           Setiap genre memiliki atmosfer, disiplin, dan narasi filosofisnya masing-masing. Masuk ke ruang kategori khusus untuk melihat arsip lengkap secara mendalam dan terfokus.
         </p>
       </div>
@@ -60,9 +54,9 @@ export const CategoryShowcase: React.FC<CategoryShowcaseProps> = ({
             <motion.div
               key={catName}
               onClick={() => onSelectCategory(catName)}
-              className={`${colSpanClass} group relative rounded-3xl overflow-hidden bento-card border border-white/10 hover:border-amber-400/50 transition-all duration-500 cursor-pointer flex flex-col justify-between p-6 sm:p-8`}
+              className={`${colSpanClass} group relative rounded-3xl overflow-hidden bento-card border border-white/10 hover:border-amber-400/50 active:scale-[0.985] active:translate-y-[1px] transition-all duration-300 cursor-pointer flex flex-col justify-between p-6 sm:p-8`}
               whileHover={{ y: -4 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.25 }}
             >
               {/* Background Photo with Smooth Ken-Burns Zoom */}
               <div className="absolute inset-0 z-0 overflow-hidden bg-black">

@@ -4,8 +4,8 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-headline: "Fraunces", Georgia, serif;
-  --font-serif: "Playfair Display", Georgia, serif;
+  --font-headline: "Syne", sans-serif;
+  --font-couture: "Cormorant Garamond", Georgia, serif;
   --font-syne: "Syne", sans-serif;
   --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
   --color-obsidian: #050505;
@@ -46,15 +46,15 @@ body {
 
 .font-editorial {
   font-family: var(--font-headline);
-  letter-spacing: -0.025em;
+  letter-spacing: -0.03em;
 }
 
-.font-serif-classic {
-  font-family: var(--font-serif);
-}
-
-.font-fraunces {
-  font-family: var(--font-fraunces);
+.font-couture {
+  font-family: var(--font-couture);
+  font-style: italic;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  padding-bottom: 0.15em;
 }
 
 /* Subtle architectural linear grid background */
@@ -70,20 +70,25 @@ body {
   background: radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.08) 0%, transparent 60%);
 }
 
-/* Bento Card Glass Style - softer curves & fluid hover */
+/* Bento Card Glass Style - physical glassmorphism & tactile depth */
 .bento-card {
-  background: rgba(14, 17, 25, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(13, 16, 23, 0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 8px 32px -8px rgba(0, 0, 0, 0.5);
   border-radius: 1.75rem;
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.35s ease;
 }
 
 .bento-card:hover {
   border-color: rgba(245, 158, 11, 0.35);
-  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.6), 0 0 30px rgba(245, 158, 11, 0.1);
-  transform: translateY(-3px) scale(1.003);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 20px 48px -12px rgba(0, 0, 0, 0.7), 0 0 30px rgba(245, 158, 11, 0.08);
+  transform: translateY(-2px);
+}
+
+.bento-card:active {
+  transform: translateY(0) scale(0.995);
 }
 
 /* Split Letter / Staggered Wave Effect (CodeFronts) */

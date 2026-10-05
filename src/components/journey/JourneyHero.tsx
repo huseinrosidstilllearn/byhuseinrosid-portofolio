@@ -26,7 +26,7 @@ export const JourneyHero: React.FC<JourneyHeroProps> = ({
   const waLink = `https://wa.me/${contact.whatsappNumber}?text=Halo%20Mas%20Husein%2C%20saya%20tertarik%20untuk%20berkolaborasi!`;
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center pt-24 pb-16 px-4 sm:px-8 overflow-hidden">
+    <section className="relative min-h-[100dvh] flex flex-col justify-center pt-24 pb-16 px-4 sm:px-8 overflow-hidden">
       {/* Background texture */}
       <div className="absolute inset-0 bg-grid-pattern opacity-30 pointer-events-none" />
       <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-amber-500/5 to-transparent pointer-events-none" />
@@ -94,7 +94,7 @@ export const JourneyHero: React.FC<JourneyHeroProps> = ({
 
             {/* Headline */}
             <div>
-              <h1 className="font-headline text-5xl sm:text-6xl lg:text-7xl font-black leading-[0.9] tracking-tight text-white mb-4">
+              <h1 className="font-editorial text-5xl sm:text-6xl lg:text-7xl font-black leading-[0.9] tracking-tight text-white mb-4">
                 Husein
                 <br />
                 <span className="text-amber-400">Rosid</span>
@@ -118,8 +118,8 @@ export const JourneyHero: React.FC<JourneyHeroProps> = ({
 
             {/* Philosophy */}
             <blockquote className="border-l-2 border-amber-500/60 pl-4">
-              <p className="text-white/60 text-sm italic leading-relaxed">
-                "{profile.philosophy}"
+              <p className="text-slate-300 text-sm italic font-couture leading-relaxed">
+                &ldquo;{profile.philosophy}&rdquo;
               </p>
             </blockquote>
 
@@ -129,7 +129,7 @@ export const JourneyHero: React.FC<JourneyHeroProps> = ({
                 href={waLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-amber-500 hover:bg-amber-400 text-black font-semibold text-sm transition-all duration-300 hover:scale-105 shadow-[0_0_20px_rgba(245,158,11,0.25)]"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-amber-500 hover:bg-amber-400 active:scale-[0.98] active:translate-y-[1px] text-slate-950 font-bold text-sm transition-all duration-200 shadow-[0_4px_20px_rgba(245,158,11,0.3)]"
               >
                 <MessageCircle className="w-4 h-4" />
                 <span>Hubungi via WhatsApp</span>
@@ -140,7 +140,7 @@ export const JourneyHero: React.FC<JourneyHeroProps> = ({
                   e.preventDefault();
                   document.getElementById('timeline')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/20 hover:border-amber-500/50 text-white/70 hover:text-white text-sm transition-all duration-300"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/20 hover:border-amber-500/50 active:scale-[0.98] active:translate-y-[1px] text-white/70 hover:text-white text-sm transition-all duration-200"
               >
                 <span>Lihat Perjalanan</span>
                 <ArrowDown className="w-4 h-4" />

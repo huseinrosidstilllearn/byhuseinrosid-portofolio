@@ -130,21 +130,16 @@ export function Timeline({ milestones = TIMELINE_MILESTONES }: { milestones?: ty
         {/* Section Header */}
         <motion.div
           ref={titleRef}
-          className="text-center mb-20"
-          initial={{ opacity: 0, y: 24 }}
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
           animate={isTitleInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.6 }}
         >
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="w-12 h-px bg-amber-500/50" />
-            <span className="text-amber-400/70 text-xs font-mono tracking-[0.3em] uppercase">Garis Waktu</span>
-            <div className="w-12 h-px bg-amber-500/50" />
-          </div>
-          <h2 className="font-headline text-5xl sm:text-6xl font-black text-white mb-4">
+          <h2 className="font-editorial text-4xl sm:text-6xl font-bold text-white tracking-tight">
             Perjalanan <span className="text-amber-400">Visual</span>
           </h2>
-          <p className="text-white/40 text-base max-w-xl mx-auto leading-relaxed">
-            Setiap tahun membawa pelajaran baru, setiap proyek meninggalkan bekas yang membentuk cara pandang saya terhadap cahaya dan kemanusiaan.
+          <p className="text-slate-300 text-sm sm:text-base font-light max-w-xl mx-auto leading-relaxed mt-3">
+            Setiap tahun membawa kedewasaan rasa, dan setiap proyek mengasah ketajaman dalam menangkap kejujuran subjek.
           </p>
         </motion.div>
 

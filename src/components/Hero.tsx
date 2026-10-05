@@ -77,7 +77,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
   const activeFrame = FEATURED_HERO_FRAMES[activeFrameIndex];
 
   return (
-    <section className="relative min-h-[92vh] sm:min-h-screen flex flex-col justify-between pt-28 sm:pt-36 pb-8 sm:pb-12 px-4 sm:px-6 lg:px-12 overflow-hidden select-none">
+    <section className="relative min-h-[100dvh] flex flex-col justify-between pt-20 sm:pt-24 pb-6 sm:pb-8 px-4 sm:px-6 lg:px-12 overflow-hidden select-none">
       {/* Background Photographic Canvas with Smooth Crossfade */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {FEATURED_HERO_FRAMES.map((frame, index) => {
@@ -106,18 +106,18 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-amber-500/10 rounded-full blur-[140px] pointer-events-none z-20" />
       </div>
 
-      {/* Main Editorial Hero Content - Center Aligned */}
+      {/* Main Editorial Hero Content - Viewport Disciplined */}
       <div className="relative z-30 max-w-4xl mx-auto my-auto text-center flex flex-col items-center">
         {/* Prestige Eyebrow */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/15 bg-white/[0.04] backdrop-blur-md text-amber-300 text-[11px] font-medium uppercase tracking-[0.25em] mb-6 sm:mb-8">
-          <span>Arsip Visual &bull; Portofolio Fotografi &bull; Surabaya</span>
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-white/15 bg-white/[0.04] backdrop-blur-md text-amber-300 text-[11px] font-medium uppercase tracking-[0.2em] mb-4 sm:mb-6">
+          <span>Portofolio Fotografi &bull; Surabaya</span>
         </div>
 
-        {/* Monumental Bold Editorial Headline with Split Letter Wave */}
-        <h1 className="font-editorial text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold leading-[1.05] tracking-tight text-white max-w-4xl drop-shadow-md mx-auto">
+        {/* Monumental Architectural Headline */}
+        <h1 className="font-editorial text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[1.03] tracking-tighter text-white max-w-4xl drop-shadow-md mx-auto">
           Stories Told in the{' '}
           <span
-            className="italic text-amber-400 font-extrabold inline-block split-wave cursor-pointer"
+            className="font-couture text-amber-400 font-bold inline-block split-wave cursor-pointer leading-[1.15] pb-1"
             aria-label="Quiet Spaces"
           >
             <span aria-hidden="true">
@@ -135,18 +135,18 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           Between Moments.
         </h1>
 
-        {/* Narrative Subheadline */}
-        <p className="text-base sm:text-lg md:text-xl text-slate-300 font-light leading-relaxed mt-6 max-w-2xl mx-auto text-balance">
-          {PHOTOGRAPHER_PROFILE.subheadline} Menghidupkan kembali keheningan, kejujuran rasa, dan keindahan setiap tarikan napas melalui lensa dokumenter dan komersial berstandar tinggi.
+        {/* Narrative Subheadline - Strictly <= 20 words per taste-skill */}
+        <p className="text-sm sm:text-base md:text-lg text-slate-300 font-light leading-relaxed mt-4 sm:mt-5 max-w-xl mx-auto text-balance">
+          Dokumentasi sinematik dan eksplorasi visual yang menangkap kejujuran rasa, karakter, dan keindahan abadi di setiap momen.
         </p>
 
-        {/* Action Button Row */}
-        <div className="flex flex-wrap items-center justify-center gap-4 mt-8 sm:mt-10 mx-auto">
+        {/* Action Button Row - Tactile Spring Physics */}
+        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mt-6 sm:mt-8 mx-auto">
           <button
             onClick={onExploreClick}
-            className="inline-flex items-center gap-3 px-8 py-3.5 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-[0_4px_24px_rgba(245,158,11,0.45)] hover:scale-105 cursor-pointer"
+            className="inline-flex items-center gap-2.5 px-7 py-3 rounded-full bg-amber-500 hover:bg-amber-400 active:scale-[0.98] active:translate-y-[1px] text-slate-950 font-bold text-xs uppercase tracking-wider transition-all duration-200 shadow-[0_4px_24px_rgba(245,158,11,0.45)] cursor-pointer"
           >
-            <span>Jelajahi Showcase Utama</span>
+            <span>Jelajahi Showcase</span>
             <ArrowDown className="w-4 h-4" />
           </button>
 
@@ -154,44 +154,36 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             href={createWhatsAppLink()}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 px-8 py-3.5 rounded-full border border-white/25 hover:border-amber-400 bg-white/[0.05] hover:bg-white/10 backdrop-blur-xl text-white hover:text-amber-300 font-semibold text-xs uppercase tracking-wider transition-all duration-300 cursor-pointer shadow-lg"
+            className="inline-flex items-center gap-2.5 px-7 py-3 rounded-full border border-white/20 hover:border-amber-400/80 active:scale-[0.98] active:translate-y-[1px] bg-white/[0.05] hover:bg-white/10 backdrop-blur-xl text-white hover:text-amber-300 font-semibold text-xs uppercase tracking-wider transition-all duration-200 cursor-pointer shadow-lg"
           >
             <MessageCircle className="w-4 h-4 text-amber-400" />
-            <span>Minta Penawaran Sesi</span>
+            <span>Konsultasi Sesi</span>
             <ArrowUpRight className="w-4 h-4" />
           </a>
         </div>
-
-        {/* Location & Availability Note */}
-        <p className="mt-5 text-xs text-slate-400 font-light tracking-wide flex items-center justify-center gap-2">
-          <MapPin className="w-3.5 h-3.5 text-amber-400/80" />
-          <span>Berbasis di Surabaya &bull; Tersedia penugasan ke seluruh Nusantara</span>
-        </p>
       </div>
 
       {/* Bottom Exhibition HUD: Active Frame Info & Chapter Switcher */}
       <div className="relative z-30 pt-6 sm:pt-8 border-t border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
         {/* Left: Active Curated Frame Metadata */}
-        <div className="flex items-start gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-white/[0.06] border border-white/15 backdrop-blur-xl flex flex-col items-center justify-center text-amber-400 shrink-0 shadow-lg">
-            <span className="text-[10px] uppercase font-bold tracking-widest text-slate-400">Arsip</span>
-            <span className="font-editorial text-lg font-bold text-amber-400 leading-none">{activeFrame.number}</span>
+        <div className="flex items-start gap-3 sm:gap-4">
+          <div className="w-11 h-11 rounded-2xl bg-white/[0.06] border border-white/15 backdrop-blur-xl flex flex-col items-center justify-center text-amber-400 shrink-0 shadow-lg">
+            <span className="text-[9px] uppercase font-bold tracking-widest text-slate-400">Arsip</span>
+            <span className="font-editorial text-base font-bold text-amber-400 leading-none">{activeFrame.number}</span>
           </div>
           <div>
             <div className="flex items-center gap-2">
               <span className="px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-[10px] font-bold uppercase tracking-wider text-amber-300">
                 {activeFrame.category}
               </span>
-              <span className="text-xs text-slate-400 font-light">
-                {activeFrame.location} &bull; {activeFrame.year}
+              <span className="text-xs text-slate-400 font-light flex items-center gap-1">
+                <MapPin className="w-3 h-3 text-amber-400/80" />
+                <span>{activeFrame.location} &bull; {activeFrame.year}</span>
               </span>
             </div>
-            <h3 className="font-editorial text-xl sm:text-2xl text-white font-medium mt-1">
+            <h3 className="font-editorial text-lg sm:text-xl text-white font-medium mt-0.5">
               {activeFrame.title}
             </h3>
-            <p className="text-xs text-slate-400 font-light mt-0.5 max-w-md hidden sm:block">
-              {activeFrame.tagline}
-            </p>
           </div>
         </div>
 

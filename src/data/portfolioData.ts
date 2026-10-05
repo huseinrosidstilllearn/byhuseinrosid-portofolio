@@ -7,7 +7,7 @@ export const PHOTOGRAPHER_PROFILE: PhotographerProfile = {
   subheadline: "Kumpulan rekaman visual, emosi jujur, dan keabadian cahaya yang tertangkap di antara detak waktu.",
   bioShort: "Fotografer berbasis di Surabaya yang mendedikasikan lensa untuk menangkap keheningan, keaslian manusia, dan emosi yang tak terucap.",
   bioFull: [
-    "Bagi saya, fotografi bukanlah sekadar menekan tombol rana pada saat yang tepat, melainkan seni mendengarkan sebelum melihat. Di balik setiap bingkai visual terdapat jeda waktu yang sarat makna—sebuah momen hening di mana manusia dan semesta saling bercerita tanpa kepura-puraan.",
+    "Bagi saya, fotografi bukanlah sekadar menekan tombol rana pada saat yang tepat, melainkan seni mendengarkan sebelum melihat. Di balik setiap bingkai visual terdapat jeda waktu yang sarat makna, sebuah momen hening di mana manusia dan semesta saling bercerita tanpa kepura-puraan.",
     "Berakar di Surabaya, Jawa Timur, perjalanan visual saya bergerak melintasi spektrum luas: dari intensitas kampanye komersial, keintiman potret personal, hingga kejujuran dokumenter jalanan dan lanskap nusantara.",
     "Saya percaya bahwa karya visual terbaik lahir ketika kita menghormati subjek dan membiarkan cahaya alami menenun narasi autentik yang abadi melewati zaman."
   ],
@@ -343,7 +343,7 @@ export const PHOTO_STORIES: PhotoStory[] = [
       'https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=1000&q=80'
     ],
     location: 'Kenjeran, Surabaya',
-    year: '2024 — 2025',
+    year: '2024 - 2025',
     narrative: 'Di sudut timur Surabaya, kehidupan berputar pada jam yang berbeda. Ketika kota masih terlelap, perahu-perahu kayu kecil telah membelah kabut laut mencari rezeki. Esai foto ini adalah tribut kepada keteguhan tangan-tangan kasar yang tak pernah mengeluh kepada ombak.',
     quote: "Laut tidak pernah berjanji pada siapa pun, namun mereka selalu datang setiap fajar dengan rasa hormat yang sama."
   },
