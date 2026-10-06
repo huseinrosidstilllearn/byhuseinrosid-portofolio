@@ -17,6 +17,13 @@ const supabaseAnonKey =
 // Inisialisasi Klien Supabase
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
+export const DEFAULT_MARQUEE_CONFIG = {
+  speed: 'normal' as const,
+  selectionMode: 'featured' as const,
+  maxItems: 24,
+  customPhotoIds: [],
+};
+
 export const DEFAULT_SITE_CONTENT: SiteContentData = {
   profile: PHOTOGRAPHER_PROFILE,
   contact: CONTACT_CONFIG,
@@ -24,6 +31,7 @@ export const DEFAULT_SITE_CONTENT: SiteContentData = {
   skills: SKILLS,
   services: SERVICE_PACKAGES,
   stats: JOURNEY_STATS,
+  marquee: DEFAULT_MARQUEE_CONFIG,
 };
 
 const LOCAL_STORAGE_CONTENT_KEY = 'bhr_site_content_cache';

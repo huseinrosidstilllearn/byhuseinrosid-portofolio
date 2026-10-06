@@ -13,10 +13,12 @@ import {
   CheckCircle2,
   AlertTriangle,
   RefreshCw,
+  SlidersHorizontal,
 } from 'lucide-react';
 import { AdminLogin } from './AdminLogin';
 import { UploadModal } from './UploadModal';
 import { ContentEditor } from './ContentEditor';
+import { MarqueeConfigModal } from './MarqueeConfigModal';
 import { supabase, getPhotos } from '../lib/supabase';
 import { PHOTO_CATEGORIES } from '../data/portfolioData';
 import type { PhotoItem } from '../types/portfolio';
@@ -30,6 +32,7 @@ export const AdminApp: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('Semua');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isUploadModalOpen, setIsUploadModalOpen] = useState<boolean>(false);
+  const [isMarqueeModalOpen, setIsMarqueeModalOpen] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   // Periksa sesi login Supabase saat pertama dimuat
@@ -224,6 +227,15 @@ export const AdminApp: React.FC = () => {
           </div>
 
           <div className="flex md:hidden items-center gap-2">
+            {activeTab === 'photos' && (
+              <button
+                onClick={() => setIsMarqueeModalOpen(true)}
+                className="w-8 h-8 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-400 flex items-center justify-center transition-colors"
+                title="Pengaturan Marquee"
+              >
+                <SlidersHorizontal className="w-3.5 h-3.5" />
+              </button>
+            )}
             <button
               onClick={handleLogout}
               className="w-8 h-8 rounded-full border border-white/10 text-slate-400 hover:text-red-300 flex items-center justify-center"
@@ -262,13 +274,24 @@ export const AdminApp: React.FC = () => {
         {/* Action Buttons */}
         <div className="hidden md:flex items-center gap-2.5">
           {activeTab === 'photos' && (
-            <button
-              onClick={() => setIsUploadModalOpen(true)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(245,158,11,0.3)] cursor-pointer hover:scale-105"
-            >
-              <Plus className="w-4 h-4" />
-              <span>Unggah Karya</span>
-            </button>
+            <>
+              <button
+                onClick={() => setIsMarqueeModalOpen(true)}
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 font-semibold text-xs tracking-wider transition-all cursor-pointer hover:border-amber-400 active:scale-95"
+                title="Kustomisasi Foto dan Kecepatan Hero Marquee"
+              >
+                <SlidersHorizontal className="w-3.5 h-3.5" />
+                <span>Pengaturan Marquee</span>
+              </button>
+
+              <button
+                onClick={() => setIsUploadModalOpen(true)}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(245,158,11,0.3)] cursor-pointer hover:scale-105 active:scale-95"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Unggah Karya</span>
+              </button>
+            </>
           )}
 
           <a
@@ -317,12 +340,20 @@ export const AdminApp: React.FC = () => {
                 </span>
               </div>
 
-              <div className="bento-card p-4 text-center border-amber-500/30">
-                <span className="text-[10px] uppercase tracking-wider text-amber-400 font-semibold block">
-                  Unggulan Hero
-                </span>
+              <div
+                onClick={() => setIsMarqueeModalOpen(true)}
+                className="bento-card p-4 text-center border-amber-500/30 hover:border-amber-400/80 transition-all cursor-pointer group hover:bg-amber-500/[0.04]"
+                title="Klik untuk membuka Pengaturan Foto & Kecepatan Marquee"
+              >
+                <div className="flex items-center justify-center gap-1.5 text-[10px] uppercase tracking-wider text-amber-400 font-semibold">
+                  <SlidersHorizontal className="w-3 h-3 group-hover:rotate-45 transition-transform" />
+                  <span>Pilihan Marquee</span>
+                </div>
                 <span className="font-editorial text-2xl font-bold text-amber-400 mt-1 block">
                   {stats.featured}
+                </span>
+                <span className="text-[9px] text-amber-400/80 mt-0.5 block underline underline-offset-2">
+                  Atur Marquee
                 </span>
               </div>
 
@@ -353,6 +384,7 @@ export const AdminApp: React.FC = () => {
                       ? stats.featured
                       : photos.filter((p) => p.category === cat).length;
                   const isActive = selectedCategory === cat;
+                  const label = cat === 'Unggulan' ? 'Pilihan Marquee' : cat;
                   return (
                     <button
                       key={cat}
@@ -363,7 +395,8 @@ export const AdminApp: React.FC = () => {
                           : 'text-slate-400 hover:text-white hover:bg-white/10'
                       }`}
                     >
-                      <span>{cat}</span>
+                      {cat === 'Unggulan' && <Star className="w-3 h-3 fill-current" />}
+                      <span>{label}</span>
                       <span
                         className={`text-[10px] px-1.5 py-0.2 rounded-full ${
                           isActive ? 'bg-slate-950 text-amber-300 font-bold' : 'bg-white/10 text-slate-400'
@@ -563,6 +596,15 @@ export const AdminApp: React.FC = () => {
         onClose={() => setIsUploadModalOpen(false)}
         onPhotoAdded={handlePhotoAdded}
         onPhotosAdded={handlePhotosAdded}
+      />
+
+      {/* MARQUEE CONFIG MODAL */}
+      <MarqueeConfigModal
+        isOpen={isMarqueeModalOpen}
+        onClose={() => setIsMarqueeModalOpen(false)}
+        photos={photos}
+        onUpdatePhotos={setPhotos}
+        showToast={showToast}
       />
     </div>
   );

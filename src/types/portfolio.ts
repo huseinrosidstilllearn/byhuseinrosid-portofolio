@@ -85,6 +85,13 @@ export interface JourneyStats {
   clientsServed: number;
 }
 
+export interface MarqueeConfig {
+  speed: 'slow' | 'normal' | 'fast';
+  selectionMode: 'featured' | 'manual' | 'all';
+  maxItems: number;
+  customPhotoIds?: string[];
+}
+
 export type SiteMode = 'landing' | 'karya' | 'perjalanan';
 
 export interface SiteContentData {
@@ -94,6 +101,7 @@ export interface SiteContentData {
   skills: SkillItem[];
   services: ServicePackage[];
   stats: JourneyStats;
+  marquee?: MarqueeConfig;
 }
 
 

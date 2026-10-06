@@ -300,7 +300,11 @@ export function App() {
                     contact={siteContent.contact}
                     onExploreClick={() => handleNavigateToSection('kategori-showcase')}
                   />
-                  <DualMarquee photos={photos} onSelectPhoto={setActivePhoto} />
+                  <DualMarquee
+                    photos={photos}
+                    config={siteContent.marquee}
+                    onSelectPhoto={setActivePhoto}
+                  />
                   <CategoryShowcase
                     photos={photos}
                     onSelectCategory={handleSelectCategory}
