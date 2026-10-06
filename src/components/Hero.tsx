@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { ArrowDown, ArrowUpRight, MessageCircle, MapPin, Pause, Play } from 'lucide-react';
 import { createWhatsAppLink } from '../utils/whatsapp';
 
-import type { PhotographerProfile, ContactConfig, PhotoItem } from '../types/portfolio';
+import type { PhotographerProfile, ContactConfig, PhotoItem, HeroSliderConfig } from '../types/portfolio';
 
 interface HeroProps {
   photos?: PhotoItem[];
   onExploreClick?: () => void;
   profile?: PhotographerProfile;
   contact?: ContactConfig;
+  config?: HeroSliderConfig;
 }
 
 interface HeroFrame {
@@ -65,36 +66,117 @@ const FEATURED_HERO_FRAMES: HeroFrame[] = [
   },
 ];
 
-export const Hero: React.FC<HeroProps> = ({ photos = [], onExploreClick, profile, contact }) => {
+export const Hero: React.FC<HeroProps> = ({ photos = [], onExploreClick, profile, contact, config }) => {
   const [activeFrameIndex, setActiveFrameIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
 
-  // Gunakan foto asli dari koleksi yang diunggah jika tersedia (prioritas featured atau 5 karya pertama)
-  const heroFrames: HeroFrame[] = photos.length > 0
-    ? (() => {
-        const featured = photos.filter((p) => p.featured);
-        const selected = featured.length >= 2 ? featured.slice(0, 5) : photos.slice(0, 5);
-        return selected.map((p, idx) => ({
-          id: p.id,
-          number: String(idx + 1).padStart(2, '0'),
-          title: p.title,
-          category: p.category,
-          location: p.location || (profile?.location ? profile.location.split(',')[0].trim() : 'Surabaya'),
-          year: p.year || '2025',
-          imageUrl: p.imageUrl,
-          tagline: p.description || p.title,
-        }));
-      })()
-    : FEATURED_HERO_FRAMES;
+  // Susun frame hero berdasarkan konfigurasi pilihan pengguna di admin atau fallback cerdas beda-kategori
+  const heroFrames: HeroFrame[] = useMemo(() => {
+    const activeConfigSlides = config?.slides?.filter((s) => s.enabled) || [];
 
-  // Auto advance slides every 7 seconds
+    // 1. Jika konfigurasi tersimpan dengan slide aktif tersedia
+    if (activeConfigSlides.length > 0 && photos.length > 0) {
+      const frames: HeroFrame[] = [];
+      activeConfigSlides.forEach((slide, idx) => {
+        const categoryPhotos = photos.filter((p) => p.category === slide.category);
+
+        let targetPhoto: PhotoItem | undefined;
+        // Jika memilih foto spesifik
+        if (slide.photoId && slide.photoId !== 'auto') {
+          targetPhoto = photos.find((p) => p.id === slide.photoId);
+        }
+        // Jika mode otomatis (atau foto spesifik tidak ditemukan lagi)
+        if (!targetPhoto && categoryPhotos.length > 0) {
+          targetPhoto = categoryPhotos.find((p) => p.featured) || categoryPhotos[0];
+        }
+        // Fallback cadangan
+        if (!targetPhoto) {
+          targetPhoto = photos[idx % photos.length];
+        }
+
+        if (targetPhoto) {
+          frames.push({
+            id: `${slide.id}-${targetPhoto.id}`,
+            number: String(idx + 1).padStart(2, '0'),
+            title: slide.customTitle || targetPhoto.title,
+            category: slide.category,
+            location: targetPhoto.location || (profile?.location ? profile.location.split(',')[0].trim() : 'Surabaya'),
+            year: targetPhoto.year || '2025',
+            imageUrl: targetPhoto.imageUrl,
+            tagline: slide.customTagline || targetPhoto.description || targetPhoto.title,
+          });
+        }
+      });
+
+      if (frames.length > 0) return frames;
+    }
+
+    // 2. Fallback cerdas: Ambil 1 foto terbaik per kategori berbeda agar tidak ada kategori kembar berulang
+    if (photos.length > 0) {
+      const categoriesSeen = new Set<string>();
+      const distinctCategoryPhotos: PhotoItem[] = [];
+
+      // Prioritas 1: Foto berbintang (featured) dari kategori yang belum ada
+      photos
+        .filter((p) => p.featured)
+        .forEach((p) => {
+          if (!categoriesSeen.has(p.category) && distinctCategoryPhotos.length < 5) {
+            categoriesSeen.add(p.category);
+            distinctCategoryPhotos.push(p);
+          }
+        });
+
+      // Prioritas 2: Lengkapi dengan foto non-featured dari kategori lain yang belum masuk
+      photos.forEach((p) => {
+        if (!categoriesSeen.has(p.category) && distinctCategoryPhotos.length < 5) {
+          categoriesSeen.add(p.category);
+          distinctCategoryPhotos.push(p);
+        }
+      });
+
+      // Jika kategori di database kurang dari 5, lengkapi dengan sisa foto terbaik
+      if (distinctCategoryPhotos.length < 5) {
+        for (const p of photos) {
+          if (!distinctCategoryPhotos.includes(p)) {
+            distinctCategoryPhotos.push(p);
+            if (distinctCategoryPhotos.length >= 5) break;
+          }
+        }
+      }
+
+      return distinctCategoryPhotos.map((p, idx) => ({
+        id: p.id,
+        number: String(idx + 1).padStart(2, '0'),
+        title: p.title,
+        category: p.category,
+        location: p.location || (profile?.location ? profile.location.split(',')[0].trim() : 'Surabaya'),
+        year: p.year || '2025',
+        imageUrl: p.imageUrl,
+        tagline: p.description || p.title,
+      }));
+    }
+
+    return FEATURED_HERO_FRAMES;
+  }, [photos, config, profile]);
+
+  const intervalSeconds = (config?.intervalSeconds || 7) * 1000;
+  const isAutoRotate = config?.autoRotate !== false;
+
+  // Rotasi slide otomatis
   useEffect(() => {
-    if (!isPlaying) return;
+    if (!isPlaying || !isAutoRotate || heroFrames.length <= 1) return;
     const timer = setInterval(() => {
       setActiveFrameIndex((prev) => (prev + 1) % heroFrames.length);
-    }, 7000);
+    }, intervalSeconds);
     return () => clearInterval(timer);
-  }, [isPlaying, heroFrames.length]);
+  }, [isPlaying, isAutoRotate, intervalSeconds, heroFrames.length]);
+
+  // Jaga index dalam batas valid jika jumlah frame berubah
+  useEffect(() => {
+    if (activeFrameIndex >= heroFrames.length) {
+      setActiveFrameIndex(0);
+    }
+  }, [heroFrames.length, activeFrameIndex]);
 
   const activeFrame = heroFrames[activeFrameIndex] || heroFrames[0];
 

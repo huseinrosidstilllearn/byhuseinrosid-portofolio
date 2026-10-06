@@ -14,11 +14,13 @@ import {
   AlertTriangle,
   RefreshCw,
   SlidersHorizontal,
+  Layers,
 } from 'lucide-react';
 import { AdminLogin } from './AdminLogin';
 import { UploadModal } from './UploadModal';
 import { ContentEditor } from './ContentEditor';
 import { MarqueeConfigModal } from './MarqueeConfigModal';
+import { HeroSliderModal } from './HeroSliderModal';
 import { supabase, getPhotos } from '../lib/supabase';
 import { PHOTO_CATEGORIES } from '../data/portfolioData';
 import type { PhotoItem } from '../types/portfolio';
@@ -33,6 +35,7 @@ export const AdminApp: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isUploadModalOpen, setIsUploadModalOpen] = useState<boolean>(false);
   const [isMarqueeModalOpen, setIsMarqueeModalOpen] = useState<boolean>(false);
+  const [isHeroSliderModalOpen, setIsHeroSliderModalOpen] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   // Periksa sesi login Supabase saat pertama dimuat
@@ -228,13 +231,22 @@ export const AdminApp: React.FC = () => {
 
           <div className="flex md:hidden items-center gap-2">
             {activeTab === 'photos' && (
-              <button
-                onClick={() => setIsMarqueeModalOpen(true)}
-                className="w-8 h-8 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-400 flex items-center justify-center transition-colors"
-                title="Pengaturan Marquee"
-              >
-                <SlidersHorizontal className="w-3.5 h-3.5" />
-              </button>
+              <>
+                <button
+                  onClick={() => setIsHeroSliderModalOpen(true)}
+                  className="w-8 h-8 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-400 flex items-center justify-center transition-colors"
+                  title="Pengaturan Hero Slider"
+                >
+                  <Layers className="w-3.5 h-3.5" />
+                </button>
+                <button
+                  onClick={() => setIsMarqueeModalOpen(true)}
+                  className="w-8 h-8 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-400 flex items-center justify-center transition-colors"
+                  title="Pengaturan Marquee"
+                >
+                  <SlidersHorizontal className="w-3.5 h-3.5" />
+                </button>
+              </>
             )}
             <button
               onClick={handleLogout}
@@ -275,6 +287,15 @@ export const AdminApp: React.FC = () => {
         <div className="hidden md:flex items-center gap-2.5">
           {activeTab === 'photos' && (
             <>
+              <button
+                onClick={() => setIsHeroSliderModalOpen(true)}
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 font-semibold text-xs tracking-wider transition-all cursor-pointer hover:border-amber-400 active:scale-95"
+                title="Kustomisasi Kategori dan Foto Slide Hero Utama"
+              >
+                <Layers className="w-3.5 h-3.5" />
+                <span>Pengaturan Hero Slider</span>
+              </button>
+
               <button
                 onClick={() => setIsMarqueeModalOpen(true)}
                 className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 font-semibold text-xs tracking-wider transition-all cursor-pointer hover:border-amber-400 active:scale-95"
@@ -337,6 +358,23 @@ export const AdminApp: React.FC = () => {
                 </span>
                 <span className="font-editorial text-2xl font-bold text-white mt-1 block">
                   {stats.total}
+                </span>
+              </div>
+
+              <div
+                onClick={() => setIsHeroSliderModalOpen(true)}
+                className="bento-card p-4 text-center border-amber-500/30 hover:border-amber-400/80 transition-all cursor-pointer group hover:bg-amber-500/[0.04]"
+                title="Klik untuk membuka Pengaturan Kategori & Foto Hero Slider"
+              >
+                <div className="flex items-center justify-center gap-1.5 text-[10px] uppercase tracking-wider text-amber-400 font-semibold">
+                  <Layers className="w-3 h-3 group-hover:scale-110 transition-transform" />
+                  <span>Hero Slider</span>
+                </div>
+                <span className="font-editorial text-2xl font-bold text-amber-400 mt-1 block">
+                  Kategori
+                </span>
+                <span className="text-[9px] text-amber-400/80 mt-0.5 block underline underline-offset-2">
+                  Atur Slider
                 </span>
               </div>
 
@@ -604,6 +642,14 @@ export const AdminApp: React.FC = () => {
         onClose={() => setIsMarqueeModalOpen(false)}
         photos={photos}
         onUpdatePhotos={setPhotos}
+        showToast={showToast}
+      />
+
+      {/* HERO SLIDER CONFIG MODAL */}
+      <HeroSliderModal
+        isOpen={isHeroSliderModalOpen}
+        onClose={() => setIsHeroSliderModalOpen(false)}
+        photos={photos}
         showToast={showToast}
       />
     </div>

@@ -92,6 +92,21 @@ export interface MarqueeConfig {
   customPhotoIds?: string[];
 }
 
+export interface HeroSlideConfig {
+  id: string;
+  category: string;
+  photoId: string; // 'auto' | photo ID
+  customTitle?: string;
+  customTagline?: string;
+  enabled: boolean;
+}
+
+export interface HeroSliderConfig {
+  autoRotate: boolean;
+  intervalSeconds: number;
+  slides: HeroSlideConfig[];
+}
+
 export type SiteMode = 'landing' | 'karya' | 'perjalanan';
 
 export interface SiteContentData {
@@ -102,6 +117,7 @@ export interface SiteContentData {
   services: ServicePackage[];
   stats: JourneyStats;
   marquee?: MarqueeConfig;
+  heroSlider?: HeroSliderConfig;
 }
 
 

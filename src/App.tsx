@@ -298,6 +298,7 @@ export function App() {
                     photos={photos}
                     profile={siteContent.profile}
                     contact={siteContent.contact}
+                    config={siteContent.heroSlider}
                     onExploreClick={() => handleNavigateToSection('kategori-showcase')}
                   />
                   <DualMarquee

@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import type { PhotoItem, PhotoStory, SiteContentData } from '../types/portfolio';
+import type { PhotoItem, PhotoStory, SiteContentData, HeroSliderConfig } from '../types/portfolio';
 import {
   PORTFOLIO_PHOTOS,
   PHOTO_STORIES,
@@ -24,6 +24,43 @@ export const DEFAULT_MARQUEE_CONFIG = {
   customPhotoIds: [],
 };
 
+export const DEFAULT_HERO_SLIDER_CONFIG: HeroSliderConfig = {
+  autoRotate: true,
+  intervalSeconds: 7,
+  slides: [
+    {
+      id: 'slide-event',
+      category: 'Event Documentation',
+      photoId: 'auto',
+      enabled: true,
+    },
+    {
+      id: 'slide-graduation',
+      category: 'Graduation',
+      photoId: 'auto',
+      enabled: true,
+    },
+    {
+      id: 'slide-bts',
+      category: 'Behind The Scene Production',
+      photoId: 'auto',
+      enabled: true,
+    },
+    {
+      id: 'slide-couple',
+      category: 'Couple Session',
+      photoId: 'auto',
+      enabled: true,
+    },
+    {
+      id: 'slide-portrait',
+      category: 'Solo Potrait',
+      photoId: 'auto',
+      enabled: true,
+    },
+  ],
+};
+
 export const DEFAULT_SITE_CONTENT: SiteContentData = {
   profile: PHOTOGRAPHER_PROFILE,
   contact: CONTACT_CONFIG,
@@ -32,6 +69,7 @@ export const DEFAULT_SITE_CONTENT: SiteContentData = {
   services: SERVICE_PACKAGES,
   stats: JOURNEY_STATS,
   marquee: DEFAULT_MARQUEE_CONFIG,
+  heroSlider: DEFAULT_HERO_SLIDER_CONFIG,
 };
 
 const LOCAL_STORAGE_CONTENT_KEY = 'bhr_site_content_cache';
