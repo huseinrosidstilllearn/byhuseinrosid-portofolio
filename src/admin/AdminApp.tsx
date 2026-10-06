@@ -53,7 +53,7 @@ export const AdminApp: React.FC = () => {
 
   async function loadPhotos() {
     setLoading(true);
-    const data = await getPhotos();
+    const data = await getPhotos(false);
     setPhotos(data);
     setLoading(false);
   }
@@ -436,17 +436,19 @@ export const AdminApp: React.FC = () => {
           <div className="py-16 text-center bento-card p-12">
             <ImageIcon className="w-12 h-12 text-slate-600 mx-auto mb-3" />
             <h3 className="font-editorial text-lg text-white font-medium">
-              Tidak ada foto ditemukan
+              {photos.length === 0 ? 'Database Bersih & Siap' : 'Tidak ada foto ditemukan'}
             </h3>
             <p className="text-xs text-slate-400 font-light mt-1 mb-6">
-              Tidak ada karya yang sesuai dengan kategori atau pencarian ini.
+              {photos.length === 0
+                ? 'Seluruh foto lama telah berhasil dibersihkan dari database. Galeri siap diisi murni dengan karya foto asli Anda.'
+                : 'Tidak ada karya yang sesuai dengan kategori atau filter pencarian ini.'}
             </p>
             <button
               onClick={() => setIsUploadModalOpen(true)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-amber-500 text-slate-950 font-bold text-xs uppercase tracking-wider"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-lg"
             >
               <Plus className="w-4 h-4" />
-              <span>Unggah Foto Baru</span>
+              <span>Unggah Karya Foto Baru</span>
             </button>
           </div>
         ) : (

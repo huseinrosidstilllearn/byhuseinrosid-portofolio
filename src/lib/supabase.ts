@@ -32,9 +32,9 @@ const LOCAL_STORAGE_CONTENT_KEY = 'bhr_site_content_cache';
  * Mengambil daftar foto galeri dari database Supabase
  * Jika database belum terkoneksi atau kosong, otomatis fallback ke data lokal
  */
-export async function getPhotos(): Promise<PhotoItem[]> {
+export async function getPhotos(fallbackToLocal = true): Promise<PhotoItem[]> {
   if (!supabase) {
-    return PORTFOLIO_PHOTOS;
+    return fallbackToLocal ? PORTFOLIO_PHOTOS : [];
   }
 
   try {
@@ -45,7 +45,7 @@ export async function getPhotos(): Promise<PhotoItem[]> {
       .order('created_at', { ascending: false });
 
     if (error || !data || data.length === 0) {
-      return PORTFOLIO_PHOTOS;
+      return fallbackToLocal ? PORTFOLIO_PHOTOS : [];
     }
 
     return data.map((item) => ({
@@ -61,8 +61,8 @@ export async function getPhotos(): Promise<PhotoItem[]> {
       glowColor: item.glow_color || undefined,
     }));
   } catch (err) {
-    console.warn('Gagal memuat foto dari Supabase, menggunakan data lokal:', err);
-    return PORTFOLIO_PHOTOS;
+    console.warn('Gagal memuat foto dari Supabase:', err);
+    return fallbackToLocal ? PORTFOLIO_PHOTOS : [];
   }
 }
 
