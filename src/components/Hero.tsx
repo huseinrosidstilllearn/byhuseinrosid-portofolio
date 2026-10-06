@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { ArrowDown, ArrowUpRight, MessageCircle, MapPin, Pause, Play } from 'lucide-react';
 import { createWhatsAppLink } from '../utils/whatsapp';
 
+import type { PhotographerProfile, ContactConfig } from '../types/portfolio';
+
 interface HeroProps {
   onExploreClick?: () => void;
+  profile?: PhotographerProfile;
+  contact?: ContactConfig;
 }
 
 interface HeroFrame {
@@ -60,7 +64,7 @@ const FEATURED_HERO_FRAMES: HeroFrame[] = [
   },
 ];
 
-export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
+export const Hero: React.FC<HeroProps> = ({ onExploreClick, profile, contact }) => {
   const [activeFrameIndex, setActiveFrameIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
 
@@ -109,34 +113,61 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
       <div className="relative z-30 max-w-4xl mx-auto my-auto text-center flex flex-col items-center">
         {/* Prestige Eyebrow */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-white/15 bg-white/[0.04] backdrop-blur-md text-amber-300 text-[11px] font-medium uppercase tracking-[0.2em] mb-4 sm:mb-6">
-          <span>Portofolio Fotografi &bull; Surabaya</span>
+          <span>Portofolio Fotografi &bull; {profile?.location ? profile.location.split(',')[0].trim() : 'Surabaya'}</span>
         </div>
 
         {/* Monumental Architectural Headline */}
         <h1 className="font-editorial text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[1.03] tracking-tighter text-white max-w-4xl drop-shadow-md mx-auto">
-          Stories Told in the{' '}
-          <span
-            className="font-couture text-amber-400 font-bold inline-block split-wave cursor-pointer leading-[1.15] pb-1"
-            aria-label="Quiet Spaces"
-          >
-            <span aria-hidden="true">
-              {'Quiet Spaces'.split('').map((char, i) => (
-                <i
-                  key={i}
-                  style={{ '--i': i } as React.CSSProperties}
-                  className={char === ' ' ? 'inline-block w-2 sm:w-4' : ''}
-                >
-                  {char}
-                </i>
-              ))}
-            </span>
-          </span>{' '}
-          Between Moments.
+          {profile?.headline && profile.headline.includes('Quiet Spaces') ? (
+            <>
+              {profile.headline.split('Quiet Spaces')[0]}
+              <span
+                className="font-couture text-amber-400 font-bold inline-block split-wave cursor-pointer leading-[1.15] pb-1"
+                aria-label="Quiet Spaces"
+              >
+                <span aria-hidden="true">
+                  {'Quiet Spaces'.split('').map((char, i) => (
+                    <i
+                      key={i}
+                      style={{ '--i': i } as React.CSSProperties}
+                      className={char === ' ' ? 'inline-block w-2 sm:w-4' : ''}
+                    >
+                      {char}
+                    </i>
+                  ))}
+                </span>
+              </span>
+              {profile.headline.split('Quiet Spaces')[1]}
+            </>
+          ) : profile?.headline ? (
+            profile.headline
+          ) : (
+            <>
+              Stories Told in the{' '}
+              <span
+                className="font-couture text-amber-400 font-bold inline-block split-wave cursor-pointer leading-[1.15] pb-1"
+                aria-label="Quiet Spaces"
+              >
+                <span aria-hidden="true">
+                  {'Quiet Spaces'.split('').map((char, i) => (
+                    <i
+                      key={i}
+                      style={{ '--i': i } as React.CSSProperties}
+                      className={char === ' ' ? 'inline-block w-2 sm:w-4' : ''}
+                    >
+                      {char}
+                    </i>
+                  ))}
+                </span>
+              </span>{' '}
+              Between Moments.
+            </>
+          )}
         </h1>
 
         {/* Narrative Subheadline - Strictly <= 20 words per taste-skill */}
         <p className="text-sm sm:text-base md:text-lg text-slate-300 font-light leading-relaxed mt-4 sm:mt-5 max-w-xl mx-auto text-balance">
-          Dokumentasi sinematik dan eksplorasi visual yang menangkap kejujuran rasa, karakter, dan keindahan abadi di setiap momen.
+          {profile?.subheadline || 'Dokumentasi sinematik dan eksplorasi visual yang menangkap kejujuran rasa, karakter, dan keindahan abadi di setiap momen.'}
         </p>
 
         {/* Action Button Row - Tactile Spring Physics */}
@@ -150,7 +181,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           </button>
 
           <a
-            href={createWhatsAppLink()}
+            href={contact?.whatsappNumber ? `https://wa.me/${contact.whatsappNumber}?text=Halo%20Mas%20Husein%2C%20saya%20tertarik%20untuk%20berkolaborasi!` : createWhatsAppLink()}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2.5 px-7 py-3 rounded-full border border-white/20 hover:border-amber-400/80 active:scale-[0.98] active:translate-y-[1px] bg-white/[0.05] hover:bg-white/10 backdrop-blur-xl text-white hover:text-amber-300 font-semibold text-xs uppercase tracking-wider transition-all duration-200 cursor-pointer shadow-lg"

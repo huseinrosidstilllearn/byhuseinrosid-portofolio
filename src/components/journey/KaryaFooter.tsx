@@ -1,15 +1,27 @@
 import { Sparkles, Compass, MessageCircle } from 'lucide-react';
 import { PHOTOGRAPHER_PROFILE, CONTACT_CONFIG } from '../../data/portfolioData';
-import type { SiteMode } from '../../types/portfolio';
+import type { SiteMode, PhotographerProfile, ContactConfig } from '../../types/portfolio';
 import { createWhatsAppLink } from '../../utils/whatsapp';
 
 interface KaryaFooterProps {
+  profile?: PhotographerProfile;
+  contact?: ContactConfig;
   onSwitchToSpatial: () => void;
   onSwitchSiteMode: (mode: SiteMode) => void;
 }
 
-export function KaryaFooter({ onSwitchToSpatial, onSwitchSiteMode }: KaryaFooterProps) {
+export function KaryaFooter({
+  profile = PHOTOGRAPHER_PROFILE,
+  contact = CONTACT_CONFIG,
+  onSwitchToSpatial,
+  onSwitchSiteMode,
+}: KaryaFooterProps) {
+  const currentProfile = profile || PHOTOGRAPHER_PROFILE;
+  const currentContact = contact || CONTACT_CONFIG;
   const year = new Date().getFullYear();
+  const waLink = currentContact.whatsappNumber
+    ? `https://wa.me/${currentContact.whatsappNumber}?text=Halo%20Mas%20Husein%2C%20saya%20tertarik%20untuk%20berkolaborasi!`
+    : createWhatsAppLink();
 
   return (
     <footer className="relative border-t border-white/5 py-10 px-4 sm:px-8">
@@ -17,8 +29,8 @@ export function KaryaFooter({ onSwitchToSpatial, onSwitchSiteMode }: KaryaFooter
 
         {/* Brand */}
         <div className="text-center sm:text-left">
-          <p className="font-headline text-lg font-black text-white">{PHOTOGRAPHER_PROFILE.brandName}</p>
-          <p className="text-white/30 text-xs mt-0.5">{PHOTOGRAPHER_PROFILE.location}</p>
+          <p className="font-headline text-lg font-black text-white">{currentProfile.brandName}</p>
+          <p className="text-white/30 text-xs mt-0.5">{currentProfile.location}</p>
         </div>
 
         {/* Actions */}
@@ -43,7 +55,7 @@ export function KaryaFooter({ onSwitchToSpatial, onSwitchSiteMode }: KaryaFooter
 
           {/* WhatsApp */}
           <a
-            href={createWhatsAppLink()}
+            href={waLink}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-5 py-2 rounded-full bg-amber-500 hover:bg-amber-400 text-black font-semibold text-xs transition-all duration-300 hover:scale-105 shadow-[0_0_20px_rgba(245,158,11,0.25)]"
@@ -55,17 +67,17 @@ export function KaryaFooter({ onSwitchToSpatial, onSwitchSiteMode }: KaryaFooter
 
         {/* Copyright */}
         <p className="text-white/20 text-xs font-mono text-center sm:text-right">
-          © {year} {PHOTOGRAPHER_PROFILE.brandName}
+          © {year} {currentProfile.brandName}
           <br />
-          <a href={CONTACT_CONFIG.instagramUrl} target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors">
-            {CONTACT_CONFIG.instagram}
+          <a href={currentContact.instagramUrl} target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors">
+            {currentContact.instagram}
           </a>
         </p>
       </div>
 
       {/* Floating WhatsApp */}
       <a
-        href={createWhatsAppLink()}
+        href={waLink}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Hubungi via WhatsApp"

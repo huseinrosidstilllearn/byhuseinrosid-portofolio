@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   User,
   Phone,
@@ -14,12 +14,17 @@ import {
   AlertCircle,
   Star,
   ExternalLink,
+  Upload,
+  Image as ImageIcon,
+  Loader2,
+  FileText,
 } from 'lucide-react';
 import {
   getSiteContent,
   saveSiteContentSection,
   DEFAULT_SITE_CONTENT,
 } from '../lib/supabase';
+import { compressImage } from '../utils/imageCompressor';
 import type {
   SiteContentData,
   TimelineMilestone,
@@ -50,6 +55,9 @@ export const ContentEditor: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [saving, setSaving] = useState<boolean>(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  const avatarFileInputRef = useRef<HTMLInputElement>(null);
+  const [isUploadingAvatar, setIsUploadingAvatar] = useState<boolean>(false);
 
   useEffect(() => {
     async function load() {
@@ -99,6 +107,68 @@ export const ContentEditor: React.FC = () => {
       ...prev,
       profile: { ...prev.profile, [field]: val },
     }));
+  };
+
+  // Handler unggah avatar langsung ke Cloudflare R2
+  const handleAvatarFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !file.type.startsWith('image/')) {
+      showToast('error', 'Pilih file foto potret yang valid (JPG, PNG, WEBP).');
+      return;
+    }
+
+    try {
+      setIsUploadingAvatar(true);
+      const compressed = await compressImage(file, 1200, 0.9);
+
+      const formData = new FormData();
+      formData.append('file', compressed.file);
+
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (res.ok && data.url) {
+        updateProfile('avatarUrl', data.url);
+        showToast('success', 'Foto profil berhasil diunggah ke Cloudflare R2!');
+      } else {
+        throw new Error(data.error || 'Server gagal menyimpan foto profil.');
+      }
+    } catch (err: any) {
+      showToast('error', err.message || 'Gagal memproses unggahan foto profil.');
+    } finally {
+      setIsUploadingAvatar(false);
+      if (avatarFileInputRef.current) {
+        avatarFileInputRef.current.value = '';
+      }
+    }
+  };
+
+  // Helper untuk paragraf biografi lengkap (bioFull)
+  const bioFullList: string[] = Array.isArray(content.profile?.bioFull) && content.profile.bioFull.length > 0
+    ? content.profile.bioFull
+    : (DEFAULT_SITE_CONTENT.profile.bioFull || []);
+
+  const updateBioFullParagraph = (index: number, val: string) => {
+    const updated = [...bioFullList];
+    updated[index] = val;
+    updateProfile('bioFull', updated);
+  };
+
+  const addBioFullParagraph = () => {
+    const updated = [...bioFullList, ''];
+    updateProfile('bioFull', updated);
+  };
+
+  const removeBioFullParagraph = (index: number) => {
+    if (bioFullList.length <= 1) {
+      showToast('error', 'Minimal harus ada 1 paragraf narasi biografi.');
+      return;
+    }
+    const updated = bioFullList.filter((_, i) => i !== index);
+    updateProfile('bioFull', updated);
   };
 
   // Helper untuk update nested contact
@@ -250,117 +320,324 @@ export const ContentEditor: React.FC = () => {
           {/* 1. SEKSI PROFIL & FILOSOFI */}
           {/* =============================================================== */}
           {activeSection === 'profile' && (
-            <div className="space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-2">
-                    Nama Fotografer
-                  </label>
-                  <input
-                    type="text"
-                    value={content.profile.name}
-                    onChange={(e) => updateProfile('name', e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-400"
-                  />
+            <div className="space-y-8">
+              {/* Bento 1: Identitas, Brand & Ketersediaan */}
+              <div className="p-6 rounded-2xl bg-black/40 border border-white/10 space-y-5">
+                <div className="flex items-center gap-3 pb-3 border-b border-white/[0.08]">
+                  <div className="p-2 rounded-xl bg-amber-500/10 text-amber-400">
+                    <User className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-semibold text-white">Identitas, Brand & Ketersediaan</h3>
+                    <p className="text-[11px] text-slate-400 font-light">
+                      Nama fotografer, identitas brand panggung, domisili, dan status kesiapan menerima klien.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                      Nama Fotografer
+                    </label>
+                    <input
+                      type="text"
+                      value={content.profile.name}
+                      onChange={(e) => updateProfile('name', e.target.value)}
+                      placeholder="Contoh: Husein Rosid"
+                      className="w-full px-4 py-2.5 rounded-xl bg-black/60 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-400"
+                    />
+                    <span className="text-[10px] text-slate-500 mt-1 block">Tampil di judul utama Hero & Mode Perjalanan</span>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                      Nama Brand / Judul Situs
+                    </label>
+                    <input
+                      type="text"
+                      value={content.profile.brandName}
+                      onChange={(e) => updateProfile('brandName', e.target.value)}
+                      placeholder="Contoh: The Journey of Husein Rosid"
+                      className="w-full px-4 py-2.5 rounded-xl bg-black/60 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-400"
+                    />
+                    <span className="text-[10px] text-slate-500 mt-1 block">Tampil di Navbar, Footer, & Landing Gate</span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                      Domisili Operasional
+                    </label>
+                    <input
+                      type="text"
+                      value={content.profile.location}
+                      onChange={(e) => updateProfile('location', e.target.value)}
+                      placeholder="Contoh: Surabaya, Jawa Timur, Indonesia"
+                      className="w-full px-4 py-2.5 rounded-xl bg-black/60 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-400"
+                    />
+                    <span className="text-[10px] text-slate-500 mt-1 block">Tampil di Eyebrow Hero & Badge Lokasi</span>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                      Keterangan Pengalaman
+                    </label>
+                    <input
+                      type="text"
+                      value={content.profile.experienceYears}
+                      onChange={(e) => updateProfile('experienceYears', e.target.value)}
+                      placeholder="Contoh: 7+ Tahun Pengalaman Visual"
+                      className="w-full px-4 py-2.5 rounded-xl bg-black/60 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-400"
+                    />
+                    <span className="text-[10px] text-slate-500 mt-1 block">Tampil di Eyebrow Mode Perjalanan</span>
+                  </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-2">
-                    Nama Brand / Judul Situs
+                  <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                    Status Ketersediaan Penugasan
                   </label>
                   <input
                     type="text"
-                    value={content.profile.brandName}
-                    onChange={(e) => updateProfile('brandName', e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-400"
+                    value={content.profile.availability || ''}
+                    onChange={(e) => updateProfile('availability', e.target.value)}
+                    placeholder="Contoh: Menerima penugasan di Surabaya & siap bepergian ke seluruh Indonesia."
+                    className="w-full px-4 py-2.5 rounded-xl bg-black/60 border border-white/10 text-emerald-300 text-xs focus:outline-none focus:border-amber-400 font-medium"
                   />
+                  <span className="text-[10px] text-slate-500 mt-1 block">Informasi kesiapan penugasan yang dilihat klien saat ingin booking</span>
                 </div>
               </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-2">
-                  Headline Utama (Hero)
-                </label>
-                <input
-                  type="text"
-                  value={content.profile.headline}
-                  onChange={(e) => updateProfile('headline', e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-400"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-2">
-                  Subheadline Naratif
-                </label>
-                <textarea
-                  rows={2}
-                  value={content.profile.subheadline}
-                  onChange={(e) => updateProfile('subheadline', e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-400"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-2">
-                  Bio Singkat
-                </label>
-                <textarea
-                  rows={2}
-                  value={content.profile.bioShort}
-                  onChange={(e) => updateProfile('bioShort', e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-400"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-2">
-                  Filosofi Karya (Quote)
-                </label>
-                <input
-                  type="text"
-                  value={content.profile.philosophy}
-                  onChange={(e) => updateProfile('philosophy', e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-400"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-2">
-                    Domisili Operasional
-                  </label>
-                  <input
-                    type="text"
-                    value={content.profile.location}
-                    onChange={(e) => updateProfile('location', e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-400"
-                  />
+              {/* Bento 2: Headline Hero & Pesan Artistik */}
+              <div className="p-6 rounded-2xl bg-black/40 border border-white/10 space-y-5">
+                <div className="flex items-center gap-3 pb-3 border-b border-white/[0.08]">
+                  <div className="p-2 rounded-xl bg-amber-500/10 text-amber-400">
+                    <Sparkles className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-semibold text-white">Headline Hero & Filosofi Karya</h3>
+                    <p className="text-[11px] text-slate-400 font-light">
+                      Judul besar panggung Hero, kalimat narasi pembuka, dan kutipan filosofi visual.
+                    </p>
+                  </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-2">
-                    Keterangan Pengalaman
+                  <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                    Headline Utama (Hero Showcase)
                   </label>
                   <input
                     type="text"
-                    value={content.profile.experienceYears}
-                    onChange={(e) => updateProfile('experienceYears', e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-400"
+                    value={content.profile.headline}
+                    onChange={(e) => updateProfile('headline', e.target.value)}
+                    className="w-full px-4 py-2.5 rounded-xl bg-black/60 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-400 font-medium"
                   />
+                  <span className="text-[10px] text-slate-500 mt-1 block">Judul arsitektural di atas panggung utama web</span>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                    Subheadline Naratif (Hero & Kanvas)
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={content.profile.subheadline}
+                    onChange={(e) => updateProfile('subheadline', e.target.value)}
+                    className="w-full px-4 py-2.5 rounded-xl bg-black/60 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-400"
+                  />
+                  <span className="text-[10px] text-slate-500 mt-1 block">Maksimal 20 kata sesuai kaidah editorial presisi</span>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                    Filosofi Karya (Quote Artistik)
+                  </label>
+                  <input
+                    type="text"
+                    value={content.profile.philosophy}
+                    onChange={(e) => updateProfile('philosophy', e.target.value)}
+                    className="w-full px-4 py-2.5 rounded-xl bg-black/60 border border-white/10 text-amber-300 text-xs italic focus:outline-none focus:border-amber-400"
+                  />
+                  <span className="text-[10px] text-slate-500 mt-1 block">Kutipan filosofi yang tampil di Mode Perjalanan & Footer</span>
                 </div>
               </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-2">
-                  URL Foto Profil (Avatar)
-                </label>
-                <input
-                  type="url"
-                  value={content.profile.avatarUrl}
-                  onChange={(e) => updateProfile('avatarUrl', e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-400"
-                />
+              {/* Bento 3: Biografi Naratif (Bio Singkat & Paragraf Lengkap) */}
+              <div className="p-6 rounded-2xl bg-black/40 border border-white/10 space-y-5">
+                <div className="flex items-center gap-3 pb-3 border-b border-white/[0.08]">
+                  <div className="p-2 rounded-xl bg-amber-500/10 text-amber-400">
+                    <FileText className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-semibold text-white">Biografi Naratif Fotografer</h3>
+                    <p className="text-[11px] text-slate-400 font-light">
+                      Bio pengantar singkat serta esai naratif lengkap yang ditampilkan di web (Mode Perjalanan).
+                    </p>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                    Bio Singkat (Lead Intro)
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={content.profile.bioShort}
+                    onChange={(e) => updateProfile('bioShort', e.target.value)}
+                    placeholder="Ringkasan 1-2 kalimat tentang profil fotografer..."
+                    className="w-full px-4 py-2.5 rounded-xl bg-black/60 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-400"
+                  />
+                  <span className="text-[10px] text-slate-500 mt-1 block">Pengantar ringkas sebelum cerita narasi panjang</span>
+                </div>
+
+                <div className="space-y-3 pt-2">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-300">
+                        Paragraf Cerita Perjalanan Lengkap ({bioFullList.length} Paragraf)
+                      </label>
+                      <span className="text-[10px] text-slate-500">
+                        Setiap paragraf ditampilkan berurutan di kartu narasi Mode Perjalanan
+                      </span>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={addBioFullParagraph}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 text-amber-300 text-[11px] font-semibold transition-colors cursor-pointer"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>Tambah Paragraf</span>
+                    </button>
+                  </div>
+
+                  <div className="space-y-3">
+                    {bioFullList.map((paragraph, pIdx) => (
+                      <div
+                        key={pIdx}
+                        className="p-4 rounded-xl bg-black/60 border border-white/10 space-y-2 group hover:border-white/20 transition-colors"
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="text-[11px] font-mono text-amber-400 uppercase tracking-wider font-semibold">
+                            Paragraf 0{pIdx + 1}
+                          </span>
+                          {bioFullList.length > 1 && (
+                            <button
+                              type="button"
+                              onClick={() => removeBioFullParagraph(pIdx)}
+                              className="text-slate-500 hover:text-red-400 p-1 transition-colors cursor-pointer"
+                              title="Hapus paragraf ini"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          )}
+                        </div>
+                        <textarea
+                          rows={3}
+                          value={paragraph}
+                          onChange={(e) => updateBioFullParagraph(pIdx, e.target.value)}
+                          placeholder="Tuliskan narasi perjalanan visual Anda..."
+                          className="w-full px-3.5 py-2 rounded-lg bg-black/40 border border-white/10 text-slate-200 text-xs leading-relaxed focus:outline-none focus:border-amber-400 font-light"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Bento 4: Foto Profil (Avatar) */}
+              <div className="p-6 rounded-2xl bg-black/40 border border-white/10 space-y-5">
+                <div className="flex items-center gap-3 pb-3 border-b border-white/[0.08]">
+                  <div className="p-2 rounded-xl bg-amber-500/10 text-amber-400">
+                    <ImageIcon className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-semibold text-white">Foto Profil (Avatar)</h3>
+                    <p className="text-[11px] text-slate-400 font-light">
+                      Foto potret yang tampil di kartu profil Mode Perjalanan dan seksi profil web.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                  {/* Avatar Visual Preview */}
+                  <div className="relative group shrink-0">
+                    <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-2 border-amber-500/30 bg-black/60 shadow-[0_0_25px_rgba(245,158,11,0.15)] flex items-center justify-center">
+                      {content.profile.avatarUrl ? (
+                        <img
+                          src={content.profile.avatarUrl}
+                          alt={content.profile.name || 'Avatar'}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      ) : (
+                        <User className="w-10 h-10 text-slate-600" />
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Upload Controls */}
+                  <div className="flex-1 space-y-3 w-full">
+                    <input
+                      ref={avatarFileInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={handleAvatarFileSelect}
+                      className="hidden"
+                    />
+
+                    <div className="flex flex-wrap items-center gap-3">
+                      <button
+                        type="button"
+                        onClick={() => avatarFileInputRef.current?.click()}
+                        disabled={isUploadingAvatar}
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_15px_rgba(245,158,11,0.25)] cursor-pointer"
+                      >
+                        {isUploadingAvatar ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            <span>Mengunggah ke R2...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Upload className="w-4 h-4" />
+                            <span>Pilih & Unggah Foto Baru</span>
+                          </>
+                        )}
+                      </button>
+
+                      {content.profile.avatarUrl && (
+                        <a
+                          href={content.profile.avatarUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full border border-white/10 hover:border-white/25 text-xs text-slate-400 hover:text-white transition-colors"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                          <span>Lihat Asli</span>
+                        </a>
+                      )}
+                    </div>
+
+                    <p className="text-[11px] text-slate-400 font-light">
+                      Foto akan otomatis dikonversi ke WebP terkompresi dan diunggah langsung ke bucket Cloudflare R2 Anda.
+                    </p>
+
+                    <div className="pt-2">
+                      <label className="block text-[11px] text-slate-400 mb-1">
+                        Atau tautan URL Foto Profil manual:
+                      </label>
+                      <input
+                        type="url"
+                        value={content.profile.avatarUrl}
+                        onChange={(e) => updateProfile('avatarUrl', e.target.value)}
+                        placeholder="https://..."
+                        className="w-full px-3.5 py-2 rounded-xl bg-black/60 border border-white/10 text-white text-xs font-mono focus:outline-none focus:border-amber-400"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           )}

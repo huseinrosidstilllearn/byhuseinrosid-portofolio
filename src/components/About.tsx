@@ -1,8 +1,18 @@
 import React from 'react';
 import { User, MapPin } from 'lucide-react';
 import { PHOTOGRAPHER_PROFILE } from '../data/portfolioData';
+import type { PhotographerProfile } from '../types/portfolio';
 
-export const About: React.FC = () => {
+interface AboutProps {
+  profile?: PhotographerProfile;
+}
+
+export const About: React.FC<AboutProps> = ({ profile = PHOTOGRAPHER_PROFILE }) => {
+  const currentProfile = profile || PHOTOGRAPHER_PROFILE;
+  const bioList = Array.isArray(currentProfile.bioFull) && currentProfile.bioFull.length > 0
+    ? currentProfile.bioFull
+    : PHOTOGRAPHER_PROFILE.bioFull;
+
   return (
     <section id="tentang" className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-28">
       {/* Header */}
@@ -21,8 +31,8 @@ export const About: React.FC = () => {
         {/* TILE 1: Portrait Bento (5 cols) */}
         <div className="lg:col-span-5 bento-card p-0 relative overflow-hidden min-h-[460px] group">
           <img
-            src={PHOTOGRAPHER_PROFILE.avatarUrl}
-            alt="Husein Rosid"
+            src={currentProfile.avatarUrl}
+            alt={currentProfile.name}
             loading="lazy"
             className="w-full h-full object-cover object-center absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105"
           />
@@ -31,11 +41,11 @@ export const About: React.FC = () => {
               Visual Storyteller
             </span>
             <h3 className="font-editorial text-2xl sm:text-3xl text-white font-medium mt-1">
-              Husein Rosid
+              {currentProfile.name}
             </h3>
             <div className="flex items-center gap-2 text-xs text-slate-300 font-light mt-1">
               <MapPin className="w-3.5 h-3.5 text-amber-400" />
-              <span>Surabaya, Jawa Timur, Indonesia</span>
+              <span>{currentProfile.location}</span>
             </div>
           </div>
         </div>
@@ -48,7 +58,7 @@ export const About: React.FC = () => {
               Narasi & Pendekatan Visual
             </span>
             <div className="space-y-4 text-xs sm:text-sm text-slate-300 font-light leading-relaxed">
-              {PHOTOGRAPHER_PROFILE.bioFull.map((paragraph, index) => (
+              {bioList.map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
             </div>

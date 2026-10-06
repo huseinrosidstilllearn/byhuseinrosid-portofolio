@@ -1,15 +1,23 @@
 import { motion } from 'framer-motion';
 import { Camera, MessageCircle, Mail } from 'lucide-react';
 import { CONTACT_CONFIG, PHOTOGRAPHER_PROFILE } from '../../data/portfolioData';
-import type { SiteMode } from '../../types/portfolio';
+import type { SiteMode, PhotographerProfile, ContactConfig } from '../../types/portfolio';
 
 interface JourneyFooterProps {
+  profile?: PhotographerProfile;
+  contact?: ContactConfig;
   onSwitchMode: (mode: SiteMode) => void;
 }
 
-export function JourneyFooter({ onSwitchMode }: JourneyFooterProps) {
+export function JourneyFooter({
+  profile = PHOTOGRAPHER_PROFILE,
+  contact = CONTACT_CONFIG,
+  onSwitchMode,
+}: JourneyFooterProps) {
+  const currentProfile = profile || PHOTOGRAPHER_PROFILE;
+  const currentContact = contact || CONTACT_CONFIG;
   const year = new Date().getFullYear();
-  const waLink = `https://wa.me/${CONTACT_CONFIG.whatsappNumber}?text=Halo%20Mas%20Husein%2C%20saya%20tertarik%20untuk%20berkolaborasi!`;
+  const waLink = `https://wa.me/${currentContact.whatsappNumber}?text=Halo%20Mas%20Husein%2C%20saya%20tertarik%20untuk%20berkolaborasi!`;
 
   return (
     <footer className="relative border-t border-white/5 pt-16 pb-8 px-4 sm:px-8 overflow-hidden">
@@ -43,7 +51,7 @@ export function JourneyFooter({ onSwitchMode }: JourneyFooterProps) {
               <span>Mulai via WhatsApp</span>
             </a>
             <a
-              href={`mailto:${CONTACT_CONFIG.email}`}
+              href={`mailto:${currentContact.email}`}
               className="inline-flex items-center gap-2 px-7 py-3 rounded-full border border-white/20 hover:border-amber-500/50 text-white/70 hover:text-white text-sm transition-all duration-300"
             >
               <Mail className="w-4 h-4 text-amber-400" />
@@ -56,8 +64,8 @@ export function JourneyFooter({ onSwitchMode }: JourneyFooterProps) {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-white/5">
           {/* Brand */}
           <div>
-            <p className="font-headline text-lg font-black text-white">{PHOTOGRAPHER_PROFILE.brandName}</p>
-            <p className="text-white/30 text-xs mt-0.5">{PHOTOGRAPHER_PROFILE.location}</p>
+            <p className="font-headline text-lg font-black text-white">{currentProfile.brandName}</p>
+            <p className="text-white/30 text-xs mt-0.5">{currentProfile.location}</p>
           </div>
 
           {/* Switch mode */}
@@ -71,7 +79,7 @@ export function JourneyFooter({ onSwitchMode }: JourneyFooterProps) {
 
           {/* Copyright */}
           <p className="text-white/20 text-xs font-mono">
-            © {year} {PHOTOGRAPHER_PROFILE.brandName}
+            © {year} {currentProfile.brandName}
           </p>
         </div>
       </div>

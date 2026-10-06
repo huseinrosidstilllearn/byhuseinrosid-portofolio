@@ -95,25 +95,44 @@ export const JourneyHero: React.FC<JourneyHeroProps> = ({
             {/* Headline */}
             <div>
               <h1 className="font-editorial text-5xl sm:text-6xl lg:text-7xl font-black leading-[0.9] tracking-tight text-white mb-4">
-                Husein
-                <br />
-                <span className="text-amber-400">Rosid</span>
+                {(() => {
+                  const parts = (profile.name || 'Husein Rosid').trim().split(/\s+/);
+                  const first = parts[0] || 'Husein';
+                  const rest = parts.slice(1).join(' ') || 'Rosid';
+                  return (
+                    <>
+                      {first}
+                      <br />
+                      <span className="text-amber-400">{rest}</span>
+                    </>
+                  );
+                })()}
               </h1>
               <p className="text-white/50 text-sm font-mono tracking-widest uppercase">
                 {profile.headline}
               </p>
             </div>
 
+            {/* Status Ketersediaan */}
+            {profile.availability && (
+              <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 text-xs font-mono">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>{profile.availability}</span>
+              </div>
+            )}
+
             {/* Bio */}
-            <div className="bento-card p-6 rounded-2xl border border-white/5 max-w-2xl">
-              <p className="text-white/75 leading-relaxed text-base">
+            <div className="bento-card p-6 rounded-2xl border border-white/5 max-w-2xl space-y-3">
+              <p className="text-white/80 leading-relaxed text-base font-normal">
                 {profile.bioShort}
               </p>
-              {profile.bioFull && profile.bioFull[0] && (
-                <p className="text-white/55 leading-relaxed text-sm mt-3">
-                  {profile.bioFull[0]}
-                </p>
-              )}
+              {Array.isArray(profile.bioFull) && profile.bioFull.length > 0 ? (
+                profile.bioFull.map((p, idx) => (
+                  <p key={idx} className="text-white/60 leading-relaxed text-sm font-light">
+                    {p}
+                  </p>
+                ))
+              ) : null}
             </div>
 
             {/* Philosophy */}

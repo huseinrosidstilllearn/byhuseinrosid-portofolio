@@ -238,7 +238,11 @@ export function App() {
               <PhotoStories />
               <Services packages={siteContent.services} />
               <ContactSection contact={siteContent.contact} />
-              <JourneyFooter onSwitchMode={handleSetSiteMode} />
+              <JourneyFooter
+                profile={siteContent.profile}
+                contact={siteContent.contact}
+                onSwitchMode={handleSetSiteMode}
+              />
             </main>
           </div>
         </motion.div>
@@ -280,6 +284,8 @@ export function App() {
                   onBackToMain={() => handleSelectCategory(null)}
                 />
                 <KaryaFooter
+                  profile={siteContent.profile}
+                  contact={siteContent.contact}
                   onSwitchToSpatial={() => setViewMode('spatial')}
                   onSwitchSiteMode={handleSetSiteMode}
                 />
@@ -288,7 +294,11 @@ export function App() {
               /* ── Main Showcase Hub (Showcase Utama) ────────────────────────────── */
               <main className="flex-grow pb-0">
                 <div className="space-y-24 sm:space-y-36">
-                  <Hero onExploreClick={() => handleNavigateToSection('kategori-showcase')} />
+                  <Hero
+                    profile={siteContent.profile}
+                    contact={siteContent.contact}
+                    onExploreClick={() => handleNavigateToSection('kategori-showcase')}
+                  />
                   <DualMarquee photos={photos} onSelectPhoto={setActivePhoto} />
                   <CategoryShowcase
                     photos={photos}
@@ -302,6 +312,8 @@ export function App() {
                   <AccordionCarousel photos={photos} onSelectPhoto={setActivePhoto} />
                 </div>
                 <KaryaFooter
+                  profile={siteContent.profile}
+                  contact={siteContent.contact}
                   onSwitchToSpatial={() => setViewMode('spatial')}
                   onSwitchSiteMode={handleSetSiteMode}
                 />
