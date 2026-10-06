@@ -61,7 +61,7 @@ export const CategoryShowcase: React.FC<CategoryShowcaseProps> = ({
               {/* Background Photo with Smooth Ken-Burns Zoom */}
               <div className="absolute inset-0 z-0 overflow-hidden bg-black">
                 <img
-                  src={info.coverImage}
+                  src={samplePhotos.length > 0 ? samplePhotos[0].imageUrl : info.coverImage}
                   alt={info.title}
                   loading="lazy"
                   className="w-full h-full object-cover object-center brightness-[0.65] contrast-[1.05] group-hover:scale-105 group-hover:brightness-[0.75] transition-all duration-700 ease-out"

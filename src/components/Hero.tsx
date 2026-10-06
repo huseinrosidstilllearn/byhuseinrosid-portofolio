@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { ArrowDown, ArrowUpRight, MessageCircle, MapPin, Pause, Play } from 'lucide-react';
 import { createWhatsAppLink } from '../utils/whatsapp';
 
-import type { PhotographerProfile, ContactConfig } from '../types/portfolio';
+import type { PhotographerProfile, ContactConfig, PhotoItem } from '../types/portfolio';
 
 interface HeroProps {
+  photos?: PhotoItem[];
   onExploreClick?: () => void;
   profile?: PhotographerProfile;
   contact?: ContactConfig;
@@ -64,26 +65,44 @@ const FEATURED_HERO_FRAMES: HeroFrame[] = [
   },
 ];
 
-export const Hero: React.FC<HeroProps> = ({ onExploreClick, profile, contact }) => {
+export const Hero: React.FC<HeroProps> = ({ photos = [], onExploreClick, profile, contact }) => {
   const [activeFrameIndex, setActiveFrameIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+
+  // Gunakan foto asli dari koleksi yang diunggah jika tersedia (prioritas featured atau 5 karya pertama)
+  const heroFrames: HeroFrame[] = photos.length > 0
+    ? (() => {
+        const featured = photos.filter((p) => p.featured);
+        const selected = featured.length >= 2 ? featured.slice(0, 5) : photos.slice(0, 5);
+        return selected.map((p, idx) => ({
+          id: p.id,
+          number: String(idx + 1).padStart(2, '0'),
+          title: p.title,
+          category: p.category,
+          location: p.location || (profile?.location ? profile.location.split(',')[0].trim() : 'Surabaya'),
+          year: p.year || '2025',
+          imageUrl: p.imageUrl,
+          tagline: p.description || p.title,
+        }));
+      })()
+    : FEATURED_HERO_FRAMES;
 
   // Auto advance slides every 7 seconds
   useEffect(() => {
     if (!isPlaying) return;
     const timer = setInterval(() => {
-      setActiveFrameIndex((prev) => (prev + 1) % FEATURED_HERO_FRAMES.length);
+      setActiveFrameIndex((prev) => (prev + 1) % heroFrames.length);
     }, 7000);
     return () => clearInterval(timer);
-  }, [isPlaying]);
+  }, [isPlaying, heroFrames.length]);
 
-  const activeFrame = FEATURED_HERO_FRAMES[activeFrameIndex];
+  const activeFrame = heroFrames[activeFrameIndex] || heroFrames[0];
 
   return (
     <section className="relative min-h-[100dvh] flex flex-col justify-between pt-20 sm:pt-24 pb-6 sm:pb-8 px-4 sm:px-6 lg:px-12 overflow-hidden select-none">
       {/* Background Photographic Canvas with Smooth Crossfade */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        {FEATURED_HERO_FRAMES.map((frame, index) => {
+        {heroFrames.map((frame, index) => {
           const isActive = index === activeFrameIndex;
           return (
             <div
@@ -220,7 +239,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick, profile, contact }) 
         {/* Right: Chapter Switcher Tabs & Progress Controls */}
         <div className="flex items-center gap-3">
           <div className="flex items-center p-1.5 rounded-2xl bg-[#0E1118]/85 border border-white/15 backdrop-blur-xl shadow-2xl">
-            {FEATURED_HERO_FRAMES.map((frame, index) => {
+            {heroFrames.map((frame, index) => {
               const isActive = index === activeFrameIndex;
               return (
                 <button

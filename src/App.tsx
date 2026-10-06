@@ -295,6 +295,7 @@ export function App() {
               <main className="flex-grow pb-0">
                 <div className="space-y-24 sm:space-y-36">
                   <Hero
+                    photos={photos}
                     profile={siteContent.profile}
                     contact={siteContent.contact}
                     onExploreClick={() => handleNavigateToSection('kategori-showcase')}
