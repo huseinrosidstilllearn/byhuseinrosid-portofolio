@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MessageCircle, Mail, MapPin, ArrowUpRight, Send } from 'lucide-react';
 import { CONTACT_CONFIG, SERVICE_PACKAGES } from '../data/portfolioData';
+import { CustomSelect } from './ui/CustomSelect';
 import type { ContactConfig } from '../types/portfolio';
 
 const InstagramIcon: React.FC<{ className?: string }> = ({ className = "w-5 h-5" }) => (
@@ -171,21 +172,25 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ contact = CONTAC
               <label className="block text-[10px] uppercase tracking-[0.2em] font-semibold text-slate-300 mb-2">
                 Pilihan Layanan
               </label>
-              <select
+              <CustomSelect
                 value={selectedService}
-                onChange={e => setSelectedService(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white text-sm focus:outline-none focus:border-amber-400 transition-colors"
-              >
-                <option value="" className="bg-[#0E1118]">-- Pilih Kategori Layanan --</option>
-                {SERVICE_PACKAGES.map(svc => (
-                  <option key={svc.id} value={svc.title} className="bg-[#0E1118]">
-                    {svc.title}
-                  </option>
-                ))}
-                <option value="Proyek Kustom / Kolaborasi Visual" className="bg-[#0E1118]">
-                  Proyek Kustom / Kolaborasi Visual
-                </option>
-              </select>
+                onChange={setSelectedService}
+                options={[
+                  ...SERVICE_PACKAGES.map((svc) => ({
+                    value: svc.title,
+                    label: svc.title,
+                    description: svc.tagline,
+                  })),
+                  {
+                    value: 'Proyek Kustom / Kolaborasi Visual',
+                    label: 'Proyek Kustom / Kolaborasi Visual',
+                    description: 'Komisi khusus di luar paket standar',
+                  },
+                ]}
+                placeholder="-- Pilih Kategori Layanan --"
+                variant="subtle"
+                buttonClassName="py-3 px-4 text-sm"
+              />
             </div>
 
             <div>

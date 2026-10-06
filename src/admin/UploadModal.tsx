@@ -16,6 +16,8 @@ import {
 import { compressImage } from '../utils/imageCompressor';
 import { supabase } from '../lib/supabase';
 import { PHOTO_CATEGORIES } from '../data/portfolioData';
+import { CustomSelect } from '../components/ui/CustomSelect';
+import { CustomCheckbox } from '../components/ui/CustomCheckbox';
 import type { PhotoItem, PhotoAspectRatio } from '../types/portfolio';
 
 export interface QueuedPhotoItem {
@@ -717,17 +719,12 @@ export const UploadModal: React.FC<UploadModalProps> = ({
                       <label className="block text-[10px] uppercase tracking-wider text-slate-400 mb-1">
                         Kategori
                       </label>
-                      <select
+                      <CustomSelect
                         value={urlCategory}
-                        onChange={(e) => setUrlCategory(e.target.value)}
-                        className="w-full px-3 py-2 rounded-xl bg-black/40 border border-white/10 text-white text-xs"
-                      >
-                        {PHOTO_CATEGORIES.filter((c) => c !== 'Semua').map((cat) => (
-                          <option key={cat} value={cat} className="bg-[#0E1118]">
-                            {cat}
-                          </option>
-                        ))}
-                      </select>
+                        onChange={setUrlCategory}
+                        options={PHOTO_CATEGORIES.filter((c) => c !== 'Semua')}
+                        variant="subtle"
+                      />
                     </div>
                     <div>
                       <label className="block text-[10px] uppercase tracking-wider text-slate-400 mb-1">
@@ -757,26 +754,23 @@ export const UploadModal: React.FC<UploadModalProps> = ({
                       <label className="block text-[10px] uppercase tracking-wider text-slate-400 mb-1">
                         Orientasi
                       </label>
-                      <select
+                      <CustomSelect
                         value={urlAspectRatio}
-                        onChange={(e) => setUrlAspectRatio(e.target.value as PhotoAspectRatio)}
-                        className="w-full px-3 py-2 rounded-xl bg-black/40 border border-white/10 text-white text-xs"
-                      >
-                        <option value="landscape" className="bg-[#0E1118]">Landscape (Horisontal)</option>
-                        <option value="portrait" className="bg-[#0E1118]">Portrait (Vertikal)</option>
-                        <option value="square" className="bg-[#0E1118]">Square (1:1)</option>
-                      </select>
+                        onChange={(val) => setUrlAspectRatio(val as PhotoAspectRatio)}
+                        options={[
+                          { value: 'landscape', label: 'Landscape (Horisontal)' },
+                          { value: 'portrait', label: 'Portrait (Vertikal)' },
+                          { value: 'square', label: 'Square (1:1 Kotak)' },
+                        ]}
+                        variant="subtle"
+                      />
                     </div>
-                    <div className="sm:col-span-2">
-                      <label className="flex items-center gap-2 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={urlFeatured}
-                          onChange={(e) => setUrlFeatured(e.target.checked)}
-                          className="rounded border-white/20 text-amber-500 focus:ring-0"
-                        />
-                        <span className="text-xs text-slate-300">Tampilkan sebagai Unggulan (Hero Section)</span>
-                      </label>
+                    <div className="sm:col-span-2 pt-1">
+                      <CustomCheckbox
+                        checked={urlFeatured}
+                        onChange={setUrlFeatured}
+                        label="Tampilkan sebagai Unggulan (Hero Section)"
+                      />
                     </div>
                     <div className="sm:col-span-2">
                       <label className="block text-[10px] uppercase tracking-wider text-slate-400 mb-1">
@@ -907,37 +901,43 @@ export const UploadModal: React.FC<UploadModalProps> = ({
               {/* Helper Tools: Quick Action Dropdown */}
               <div className="flex items-center gap-2">
                 {queuedPhotos.length > 1 && (
-                  <div className="flex items-center gap-1.5 bg-amber-500/10 px-2.5 py-1 rounded-xl border border-amber-500/30">
-                    <Copy className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                    <select
-                      defaultValue=""
-                      onChange={(e) => {
-                        const val = e.target.value;
+                  <div className="relative">
+                    <CustomSelect
+                      value=""
+                      onChange={(val) => {
                         if (!val) return;
                         if (val === 'all_info') applyAllInfoToAll();
                         else if (val === 'category_only') applyCategoryToAll();
                         else if (val === 'location_year') applyLocationYearToAll();
                         else if (val === 'description_only') applyDescriptionToAll();
-                        e.target.value = '';
                       }}
-                      className="bg-transparent text-amber-300 text-xs font-semibold cursor-pointer focus:outline-none"
-                    >
-                      <option value="" disabled className="bg-[#0E1118] text-slate-400">
-                        Salin Info Foto Ini Ke Semua...
-                      </option>
-                      <option value="all_info" className="bg-[#0E1118] text-white">
-                        Salin SEMUA Info (Kategori, Lokasi, Tahun, Deskripsi)
-                      </option>
-                      <option value="category_only" className="bg-[#0E1118] text-white">
-                        Salin Kategori Saja ({activePhoto.category})
-                      </option>
-                      <option value="location_year" className="bg-[#0E1118] text-white">
-                        Salin Lokasi &amp; Tahun Saja
-                      </option>
-                      <option value="description_only" className="bg-[#0E1118] text-white">
-                        Salin Deskripsi Saja
-                      </option>
-                    </select>
+                      options={[
+                        {
+                          value: 'all_info',
+                          label: 'Salin SEMUA Info',
+                          description: 'Kategori, Lokasi, Tahun & Deskripsi',
+                        },
+                        {
+                          value: 'category_only',
+                          label: `Salin Kategori Saja (${activePhoto.category})`,
+                          description: 'Hanya samakan kategori ke seluruh foto',
+                        },
+                        {
+                          value: 'location_year',
+                          label: 'Salin Lokasi & Tahun Saja',
+                          description: `${activePhoto.location || '-'}, ${activePhoto.year || '-'}`,
+                        },
+                        {
+                          value: 'description_only',
+                          label: 'Salin Deskripsi Saja',
+                          description: 'Samakan teks deskripsi ke seluruh foto',
+                        },
+                      ]}
+                      placeholder="Salin Info Foto Ini Ke Semua..."
+                      variant="amber"
+                      icon={<Copy className="w-3.5 h-3.5" />}
+                      align="right"
+                    />
                   </div>
                 )}
 
@@ -1024,19 +1024,25 @@ export const UploadModal: React.FC<UploadModalProps> = ({
                     </div>
                   </div>
 
-                  <div className="shrink-0">
-                    <select
+                  <div className="shrink-0 w-full sm:w-auto">
+                    <CustomSelect
                       value={applyMode}
-                      onChange={(e) => handleApplyModeChange(e.target.value as 'all' | 'single')}
-                      className="w-full sm:w-auto px-3.5 py-2 rounded-xl bg-black/85 border border-amber-500/60 text-amber-300 font-bold text-xs focus:outline-none focus:ring-2 focus:ring-amber-400 cursor-pointer shadow-lg"
-                    >
-                      <option value="all" className="bg-[#0E1118] text-white">
-                        Terapkan ke SEMUA Foto ({queuedPhotos.length} Foto)
-                      </option>
-                      <option value="single" className="bg-[#0E1118] text-white">
-                        Edit 1 per 1 (Hanya Foto #{currentIndex + 1})
-                      </option>
-                    </select>
+                      onChange={(val) => handleApplyModeChange(val as 'all' | 'single')}
+                      options={[
+                        {
+                          value: 'all',
+                          label: `Terapkan ke SEMUA Foto (${queuedPhotos.length} Foto)`,
+                          description: 'Perubahan kategori, tahun & lokasi akan diterapkan serentak',
+                        },
+                        {
+                          value: 'single',
+                          label: `Edit 1 per 1 (Hanya Foto #${currentIndex + 1})`,
+                          description: 'Setiap foto diedit secara terpisah',
+                        },
+                      ]}
+                      variant="amber"
+                      dropdownClassName="min-w-[280px]"
+                    />
                   </div>
                 </div>
 
@@ -1121,32 +1127,28 @@ export const UploadModal: React.FC<UploadModalProps> = ({
                         </span>
                       )}
                     </div>
-                    <select
+                    <CustomSelect
                       value={activePhoto.category}
-                      onChange={(e) => handleCategoryChange(e.target.value)}
-                      className="w-full px-3 py-2.5 rounded-xl bg-black/40 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-400 transition-colors"
-                    >
-                      {PHOTO_CATEGORIES.filter((c) => c !== 'Semua').map((cat) => (
-                        <option key={cat} value={cat} className="bg-[#0E1118]">
-                          {cat}
-                        </option>
-                      ))}
-                    </select>
+                      onChange={handleCategoryChange}
+                      options={PHOTO_CATEGORIES.filter((c) => c !== 'Semua')}
+                      variant="default"
+                    />
                   </div>
 
                   <div>
                     <label className="block text-[10px] uppercase tracking-wider font-semibold text-slate-300 mb-1.5">
                       Orientasi Bingkai
                     </label>
-                    <select
+                    <CustomSelect
                       value={activePhoto.aspectRatio}
-                      onChange={(e) => updateActivePhoto('aspectRatio', e.target.value as PhotoAspectRatio)}
-                      className="w-full px-3 py-2.5 rounded-xl bg-black/40 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-400 transition-colors"
-                    >
-                      <option value="landscape" className="bg-[#0E1118]">Landscape (Horisontal)</option>
-                      <option value="portrait" className="bg-[#0E1118]">Portrait (Vertikal)</option>
-                      <option value="square" className="bg-[#0E1118]">Square (1:1 Kotak)</option>
-                    </select>
+                      onChange={(val) => updateActivePhoto('aspectRatio', val as PhotoAspectRatio)}
+                      options={[
+                        { value: 'landscape', label: 'Landscape (Horisontal)' },
+                        { value: 'portrait', label: 'Portrait (Vertikal)' },
+                        { value: 'square', label: 'Square (1:1 Kotak)' },
+                      ]}
+                      variant="default"
+                    />
                   </div>
                 </div>
 
@@ -1218,19 +1220,15 @@ export const UploadModal: React.FC<UploadModalProps> = ({
 
                 {/* Toggle Unggulan Hero */}
                 <div className="pt-2">
-                  <label className="inline-flex items-center gap-2.5 text-xs text-slate-300 cursor-pointer select-none">
-                    <input
-                      type="checkbox"
-                      checked={activePhoto.featured}
-                      onChange={(e) => updateActivePhoto('featured', e.target.checked)}
-                      className="w-4 h-4 rounded accent-amber-500 cursor-pointer"
-                    />
-                    <span>
-                      {applyMode === 'all'
+                  <CustomCheckbox
+                    checked={activePhoto.featured}
+                    onChange={(checked) => updateActivePhoto('featured', checked)}
+                    label={
+                      applyMode === 'all'
                         ? `Tandai Foto #${currentIndex + 1} sebagai Unggulan Hero Showcase`
-                        : 'Tandai sebagai Unggulan (Tampil di Showcase Utama & Hero Carousel)'}
-                    </span>
-                  </label>
+                        : 'Tandai sebagai Unggulan (Tampil di Showcase Utama & Hero Carousel)'
+                    }
+                  />
                 </div>
               </div>
             </div>

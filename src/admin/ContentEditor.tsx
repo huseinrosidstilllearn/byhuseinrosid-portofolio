@@ -25,6 +25,7 @@ import {
   DEFAULT_SITE_CONTENT,
 } from '../lib/supabase';
 import { compressImage } from '../utils/imageCompressor';
+import { CustomSelect } from '../components/ui/CustomSelect';
 import type {
   SiteContentData,
   TimelineMilestone,
@@ -955,37 +956,39 @@ export const ContentEditor: React.FC = () => {
                     <div className="grid grid-cols-2 gap-2">
                       <div>
                         <label className="block text-[10px] text-slate-400 mb-1">Kategori</label>
-                        <select
+                        <CustomSelect
                           value={skill.category}
-                          onChange={(e) => {
+                          onChange={(val) => {
                             const updated = [...content.skills];
-                            updated[idx].category = e.target.value as any;
+                            updated[idx].category = val as any;
                             setContent((prev) => ({ ...prev, skills: updated }));
                           }}
-                          className="w-full px-2.5 py-1.5 rounded-lg bg-black/60 border border-white/10 text-white text-xs"
-                        >
-                          <option value="teknis">Teknis Fotografi</option>
-                          <option value="editing">Post-Processing</option>
-                          <option value="softskill">Keahlian Lunak</option>
-                          <option value="gear">Peralatan</option>
-                        </select>
+                          options={[
+                            { value: 'teknis', label: 'Teknis Fotografi' },
+                            { value: 'editing', label: 'Post-Processing' },
+                            { value: 'softskill', label: 'Keahlian Lunak' },
+                            { value: 'gear', label: 'Peralatan' },
+                          ]}
+                          variant="compact"
+                        />
                       </div>
 
                       <div>
                         <label className="block text-[10px] text-slate-400 mb-1">Level</label>
-                        <select
+                        <CustomSelect
                           value={skill.level}
-                          onChange={(e) => {
+                          onChange={(val) => {
                             const updated = [...content.skills];
-                            updated[idx].level = e.target.value as any;
+                            updated[idx].level = val as any;
                             setContent((prev) => ({ ...prev, skills: updated }));
                           }}
-                          className="w-full px-2.5 py-1.5 rounded-lg bg-black/60 border border-white/10 text-white text-xs"
-                        >
-                          <option value="Terampil">Terampil</option>
-                          <option value="Mahir">Mahir</option>
-                          <option value="Ahli">Ahli</option>
-                        </select>
+                          options={[
+                            { value: 'Terampil', label: 'Terampil' },
+                            { value: 'Mahir', label: 'Mahir' },
+                            { value: 'Ahli', label: 'Ahli' },
+                          ]}
+                          variant="compact"
+                        />
                       </div>
                     </div>
 
