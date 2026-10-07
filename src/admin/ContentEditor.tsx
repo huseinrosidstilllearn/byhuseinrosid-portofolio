@@ -26,6 +26,7 @@ import {
 } from '../lib/supabase';
 import { compressImage } from '../utils/imageCompressor';
 import { CustomSelect } from '../components/ui/CustomSelect';
+import { IconPicker } from './IconPicker';
 import type {
   SiteContentData,
   TimelineMilestone,
@@ -768,15 +769,13 @@ export const ContentEditor: React.FC = () => {
                   >
                     <div className="flex items-center justify-between gap-3">
                       <div className="flex items-center gap-2">
-                        <input
-                          type="text"
+                        <IconPicker
                           value={item.icon}
-                          onChange={(e) => {
+                          onChange={(newIcon) => {
                             const updated = [...content.timeline];
-                            updated[idx].icon = e.target.value;
+                            updated[idx].icon = newIcon;
                             setContent((prev) => ({ ...prev, timeline: updated }));
                           }}
-                          className="w-10 text-center py-1 rounded-lg bg-white/10 border border-white/10 text-lg"
                         />
                         <input
                           type="text"
@@ -918,15 +917,14 @@ export const ContentEditor: React.FC = () => {
                   >
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex items-center gap-2 flex-1">
-                        <input
-                          type="text"
+                        <IconPicker
                           value={skill.icon}
-                          onChange={(e) => {
+                          size="sm"
+                          onChange={(newIcon) => {
                             const updated = [...content.skills];
-                            updated[idx].icon = e.target.value;
+                            updated[idx].icon = newIcon;
                             setContent((prev) => ({ ...prev, skills: updated }));
                           }}
-                          className="w-8 text-center py-1 rounded bg-white/10 text-base"
                         />
                         <input
                           type="text"

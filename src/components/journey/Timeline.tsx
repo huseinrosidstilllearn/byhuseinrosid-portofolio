@@ -1,48 +1,13 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import {
-  Camera,
-  Users,
-  Waves,
-  Lightbulb,
-  Coffee,
-  Mountain,
-  Heart,
-  Building2,
-  Sparkles,
-} from 'lucide-react';
 import { TIMELINE_MILESTONES } from '../../data/journeyData';
-
-function getMilestoneIcon(icon: string) {
-  switch (icon) {
-    case 'camera':
-      return Camera;
-    case 'users':
-      return Users;
-    case 'waves':
-      return Waves;
-    case 'lightbulb':
-      return Lightbulb;
-    case 'coffee':
-      return Coffee;
-    case 'mountain':
-      return Mountain;
-    case 'heart':
-      return Heart;
-    case 'building':
-      return Building2;
-    case 'sparkles':
-      return Sparkles;
-    default:
-      return Camera;
-  }
-}
+import { resolveIconComponent } from '../../utils/iconCatalog';
 
 function MilestoneCard({ milestone, index }: { milestone: typeof TIMELINE_MILESTONES[0]; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
   const isLeft = index % 2 === 0;
-  const IconComponent = getMilestoneIcon(milestone.icon);
+  const IconComponent = resolveIconComponent(milestone.icon);
 
   return (
     <div ref={ref} className={`relative flex items-start gap-0 ${isLeft ? 'flex-row' : 'flex-row-reverse'} md:gap-0`}>

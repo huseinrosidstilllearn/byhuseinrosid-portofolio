@@ -5,20 +5,10 @@ import {
   Palette,
   Users,
   Wrench,
-  Sun,
-  Lightbulb,
-  Compass,
-  Mountain,
-  Package,
-  Edit3,
-  Clapperboard,
-  BookOpen,
-  Eye,
-  Plane,
-  Crop,
 } from 'lucide-react';
 import { SKILLS } from '../../data/journeyData';
 import type { SkillItem } from '../../types/portfolio';
+import { resolveIconComponent } from '../../utils/iconCatalog';
 
 const CATEGORY_META: Record<
   SkillItem['category'],
@@ -30,46 +20,12 @@ const CATEGORY_META: Record<
   gear: { label: 'Sistem Kamera & Peralatan', icon: Wrench, color: 'text-amber-300' },
 };
 
-function getSkillIcon(iconKey: string): React.ComponentType<{ className?: string }> {
-  switch (iconKey) {
-    case 'framing':
-      return Crop;
-    case 'sun':
-      return Sun;
-    case 'lightbulb':
-      return Lightbulb;
-    case 'compass':
-      return Compass;
-    case 'mountain':
-      return Mountain;
-    case 'package':
-      return Package;
-    case 'palette':
-      return Palette;
-    case 'edit':
-      return Edit3;
-    case 'clapperboard':
-      return Clapperboard;
-    case 'book':
-      return BookOpen;
-    case 'users':
-      return Users;
-    case 'eye':
-      return Eye;
-    case 'plane':
-      return Plane;
-    case 'camera':
-    default:
-      return Camera;
-  }
-}
-
 const CATEGORIES: SkillItem['category'][] = ['teknis', 'editing', 'softskill', 'gear'];
 
 function SkillCard({ skill, index }: { skill: SkillItem; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-40px' });
-  const IconComponent = getSkillIcon(skill.icon);
+  const IconComponent = resolveIconComponent(skill.icon);
 
   return (
     <motion.div
