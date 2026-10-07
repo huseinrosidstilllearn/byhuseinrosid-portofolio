@@ -91,22 +91,22 @@ export const DualMarquee: React.FC<DualMarqueeProps> = ({
       aria-label="Pameran Berjalan Karya Pilihan"
     >
       {/* Kontrol Header Marquee */}
-      <div className="w-full max-w-[1920px] px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 mx-auto mb-4 flex items-center justify-between gap-4">
+      <div className="w-full max-w-[1920px] px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 mx-auto mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4">
         <div className="flex items-center gap-2.5">
           <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-          <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-slate-400">
+          <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.2em] text-slate-400">
             Pameran Berjalan &bull; {selectedPhotos.length} Karya Pilihan
           </span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 self-start sm:self-auto">
           {/* Tombol Kecepatan */}
           <button
             type="button"
             onClick={() => {
               setSpeedMode((prev) => (prev === 'normal' ? 'slow' : prev === 'slow' ? 'fast' : 'normal'));
             }}
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.05] hover:bg-white/10 border border-white/10 text-[11px] text-slate-300 hover:text-amber-300 font-mono transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.05] hover:bg-white/10 border border-white/10 text-[10px] sm:text-[11px] text-slate-300 hover:text-amber-300 font-mono transition-colors cursor-pointer"
             title="Ubah kecepatan gerak"
           >
             <Gauge className="w-3 h-3 text-amber-400" />
@@ -119,7 +119,7 @@ export const DualMarquee: React.FC<DualMarqueeProps> = ({
           <button
             type="button"
             onClick={() => setIsPaused((prev) => !prev)}
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.05] hover:bg-white/10 border border-white/10 text-[11px] text-slate-300 hover:text-white font-mono transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.05] hover:bg-white/10 border border-white/10 text-[10px] sm:text-[11px] text-slate-300 hover:text-white font-mono transition-colors cursor-pointer"
             title={isPaused ? 'Lanjutkan gerakan' : 'Jeda gerakan'}
           >
             {isPaused ? (

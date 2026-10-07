@@ -113,9 +113,9 @@ export const Gallery: React.FC<GalleryProps> = ({
   const currentSpotlightPhoto = filteredPhotos[spotlightIndex] || filteredPhotos[0] || null;
 
   return (
-    <section id="galeri" className="w-full px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 max-w-[1920px] mx-auto scroll-mt-28">
+    <section id="galeri" className="w-full px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 max-w-[1920px] mx-auto scroll-mt-24 sm:scroll-mt-28">
       {/* Gallery Header & Controls */}
-      <div className="flex flex-col gap-6 mb-8 pb-6 border-b border-white/[0.08]">
+      <div className="flex flex-col gap-5 sm:gap-6 mb-8 pb-6 border-b border-white/[0.08]">
         {/* Title & Subtitle */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
@@ -142,7 +142,7 @@ export const Gallery: React.FC<GalleryProps> = ({
         </div>
 
         {/* Action Controls: 5-Layout Mode Switcher & Category Filters */}
-        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
+        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 sm:gap-4">
           {/* 5-Mode Switcher */}
           <div className="flex items-center gap-1 p-1 rounded-2xl bg-[#0E1118]/85 border border-white/10 backdrop-blur-xl overflow-x-auto no-scrollbar shadow-lg">
             {GALLERY_MODES.map((mode) => {
@@ -152,7 +152,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                 <button
                   key={mode.id}
                   onClick={() => setGalleryMode(mode.id)}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium tracking-wider whitespace-nowrap active:scale-[0.98] transition-all duration-200 cursor-pointer ${
+                  className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-xs font-medium tracking-wider whitespace-nowrap active:scale-[0.98] transition-all duration-200 cursor-pointer ${
                     isActive
                       ? 'bg-amber-500 text-slate-950 font-bold shadow-[0_2px_12px_rgba(245,158,11,0.35)] scale-[1.02]'
                       : 'text-slate-400 hover:text-white hover:bg-white/[0.06]'
@@ -175,7 +175,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                 <button
                   key={filter}
                   onClick={() => setSelectedCategory(filter)}
-                  className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wider whitespace-nowrap transition-all duration-200 cursor-pointer ${
+                  className={`flex items-center gap-1.5 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-medium tracking-wider whitespace-nowrap transition-all duration-200 cursor-pointer ${
                     isActive
                       ? 'bg-white/15 text-amber-300 font-bold border border-amber-400/40 shadow-sm'
                       : 'text-slate-400 hover:text-white hover:bg-white/[0.06]'
@@ -183,7 +183,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                 >
                   <span>{filter}</span>
                   <span
-                    className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+                    className={`text-[9px] sm:text-[10px] px-1.5 py-0.2 rounded-full ${
                       isActive ? 'bg-amber-400 text-slate-950 font-bold' : 'bg-white/10 text-slate-400'
                     }`}
                   >
@@ -207,11 +207,11 @@ export const Gallery: React.FC<GalleryProps> = ({
                       setSelectedCategory(category);
                     }
                   }}
-                  className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wider whitespace-nowrap transition-all duration-200 cursor-pointer text-slate-400 hover:text-amber-300 hover:bg-amber-500/10 border border-transparent hover:border-amber-500/20 group"
+                  className="flex items-center gap-1.5 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-medium tracking-wider whitespace-nowrap transition-all duration-200 cursor-pointer text-slate-400 hover:text-amber-300 hover:bg-amber-500/10 border border-transparent hover:border-amber-500/20 group"
                   title={`Buka Halaman Kategori ${category}`}
                 >
                   <span>{category}</span>
-                  <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-white/10 text-slate-400 group-hover:bg-amber-500/20 group-hover:text-amber-300">
+                  <span className="text-[9px] sm:text-[10px] px-1.5 py-0.2 rounded-full bg-white/10 text-slate-400 group-hover:bg-amber-500/20 group-hover:text-amber-300">
                     {count}
                   </span>
                   <ArrowUpRight className="w-3 h-3 text-slate-500 group-hover:text-amber-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -467,34 +467,34 @@ export const Gallery: React.FC<GalleryProps> = ({
             </div>
 
             {/* Prev / Next Stage Arrows */}
-            <div className="absolute inset-y-0 inset-x-4 flex items-center justify-between pointer-events-none z-10">
+            <div className="absolute inset-y-0 inset-x-2 sm:inset-x-4 flex items-center justify-between pointer-events-none z-10">
               <button
                 onClick={handlePrevSpotlight}
-                className="w-12 h-12 rounded-full bg-black/60 hover:bg-black/90 border border-white/20 flex items-center justify-center text-white hover:text-amber-400 backdrop-blur-md transition-all pointer-events-auto cursor-pointer shadow-xl hover:scale-110"
+                className="w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-black/60 hover:bg-black/90 border border-white/20 flex items-center justify-center text-white hover:text-amber-400 backdrop-blur-md transition-all pointer-events-auto cursor-pointer shadow-xl hover:scale-110"
                 aria-label="Karya sebelumnya"
               >
-                <ChevronLeft className="w-6 h-6" />
+                <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
               </button>
               <button
                 onClick={handleNextSpotlight}
-                className="w-12 h-12 rounded-full bg-black/60 hover:bg-black/90 border border-white/20 flex items-center justify-center text-white hover:text-amber-400 backdrop-blur-md transition-all pointer-events-auto cursor-pointer shadow-xl hover:scale-110"
+                className="w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-black/60 hover:bg-black/90 border border-white/20 flex items-center justify-center text-white hover:text-amber-400 backdrop-blur-md transition-all pointer-events-auto cursor-pointer shadow-xl hover:scale-110"
                 aria-label="Karya berikutnya"
               >
-                <ChevronRight className="w-6 h-6" />
+                <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
               </button>
             </div>
 
             {/* Bottom Details HUD */}
-            <div className="relative z-10 p-6 sm:p-8 max-w-3xl">
-              <div className="flex items-center gap-2 text-xs text-amber-400 font-mono tracking-widest uppercase mb-2">
+            <div className="relative z-10 p-5 sm:p-8 max-w-3xl">
+              <div className="flex items-center gap-2 text-[10px] sm:text-xs text-amber-400 font-mono tracking-widest uppercase mb-1.5 sm:mb-2">
                 <Compass className="w-3.5 h-3.5" />
                 <span>Eksibisi Unggulan</span>
               </div>
-              <h3 className="font-editorial text-3xl sm:text-5xl text-white font-medium leading-tight mb-3">
+              <h3 className="font-editorial text-2xl sm:text-4xl lg:text-5xl text-white font-medium leading-tight mb-2 sm:mb-3">
                 {currentSpotlightPhoto.title}
               </h3>
               {currentSpotlightPhoto.description && (
-                <p className="text-slate-300 text-sm sm:text-base font-light leading-relaxed mb-4 max-w-2xl">
+                <p className="text-slate-300 text-xs sm:text-base font-light leading-relaxed mb-3 sm:mb-4 max-w-2xl">
                   {currentSpotlightPhoto.description}
                 </p>
               )}

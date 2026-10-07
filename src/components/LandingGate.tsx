@@ -136,21 +136,21 @@ export function LandingGate({ onSelectMode, photos = [] }: LandingGateProps) {
 
       {/* ── 2. TOP EDITORIAL MASTHEAD ───────────────────────────────────────── */}
       <motion.header
-        className="relative z-20 w-full px-6 sm:px-12 pt-6 sm:pt-8 flex items-center justify-between"
+        className="relative z-20 w-full px-4 sm:px-12 pt-4 sm:pt-8 flex items-center justify-between"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: enteringMode ? 0 : 1, y: enteringMode ? -20 : 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
       >
         {/* Brand Monogram & Name */}
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center font-editorial font-bold text-xs tracking-tight shadow-[0_0_15px_rgba(245,158,11,0.2)]">
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center font-editorial font-bold text-xs tracking-tight shadow-[0_0_15px_rgba(245,158,11,0.2)]">
             HR
           </div>
           <div>
             <span className="font-editorial text-sm sm:text-base font-bold text-white tracking-wide block leading-none">
               {PHOTOGRAPHER_PROFILE.brandName}
             </span>
-            <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-slate-400 block mt-1">
+            <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-[0.25em] text-slate-400 block mt-1">
               Surabaya, Indonesia &bull; Visual Anthology
             </span>
           </div>
@@ -166,9 +166,9 @@ export function LandingGate({ onSelectMode, photos = [] }: LandingGateProps) {
       </motion.header>
 
       {/* ── 3. MAIN CENTERPIECE: EDITORIAL TITLE & PILL BUTTONS ────────────── */}
-      <main className="relative z-20 flex-1 flex flex-col items-center justify-center px-6 text-center my-auto">
+      <main className="relative z-20 flex-1 flex flex-col items-center justify-center px-4 sm:px-6 text-center my-auto">
         <motion.div
-          className="max-w-4xl mx-auto flex flex-col items-center space-y-6 sm:space-y-8"
+          className="max-w-4xl mx-auto flex flex-col items-center space-y-4 sm:space-y-8"
           initial={{ opacity: 0, y: 30 }}
           animate={{
             opacity: enteringMode ? 0 : 1,
@@ -178,15 +178,15 @@ export function LandingGate({ onSelectMode, photos = [] }: LandingGateProps) {
           transition={{ duration: 0.9, delay: 0.3 }}
         >
           {/* Eyebrow Label */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.05] border border-white/10 backdrop-blur-sm">
-            <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-amber-300/90 font-semibold">
+          <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1 rounded-full bg-white/[0.05] border border-white/10 backdrop-blur-sm">
+            <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.25em] text-amber-300/90 font-semibold">
               Koleksi &amp; Portofolio Visual
             </span>
           </div>
 
           {/* Grand Magazine Headline */}
-          <div className="space-y-3">
-            <h1 className="font-editorial text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-white font-black tracking-tighter leading-[1.03] drop-shadow-[0_10px_35px_rgba(0,0,0,0.8)]">
+          <div className="space-y-2 sm:space-y-3">
+            <h1 className="font-editorial text-3xl sm:text-5xl md:text-7xl lg:text-8xl text-white font-black tracking-tighter leading-[1.06] sm:leading-[1.03] drop-shadow-[0_10px_35px_rgba(0,0,0,0.8)]">
               The Journey of <br className="hidden sm:inline" />
               <span className="font-couture text-amber-300 font-bold inline-block leading-[1.15] pb-1">Husein Rosid</span>
             </h1>
@@ -196,20 +196,20 @@ export function LandingGate({ onSelectMode, photos = [] }: LandingGateProps) {
           </div>
 
           {/* ── DUA TOMBOL PILL MEWAH (KARYA vs PERJALANAN) ── */}
-          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5 w-full max-w-lg">
+          <div className="pt-1 sm:pt-2 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-5 w-full max-w-lg">
             {/* Tombol 1: Eksplorasi Karya Visual */}
             <button
               onClick={() => handleSelect('karya')}
-              className="w-full sm:w-auto group relative flex items-center justify-between sm:justify-start gap-4 px-7 py-4 rounded-full bg-amber-500 hover:bg-amber-400 active:scale-[0.98] active:translate-y-[1px] text-slate-950 font-bold transition-all duration-200 shadow-[0_4px_30px_rgba(245,158,11,0.4)] cursor-pointer"
+              className="w-full sm:w-auto group relative flex items-center justify-between sm:justify-start gap-3 sm:gap-4 px-5 sm:px-7 py-3 sm:py-4 rounded-full bg-amber-500 hover:bg-amber-400 active:scale-[0.98] active:translate-y-[1px] text-slate-950 font-bold transition-all duration-200 shadow-[0_4px_30px_rgba(245,158,11,0.4)] cursor-pointer"
             >
-              <div className="w-9 h-9 rounded-full bg-slate-950/15 flex items-center justify-center text-slate-950 shrink-0">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-slate-950/15 flex items-center justify-center text-slate-950 shrink-0">
                 <Compass className="w-4 h-4" />
               </div>
               <div className="text-left">
                 <span className="block text-xs uppercase tracking-wider font-extrabold leading-none">
                   Eksplorasi Karya
                 </span>
-                <span className="block text-[11px] text-slate-900/80 font-medium leading-tight mt-1">
+                <span className="block text-[10px] sm:text-[11px] text-slate-900/80 font-medium leading-tight mt-0.5 sm:mt-1">
                   Galeri &amp; 7 Kategori Foto
                 </span>
               </div>
@@ -219,16 +219,16 @@ export function LandingGate({ onSelectMode, photos = [] }: LandingGateProps) {
             {/* Tombol 2: Jejak Perjalanan (Profil & Rekam Jejak) */}
             <button
               onClick={() => handleSelect('perjalanan')}
-              className="w-full sm:w-auto group relative flex items-center justify-between sm:justify-start gap-4 px-7 py-4 rounded-full bg-white/[0.08] hover:bg-white/[0.18] active:scale-[0.98] active:translate-y-[1px] border border-white/20 hover:border-white/40 backdrop-blur-xl text-white font-bold transition-all duration-200 shadow-xl cursor-pointer"
+              className="w-full sm:w-auto group relative flex items-center justify-between sm:justify-start gap-3 sm:gap-4 px-5 sm:px-7 py-3 sm:py-4 rounded-full bg-white/[0.08] hover:bg-white/[0.18] active:scale-[0.98] active:translate-y-[1px] border border-white/20 hover:border-white/40 backdrop-blur-xl text-white font-bold transition-all duration-200 shadow-xl cursor-pointer"
             >
-              <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-amber-300 shrink-0">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/10 flex items-center justify-center text-amber-300 shrink-0">
                 <Sparkles className="w-4 h-4" />
               </div>
               <div className="text-left">
                 <span className="block text-xs uppercase tracking-wider font-extrabold leading-none">
                   Jejak Perjalanan
                 </span>
-                <span className="block text-[11px] text-slate-300 font-normal leading-tight mt-1">
+                <span className="block text-[10px] sm:text-[11px] text-slate-300 font-normal leading-tight mt-0.5 sm:mt-1">
                   Profil, Filosofi &amp; Karir
                 </span>
               </div>
@@ -240,22 +240,22 @@ export function LandingGate({ onSelectMode, photos = [] }: LandingGateProps) {
 
       {/* ── 4. BOTTOM CAPTION & SLIDE NAVIGATION BAR ────────────────────────── */}
       <motion.footer
-        className="relative z-20 w-full px-6 sm:px-12 pb-6 sm:pb-8 flex flex-col md:flex-row items-center justify-between gap-4"
+        className="relative z-20 w-full px-4 sm:px-12 pb-4 sm:pb-8 flex flex-col md:flex-row items-center justify-between gap-3 sm:gap-4"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: enteringMode ? 0 : 1, y: enteringMode ? 20 : 0 }}
         transition={{ duration: 0.8, delay: 0.4 }}
       >
         {/* Left: Active Photo Information */}
-        <div className="flex items-center gap-3 w-full md:w-auto justify-center md:justify-start">
-          <div className="w-8 h-8 rounded-xl bg-black/50 backdrop-blur-md border border-white/15 flex items-center justify-center text-amber-400 shrink-0">
+        <div className="flex items-center gap-2.5 sm:gap-3 w-full md:w-auto justify-center md:justify-start">
+          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-black/50 backdrop-blur-md border border-white/15 flex items-center justify-center text-amber-400 shrink-0">
             <Camera className="w-3.5 h-3.5" />
           </div>
           <div className="text-left">
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20 font-semibold">
+              <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-widest text-amber-400 bg-amber-500/10 px-1.5 sm:px-2 py-0.5 rounded border border-amber-500/20 font-semibold">
                 {currentPhoto.category}
               </span>
-              <span className="font-editorial text-xs sm:text-sm text-white font-medium truncate max-w-[200px] sm:max-w-xs">
+              <span className="font-editorial text-xs sm:text-sm text-white font-medium truncate max-w-[160px] sm:max-w-xs">
                 {currentPhoto.title}
               </span>
             </div>

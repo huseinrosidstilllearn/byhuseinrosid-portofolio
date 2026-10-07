@@ -62,22 +62,28 @@ export const Navbar: React.FC<NavbarProps> = ({
           }`}
         >
           {/* Brand Logo — klik kembali ke Landing Gate */}
+          {/* Brand Logo: klik kembali ke Landing Gate */}
           <button
             onClick={() => onSwitchSiteMode('landing')}
-            className="flex items-center gap-3 text-left group cursor-pointer"
+            className="flex items-center gap-2.5 sm:gap-3 text-left group cursor-pointer shrink-0"
           >
-            <div className="w-8 h-8 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 font-editorial font-bold text-sm group-hover:scale-105 transition-transform">
+            <div className="w-8 h-8 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 font-editorial font-bold text-sm group-hover:scale-105 transition-transform shrink-0">
               HR
             </div>
-            <span className="font-editorial text-sm sm:text-base font-medium tracking-tight text-white block leading-none split-wave max-w-[180px] sm:max-w-none truncate" aria-label="The Journey of Husein Rosid">
-              <span aria-hidden="true">
-                {"The Journey of Husein Rosid".split("").map((char, i) => (
-                  <i key={i} style={{ '--i': i } as React.CSSProperties} className={char === ' ' ? 'inline-block w-1.5' : ''}>
-                    {char}
-                  </i>
-                ))}
+            <div className="flex flex-col">
+              <span className="font-editorial text-sm sm:text-base font-medium tracking-tight text-white block leading-none split-wave" aria-label="The Journey of Husein Rosid">
+                <span className="hidden sm:inline" aria-hidden="true">
+                  {"The Journey of Husein Rosid".split("").map((char, i) => (
+                    <i key={i} style={{ '--i': i } as React.CSSProperties} className={char === ' ' ? 'inline-block w-1.5' : ''}>
+                      {char}
+                    </i>
+                  ))}
+                </span>
+                <span className="sm:hidden font-editorial text-sm font-medium tracking-wide text-white">
+                  Husein Rosid
+                </span>
               </span>
-            </span>
+            </div>
           </button>
 
           {/* Center: Mode-aware navigation */}
@@ -197,7 +203,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 bg-[#050505]/95 backdrop-blur-2xl flex flex-col justify-between p-8 animate-in fade-in duration-300 pointer-events-auto">
+        <div className="fixed inset-0 z-50 bg-[#050505]/95 backdrop-blur-2xl flex flex-col justify-between p-6 sm:p-8 animate-in fade-in duration-300 pointer-events-auto overflow-y-auto">
           <div className="flex items-center justify-between border-b border-white/10 pb-4">
             <span className="font-editorial text-xl font-medium text-white">
               The Journey of Husein Rosid

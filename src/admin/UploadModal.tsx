@@ -579,17 +579,17 @@ export const UploadModal: React.FC<UploadModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-xl animate-in fade-in duration-300">
-      <div className={`relative w-full ${queuedPhotos.length > 0 ? 'max-w-5xl' : 'max-w-2xl'} max-h-[92vh] overflow-y-auto bento-card p-5 sm:p-8 border border-white/15 shadow-2xl no-scrollbar flex flex-col`}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-6 bg-black/85 backdrop-blur-xl animate-in fade-in duration-300">
+      <div className={`relative w-full ${queuedPhotos.length > 0 ? 'max-w-5xl' : 'max-w-2xl'} max-h-[90dvh] overflow-y-auto bento-card p-4 sm:p-8 border border-white/15 shadow-2xl no-scrollbar flex flex-col`}>
         {/* Modal Header */}
-        <div className="flex items-center justify-between pb-4 mb-5 border-b border-white/10 shrink-0">
+        <div className="flex items-center justify-between pb-3.5 mb-4 sm:pb-4 sm:mb-5 border-b border-white/10 shrink-0">
           <div>
             <span className="text-[10px] uppercase font-mono tracking-widest text-amber-400 font-semibold block">
               {queuedPhotos.length > 0
                 ? `Antrean Multi-Unggah (${queuedPhotos.length} Foto)`
                 : 'Studio Unggah Foto'}
             </span>
-            <h2 className="font-editorial text-2xl sm:text-3xl font-bold text-white mt-0.5">
+            <h2 className="font-editorial text-xl sm:text-3xl font-bold text-white mt-0.5">
               {queuedPhotos.length > 0 ? 'Tinjau & Lengkapi Informasi Foto' : 'Tambah Karya ke Portofolio'}
             </h2>
           </div>
@@ -598,7 +598,7 @@ export const UploadModal: React.FC<UploadModalProps> = ({
               resetForm();
               onClose();
             }}
-            className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors cursor-pointer"
+            className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors cursor-pointer shrink-0 ml-2"
             title="Tutup Modal"
           >
             <X className="w-4 h-4" />

@@ -137,24 +137,24 @@ export const MarqueeConfigModal: React.FC<MarqueeConfigModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="w-full max-w-4xl max-h-[92vh] flex flex-col rounded-3xl bg-[#0D1017] border border-white/15 shadow-[0_20px_70px_rgba(0,0,0,0.85)] overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-6 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
+      <div className="w-full max-w-4xl max-h-[90dvh] flex flex-col rounded-3xl bg-[#0D1017] border border-white/15 shadow-[0_20px_70px_rgba(0,0,0,0.85)] overflow-hidden">
         {/* Modal Header */}
-        <div className="px-6 py-5 border-b border-white/10 flex items-center justify-between shrink-0 bg-white/[0.02]">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-2xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
-              <Film className="w-5 h-5" />
+        <div className="px-4 sm:px-6 py-3.5 sm:py-5 border-b border-white/10 flex items-center justify-between shrink-0 bg-white/[0.02]">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="p-2 sm:p-2.5 rounded-2xl bg-amber-500/10 text-amber-400 border border-amber-500/20 shrink-0">
+              <Film className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="font-editorial text-lg sm:text-xl text-white font-medium">
+                <h3 className="font-editorial text-base sm:text-xl text-white font-medium">
                   Kustomisasi Galeri Marquee Berjalan
                 </h3>
-                <span className="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-mono font-semibold">
+                <span className="hidden sm:inline px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-mono font-semibold">
                   Live Sync
                 </span>
               </div>
-              <p className="text-xs text-slate-400 font-light mt-0.5">
+              <p className="text-[11px] sm:text-xs text-slate-400 font-light mt-0.5 line-clamp-1 sm:line-clamp-none">
                 Atur kecepatan gerak agar tenang dan pilih karya spesifik yang tampil di panggung berjalan bawah Hero.
               </p>
             </div>
@@ -162,14 +162,14 @@ export const MarqueeConfigModal: React.FC<MarqueeConfigModalProps> = ({
 
           <button
             onClick={onClose}
-            className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+            className="p-1.5 sm:p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer shrink-0 ml-2"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </div>
 
         {/* Modal Body */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-5 sm:space-y-6">
           {loading ? (
             <div className="py-16 text-center text-slate-400">
               <Loader2 className="w-7 h-7 text-amber-400 animate-spin mx-auto mb-2" />

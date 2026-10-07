@@ -83,21 +83,21 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
   };
 
   return (
-    <div className="w-full min-h-screen pt-24 sm:pt-28 pb-16 animate-in fade-in duration-400">
+    <div className="w-full min-h-screen pt-20 sm:pt-28 pb-16 animate-in fade-in duration-400">
       {/* ── STICKY TOP BREADCRUMB & NAVIGATION BAR ── */}
-      <div className="sticky top-16 sm:top-20 z-40 bg-[#050505]/90 backdrop-blur-xl border-y border-white/[0.08] py-3 px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 mb-10">
-        <div className="w-full max-w-[1920px] mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="sticky top-16 sm:top-20 z-40 bg-[#050505]/90 backdrop-blur-xl border-y border-white/[0.08] py-2.5 sm:py-3 px-3 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 mb-6 sm:mb-10">
+        <div className="w-full max-w-[1920px] mx-auto flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4">
           {/* Breadcrumb + Back Button */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3">
             <button
               onClick={onBackToMain}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 text-xs font-semibold uppercase tracking-wider text-white transition-all cursor-pointer group"
+              className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-white transition-all cursor-pointer group"
             >
               <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
               <span>Showcase Utama</span>
             </button>
             <span className="text-white/20">/</span>
-            <span className="text-xs font-mono uppercase tracking-widest text-amber-400 font-semibold">
+            <span className="text-[11px] sm:text-xs font-mono uppercase tracking-widest text-amber-400 font-semibold truncate max-w-[150px] sm:max-w-none">
               {info.name}
             </span>
           </div>
@@ -110,7 +110,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
                 <button
                   key={cat}
                   onClick={() => onSelectCategory(cat)}
-                  className={`relative px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wider uppercase whitespace-nowrap transition-all duration-200 cursor-pointer ${
+                  className={`relative px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-medium tracking-wider uppercase whitespace-nowrap transition-all duration-200 cursor-pointer ${
                     isActive
                       ? 'text-slate-950 font-bold bg-amber-500 shadow-[0_2px_12px_rgba(245,158,11,0.4)]'
                       : 'text-slate-400 hover:text-white bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08]'

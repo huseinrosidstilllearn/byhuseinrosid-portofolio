@@ -204,38 +204,38 @@ export const HeroSliderModal: React.FC<HeroSliderModalProps> = ({
     : [];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="relative w-full max-w-4xl max-h-[92vh] bg-[#0E1118] border border-white/15 rounded-3xl shadow-2xl flex flex-col overflow-hidden text-[#F8FAFC]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-6 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
+      <div className="relative w-full max-w-4xl max-h-[90dvh] bg-[#0E1118] border border-white/15 rounded-3xl shadow-2xl flex flex-col overflow-hidden text-[#F8FAFC]">
         {/* MODAL HEADER */}
-        <div className="px-6 py-5 border-b border-white/10 flex items-center justify-between bg-white/[0.02]">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center">
-              <SlidersHorizontal className="w-5 h-5" />
+        <div className="px-4 sm:px-6 py-3.5 sm:py-5 border-b border-white/10 flex items-center justify-between bg-white/[0.02]">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center shrink-0">
+              <SlidersHorizontal className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="font-editorial text-lg sm:text-xl text-white font-bold leading-tight">
+                <h3 className="font-editorial text-base sm:text-xl text-white font-bold leading-tight">
                   Pengaturan Hero Showcase Slider
                 </h3>
-                <span className="px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/30 text-[9px] font-mono font-bold text-amber-300 uppercase">
+                <span className="hidden sm:inline px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/30 text-[9px] font-mono font-bold text-amber-300 uppercase">
                   Layar Utama
                 </span>
               </div>
-              <p className="text-xs text-slate-400 font-light mt-0.5">
+              <p className="text-[11px] sm:text-xs text-slate-400 font-light mt-0.5 line-clamp-1 sm:line-clamp-none">
                 Pilih kategori apa saja yang tampil di slider utama dan tentukan karya foto spesifik per kategori.
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="w-9 h-9 rounded-full border border-white/10 hover:bg-white/10 text-slate-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+            className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-white/10 hover:bg-white/10 text-slate-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer shrink-0 ml-2"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* MODAL BODY */}
-        <div className="flex-1 overflow-y-auto p-5 sm:p-7 space-y-7 custom-scrollbar">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-7 space-y-5 sm:space-y-7 custom-scrollbar">
           {loading ? (
             <div className="py-20 text-center text-slate-400">
               <Loader2 className="w-7 h-7 text-amber-400 animate-spin mx-auto mb-2" />

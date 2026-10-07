@@ -80,7 +80,7 @@ export const PhotoStories: React.FC = () => {
                     &ldquo;{story.quote}&rdquo;
                   </p>
                   <span className="block text-[10px] uppercase tracking-wider text-amber-400 font-medium mt-2">
-                    &mdash; Catatan Husein Rosid
+                    &bull; Catatan Husein Rosid
                   </span>
                 </div>
               </div>

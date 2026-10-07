@@ -181,7 +181,7 @@ export const Hero: React.FC<HeroProps> = ({ photos = [], onExploreClick, profile
   const activeFrame = heroFrames[activeFrameIndex] || heroFrames[0];
 
   return (
-    <section className="relative min-h-[100dvh] flex flex-col justify-between pt-20 sm:pt-24 pb-6 sm:pb-8 px-4 sm:px-6 lg:px-12 overflow-hidden select-none">
+    <section className="relative min-h-[100dvh] flex flex-col justify-between pt-16 sm:pt-24 pb-4 sm:pb-8 px-4 sm:px-6 lg:px-12 overflow-hidden select-none">
       {/* Background Photographic Canvas with Smooth Crossfade */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {heroFrames.map((frame, index) => {
@@ -210,15 +210,15 @@ export const Hero: React.FC<HeroProps> = ({ photos = [], onExploreClick, profile
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-amber-500/10 rounded-full blur-[140px] pointer-events-none z-20" />
       </div>
 
-      {/* Main Editorial Hero Content - Viewport Disciplined */}
+      {/* Main Editorial Hero Content: Viewport Disciplined */}
       <div className="relative z-30 max-w-4xl mx-auto my-auto text-center flex flex-col items-center">
         {/* Prestige Eyebrow */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-white/15 bg-white/[0.04] backdrop-blur-md text-amber-300 text-[11px] font-medium uppercase tracking-[0.2em] mb-4 sm:mb-6">
+        <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1 rounded-full border border-white/15 bg-white/[0.04] backdrop-blur-md text-amber-300 text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.2em] mb-3 sm:mb-6">
           <span>Portofolio Fotografi &bull; {profile?.location ? profile.location.split(',')[0].trim() : 'Surabaya'}</span>
         </div>
 
         {/* Monumental Architectural Headline */}
-        <h1 className="font-editorial text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[1.03] tracking-tighter text-white max-w-4xl drop-shadow-md mx-auto">
+        <h1 className="font-editorial text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black leading-[1.06] sm:leading-[1.03] tracking-tighter text-white max-w-4xl drop-shadow-md mx-auto">
           {profile?.headline && profile.headline.includes('Quiet Spaces') ? (
             <>
               {profile.headline.split('Quiet Spaces')[0]}
@@ -231,7 +231,7 @@ export const Hero: React.FC<HeroProps> = ({ photos = [], onExploreClick, profile
                     <i
                       key={i}
                       style={{ '--i': i } as React.CSSProperties}
-                      className={char === ' ' ? 'inline-block w-2 sm:w-4' : ''}
+                      className={char === ' ' ? 'inline-block w-1.5 sm:w-4' : ''}
                     >
                       {char}
                     </i>
@@ -254,7 +254,7 @@ export const Hero: React.FC<HeroProps> = ({ photos = [], onExploreClick, profile
                     <i
                       key={i}
                       style={{ '--i': i } as React.CSSProperties}
-                      className={char === ' ' ? 'inline-block w-2 sm:w-4' : ''}
+                      className={char === ' ' ? 'inline-block w-1.5 sm:w-4' : ''}
                     >
                       {char}
                     </i>
@@ -266,53 +266,53 @@ export const Hero: React.FC<HeroProps> = ({ photos = [], onExploreClick, profile
           )}
         </h1>
 
-        {/* Narrative Subheadline - Strictly <= 20 words per taste-skill */}
-        <p className="text-sm sm:text-base md:text-lg text-slate-300 font-light leading-relaxed mt-4 sm:mt-5 max-w-xl mx-auto text-balance">
+        {/* Narrative Subheadline: Strictly concise per taste-skill */}
+        <p className="text-xs sm:text-base md:text-lg text-slate-300 font-light leading-relaxed mt-3 sm:mt-5 max-w-xl mx-auto text-balance">
           {profile?.subheadline || 'Dokumentasi sinematik dan eksplorasi visual yang menangkap kejujuran rasa, karakter, dan keindahan abadi di setiap momen.'}
         </p>
 
-        {/* Action Button Row - Tactile Spring Physics */}
-        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mt-6 sm:mt-8 mx-auto">
+        {/* Action Button Row: Tactile Spring Physics */}
+        <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-4 mt-5 sm:mt-8 mx-auto">
           <button
             onClick={onExploreClick}
-            className="inline-flex items-center gap-2.5 px-7 py-3 rounded-full bg-amber-500 hover:bg-amber-400 active:scale-[0.98] active:translate-y-[1px] text-slate-950 font-bold text-xs uppercase tracking-wider transition-all duration-200 shadow-[0_4px_24px_rgba(245,158,11,0.45)] cursor-pointer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 sm:px-7 sm:py-3 rounded-full bg-amber-500 hover:bg-amber-400 active:scale-[0.98] active:translate-y-[1px] text-slate-950 font-bold text-[11px] sm:text-xs uppercase tracking-wider transition-all duration-200 shadow-[0_4px_24px_rgba(245,158,11,0.45)] cursor-pointer"
           >
             <span>Jelajahi Showcase</span>
-            <ArrowDown className="w-4 h-4" />
+            <ArrowDown className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </button>
 
           <a
             href={contact?.whatsappNumber ? `https://wa.me/${contact.whatsappNumber}?text=Halo%20Mas%20Husein%2C%20saya%20tertarik%20untuk%20berkolaborasi!` : createWhatsAppLink()}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2.5 px-7 py-3 rounded-full border border-white/20 hover:border-amber-400/80 active:scale-[0.98] active:translate-y-[1px] bg-white/[0.05] hover:bg-white/10 backdrop-blur-xl text-white hover:text-amber-300 font-semibold text-xs uppercase tracking-wider transition-all duration-200 cursor-pointer shadow-lg"
+            className="inline-flex items-center gap-2 px-5 py-2.5 sm:px-7 sm:py-3 rounded-full border border-white/20 hover:border-amber-400/80 active:scale-[0.98] active:translate-y-[1px] bg-white/[0.05] hover:bg-white/10 backdrop-blur-xl text-white hover:text-amber-300 font-semibold text-[11px] sm:text-xs uppercase tracking-wider transition-all duration-200 cursor-pointer shadow-lg"
           >
-            <MessageCircle className="w-4 h-4 text-amber-400" />
+            <MessageCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400" />
             <span>Konsultasi Sesi</span>
-            <ArrowUpRight className="w-4 h-4" />
+            <ArrowUpRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </a>
         </div>
       </div>
 
       {/* Bottom Exhibition HUD: Active Frame Info & Chapter Switcher */}
-      <div className="relative z-30 pt-6 sm:pt-8 border-t border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="relative z-30 pt-4 sm:pt-8 border-t border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4 pb-14 sm:pb-0">
         {/* Left: Active Curated Frame Metadata */}
         <div className="flex items-start gap-3 sm:gap-4">
-          <div className="w-11 h-11 rounded-2xl bg-white/[0.06] border border-white/15 backdrop-blur-xl flex flex-col items-center justify-center text-amber-400 shrink-0 shadow-lg">
-            <span className="text-[9px] uppercase font-bold tracking-widest text-slate-400">Arsip</span>
-            <span className="font-editorial text-base font-bold text-amber-400 leading-none">{activeFrame.number}</span>
+          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-white/[0.06] border border-white/15 backdrop-blur-xl flex flex-col items-center justify-center text-amber-400 shrink-0 shadow-lg">
+            <span className="text-[8px] sm:text-[9px] uppercase font-bold tracking-widest text-slate-400">Arsip</span>
+            <span className="font-editorial text-sm sm:text-base font-bold text-amber-400 leading-none">{activeFrame.number}</span>
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-[10px] font-bold uppercase tracking-wider text-amber-300">
+              <span className="px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-amber-300">
                 {activeFrame.category}
               </span>
-              <span className="text-xs text-slate-400 font-light flex items-center gap-1">
+              <span className="text-[11px] sm:text-xs text-slate-400 font-light flex items-center gap-1">
                 <MapPin className="w-3 h-3 text-amber-400/80" />
                 <span>{activeFrame.location} &bull; {activeFrame.year}</span>
               </span>
             </div>
-            <h3 className="font-editorial text-lg sm:text-xl text-white font-medium mt-0.5">
+            <h3 className="font-editorial text-base sm:text-xl text-white font-medium mt-0.5 line-clamp-1 sm:line-clamp-none">
               {activeFrame.title}
             </h3>
           </div>
@@ -320,7 +320,7 @@ export const Hero: React.FC<HeroProps> = ({ photos = [], onExploreClick, profile
 
         {/* Right: Chapter Switcher Tabs & Progress Controls */}
         <div className="flex items-center gap-3">
-          <div className="flex items-center p-1.5 rounded-2xl bg-[#0E1118]/85 border border-white/15 backdrop-blur-xl shadow-2xl">
+          <div className="flex items-center p-1 sm:p-1.5 rounded-2xl bg-[#0E1118]/85 border border-white/15 backdrop-blur-xl shadow-2xl overflow-x-auto no-scrollbar max-w-full">
             {heroFrames.map((frame, index) => {
               const isActive = index === activeFrameIndex;
               return (
@@ -330,7 +330,7 @@ export const Hero: React.FC<HeroProps> = ({ photos = [], onExploreClick, profile
                     setActiveFrameIndex(index);
                     setIsPlaying(false);
                   }}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs transition-all duration-300 cursor-pointer ${
+                  className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-xs transition-all duration-300 cursor-pointer ${
                     isActive
                       ? 'bg-amber-500 text-slate-950 font-bold shadow-md'
                       : 'text-slate-400 hover:text-white hover:bg-white/[0.06] font-medium'
@@ -346,7 +346,7 @@ export const Hero: React.FC<HeroProps> = ({ photos = [], onExploreClick, profile
             {/* Play / Pause Toggle Button */}
             <button
               onClick={() => setIsPlaying(!isPlaying)}
-              className="p-2 ml-1 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+              className="p-1.5 sm:p-2 ml-1 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
               title={isPlaying ? 'Jeda rotasi otomatis' : 'Lanjutkan rotasi otomatis'}
               aria-label={isPlaying ? 'Jeda rotasi otomatis' : 'Lanjutkan rotasi otomatis'}
             >

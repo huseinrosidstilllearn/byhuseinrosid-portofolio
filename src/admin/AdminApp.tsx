@@ -210,21 +210,22 @@ export const AdminApp: React.FC = () => {
       {/* TOPBAR */}
       <header className="sticky top-0 z-40 bg-[#0E1118]/85 backdrop-blur-xl border-b border-white/10 px-4 sm:px-8 py-3.5 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3 w-full md:w-auto justify-between md:justify-start">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center font-editorial font-bold text-sm">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="w-8 h-8 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center font-editorial font-bold text-sm shrink-0">
               HR
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <span className="font-editorial text-base font-bold text-white tracking-tight leading-none">
-                  The Journey of Husein Rosid
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="font-editorial text-sm sm:text-base font-bold text-white tracking-tight leading-none">
+                  <span className="hidden sm:inline">The Journey of Husein Rosid</span>
+                  <span className="sm:hidden">Husein Rosid</span>
                 </span>
-                <span className="px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/30 text-[9px] font-mono uppercase font-bold text-amber-300">
-                  Portal Admin
+                <span className="px-1.5 sm:px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/30 text-[8px] sm:text-[9px] font-mono uppercase font-bold text-amber-300">
+                  Admin
                 </span>
               </div>
-              <span className="text-[11px] text-slate-400 font-light block leading-none mt-1">
-                Login: {userEmail}
+              <span className="text-[10px] sm:text-[11px] text-slate-400 font-light block leading-none mt-1 truncate max-w-[150px] sm:max-w-none">
+                {userEmail}
               </span>
             </div>
           </div>
@@ -233,15 +234,22 @@ export const AdminApp: React.FC = () => {
             {activeTab === 'photos' && (
               <>
                 <button
+                  onClick={() => setIsUploadModalOpen(true)}
+                  className="w-8 h-8 rounded-full bg-amber-500 text-slate-950 font-bold flex items-center justify-center transition-transform active:scale-95 shadow-md cursor-pointer"
+                  title="Unggah Karya Baru"
+                >
+                  <Plus className="w-4 h-4" />
+                </button>
+                <button
                   onClick={() => setIsHeroSliderModalOpen(true)}
-                  className="w-8 h-8 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-400 flex items-center justify-center transition-colors"
+                  className="w-8 h-8 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-400 flex items-center justify-center transition-colors cursor-pointer"
                   title="Pengaturan Hero Slider"
                 >
                   <Layers className="w-3.5 h-3.5" />
                 </button>
                 <button
                   onClick={() => setIsMarqueeModalOpen(true)}
-                  className="w-8 h-8 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-400 flex items-center justify-center transition-colors"
+                  className="w-8 h-8 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-400 flex items-center justify-center transition-colors cursor-pointer"
                   title="Pengaturan Marquee"
                 >
                   <SlidersHorizontal className="w-3.5 h-3.5" />
@@ -250,7 +258,8 @@ export const AdminApp: React.FC = () => {
             )}
             <button
               onClick={handleLogout}
-              className="w-8 h-8 rounded-full border border-white/10 text-slate-400 hover:text-red-300 flex items-center justify-center"
+              className="w-8 h-8 rounded-full border border-white/10 text-slate-400 hover:text-red-300 flex items-center justify-center cursor-pointer"
+              title="Keluar"
             >
               <LogOut className="w-3.5 h-3.5" />
             </button>
@@ -345,32 +354,32 @@ export const AdminApp: React.FC = () => {
       )}
 
       {/* MAIN CONTENT AREA */}
-      <main className="relative z-10 flex-1 max-w-[1920px] w-full mx-auto px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 py-8 sm:py-10 space-y-8">
+      <main className="relative z-10 flex-1 max-w-[1920px] w-full mx-auto px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 py-6 sm:py-10 space-y-6 sm:space-y-8">
         {activeTab === 'content' ? (
           <ContentEditor />
         ) : (
           <>
-            {/* STATS METRIC SUMMARY */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-9 gap-3 sm:gap-4">
-              <div className="bento-card p-4 text-center">
-                <span className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">
+            {/* STATS METRIC SUMMARY: Swipeable strip on mobile, responsive grid on sm+ */}
+            <div className="flex gap-2.5 overflow-x-auto no-scrollbar pb-1 sm:grid sm:grid-cols-4 lg:grid-cols-9 sm:gap-4">
+              <div className="bento-card p-3 sm:p-4 text-center shrink-0 min-w-[125px] sm:min-w-0">
+                <span className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block truncate">
                   Total Arsip
                 </span>
-                <span className="font-editorial text-2xl font-bold text-white mt-1 block">
+                <span className="font-editorial text-xl sm:text-2xl font-bold text-white mt-1 block">
                   {stats.total}
                 </span>
               </div>
 
               <div
                 onClick={() => setIsHeroSliderModalOpen(true)}
-                className="bento-card p-4 text-center border-amber-500/30 hover:border-amber-400/80 transition-all cursor-pointer group hover:bg-amber-500/[0.04]"
+                className="bento-card p-3 sm:p-4 text-center border-amber-500/30 hover:border-amber-400/80 transition-all cursor-pointer group hover:bg-amber-500/[0.04] shrink-0 min-w-[125px] sm:min-w-0"
                 title="Klik untuk membuka Pengaturan Kategori & Foto Hero Slider"
               >
                 <div className="flex items-center justify-center gap-1.5 text-[10px] uppercase tracking-wider text-amber-400 font-semibold">
                   <Layers className="w-3 h-3 group-hover:scale-110 transition-transform" />
                   <span>Hero Slider</span>
                 </div>
-                <span className="font-editorial text-2xl font-bold text-amber-400 mt-1 block">
+                <span className="font-editorial text-xl sm:text-2xl font-bold text-amber-400 mt-1 block">
                   Kategori
                 </span>
                 <span className="text-[9px] text-amber-400/80 mt-0.5 block underline underline-offset-2">
@@ -380,14 +389,14 @@ export const AdminApp: React.FC = () => {
 
               <div
                 onClick={() => setIsMarqueeModalOpen(true)}
-                className="bento-card p-4 text-center border-amber-500/30 hover:border-amber-400/80 transition-all cursor-pointer group hover:bg-amber-500/[0.04]"
+                className="bento-card p-3 sm:p-4 text-center border-amber-500/30 hover:border-amber-400/80 transition-all cursor-pointer group hover:bg-amber-500/[0.04] shrink-0 min-w-[125px] sm:min-w-0"
                 title="Klik untuk membuka Pengaturan Foto & Kecepatan Marquee"
               >
                 <div className="flex items-center justify-center gap-1.5 text-[10px] uppercase tracking-wider text-amber-400 font-semibold">
                   <SlidersHorizontal className="w-3 h-3 group-hover:rotate-45 transition-transform" />
                   <span>Pilihan Marquee</span>
                 </div>
-                <span className="font-editorial text-2xl font-bold text-amber-400 mt-1 block">
+                <span className="font-editorial text-xl sm:text-2xl font-bold text-amber-400 mt-1 block">
                   {stats.featured}
                 </span>
                 <span className="text-[9px] text-amber-400/80 mt-0.5 block underline underline-offset-2">
@@ -398,11 +407,11 @@ export const AdminApp: React.FC = () => {
               {PHOTO_CATEGORIES.filter((c) => c !== 'Semua').map((cat) => {
                 const count = photos.filter((p) => p.category === cat).length;
                 return (
-                  <div key={cat} className="bento-card p-4 text-center">
+                  <div key={cat} className="bento-card p-3 sm:p-4 text-center shrink-0 min-w-[125px] sm:min-w-0">
                     <span className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block truncate" title={cat}>
                       {cat}
                     </span>
-                    <span className="font-editorial text-2xl font-bold text-slate-200 mt-1 block">
+                    <span className="font-editorial text-xl sm:text-2xl font-bold text-slate-200 mt-1 block">
                       {count}
                     </span>
                   </div>
