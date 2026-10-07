@@ -17,6 +17,17 @@ interface FooterProps {
 }
 
 export const Footer: React.FC<FooterProps> = ({ onSwitchToSpatial, onNavigateToSection }) => {
+  const [showFab, setShowFab] = React.useState(false);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setShowFab(window.scrollY > 250);
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -287,7 +298,11 @@ export const Footer: React.FC<FooterProps> = ({ onSwitchToSpatial, onNavigateToS
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Hubungi Langsung via WhatsApp"
-        className="fixed bottom-6 right-6 z-40 flex items-center gap-2 px-4 py-3 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(245,158,11,0.4)] transition-all cursor-pointer hover:scale-105"
+        className={`fixed bottom-6 right-6 z-40 flex items-center gap-2 px-4 py-3 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(245,158,11,0.4)] transition-all cursor-pointer hover:scale-105 ${
+          showFab
+            ? 'opacity-100 translate-y-0 pointer-events-auto'
+            : 'opacity-0 translate-y-4 pointer-events-none'
+        }`}
       >
         <MessageCircle className="w-4 h-4" />
         <span className="hidden sm:inline">Chat WhatsApp</span>

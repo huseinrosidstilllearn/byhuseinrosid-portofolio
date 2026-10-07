@@ -37,32 +37,22 @@ const FEATURED_HERO_FRAMES: HeroFrame[] = [
   {
     id: 'frame-02',
     number: '02',
-    title: 'Garis Bayang di Sudut Kota',
-    category: 'Street Photography',
-    location: 'Surabaya, Jawa Timur',
+    title: 'Kebanggaan Toga Kelulusan',
+    category: 'Graduation',
+    location: 'Surabaya',
     year: '2025',
-    imageUrl: 'https://images.unsplash.com/photo-1477959858617-67f30bc75b82?auto=format&fit=crop&w=1920&q=85',
-    tagline: 'Permainan siluet dan cahaya kontras yang membelah geometri arsitektur kota tua.',
+    imageUrl: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1920&q=85',
+    tagline: 'Mengabadikan senyum kebanggaan, pelukan hangat keluarga, dan tonggak pencapaian akademik.',
   },
   {
     id: 'frame-03',
     number: '03',
-    title: 'Keteguhan dalam Diam',
-    category: 'Solo Potrait',
+    title: 'Janji di Bawah Langit Senja',
+    category: 'Couple Session',
     location: 'Surabaya',
     year: '2025',
-    imageUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1920&q=85',
-    tagline: 'Eksplorasi potret wajah dengan pencahayaan chiaroscuro yang menghormati karakter subjek.',
-  },
-  {
-    id: 'frame-04',
-    number: '04',
-    title: 'Refleksi Keanggunan Minimalis',
-    category: 'Commercial & Brand Campaign',
-    location: 'Studio Surabaya',
-    year: '2025',
-    imageUrl: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1920&q=85',
-    tagline: 'Kampanye editorial busana dengan tekstur kain alami dan pencahayaan studio terarah.',
+    imageUrl: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1920&q=85',
+    tagline: 'Merekam kehangatan tatapan, tawa lepas, dan sentuhan tulus dua insan dalam suasana santai.',
   },
 ];
 
@@ -111,40 +101,31 @@ export const Hero: React.FC<HeroProps> = ({ photos = [], onExploreClick, profile
       if (frames.length > 0) return frames;
     }
 
-    // 2. Fallback cerdas: Ambil 1 foto terbaik per kategori berbeda agar tidak ada kategori kembar berulang
+    // 2. Fallback cerdas: Utamakan 3 pilar kategori fokus (Dokumentasi, Wisuda, Couple Session)
     if (photos.length > 0) {
-      const categoriesSeen = new Set<string>();
-      const distinctCategoryPhotos: PhotoItem[] = [];
+      const focusCategories = ['Event Documentation', 'Graduation', 'Couple Session'];
+      const matchedPhotos: PhotoItem[] = [];
 
-      // Prioritas 1: Foto berbintang (featured) dari kategori yang belum ada
-      photos
-        .filter((p) => p.featured)
-        .forEach((p) => {
-          if (!categoriesSeen.has(p.category) && distinctCategoryPhotos.length < 5) {
-            categoriesSeen.add(p.category);
-            distinctCategoryPhotos.push(p);
-          }
-        });
-
-      // Prioritas 2: Lengkapi dengan foto non-featured dari kategori lain yang belum masuk
-      photos.forEach((p) => {
-        if (!categoriesSeen.has(p.category) && distinctCategoryPhotos.length < 5) {
-          categoriesSeen.add(p.category);
-          distinctCategoryPhotos.push(p);
+      focusCategories.forEach((cat) => {
+        const found =
+          photos.find((p) => p.category === cat && p.featured) ||
+          photos.find((p) => p.category === cat);
+        if (found) {
+          matchedPhotos.push(found);
         }
       });
 
-      // Jika kategori di database kurang dari 5, lengkapi dengan sisa foto terbaik
-      if (distinctCategoryPhotos.length < 5) {
+      // Jika ada kategori fokus yang belum memiliki foto di database, lengkapi dengan foto terbaik lainnya
+      if (matchedPhotos.length < 3) {
         for (const p of photos) {
-          if (!distinctCategoryPhotos.includes(p)) {
-            distinctCategoryPhotos.push(p);
-            if (distinctCategoryPhotos.length >= 5) break;
+          if (!matchedPhotos.some((m) => m.id === p.id)) {
+            matchedPhotos.push(p);
+            if (matchedPhotos.length >= 3) break;
           }
         }
       }
 
-      return distinctCategoryPhotos.map((p, idx) => ({
+      return matchedPhotos.map((p, idx) => ({
         id: p.id,
         number: String(idx + 1).padStart(2, '0'),
         title: p.title,
@@ -295,7 +276,7 @@ export const Hero: React.FC<HeroProps> = ({ photos = [], onExploreClick, profile
       </div>
 
       {/* Bottom Exhibition HUD: Active Frame Info & Chapter Switcher */}
-      <div className="relative z-30 pt-4 sm:pt-8 border-t border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4 pb-16 sm:pb-0">
+      <div className="relative z-30 pt-4 sm:pt-8 border-t border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4 pb-20 md:pb-0 md:pr-20 lg:pr-24">
         {/* Left: Active Curated Frame Metadata */}
         <div className="flex items-start gap-3 sm:gap-4">
           <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-white/[0.06] border border-white/15 backdrop-blur-xl flex flex-col items-center justify-center text-amber-400 shrink-0 shadow-lg">

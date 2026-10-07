@@ -41,20 +41,8 @@ export const DEFAULT_HERO_SLIDER_CONFIG: HeroSliderConfig = {
       enabled: true,
     },
     {
-      id: 'slide-bts',
-      category: 'Behind The Scene Production',
-      photoId: 'auto',
-      enabled: true,
-    },
-    {
       id: 'slide-couple',
       category: 'Couple Session',
-      photoId: 'auto',
-      enabled: true,
-    },
-    {
-      id: 'slide-portrait',
-      category: 'Solo Potrait',
       photoId: 'auto',
       enabled: true,
     },
@@ -171,6 +159,20 @@ export async function getSiteContent(): Promise<SiteContentData> {
       ) {
         parsed.services = SERVICE_PACKAGES;
       }
+      if (
+        parsed.heroSlider &&
+        Array.isArray(parsed.heroSlider.slides) &&
+        parsed.heroSlider.slides.some(
+          (s: any) =>
+            s.category === 'Behind The Scene Production' ||
+            s.category === 'Solo Potrait' ||
+            s.category === 'Solo Portrait' ||
+            s.category === 'Commercial & Brand Campaign' ||
+            s.category === 'Street Photography'
+        )
+      ) {
+        parsed.heroSlider = DEFAULT_HERO_SLIDER_CONFIG;
+      }
       Object.assign(result, parsed);
     }
   } catch {
@@ -184,6 +186,18 @@ export async function getSiteContent(): Promise<SiteContentData> {
       if (!error && data && data.length > 0) {
         data.forEach((row: { id: string; value: any }) => {
           if (row.id in result) {
+            if (row.id === 'heroSlider' && row.value?.slides && Array.isArray(row.value.slides)) {
+              const hasStaleCategories = row.value.slides.some(
+                (s: any) =>
+                  s.category === 'Behind The Scene Production' ||
+                  s.category === 'Solo Potrait' ||
+                  s.category === 'Solo Portrait'
+              );
+              if (hasStaleCategories) {
+                (result as any).heroSlider = DEFAULT_HERO_SLIDER_CONFIG;
+                return;
+              }
+            }
             (result as any)[row.id] = row.value;
           }
         });

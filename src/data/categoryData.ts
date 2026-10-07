@@ -162,8 +162,8 @@ export const CATEGORY_DETAILS: Record<string, CategoryInfo> = {
 export const CATEGORY_ORDER = [
   'Event Documentation',
   'Graduation',
-  'Behind The Scene Production',
   'Couple Session',
+  'Behind The Scene Production',
   'Street Photography',
   'Commercial & Brand Campaign',
   'Solo Potrait',

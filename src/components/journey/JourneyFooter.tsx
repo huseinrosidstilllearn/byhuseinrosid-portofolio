@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Camera, MessageCircle, Mail } from 'lucide-react';
 import { CONTACT_CONFIG, PHOTOGRAPHER_PROFILE } from '../../data/portfolioData';
@@ -14,6 +15,17 @@ export function JourneyFooter({
   contact = CONTACT_CONFIG,
   onSwitchMode,
 }: JourneyFooterProps) {
+  const [showFab, setShowFab] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowFab(window.scrollY > 250);
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const currentProfile = profile || PHOTOGRAPHER_PROFILE;
   const currentContact = contact || CONTACT_CONFIG;
   const year = new Date().getFullYear();
@@ -38,7 +50,7 @@ export function JourneyFooter({
             <span className="text-amber-400">Ingin Diwujudkan?</span>
           </h3>
           <p className="text-white/40 text-sm max-w-md mx-auto mb-8 leading-relaxed">
-            Saya terbuka untuk penugasan komersial, event, graduation, BTS production, dan potret personal. Mari bicara tentang visi Anda.
+            Saya terbuka untuk penugasan dokumentasi acara, wisuda / graduation, dan sesi couple. Mari bicara tentang visi Anda.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <a
@@ -84,13 +96,17 @@ export function JourneyFooter({
         </div>
       </div>
 
-      {/* Floating WhatsApp */}
+      {/* Floating WhatsApp (tampil mulus setelah scroll) */}
       <a
         href={waLink}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Hubungi via WhatsApp"
-        className="fixed bottom-5 right-4 sm:bottom-6 sm:right-6 z-40 w-11 h-11 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-emerald-500 hover:bg-emerald-400 text-white shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 hover:scale-110"
+        className={`fixed bottom-5 right-4 sm:bottom-6 sm:right-6 z-40 w-11 h-11 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-emerald-500 hover:bg-emerald-400 text-white shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 hover:scale-110 ${
+          showFab
+            ? 'opacity-100 translate-y-0 pointer-events-auto'
+            : 'opacity-0 translate-y-4 pointer-events-none'
+        }`}
       >
         <MessageCircle className="w-5 h-5 text-white" />
       </a>
