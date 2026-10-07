@@ -126,19 +126,6 @@ export const Gallery: React.FC<GalleryProps> = ({
               Koleksi kurasi lintas genre yang mewakili karakter, atmosfer, dan visi visual Husein Rosid.
             </p>
           </div>
-
-          {/* Active Mode Description Badge */}
-          <div className="text-xs text-slate-400 hidden sm:flex items-center gap-2 bg-white/[0.03] px-3.5 py-1.5 rounded-full border border-white/10 w-fit">
-            <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-            <span>Mode Aktif:</span>
-            <strong className="text-white font-medium">
-              {GALLERY_MODES.find((m) => m.id === galleryMode)?.label}
-            </strong>
-            <span className="text-slate-500">&bull;</span>
-            <span className="text-slate-400">
-              {GALLERY_MODES.find((m) => m.id === galleryMode)?.description}
-            </span>
-          </div>
         </div>
 
         {/* Action Controls: 5-Layout Mode Switcher & Category Filters */}

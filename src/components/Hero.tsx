@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { ArrowDown, ArrowUpRight, MessageCircle, MapPin, Pause, Play } from 'lucide-react';
+import { ArrowDown, ArrowUpRight, MessageCircle, MapPin } from 'lucide-react';
 import { createWhatsAppLink } from '../utils/whatsapp';
 
 import type { PhotographerProfile, ContactConfig, PhotoItem, HeroSliderConfig } from '../types/portfolio';
@@ -323,16 +323,6 @@ export const Hero: React.FC<HeroProps> = ({ photos = [], onExploreClick, profile
                 </button>
               );
             })}
-
-            {/* Play / Pause Toggle Button */}
-            <button
-              onClick={() => setIsPlaying(!isPlaying)}
-              className="p-1.5 sm:p-2 ml-1 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
-              title={isPlaying ? 'Jeda rotasi otomatis' : 'Lanjutkan rotasi otomatis'}
-              aria-label={isPlaying ? 'Jeda rotasi otomatis' : 'Lanjutkan rotasi otomatis'}
-            >
-              {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 text-amber-400" />}
-            </button>
           </div>
         </div>
       </div>

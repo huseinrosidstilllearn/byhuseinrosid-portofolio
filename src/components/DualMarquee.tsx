@@ -1,5 +1,4 @@
-import React, { useState, useMemo } from 'react';
-import { Play, Pause, Gauge } from 'lucide-react';
+import React, { useMemo } from 'react';
 import { PORTFOLIO_PHOTOS } from '../data/portfolioData';
 import type { PhotoItem, MarqueeConfig } from '../types/portfolio';
 
@@ -14,10 +13,7 @@ export const DualMarquee: React.FC<DualMarqueeProps> = ({
   config,
   onSelectPhoto,
 }) => {
-  const [isPaused, setIsPaused] = useState<boolean>(false);
-  const [speedMode, setSpeedMode] = useState<'slow' | 'normal' | 'fast'>(
-    config?.speed || 'normal'
-  );
+  const speedMode = config?.speed || 'normal';
 
   // Filter foto berdasarkan konfigurasi yang dipilih pengguna
   const selectedPhotos = useMemo(() => {
@@ -87,64 +83,16 @@ export const DualMarquee: React.FC<DualMarqueeProps> = ({
 
   return (
     <section
-      className="w-full py-8 overflow-hidden marquee-container relative z-10 select-none"
+      className="w-full py-4 sm:py-6 overflow-hidden marquee-container relative z-10 select-none group/marquee"
       aria-label="Pameran Berjalan Karya Pilihan"
     >
-      {/* Kontrol Header Marquee */}
-      <div className="w-full max-w-[1920px] px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 mx-auto mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4">
-        <div className="flex items-center gap-2.5">
-          <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-          <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.2em] text-slate-400">
-            Pameran Berjalan &bull; {selectedPhotos.length} Karya Pilihan
-          </span>
-        </div>
-
-        <div className="flex items-center gap-2 self-start sm:self-auto">
-          {/* Tombol Kecepatan */}
-          <button
-            type="button"
-            onClick={() => {
-              setSpeedMode((prev) => (prev === 'normal' ? 'slow' : prev === 'slow' ? 'fast' : 'normal'));
-            }}
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.05] hover:bg-white/10 border border-white/10 text-[10px] sm:text-[11px] text-slate-300 hover:text-amber-300 font-mono transition-colors cursor-pointer"
-            title="Ubah kecepatan gerak"
-          >
-            <Gauge className="w-3 h-3 text-amber-400" />
-            <span>
-              {speedMode === 'slow' ? 'Santai (0.6x)' : speedMode === 'fast' ? 'Aktif (1.5x)' : 'Normal (1x)'}
-            </span>
-          </button>
-
-          {/* Tombol Jeda / Lanjutkan */}
-          <button
-            type="button"
-            onClick={() => setIsPaused((prev) => !prev)}
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.05] hover:bg-white/10 border border-white/10 text-[10px] sm:text-[11px] text-slate-300 hover:text-white font-mono transition-colors cursor-pointer"
-            title={isPaused ? 'Lanjutkan gerakan' : 'Jeda gerakan'}
-          >
-            {isPaused ? (
-              <>
-                <Play className="w-3 h-3 text-emerald-400" />
-                <span>Putar</span>
-              </>
-            ) : (
-              <>
-                <Pause className="w-3 h-3 text-amber-400" />
-                <span>Jeda</span>
-              </>
-            )}
-          </button>
-        </div>
-      </div>
-
       {/* Gradien Mask pada Tepi Layar */}
       <div className="w-full space-y-4 [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]">
         {/* Lintasan Atas (Bergerak ke Kiri) */}
         <div
-          className="flex gap-4 w-max animate-marquee-left"
+          className="flex gap-4 w-max animate-marquee-left group-hover/marquee:[animation-play-state:paused]"
           style={{
             animationDuration: `${trackDuration}s`,
-            animationPlayState: isPaused ? 'paused' : undefined,
           }}
         >
           {row1.map((photo, index) => (
@@ -176,10 +124,9 @@ export const DualMarquee: React.FC<DualMarqueeProps> = ({
 
         {/* Lintasan Bawah (Bergerak ke Kanan) */}
         <div
-          className="flex gap-4 w-max animate-marquee-right"
+          className="flex gap-4 w-max animate-marquee-right group-hover/marquee:[animation-play-state:paused]"
           style={{
             animationDuration: `${trackDuration}s`,
-            animationPlayState: isPaused ? 'paused' : undefined,
           }}
         >
           {row2.map((photo, index) => (
