@@ -70,19 +70,23 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div className="w-8 h-8 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 font-editorial font-bold text-sm group-hover:scale-105 transition-transform shrink-0">
               HR
             </div>
-            <div className="flex flex-col">
-              <span className="font-editorial text-sm sm:text-base font-medium tracking-tight text-white block leading-none split-wave" aria-label="The Journey of Husein Rosid">
-                <span className="hidden sm:inline" aria-hidden="true">
-                  {"The Journey of Husein Rosid".split("").map((char, i) => (
-                    <i key={i} style={{ '--i': i } as React.CSSProperties} className={char === ' ' ? 'inline-block w-1.5' : ''}>
-                      {char}
-                    </i>
-                  ))}
+            <div className="flex flex-col justify-center">
+              <div className="hidden sm:block">
+                <span className="font-editorial text-sm sm:text-base font-medium tracking-tight text-white leading-none split-wave" aria-label="The Journey of Husein Rosid">
+                  <span aria-hidden="true">
+                    {"The Journey of Husein Rosid".split("").map((char, i) => (
+                      <i key={i} style={{ '--i': i } as React.CSSProperties} className={char === ' ' ? 'inline-block w-1.5' : ''}>
+                        {char}
+                      </i>
+                    ))}
+                  </span>
                 </span>
-                <span className="sm:hidden font-editorial text-sm font-medium tracking-wide text-white">
+              </div>
+              <div className="sm:hidden">
+                <span className="font-editorial text-sm font-medium tracking-wide text-white leading-none block">
                   Husein Rosid
                 </span>
-              </span>
+              </div>
             </div>
           </button>
 

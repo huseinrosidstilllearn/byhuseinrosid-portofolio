@@ -295,7 +295,7 @@ export const Hero: React.FC<HeroProps> = ({ photos = [], onExploreClick, profile
       </div>
 
       {/* Bottom Exhibition HUD: Active Frame Info & Chapter Switcher */}
-      <div className="relative z-30 pt-4 sm:pt-8 border-t border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4 pb-14 sm:pb-0">
+      <div className="relative z-30 pt-4 sm:pt-8 border-t border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4 pb-16 sm:pb-0">
         {/* Left: Active Curated Frame Metadata */}
         <div className="flex items-start gap-3 sm:gap-4">
           <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-white/[0.06] border border-white/15 backdrop-blur-xl flex flex-col items-center justify-center text-amber-400 shrink-0 shadow-lg">
@@ -319,7 +319,7 @@ export const Hero: React.FC<HeroProps> = ({ photos = [], onExploreClick, profile
         </div>
 
         {/* Right: Chapter Switcher Tabs & Progress Controls */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 w-full md:w-auto">
           <div className="flex items-center p-1 sm:p-1.5 rounded-2xl bg-[#0E1118]/85 border border-white/15 backdrop-blur-xl shadow-2xl overflow-x-auto no-scrollbar max-w-full">
             {heroFrames.map((frame, index) => {
               const isActive = index === activeFrameIndex;
