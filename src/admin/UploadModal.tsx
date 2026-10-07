@@ -1195,25 +1195,25 @@ export const UploadModal: React.FC<UploadModalProps> = ({
                   </div>
                 </div>
 
-                {/* Deskripsi & Narasi */}
+                {/* Deskripsi Foto */}
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
                     <label className="block text-[10px] uppercase tracking-wider font-semibold text-slate-300">
                       {applyMode === 'all'
-                        ? `Deskripsi & Narasi (Diterapkan ke Seluruh ${queuedPhotos.length} Foto)`
-                        : `Deskripsi & Narasi Foto #${currentIndex + 1}`}
+                        ? `Deskripsi Foto (Diterapkan ke Seluruh ${queuedPhotos.length} Foto)`
+                        : `Deskripsi Foto #${currentIndex + 1} (Opsional)`}
                     </label>
                     <span className="text-[10px] text-amber-400/80 font-light">
                       {applyMode === 'all'
                         ? `Sinkron serentak`
-                        : `Cerita unik foto #${currentIndex + 1}`}
+                        : `Keterangan foto #${currentIndex + 1}`}
                     </span>
                   </div>
                   <textarea
                     rows={3}
                     value={activePhoto.description}
                     onChange={(e) => handleDescriptionChange(e.target.value)}
-                    placeholder="Tuliskan cerita, momen di balik lensa, pencahayaan, atau emosi yang ingin disampaikan pada foto ini..."
+                    placeholder="Tuliskan catatan singkat atau keterangan foto ini (opsional)..."
                     className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-slate-600 text-xs focus:outline-none focus:border-amber-400 transition-colors leading-relaxed"
                   />
                 </div>

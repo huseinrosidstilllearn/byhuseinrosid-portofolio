@@ -26,7 +26,7 @@ export const Services: React.FC<ServicesProps> = ({ packages = SERVICE_PACKAGES 
           </h2>
         </div>
         <p className="max-w-md text-xs sm:text-sm text-slate-400 font-light leading-relaxed">
-          Setiap penugasan dirancang secara seksama untuk menghidupkan narasi visual yang jujur, berkarakter, dan bertahan melintasi waktu.
+          Setiap penugasan dirancang secara seksama untuk menghadirkan dokumentasi visual yang jujur, berkarakter, dan berkesan melintasi waktu.
         </p>
       </div>
 
@@ -67,7 +67,7 @@ export const Services: React.FC<ServicesProps> = ({ packages = SERVICE_PACKAGES 
                   <ul className="space-y-2.5">
                     {service.features.map((feat, i) => (
                       <li key={i} className="flex items-start gap-2.5 text-xs text-slate-300 font-light leading-relaxed">
-                        <span className="text-amber-400 font-serif select-none mt-[-1px]">&mdash;</span>
+                        <span className="text-amber-400 font-mono select-none mt-[-1px]">&bull;</span>
                         <span>{feat}</span>
                       </li>
                     ))}

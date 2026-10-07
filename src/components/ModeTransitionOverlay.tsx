@@ -23,8 +23,8 @@ export const ModeTransitionOverlay: React.FC<ModeTransitionOverlayProps> = ({
         };
       case 'perjalanan':
         return {
-          title: 'Garis Waktu & Kisah',
-          subtitle: 'Perjalanan, Rekam Jejak & Keahlian',
+          title: 'Garis Waktu & Rekam Jejak',
+          subtitle: 'Perjalanan, Keahlian & Layanan',
           icon: Compass,
           accent: 'text-amber-400',
         };

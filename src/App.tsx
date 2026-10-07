@@ -9,7 +9,6 @@ import { Hero } from './components/Hero';
 import { DualMarquee } from './components/DualMarquee';
 import { Gallery } from './components/Gallery';
 import { AccordionCarousel } from './components/AccordionCarousel';
-import { PhotoStories } from './components/PhotoStories';
 import { Services } from './components/Services';
 import { ContactSection } from './components/ContactSection';
 import { LightboxModal } from './components/LightboxModal';
@@ -126,7 +125,7 @@ export function App() {
     loadInitialData();
   }, []);
 
-  // Lenis smooth scroll — hanya aktif di mode bento/perjalanan
+  // Lenis smooth scroll: hanya aktif di mode bento/perjalanan
   useEffect(() => {
     const shouldDisable =
       siteMode === 'landing' ||
@@ -235,7 +234,6 @@ export function App() {
               />
               <Timeline milestones={siteContent.timeline} />
               <Skills skills={siteContent.skills} />
-              <PhotoStories />
               <Services packages={siteContent.services} />
               <ContactSection contact={siteContent.contact} />
               <JourneyFooter

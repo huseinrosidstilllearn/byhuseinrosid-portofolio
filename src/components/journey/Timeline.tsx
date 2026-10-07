@@ -95,7 +95,7 @@ function MilestoneCard({ milestone, index }: { milestone: typeof TIMELINE_MILEST
         </div>
       </motion.div>
 
-      {/* Center Timeline Node — hidden on mobile, shown on md+ */}
+      {/* Center Timeline Node: hidden on mobile, shown on md+ */}
       <div className="hidden md:flex w-16 flex-shrink-0 flex-col items-center">
         <motion.div
           className={`w-4 h-4 rounded-full border-2 mt-6 z-10 flex-shrink-0

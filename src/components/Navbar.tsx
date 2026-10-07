@@ -39,7 +39,6 @@ export const Navbar: React.FC<NavbarProps> = ({
       ? [
           { label: 'Perjalanan', id: 'timeline' },
           { label: 'Keahlian', id: 'keahlian' },
-          { label: 'Kisah', id: 'kisah' },
           { label: 'Layanan', id: 'layanan' },
           { label: 'Kontak', id: 'kontak' },
         ]
@@ -61,7 +60,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               : 'bg-[#0E1118]/60 backdrop-blur-md border-white/[0.08] shadow-lg'
           }`}
         >
-          {/* Brand Logo — klik kembali ke Landing Gate */}
           {/* Brand Logo: klik kembali ke Landing Gate */}
           <button
             onClick={() => onSwitchSiteMode('landing')}

@@ -201,7 +201,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ contact = CONTAC
                 type="text"
                 value={sessionLocation}
                 onChange={e => setSessionLocation(e.target.value)}
-                placeholder="Contoh: Surabaya / Bali &mdash; Bulan depan"
+                placeholder="Contoh: Surabaya / Bali (Bulan depan)"
                 className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-slate-600 text-sm focus:outline-none focus:border-amber-400 transition-colors"
               />
             </div>

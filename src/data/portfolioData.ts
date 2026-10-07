@@ -402,7 +402,7 @@ export const SERVICE_PACKAGES: ServicePackage[] = [
     category: 'Wedding & Intimate Story',
     tagline: 'Mengabadikan getar cinta dan kehangatan keluarga tanpa interupsi rekayasa.',
     features: [
-      'Pendekatan fotojurnalistik dokumenter yang jujur',
+      'Pendekatan dokumentasi alami yang jujur dan mengalir',
       'Cakupan momen persiapan, akad/pemberkatan, hingga resepsi',
       'Dokumentasi emosi spontan para tamu dan keluarga',
       'Seluruh foto terkurasi dalam color palette hangat & sinematik',

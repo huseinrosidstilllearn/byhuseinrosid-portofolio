@@ -165,7 +165,7 @@ export const ContentEditor: React.FC = () => {
 
   const removeBioFullParagraph = (index: number) => {
     if (bioFullList.length <= 1) {
-      showToast('error', 'Minimal harus ada 1 paragraf narasi biografi.');
+      showToast('error', 'Minimal harus ada 1 paragraf biografi.');
       return;
     }
     const updated = bioFullList.filter((_, i) => i !== index);
@@ -472,9 +472,9 @@ export const ContentEditor: React.FC = () => {
                     <FileText className="w-4 h-4" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-white">Biografi Naratif Fotografer</h3>
+                    <h3 className="text-sm font-semibold text-white">Biografi Fotografer</h3>
                     <p className="text-[11px] text-slate-400 font-light">
-                      Bio pengantar singkat serta esai naratif lengkap yang ditampilkan di web (Mode Perjalanan).
+                      Bio pengantar singkat serta deskripsi profil yang ditampilkan di web (Mode Perjalanan).
                     </p>
                   </div>
                 </div>
@@ -490,17 +490,17 @@ export const ContentEditor: React.FC = () => {
                     placeholder="Ringkasan 1-2 kalimat tentang profil fotografer..."
                     className="w-full px-4 py-2.5 rounded-xl bg-black/60 border border-white/10 text-white text-xs focus:outline-none focus:border-amber-400"
                   />
-                  <span className="text-[10px] text-slate-500 mt-1 block">Pengantar ringkas sebelum cerita narasi panjang</span>
+                  <span className="text-[10px] text-slate-500 mt-1 block">Pengantar ringkas sebelum profil lengkap</span>
                 </div>
 
                 <div className="space-y-3 pt-2">
                   <div className="flex items-center justify-between">
                     <div>
                       <label className="block text-xs font-semibold text-slate-300">
-                        Paragraf Cerita Perjalanan Lengkap ({bioFullList.length} Paragraf)
+                        Paragraf Profil / Perjalanan Lengkap ({bioFullList.length} Paragraf)
                       </label>
                       <span className="text-[10px] text-slate-500">
-                        Setiap paragraf ditampilkan berurutan di kartu narasi Mode Perjalanan
+                        Setiap paragraf ditampilkan berurutan di kartu profil Mode Perjalanan
                       </span>
                     </div>
 
@@ -539,7 +539,7 @@ export const ContentEditor: React.FC = () => {
                           rows={3}
                           value={paragraph}
                           onChange={(e) => updateBioFullParagraph(pIdx, e.target.value)}
-                          placeholder="Tuliskan narasi perjalanan visual Anda..."
+                          placeholder="Tuliskan catatan perjalanan visual Anda..."
                           className="w-full px-3.5 py-2 rounded-lg bg-black/40 border border-white/10 text-slate-200 text-xs leading-relaxed focus:outline-none focus:border-amber-400 font-light"
                         />
                       </div>

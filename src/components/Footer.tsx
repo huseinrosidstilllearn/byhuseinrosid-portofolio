@@ -46,7 +46,7 @@ export const Footer: React.FC<FooterProps> = ({ onSwitchToSpatial, onNavigateToS
               Mari Hidupkan Cerita Anda Bersama Husein Rosid.
             </h2>
             <p className="text-sm sm:text-base text-slate-400 font-light mt-3 leading-relaxed">
-              Menerima penugasan komersial, esai dokumenter, potret personal autentik, dan dokumentasi pernikahan di Surabaya maupun perjalanan ke seluruh penjuru Indonesia.
+              Menerima penugasan komersial, dokumentasi acara & wisuda, potret personal autentik, dan dokumentasi pernikahan di Surabaya maupun perjalanan ke berbagai kota.
             </p>
           </div>
 
@@ -148,11 +148,6 @@ export const Footer: React.FC<FooterProps> = ({ onSwitchToSpatial, onNavigateToS
                 </a>
               </li>
               <li>
-                <a href="#kisah" onClick={(e) => handleNavClick(e, 'kisah')} className="hover:text-amber-300 transition-colors">
-                  Kisah &amp; Esai di Balik Lensa
-                </a>
-              </li>
-              <li>
                 <a href="#tentang" onClick={(e) => handleNavClick(e, 'tentang')} className="hover:text-amber-300 transition-colors">
                   Profil &amp; Filosofi Fotografer
                 </a>
@@ -251,7 +246,7 @@ export const Footer: React.FC<FooterProps> = ({ onSwitchToSpatial, onNavigateToS
               &ldquo;{PHOTOGRAPHER_PROFILE.philosophy}&rdquo;
             </blockquote>
             <span className="text-xs uppercase tracking-widest text-amber-400 font-semibold mt-2 block">
-              &mdash; Husein Rosid, Fotografer
+              &bull; Husein Rosid, Fotografer
             </span>
           </div>
 

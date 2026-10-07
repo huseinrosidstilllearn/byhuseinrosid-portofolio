@@ -33,7 +33,7 @@ export const JourneyHero: React.FC<JourneyHeroProps> = ({
 
       <div className="relative w-full max-w-[1920px] px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Left — Portrait & Badge */}
+          {/* Left: Portrait & Badge */}
           <motion.div
             className="lg:col-span-4 flex flex-col items-center lg:items-start gap-6"
             initial={{ opacity: 0, x: -40 }}
@@ -77,7 +77,7 @@ export const JourneyHero: React.FC<JourneyHeroProps> = ({
             </div>
           </motion.div>
 
-          {/* Right — Text Content */}
+          {/* Right: Text Content */}
           <motion.div
             className="lg:col-span-8 flex flex-col gap-8"
             initial={{ opacity: 0, y: 30 }}

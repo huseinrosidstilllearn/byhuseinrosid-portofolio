@@ -33,7 +33,7 @@ export const CategoryShowcase: React.FC<CategoryShowcaseProps> = ({
           Eksplorasi Per Kategori
         </h2>
         <p className="max-w-xl text-xs sm:text-sm text-slate-300 font-light leading-relaxed mt-3">
-          Setiap genre memiliki atmosfer, disiplin, dan narasi filosofisnya masing-masing. Masuk ke ruang kategori khusus untuk melihat arsip lengkap secara mendalam dan terfokus.
+          Setiap genre memiliki atmosfer, karakter visual, dan keunikannya masing-masing. Masuk ke ruang kategori khusus untuk melihat arsip lengkap secara mendalam dan terfokus.
         </p>
       </div>
 
