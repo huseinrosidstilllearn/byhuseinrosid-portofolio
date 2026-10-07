@@ -234,7 +234,16 @@ export function App() {
               />
               <Timeline milestones={siteContent.timeline} />
               <Skills skills={siteContent.skills} />
-              <Services packages={siteContent.services} />
+              <Services
+                packages={siteContent.services}
+                photos={photos}
+                onSelectCategory={(catName) => {
+                  handleSetSiteMode('karya');
+                  setTimeout(() => {
+                    handleSelectCategory(catName);
+                  }, 280);
+                }}
+              />
               <ContactSection contact={siteContent.contact} />
               <JourneyFooter
                 profile={siteContent.profile}

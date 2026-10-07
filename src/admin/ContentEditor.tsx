@@ -46,7 +46,7 @@ const SECTIONS: SectionMenu[] = [
   { id: 'contact', label: 'Kontak & Media', icon: Phone, description: 'WhatsApp, Instagram, email & domisili' },
   { id: 'timeline', label: 'Garis Waktu (CV)', icon: Clock, description: 'Milestone perjalanan dari 2017-sekarang' },
   { id: 'skills', label: 'Keahlian & Gear', icon: Sparkles, description: 'Teknis, editing, soft skill & kamera' },
-  { id: 'services', label: 'Paket Layanan', icon: Briefcase, description: '3 penawaran komisi fotografi' },
+  { id: 'services', label: 'Fokus Kategori', icon: Briefcase, description: '3 pilar: Dokumentasi, Wisuda & Couple' },
   { id: 'stats', label: 'Statistik Metrik', icon: BarChart3, description: 'Jumlah proyek, tahun & klien' },
 ];
 
@@ -1012,12 +1012,12 @@ export const ContentEditor: React.FC = () => {
           )}
 
           {/* =============================================================== */}
-          {/* 5. SEKSI PAKET LAYANAN */}
+          {/* 5. SEKSI FOKUS KATEGORI & LAYANAN */}
           {/* =============================================================== */}
           {activeSection === 'services' && (
             <div className="space-y-6">
               <p className="text-xs text-slate-400">
-                Ubah informasi 3 penawaran paket layanan komisi fotografi yang ditampilkan di web:
+                Ubah informasi dan cakupan 3 pilar kategori utama (Dokumentasi, Wisuda & Graduation, Couple Session) yang ditampilkan di web:
               </p>
 
               {content.services.map((pkg, idx) => (
@@ -1027,7 +1027,7 @@ export const ContentEditor: React.FC = () => {
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-mono text-amber-400 font-bold">
-                      Paket 0{idx + 1}
+                      Pilar Kategori 0{idx + 1}
                     </span>
                     <input
                       type="text"

@@ -368,47 +368,47 @@ export const PHOTO_STORIES: PhotoStory[] = [
 export const SERVICE_PACKAGES: ServicePackage[] = [
   {
     id: 'svc-01',
-    title: 'Kampanye Komersial & Brand',
-    category: 'Commercial & Editorial',
-    tagline: 'Membangun identitas visual yang bernilai tinggi dan berkesan bagi brand Anda.',
+    title: 'Dokumentasi Acara & Event',
+    category: 'Event Documentation',
+    tagline: 'Merekam atmosfer, dinamika panggung, dan momen berharga perhelatan acara secara utuh.',
     features: [
-      'Konsultasi konsep visual & moodboard mendalam',
-      'Sesi pemotretan studio atau on-location',
-      'Pengarahan gaya, pencahayaan, dan komposisi artistik',
-      'Color grading presisi berstandar publikasi komersial',
-      'Lisensi penggunaan hak cipta komersial penuh'
+      'Liputan konser musik, festival panggung, seminar & gathering korporat',
+      'Dokumentasi interaksi spontan dan momen jujur tanpa interupsi',
+      'Cakupan menyeluruh dari pra-acara hingga seremoni penutupan',
+      'Color grading hangat, kontras seimbang & siap rilis media sosial',
+      'Penyerahan arsip foto beresolusi tinggi tepat waktu'
     ],
-    idealFor: 'Brand produk, agensi kreatif, korporat, lookbook fashion, dan bisnis kuliner.',
-    note: 'Cakupan sesi dan jumlah output disesuaikan dengan skala kampanye visual Anda.'
+    idealFor: 'Penyelenggara acara, korporat, komunitas, festival kampus, dan konser musik.',
+    note: 'Tersedia untuk sesi half-day, full-day, maupun liputan multi-hari di berbagai kota.'
   },
   {
     id: 'svc-02',
-    title: 'Potret Personal & Artistik',
-    category: 'Personal & Editorial Portrait',
-    tagline: 'Menangkap esensi autentik dan kepribadian jujur dalam satu bingkai abadi.',
+    title: 'Wisuda & Graduation',
+    category: 'Graduation',
+    tagline: 'Mengabadikan kebanggaan kelulusan dan kehangatan selebrasi bersama keluarga serta sahabat.',
     features: [
-      'Sesi potret intim & santai tanpa beban pose kaku',
-      'Panduan pemilihan busana & lokasi pemotretan',
-      'Sentuhan editing natural yang menjaga tekstur asli kulit',
-      'Pilihan galeri digital resolusi tinggi & format web',
-      'Dukungan arahan emosi dan ekspresi alami'
+      'Sesi potret personal wisudawan dengan arahan pose natural & luwes',
+      'Momen hangat bersama keluarga tercinta dan lingkaran sahabat',
+      'Eksplorasi spot arsitektur kampus dan pencahayaan optimal',
+      'Retouching natural yang mempertahankan warna asli kulit',
+      'Galeri digital siap unduh resolusi penuh & format cetak'
     ],
-    idealFor: 'Personal branding, seniman, kreator, wisuda, profesional, dan koleksi pribadi.',
-    note: 'Dirancang untuk Anda yang menghargai potret diri yang berjiwa dan berbicara.'
+    idealFor: 'Wisudawan sarjana, magister, doktoral, dan keluarga wisudawan.',
+    note: 'Jadwal fleksibel di area kampus Surabaya maupun lokasi outdoor pilihan.'
   },
   {
     id: 'svc-03',
-    title: 'Dokumentasi Intim & Pernikahan',
-    category: 'Wedding & Intimate Story',
-    tagline: 'Mengabadikan getar cinta dan kehangatan keluarga tanpa interupsi rekayasa.',
+    title: 'Couple Session & Prewedding',
+    category: 'Couple Session',
+    tagline: 'Menangkap romansa jujur, kehangatan interaksi, dan getaran rasa tanpa kepura-puraan.',
     features: [
-      'Pendekatan dokumentasi alami yang jujur dan mengalir',
-      'Cakupan momen persiapan, akad/pemberkatan, hingga resepsi',
-      'Dokumentasi emosi spontan para tamu dan keluarga',
-      'Seluruh foto terkurasi dalam color palette hangat & sinematik',
-      'Highlight visual cerita foto siap bagikan'
+      'Sesi intim santai berdua tanpa tekanan pose yang kaku',
+      'Konsultasi mood visual, pemilihan busana & rute pemotretan',
+      'Eksplorasi lokasi bernuansa alam, jalanan kota, atau indoor',
+      'Tone warna sinematik hangat yang bertahan melintasi masa',
+      'Kurasi highlight foto terbaik untuk undangan digital & cetak'
     ],
-    idealFor: 'Pasangan pengantin, prewedding bersahaja, lamaran, dan perayaan keluarga intim.',
-    note: 'Fokus kami adalah menangkap apa yang dirasakan, bukan sekadar apa yang dilihat.'
+    idealFor: 'Pasangan prewedding, perayaan anniversary, lamaran, dan dokumentasi berdua.',
+    note: 'Fokus utama adalah menangkap keintiman yang autentik dan berbicara dari hati.'
   }
 ];

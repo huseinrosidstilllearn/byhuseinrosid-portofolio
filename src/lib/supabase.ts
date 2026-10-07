@@ -160,6 +160,17 @@ export async function getSiteContent(): Promise<SiteContentData> {
     const cached = localStorage.getItem(LOCAL_STORAGE_CONTENT_KEY);
     if (cached) {
       const parsed = JSON.parse(cached);
+      if (
+        parsed.services &&
+        Array.isArray(parsed.services) &&
+        parsed.services.some(
+          (s: any) =>
+            s.category === 'Commercial & Editorial' ||
+            s.title?.includes('Komersial')
+        )
+      ) {
+        parsed.services = SERVICE_PACKAGES;
+      }
       Object.assign(result, parsed);
     }
   } catch {

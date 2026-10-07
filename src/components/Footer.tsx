@@ -154,7 +154,7 @@ export const Footer: React.FC<FooterProps> = ({ onSwitchToSpatial, onNavigateToS
               </li>
               <li>
                 <a href="#layanan" onClick={(e) => handleNavClick(e, 'layanan')} className="hover:text-amber-300 transition-colors">
-                  Paket Penugasan &amp; Investasi
+                  Fokus Kategori &amp; Layanan
                 </a>
               </li>
               <li>

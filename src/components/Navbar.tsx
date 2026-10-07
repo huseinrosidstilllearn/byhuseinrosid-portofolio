@@ -39,7 +39,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       ? [
           { label: 'Perjalanan', id: 'timeline' },
           { label: 'Keahlian', id: 'keahlian' },
-          { label: 'Layanan', id: 'layanan' },
+          { label: 'Fokus Kategori', id: 'layanan' },
           { label: 'Kontak', id: 'kontak' },
         ]
       : [
