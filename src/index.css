@@ -4,9 +4,9 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-headline: "Syne", sans-serif;
+  --font-headline: "Outfit", "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
   --font-couture: "Cormorant Garamond", Georgia, serif;
-  --font-syne: "Syne", sans-serif;
+  --font-outfit: "Outfit", sans-serif;
   --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
   --color-obsidian: #050505;
   --color-surface: #0D0F15;
@@ -46,7 +46,12 @@ body {
 
 .font-editorial {
   font-family: var(--font-headline);
-  letter-spacing: -0.03em;
+  letter-spacing: -0.015em;
+}
+
+.font-headline {
+  font-family: var(--font-headline);
+  letter-spacing: -0.015em;
 }
 
 .font-couture {
