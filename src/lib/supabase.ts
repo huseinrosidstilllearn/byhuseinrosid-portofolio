@@ -1,8 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
-import type { PhotoItem, PhotoStory, SiteContentData, HeroSliderConfig } from '../types/portfolio';
+import type { PhotoItem, SiteContentData, HeroSliderConfig } from '../types/portfolio';
 import {
   PORTFOLIO_PHOTOS,
-  PHOTO_STORIES,
   PHOTOGRAPHER_PROFILE,
   CONTACT_CONFIG,
   SERVICE_PACKAGES,
@@ -60,15 +59,28 @@ export const DEFAULT_SITE_CONTENT: SiteContentData = {
   heroSlider: DEFAULT_HERO_SLIDER_CONFIG,
 };
 
-const LOCAL_STORAGE_CONTENT_KEY = 'bhr_site_content_cache';
+export const LOCAL_STORAGE_PHOTOS_KEY = 'bhr_photos_cache';
+export const LOCAL_STORAGE_CONTENT_KEY = 'bhr_site_content_cache';
 
 /**
  * Mengambil daftar foto galeri dari database Supabase
- * Jika database belum terkoneksi atau kosong, otomatis fallback ke data lokal
+ * Dilengkapi cache localStorage instan sehingga tidak pernah menampilkan foto dummy saat dimuat ulang
  */
 export async function getPhotos(fallbackToLocal = true): Promise<PhotoItem[]> {
+  // 1. Coba baca cache lokal untuk ketersediaan instan tanpa jeda jaringan
+  let cachedPhotos: PhotoItem[] | null = null;
+  try {
+    const raw = localStorage.getItem(LOCAL_STORAGE_PHOTOS_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        cachedPhotos = parsed;
+      }
+    }
+  } catch {}
+
   if (!supabase) {
-    return fallbackToLocal ? PORTFOLIO_PHOTOS : [];
+    return cachedPhotos || (fallbackToLocal ? PORTFOLIO_PHOTOS : []);
   }
 
   try {
@@ -79,10 +91,10 @@ export async function getPhotos(fallbackToLocal = true): Promise<PhotoItem[]> {
       .order('created_at', { ascending: false });
 
     if (error || !data || data.length === 0) {
-      return fallbackToLocal ? PORTFOLIO_PHOTOS : [];
+      return cachedPhotos || (fallbackToLocal ? PORTFOLIO_PHOTOS : []);
     }
 
-    return data.map((item) => ({
+    const mapped = data.map((item) => ({
       id: item.id,
       title: item.title,
       category: item.category,
@@ -94,45 +106,15 @@ export async function getPhotos(fallbackToLocal = true): Promise<PhotoItem[]> {
       featured: item.featured ?? false,
       glowColor: item.glow_color || undefined,
     }));
+
+    try {
+      localStorage.setItem(LOCAL_STORAGE_PHOTOS_KEY, JSON.stringify(mapped));
+    } catch {}
+
+    return mapped;
   } catch (err) {
     console.warn('Gagal memuat foto dari Supabase:', err);
-    return fallbackToLocal ? PORTFOLIO_PHOTOS : [];
-  }
-}
-
-/**
- * Mengambil daftar esai foto dari database Supabase
- */
-export async function getPhotoStories(): Promise<PhotoStory[]> {
-  if (!supabase) {
-    return PHOTO_STORIES;
-  }
-
-  try {
-    const { data, error } = await supabase
-      .from('photo_stories')
-      .select('*')
-      .order('display_order', { ascending: true });
-
-    if (error || !data || data.length === 0) {
-      return PHOTO_STORIES;
-    }
-
-    return data.map((item) => ({
-      id: item.id,
-      title: item.title,
-      subtitle: item.subtitle || '',
-      category: item.category || '',
-      coverImage: item.cover_image,
-      images: Array.isArray(item.images) ? item.images : [],
-      location: item.location || '',
-      year: item.year || '',
-      narrative: item.narrative || '',
-      quote: item.quote || '',
-    }));
-  } catch (err) {
-    console.warn('Gagal memuat cerita foto dari Supabase, menggunakan data lokal:', err);
-    return PHOTO_STORIES;
+    return cachedPhotos || (fallbackToLocal ? PORTFOLIO_PHOTOS : []);
   }
 }
 

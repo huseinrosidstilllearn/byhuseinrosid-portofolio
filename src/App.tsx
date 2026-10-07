@@ -48,13 +48,35 @@ function getInitialCategory(): string | null {
   return null;
 }
 
+function getInitialPhotos(): PhotoItem[] {
+  try {
+    const raw = localStorage.getItem('bhr_photos_cache');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+  } catch {}
+  return PORTFOLIO_PHOTOS;
+}
+
+function getInitialSiteContent(): SiteContentData {
+  try {
+    const raw = localStorage.getItem('bhr_site_content_cache');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      return { ...DEFAULT_SITE_CONTENT, ...parsed };
+    }
+  } catch {}
+  return DEFAULT_SITE_CONTENT;
+}
+
 export function App() {
   const [siteMode, setSiteMode] = useState<SiteMode>(getSavedMode);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(getInitialCategory);
   const [viewMode, setViewMode] = useState<'bento' | 'spatial'>('bento');
   const [activePhoto, setActivePhoto] = useState<PhotoItem | null>(null);
-  const [photos, setPhotos] = useState<PhotoItem[]>(PORTFOLIO_PHOTOS);
-  const [siteContent, setSiteContent] = useState<SiteContentData>(DEFAULT_SITE_CONTENT);
+  const [photos, setPhotos] = useState<PhotoItem[]>(getInitialPhotos);
+  const [siteContent, setSiteContent] = useState<SiteContentData>(getInitialSiteContent);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [targetMode, setTargetMode] = useState<SiteMode | null>(null);
   const lenisRef = useRef<Lenis | null>(null);
@@ -278,7 +300,7 @@ export function App() {
 
             {viewMode === 'spatial' ? (
               <main className="w-screen h-screen overflow-hidden">
-                <SpatialCanvas />
+                <SpatialCanvas photos={photos} />
               </main>
             ) : selectedCategory !== null ? (
               /* ── Dedicated Category Deep-Dive Page ────────────────────────────── */

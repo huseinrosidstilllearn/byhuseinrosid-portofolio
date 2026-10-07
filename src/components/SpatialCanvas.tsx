@@ -11,23 +11,13 @@ import { AmbientAura } from './AmbientAura';
 const CANVAS_WIDTH = 4000;
 const CANVAS_HEIGHT = 3000;
 
-// Pre-defined artistic spatial coordinates for each photograph across the 2D world
-const SPATIAL_LAYOUTS = [
-  { id: 'p-01', x: 1300, y: 1100, width: 340, height: 480 }, // Garis Bayang (Portrait)
-  { id: 'p-02', x: 2350, y: 1050, width: 520, height: 350 }, // Refleksi Keanggunan (Landscape)
-  { id: 'p-03', x: 2000, y: 700,  width: 320, height: 460 }, // Tatapan Laut (Portrait)
-  { id: 'p-04', x: 1250, y: 1750, width: 560, height: 370 }, // Senyap Bromo (Landscape)
-  { id: 'p-05', x: 2500, y: 1600, width: 340, height: 490 }, // Janji Senja (Portrait)
-  { id: 'p-06', x: 750,  y: 1150, width: 360, height: 360 }, // Tekstur Kopi (Square)
-  { id: 'p-07', x: 2950, y: 1100, width: 540, height: 360 }, // Langkah Penarik Gerobak (Landscape)
-  { id: 'p-08', x: 1950, y: 2000, width: 340, height: 480 }, // Keteguhan dalam Diam (Portrait)
-  { id: 'p-09', x: 700,  y: 1700, width: 520, height: 350 }, // Hening di Tepi Waduk (Landscape)
-  { id: 'p-10', x: 3050, y: 1650, width: 330, height: 470 }, // Tawa Renda (Portrait)
-  { id: 'p-11', x: 1400, y: 550,  width: 340, height: 480 }, // Bentuk & Proporsi (Portrait)
-  { id: 'p-12', x: 2550, y: 550,  width: 360, height: 360 }, // Gerimis Halte (Square)
-];
 
-export const SpatialCanvas: React.FC = () => {
+
+interface SpatialCanvasProps {
+  photos?: PhotoItem[];
+}
+
+export const SpatialCanvas: React.FC<SpatialCanvasProps> = ({ photos = PORTFOLIO_PHOTOS }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('Semua');
   const [activePhoto, setActivePhoto] = useState<PhotoItem | null>(null);
@@ -45,21 +35,31 @@ export const SpatialCanvas: React.FC = () => {
   const [currentPan, setCurrentPan] = useState({ x: initialX, y: initialY });
   const isDraggingRef = useRef(false);
 
-  // Merge photo data with spatial coordinates
+  // Merge photo data with spatial coordinates secara dinamis
   const spatialPhotos = useMemo(() => {
-    return PORTFOLIO_PHOTOS.map(photo => {
-      const layout = SPATIAL_LAYOUTS.find(l => l.id === photo.id) || {
-        x: 2000,
-        y: 1500,
-        width: 380,
-        height: 480,
-      };
+    const list = photos && photos.length > 0 ? photos : PORTFOLIO_PHOTOS;
+    const cols = 6;
+    const startX = 600;
+    const startY = 500;
+    const stepX = 500;
+    const stepY = 460;
+
+    return list.slice(0, 36).map((photo, idx) => {
+      const col = idx % cols;
+      const row = Math.floor(idx / cols);
+      const offsetX = ((idx * 37) % 60) - 30;
+      const offsetY = ((idx * 43) % 60) - 30;
+      const isPortrait = photo.aspectRatio === 'portrait';
+
       return {
         ...photo,
-        ...layout,
+        x: startX + col * stepX + offsetX,
+        y: startY + row * stepY + offsetY,
+        width: isPortrait ? 340 : 440,
+        height: isPortrait ? 480 : 330,
       };
     });
-  }, []);
+  }, [photos]);
 
   const handleDragStart = () => {
     isDraggingRef.current = true;

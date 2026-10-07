@@ -1108,7 +1108,7 @@ export const UploadModal: React.FC<UploadModalProps> = ({
                       required
                       value={activePhoto.title}
                       onChange={(e) => updateActivePhoto('title', e.target.value)}
-                      placeholder="Contoh: Gemerlap Panggung Festival"
+                      placeholder="Contoh: Dokumentasi Wisuda Akbar #1"
                       className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 text-white text-sm focus:outline-none focus:border-amber-400 transition-colors"
                     />
                   </div>

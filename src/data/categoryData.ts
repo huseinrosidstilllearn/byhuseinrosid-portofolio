@@ -38,7 +38,7 @@ export const CATEGORY_DETAILS: Record<string, CategoryInfo> = {
     accentColor: 'text-amber-400',
     glowColor: '#f59e0b',
     coverImage:
-      'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1600&q=85',
+      'https://photos.byhuseinrosid.my.id/photos/1791379720825-DSC07976.webp',
     tags: ['Live Event', 'Stage & Concert', 'Corporate Gathering', 'Festival Budaya'],
     waTemplate:
       'Halo Mas Husein Rosid, saya tertarik untuk mendiskusikan dokumentasi event / acara bersama Anda.',
@@ -57,7 +57,7 @@ export const CATEGORY_DETAILS: Record<string, CategoryInfo> = {
     accentColor: 'text-blue-400',
     glowColor: '#3b82f6',
     coverImage:
-      'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=85',
+      'https://photos.byhuseinrosid.my.id/photos/1791302624013-DSC05030.webp',
     tags: ['Wisuda Sarjana', 'Kebanggaan Keluarga', 'Toga & Selebrasi', 'Potret Kelulusan'],
     waTemplate:
       'Halo Mas Husein Rosid, saya ingin memesan sesi foto wisuda / graduation bersama Anda.',
@@ -76,7 +76,7 @@ export const CATEGORY_DETAILS: Record<string, CategoryInfo> = {
     accentColor: 'text-purple-400',
     glowColor: '#a855f7',
     coverImage:
-      'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1600&q=85',
+      'https://photos.byhuseinrosid.my.id/photos/1791307013718-DSC06370.webp',
     tags: ['Film Set', 'Shooting Production', 'Etos Kru', 'Proses Kreatif'],
     waTemplate:
       'Halo Mas Husein Rosid, saya membutuhkan fotografer Behind The Scene untuk proyek produksi kami.',
@@ -95,7 +95,7 @@ export const CATEGORY_DETAILS: Record<string, CategoryInfo> = {
     accentColor: 'text-rose-400',
     glowColor: '#f43f5e',
     coverImage:
-      'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=85',
+      'https://photos.byhuseinrosid.my.id/photos/1791303743989-DSC07603.webp',
     tags: ['Prewedding', 'Intimate Story', 'Romansa Alami', 'Cinta Dua Insan'],
     waTemplate:
       'Halo Mas Husein Rosid, saya ingin berkonsultasi mengenai sesi foto couple / prewedding bersama Anda.',
@@ -114,7 +114,7 @@ export const CATEGORY_DETAILS: Record<string, CategoryInfo> = {
     accentColor: 'text-yellow-400',
     glowColor: '#eab308',
     coverImage:
-      'https://images.unsplash.com/photo-1477959858617-67f30bc75b82?auto=format&fit=crop&w=1600&q=85',
+      'https://photos.byhuseinrosid.my.id/photos/1791379720825-DSC07976.webp',
     tags: ['Urban Geometry', 'Human Interest', 'Kota Tua', 'Siluet & Cahaya'],
     waTemplate:
       'Halo Mas Husein Rosid, saya tertarik dengan karya street photography Anda untuk lisensi / proyek visual.',
@@ -133,7 +133,7 @@ export const CATEGORY_DETAILS: Record<string, CategoryInfo> = {
     accentColor: 'text-emerald-400',
     glowColor: '#10b981',
     coverImage:
-      'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1600&q=85',
+      'https://photos.byhuseinrosid.my.id/photos/1791307013718-DSC06370.webp',
     tags: ['Brand Campaign', 'Editorial Fashion', 'Artisanal Product', 'Visual Identity'],
     waTemplate:
       'Halo Mas Husein Rosid, saya ingin berdiskusi mengenai proyek komersial & kampanye brand bersama Anda.',
@@ -152,7 +152,7 @@ export const CATEGORY_DETAILS: Record<string, CategoryInfo> = {
     accentColor: 'text-sky-400',
     glowColor: '#0ea5e9',
     coverImage:
-      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1600&q=85',
+      'https://photos.byhuseinrosid.my.id/photos/1791305184047-DSC04710-2.webp',
     tags: ['Personal Branding', 'Editorial Portrait', 'Chiaroscuro', 'Karakter Wajah'],
     waTemplate:
       'Halo Mas Husein Rosid, saya ingin menjadwalkan sesi pemotretan solo potret personal bersama Anda.',
@@ -189,7 +189,7 @@ export function getCategoryInfo(categoryName: string): CategoryInfo {
     accentColor: 'text-amber-400',
     glowColor: '#f59e0b',
     coverImage:
-      'https://images.unsplash.com/photo-1477959858617-67f30bc75b82?auto=format&fit=crop&w=1600&q=85',
+      'https://photos.byhuseinrosid.my.id/photos/1791302624013-DSC05030.webp',
     tags: [categoryName, 'Terkurasi', 'Husein Rosid'],
     waTemplate: `Halo Mas Husein Rosid, saya tertarik untuk mendiskusikan sesi fotografi untuk kategori ${categoryName}.`,
   };
