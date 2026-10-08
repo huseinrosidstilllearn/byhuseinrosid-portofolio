@@ -322,14 +322,24 @@ export const Gallery: React.FC<GalleryProps> = ({
               <div
                 key={photo.id}
                 onClick={() => handlePhotoClick(photo)}
-                className={`${spanClass} bento-card relative overflow-hidden group cursor-pointer`}
+                className={`${spanClass} bento-card relative overflow-hidden group cursor-pointer bg-[#0E1118] skeleton-shimmer`}
               >
                 <img
                   src={photo.imageUrl}
                   alt={photo.title}
                   loading="lazy"
                   decoding="async"
-                  className="w-full h-full object-cover object-center absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105"
+                  onLoad={(e) => {
+                    e.currentTarget.classList.remove('opacity-0');
+                    e.currentTarget.parentElement?.classList.remove('skeleton-shimmer');
+                  }}
+                  ref={(el) => {
+                    if (el && el.complete && el.naturalWidth > 0) {
+                      el.classList.remove('opacity-0');
+                      el.parentElement?.classList.remove('skeleton-shimmer');
+                    }
+                  }}
+                  className="w-full h-full object-cover object-center absolute inset-0 transition-all duration-700 ease-out group-hover:scale-105 opacity-0"
                 />
 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-black/20 flex flex-col justify-between p-6 sm:p-7 transition-opacity duration-300">
@@ -380,13 +390,23 @@ export const Gallery: React.FC<GalleryProps> = ({
               onClick={() => handlePhotoClick(photo)}
               className="bento-card overflow-hidden group cursor-pointer border border-white/10 hover:border-amber-400/40 transition-all duration-300 flex flex-col"
             >
-              <div className="relative aspect-[4/3] overflow-hidden bg-black/50">
+              <div className="relative aspect-[4/3] overflow-hidden bg-[#0E1118] skeleton-shimmer">
                 <img
                   src={photo.imageUrl}
                   alt={photo.title}
                   loading="lazy"
                   decoding="async"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  onLoad={(e) => {
+                    e.currentTarget.classList.remove('opacity-0');
+                    e.currentTarget.parentElement?.classList.remove('skeleton-shimmer');
+                  }}
+                  ref={(el) => {
+                    if (el && el.complete && el.naturalWidth > 0) {
+                      el.classList.remove('opacity-0');
+                      el.parentElement?.classList.remove('skeleton-shimmer');
+                    }
+                  }}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700 ease-out opacity-0"
                 />
                 <div className="absolute top-2 left-2 sm:top-3 sm:left-3">
                   <button
@@ -450,13 +470,23 @@ export const Gallery: React.FC<GalleryProps> = ({
                 onClick={() => handlePhotoClick(photo)}
                 className="break-inside-avoid bento-card relative overflow-hidden group cursor-pointer border border-white/10 hover:border-amber-400/40 transition-all duration-300"
               >
-                <div className={`relative overflow-hidden ${isTall ? 'min-h-[220px] sm:min-h-[400px] 2xl:min-h-[480px]' : 'min-h-[150px] sm:min-h-[280px] 2xl:min-h-[340px]'}`}>
+                <div className={`relative overflow-hidden bg-[#0E1118] skeleton-shimmer ${isTall ? 'min-h-[220px] sm:min-h-[400px] 2xl:min-h-[480px]' : 'min-h-[150px] sm:min-h-[280px] 2xl:min-h-[340px]'}`}>
                   <img
                     src={photo.imageUrl}
                     alt={photo.title}
                     loading="lazy"
                     decoding="async"
-                    className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                    onLoad={(e) => {
+                      e.currentTarget.classList.remove('opacity-0');
+                      e.currentTarget.parentElement?.classList.remove('skeleton-shimmer');
+                    }}
+                    ref={(el) => {
+                      if (el && el.complete && el.naturalWidth > 0) {
+                        el.classList.remove('opacity-0');
+                        el.parentElement?.classList.remove('skeleton-shimmer');
+                      }
+                    }}
+                    className="w-full h-auto object-cover group-hover:scale-105 transition-all duration-700 ease-out opacity-0"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent opacity-85 sm:opacity-80 sm:group-hover:opacity-95 transition-opacity" />
 
@@ -525,13 +555,23 @@ export const Gallery: React.FC<GalleryProps> = ({
       {galleryMode === 'spotlight' && currentSpotlightPhoto && (
         <div className="space-y-6 animate-in fade-in duration-300">
           {/* Centerpiece Cinema Stage */}
-          <div className="bento-card relative rounded-3xl overflow-hidden border border-white/15 shadow-2xl min-h-[520px] sm:min-h-[640px] lg:min-h-[740px] 2xl:min-h-[820px] flex flex-col justify-between">
+          <div className="bento-card relative rounded-3xl overflow-hidden border border-white/15 shadow-2xl min-h-[520px] sm:min-h-[640px] lg:min-h-[740px] 2xl:min-h-[820px] flex flex-col justify-between bg-[#0E1118] skeleton-shimmer">
             {/* Background Image */}
             <img
               src={currentSpotlightPhoto.imageUrl}
               alt={currentSpotlightPhoto.title}
               decoding="async"
-              className="w-full h-full object-cover object-center absolute inset-0 transition-all duration-700"
+              onLoad={(e) => {
+                e.currentTarget.classList.remove('opacity-0');
+                e.currentTarget.parentElement?.classList.remove('skeleton-shimmer');
+              }}
+              ref={(el) => {
+                if (el && el.complete && el.naturalWidth > 0) {
+                  el.classList.remove('opacity-0');
+                  el.parentElement?.classList.remove('skeleton-shimmer');
+                }
+              }}
+              className="w-full h-full object-cover object-center absolute inset-0 transition-all duration-700 opacity-0"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/30" />
 
@@ -634,7 +674,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                   <button
                     key={photo.id}
                     onClick={() => setSpotlightIndex(idx)}
-                    className={`shrink-0 relative w-24 sm:w-28 h-16 sm:h-20 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer ${
+                    className={`shrink-0 relative w-24 sm:w-28 h-16 sm:h-20 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer bg-[#0E1118] skeleton-shimmer ${
                       isSelected
                         ? 'ring-2 ring-amber-400 ring-offset-2 ring-offset-black scale-105 opacity-100'
                         : 'opacity-50 hover:opacity-85'
@@ -645,7 +685,17 @@ export const Gallery: React.FC<GalleryProps> = ({
                       alt={photo.title}
                       loading="lazy"
                       decoding="async"
-                      className="w-full h-full object-cover"
+                      onLoad={(e) => {
+                        e.currentTarget.classList.remove('opacity-0');
+                        e.currentTarget.parentElement?.classList.remove('skeleton-shimmer');
+                      }}
+                      ref={(el) => {
+                        if (el && el.complete && el.naturalWidth > 0) {
+                          el.classList.remove('opacity-0');
+                          el.parentElement?.classList.remove('skeleton-shimmer');
+                        }
+                      }}
+                      className="w-full h-full object-cover opacity-0 transition-opacity duration-300"
                     />
                     <div className="absolute inset-0 bg-black/20" />
                   </button>
@@ -693,14 +743,24 @@ export const Gallery: React.FC<GalleryProps> = ({
               <div
                 key={photo.id}
                 onClick={() => handlePhotoClick(photo)}
-                className="snap-start shrink-0 w-[300px] sm:w-[380px] lg:w-[440px] 2xl:w-[520px] h-[480px] sm:h-[540px] 2xl:h-[620px] bento-card relative overflow-hidden group cursor-pointer"
+                className="snap-start shrink-0 w-[300px] sm:w-[380px] lg:w-[440px] 2xl:w-[520px] h-[480px] sm:h-[540px] 2xl:h-[620px] bento-card relative overflow-hidden group cursor-pointer bg-[#0E1118] skeleton-shimmer"
               >
                 <img
                   src={photo.imageUrl}
                   alt={photo.title}
                   loading="lazy"
                   decoding="async"
-                  className="w-full h-full object-cover object-center absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105"
+                  onLoad={(e) => {
+                    e.currentTarget.classList.remove('opacity-0');
+                    e.currentTarget.parentElement?.classList.remove('skeleton-shimmer');
+                  }}
+                  ref={(el) => {
+                    if (el && el.complete && el.naturalWidth > 0) {
+                      el.classList.remove('opacity-0');
+                      el.parentElement?.classList.remove('skeleton-shimmer');
+                    }
+                  }}
+                  className="w-full h-full object-cover object-center absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105 opacity-0"
                 />
 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/35 to-black/20 flex flex-col justify-between p-6 sm:p-8">

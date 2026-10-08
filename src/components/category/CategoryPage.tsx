@@ -155,27 +155,52 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
 
       <div className="w-full max-w-[1920px] px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 mx-auto">
         {/* ── MINIMAL PHOTO-FIRST CATEGORY HEADER ── */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 pb-5 border-b border-white/[0.08]">
-          <div>
-            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-amber-400 mb-2">
-              <Icon className="w-3.5 h-3.5" />
-              <span>Kategori</span>
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8 pb-6 border-b border-white/[0.08]">
+          <div className="max-w-3xl">
+            <div className="flex flex-wrap items-center gap-2.5 mb-2.5">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-300">
+                <Icon className="w-3 h-3" />
+                <span>Kategori Eksibisi</span>
+              </div>
+              {categoryName === 'Graduation' && (
+                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-500 text-slate-950 text-[10px] font-bold uppercase tracking-wider shadow-[0_0_12px_rgba(245,158,11,0.3)]">
+                  Fokus Layanan Aktif: Wisuda & Kelulusan
+                </span>
+              )}
             </div>
-            <h1 className="font-editorial text-3xl sm:text-5xl text-white font-medium tracking-tight">
+            <h1 className="font-editorial text-3xl sm:text-5xl lg:text-6xl text-white font-medium tracking-tight">
               {info.name}
             </h1>
-            <p className="text-xs sm:text-sm text-slate-400 font-light mt-1.5">
-              {categoryPhotos.length} foto dalam arsip ini
+            <p className="text-xs sm:text-base text-slate-300 font-light mt-2 leading-relaxed">
+              {info.subtitle}
+            </p>
+            {info.tags && info.tags.length > 0 && (
+              <div className="flex flex-wrap items-center gap-1.5 mt-3 pt-3 border-t border-white/[0.06]">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500 mr-1">
+                  Tag Subjek:
+                </span>
+                {info.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-2.5 py-0.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-[10px] text-slate-400 font-mono"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+            <p className="text-[11px] sm:text-xs text-slate-400 font-mono mt-3">
+              Total <span className="text-amber-400 font-bold">{categoryPhotos.length}</span> karya terkurasi dalam arsip ini
             </p>
           </div>
           <a
             href={createWhatsAppLink(info.waTemplate)}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(245,158,11,0.2)] w-fit"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_24px_rgba(245,158,11,0.25)] hover:scale-105 active:scale-95 shrink-0 w-full sm:w-fit cursor-pointer"
           >
-            <MessageCircle className="w-3.5 h-3.5" />
-            <span>Tanya Sesi {info.name}</span>
+            <MessageCircle className="w-4 h-4" />
+            <span>{categoryName === 'Graduation' ? 'Booking / Tanya Sesi Wisuda' : `Tanya Sesi ${info.name}`}</span>
           </a>
         </div>
 
@@ -256,13 +281,23 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
                 onClick={() => onSelectPhoto(photo)}
                 className="break-inside-avoid bento-card rounded-2xl overflow-hidden group cursor-pointer border border-white/10 hover:border-amber-400/50 transition-all duration-300 relative"
               >
-                <div className="relative overflow-hidden bg-black/50">
+                <div className="relative overflow-hidden bg-[#0E1118] skeleton-shimmer">
                   <img
                     src={photo.imageUrl}
                     alt={photo.title}
                     loading="lazy"
                     decoding="async"
-                    className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                    onLoad={(e) => {
+                      e.currentTarget.classList.remove('opacity-0');
+                      e.currentTarget.parentElement?.classList.remove('skeleton-shimmer');
+                    }}
+                    ref={(el) => {
+                      if (el && el.complete && el.naturalWidth > 0) {
+                        el.classList.remove('opacity-0');
+                        el.parentElement?.classList.remove('skeleton-shimmer');
+                      }
+                    }}
+                    className="w-full h-auto object-cover group-hover:scale-105 transition-all duration-700 ease-out opacity-0"
                   />
                   {/* Hover Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-3 sm:p-5">
@@ -317,13 +352,23 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
                 onClick={() => onSelectPhoto(photo)}
                 className="bento-card rounded-2xl overflow-hidden group cursor-pointer border border-white/10 hover:border-amber-400/50 transition-all duration-300 flex flex-col"
               >
-                <div className="relative aspect-[4/3] overflow-hidden bg-black/50">
+                <div className="relative aspect-[4/3] overflow-hidden bg-[#0E1118] skeleton-shimmer">
                   <img
                     src={photo.imageUrl}
                     alt={photo.title}
                     loading="lazy"
                     decoding="async"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                    onLoad={(e) => {
+                      e.currentTarget.classList.remove('opacity-0');
+                      e.currentTarget.parentElement?.classList.remove('skeleton-shimmer');
+                    }}
+                    ref={(el) => {
+                      if (el && el.complete && el.naturalWidth > 0) {
+                        el.classList.remove('opacity-0');
+                        el.parentElement?.classList.remove('skeleton-shimmer');
+                      }
+                    }}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700 ease-out opacity-0"
                   />
                   <div className="absolute top-2 right-2 sm:top-3 sm:right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden sm:block">
                     <div className="w-8 h-8 rounded-full bg-black/70 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:text-amber-400">
@@ -373,14 +418,24 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
                 <div
                   key={photo.id}
                   onClick={() => onSelectPhoto(photo)}
-                  className={`${spanClass} bento-card rounded-2xl relative overflow-hidden group cursor-pointer border border-white/10 hover:border-amber-400/50 transition-all duration-300`}
+                  className={`${spanClass} bento-card rounded-2xl relative overflow-hidden group cursor-pointer border border-white/10 hover:border-amber-400/50 transition-all duration-300 bg-[#0E1118] skeleton-shimmer`}
                 >
                   <img
                     src={photo.imageUrl}
                     alt={photo.title}
                     loading="lazy"
                     decoding="async"
-                    className="w-full h-full object-cover object-center absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105"
+                    onLoad={(e) => {
+                      e.currentTarget.classList.remove('opacity-0');
+                      e.currentTarget.parentElement?.classList.remove('skeleton-shimmer');
+                    }}
+                    ref={(el) => {
+                      if (el && el.complete && el.naturalWidth > 0) {
+                        el.classList.remove('opacity-0');
+                        el.parentElement?.classList.remove('skeleton-shimmer');
+                      }
+                    }}
+                    className="w-full h-full object-cover object-center absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105 opacity-0"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-black/20 flex flex-col justify-between p-6 sm:p-7">
                     <div className="flex justify-end">
@@ -410,14 +465,25 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
         {layoutMode === 'spotlight' && currentSpotlightPhoto && (
           <div className="bento-card rounded-3xl p-6 sm:p-10 border border-white/10 animate-in fade-in duration-300">
             {/* Main Stage */}
-            <div className="relative rounded-2xl overflow-hidden aspect-[16/10] sm:aspect-[16/9] bg-black/60 mb-6 group cursor-pointer"
+            <div
+              className="relative rounded-2xl overflow-hidden aspect-[16/10] sm:aspect-[16/9] bg-[#0E1118] skeleton-shimmer mb-6 group cursor-pointer"
               onClick={() => onSelectPhoto(currentSpotlightPhoto)}
             >
               <img
                 src={currentSpotlightPhoto.imageUrl}
                 alt={currentSpotlightPhoto.title}
                 decoding="async"
-                className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                onLoad={(e) => {
+                  e.currentTarget.classList.remove('opacity-0');
+                  e.currentTarget.parentElement?.classList.remove('skeleton-shimmer');
+                }}
+                ref={(el) => {
+                  if (el && el.complete && el.naturalWidth > 0) {
+                    el.classList.remove('opacity-0');
+                    el.parentElement?.classList.remove('skeleton-shimmer');
+                  }
+                }}
+                className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105 opacity-0"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent flex flex-col justify-between p-6 sm:p-10">
                 <div className="flex justify-between items-center">
@@ -461,13 +527,29 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
                   <button
                     key={photo.id}
                     onClick={() => setSpotlightIndex(i)}
-                    className={`relative w-16 h-12 rounded-lg overflow-hidden shrink-0 border-2 transition-all cursor-pointer ${
+                    className={`relative w-16 h-12 rounded-lg overflow-hidden shrink-0 border-2 transition-all cursor-pointer bg-[#0E1118] skeleton-shimmer ${
                       i === spotlightIndex
                         ? 'border-amber-400 scale-105 shadow-md'
                         : 'border-white/10 opacity-50 hover:opacity-100'
                     }`}
                   >
-                    <img src={photo.imageUrl} alt="" loading="lazy" decoding="async" className="w-full h-full object-cover" />
+                    <img
+                      src={photo.imageUrl}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      onLoad={(e) => {
+                        e.currentTarget.classList.remove('opacity-0');
+                        e.currentTarget.parentElement?.classList.remove('skeleton-shimmer');
+                      }}
+                      ref={(el) => {
+                        if (el && el.complete && el.naturalWidth > 0) {
+                          el.classList.remove('opacity-0');
+                          el.parentElement?.classList.remove('skeleton-shimmer');
+                        }
+                      }}
+                      className="w-full h-full object-cover opacity-0 transition-opacity duration-300"
+                    />
                   </button>
                 ))}
               </div>

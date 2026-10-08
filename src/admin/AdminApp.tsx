@@ -15,6 +15,8 @@ import {
   RefreshCw,
   SlidersHorizontal,
   Layers,
+  GraduationCap,
+  X,
 } from 'lucide-react';
 import { AdminLogin } from './AdminLogin';
 import { UploadModal } from './UploadModal';
@@ -404,10 +406,44 @@ export const AdminApp: React.FC = () => {
                 </span>
               </div>
 
-              {PHOTO_CATEGORIES.filter((c) => c !== 'Semua').map((cat) => {
-                const count = photos.filter((p) => p.category === cat).length;
+              {/* PROMINENT GRADUATION STATS CARD */}
+              {(() => {
+                const gradCount = photos.filter((p) => p.category === 'Graduation').length;
+                const isSelected = selectedCategory === 'Graduation';
                 return (
-                  <div key={cat} className="bento-card p-3 sm:p-4 text-center shrink-0 min-w-[125px] sm:min-w-0">
+                  <div
+                    onClick={() => setSelectedCategory('Graduation')}
+                    className={`bento-card p-3 sm:p-4 text-center shrink-0 min-w-[130px] sm:min-w-0 cursor-pointer transition-all border-amber-400/70 bg-amber-500/[0.08] hover:bg-amber-500/[0.14] shadow-[0_0_15px_rgba(245,158,11,0.15)] ${
+                      isSelected ? 'ring-2 ring-amber-400 ring-offset-2 ring-offset-black scale-[1.02]' : ''
+                    }`}
+                    title="Klik untuk memfilter karya Wisuda (Graduation)"
+                  >
+                    <div className="flex items-center justify-center gap-1.5 text-[10px] uppercase tracking-wider text-amber-300 font-bold">
+                      <GraduationCap className="w-3.5 h-3.5 text-amber-400" />
+                      <span>Graduation</span>
+                    </div>
+                    <span className="font-editorial text-xl sm:text-2xl font-bold text-amber-400 mt-1 block">
+                      {gradCount}
+                    </span>
+                    <span className="text-[9px] font-mono text-amber-300/90 block mt-0.5 font-bold">
+                      Fokus Wisuda
+                    </span>
+                  </div>
+                );
+              })()}
+
+              {PHOTO_CATEGORIES.filter((c) => c !== 'Semua' && c !== 'Graduation').map((cat) => {
+                const count = photos.filter((p) => p.category === cat).length;
+                const isSelected = selectedCategory === cat;
+                return (
+                  <div
+                    key={cat}
+                    onClick={() => setSelectedCategory(cat)}
+                    className={`bento-card p-3 sm:p-4 text-center shrink-0 min-w-[125px] sm:min-w-0 cursor-pointer transition-all ${
+                      isSelected ? 'border-amber-400/80 bg-white/[0.04]' : 'hover:border-white/20'
+                    }`}
+                    title={`Klik untuk memfilter kategori ${cat}`}
+                  >
                     <span className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block truncate" title={cat}>
                       {cat}
                     </span>
@@ -421,9 +457,9 @@ export const AdminApp: React.FC = () => {
 
             {/* CONTROLS: CATEGORIES, SEARCH & REFRESH */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-white/[0.08]">
-              {/* Category Tabs */}
+              {/* Category Filter Pills: Prioritizing Semua, Graduation, Unggulan */}
               <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar p-1 rounded-full bg-white/[0.03] border border-white/10 w-fit max-w-full">
-                {[...PHOTO_CATEGORIES, 'Unggulan'].map((cat) => {
+                {['Semua', 'Graduation', 'Unggulan', ...PHOTO_CATEGORIES.filter((c) => c !== 'Semua' && c !== 'Graduation')].map((cat) => {
                   const count =
                     cat === 'Semua'
                       ? photos.length
@@ -432,21 +468,32 @@ export const AdminApp: React.FC = () => {
                       : photos.filter((p) => p.category === cat).length;
                   const isActive = selectedCategory === cat;
                   const label = cat === 'Unggulan' ? 'Pilihan Marquee' : cat;
+                  const isGraduation = cat === 'Graduation';
+
                   return (
                     <button
                       key={cat}
                       onClick={() => setSelectedCategory(cat)}
                       className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wider whitespace-nowrap transition-all cursor-pointer ${
                         isActive
-                          ? 'bg-amber-500 text-slate-950 font-bold shadow-md'
+                          ? isGraduation
+                            ? 'bg-amber-500 text-slate-950 font-bold shadow-[0_0_15px_rgba(245,158,11,0.4)] scale-105'
+                            : 'bg-amber-500 text-slate-950 font-bold shadow-md'
+                          : isGraduation
+                          ? 'text-amber-300 bg-amber-500/10 border border-amber-500/30 hover:bg-amber-500/20'
                           : 'text-slate-400 hover:text-white hover:bg-white/10'
                       }`}
                     >
+                      {isGraduation && <GraduationCap className="w-3.5 h-3.5" />}
                       {cat === 'Unggulan' && <Star className="w-3 h-3 fill-current" />}
                       <span>{label}</span>
                       <span
                         className={`text-[10px] px-1.5 py-0.2 rounded-full ${
-                          isActive ? 'bg-slate-950 text-amber-300 font-bold' : 'bg-white/10 text-slate-400'
+                          isActive
+                            ? 'bg-slate-950 text-amber-300 font-bold'
+                            : isGraduation
+                            ? 'bg-amber-500/20 text-amber-200 font-bold'
+                            : 'bg-white/10 text-slate-400'
                         }`}
                       >
                         {count}
@@ -456,28 +503,37 @@ export const AdminApp: React.FC = () => {
                 })}
               </div>
 
-          {/* Search Box & Refresh */}
-          <div className="flex items-center gap-2 w-full sm:w-auto">
-            <div className="relative flex-1 sm:w-72">
-              <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Cari judul, lokasi, tahun..."
-                className="w-full pl-9 pr-4 py-2 rounded-full bg-black/40 border border-white/10 text-white placeholder:text-slate-600 text-xs focus:outline-none focus:border-amber-400 transition-colors"
-              />
+              {/* Search Box & Refresh */}
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <div className="relative flex-1 sm:w-72">
+                  <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Cari judul, lokasi, tahun..."
+                    className="w-full pl-9 pr-9 py-2 rounded-full bg-black/40 border border-white/10 text-white placeholder:text-slate-600 text-xs focus:outline-none focus:border-amber-400 transition-colors"
+                  />
+                  {searchQuery.trim().length > 0 && (
+                    <button
+                      onClick={() => setSearchQuery('')}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 p-0.5 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                      title="Bersihkan pencarian"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+                <button
+                  onClick={loadPhotos}
+                  disabled={loading}
+                  className="p-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors cursor-pointer shrink-0"
+                  title="Segarkan data dari database"
+                >
+                  <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-amber-400' : ''}`} />
+                </button>
+              </div>
             </div>
-            <button
-              onClick={loadPhotos}
-              disabled={loading}
-              className="p-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors cursor-pointer shrink-0"
-              title="Segarkan data dari database"
-            >
-              <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-amber-400' : ''}`} />
-            </button>
-          </div>
-        </div>
 
         {/* ALERT FOTO RUSAK KARENA LINK SEMENTARA (BLOB) */}
         {blobPhotosCount > 0 && (
@@ -539,12 +595,23 @@ export const AdminApp: React.FC = () => {
                 className="bento-card overflow-hidden group flex flex-col justify-between border border-white/10 hover:border-amber-400/40 transition-all duration-300"
               >
                 {/* Photo Thumbnail */}
-                <div className="relative aspect-[4/3] overflow-hidden bg-black/50">
+                <div className="relative aspect-[4/3] overflow-hidden bg-[#0E1118] skeleton-shimmer">
                   <img
                     src={photo.imageUrl}
                     alt={photo.title}
                     loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    decoding="async"
+                    onLoad={(e) => {
+                      e.currentTarget.classList.remove('opacity-0');
+                      e.currentTarget.parentElement?.classList.remove('skeleton-shimmer');
+                    }}
+                    ref={(el) => {
+                      if (el && el.complete && el.naturalWidth > 0) {
+                        el.classList.remove('opacity-0');
+                        el.parentElement?.classList.remove('skeleton-shimmer');
+                      }
+                    }}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500 opacity-0"
                   />
 
                   {/* Warning Overlay if Blob URL */}
@@ -566,15 +633,15 @@ export const AdminApp: React.FC = () => {
 
                     <button
                       onClick={() => handleToggleFeatured(photo)}
-                      className={`w-7 h-7 rounded-full backdrop-blur-md flex items-center justify-center transition-colors cursor-pointer ${
+                      className={`w-7 h-7 rounded-full backdrop-blur-md flex items-center justify-center transition-all cursor-pointer ${
                         photo.featured
-                          ? 'bg-amber-500 text-slate-950 shadow-md'
-                          : 'bg-black/60 text-white/60 hover:text-amber-400'
+                          ? 'bg-amber-500 text-slate-950 shadow-md ring-2 ring-amber-400'
+                          : 'bg-black/60 text-white/60 hover:text-amber-400 hover:bg-black/80'
                       }`}
                       title={
                         photo.featured
-                          ? 'Foto Unggulan Hero (Klik untuk batalkan)'
-                          : 'Jadikan Foto Unggulan Hero'
+                          ? 'Foto Unggulan Hero & Marquee (Klik untuk nonaktifkan)'
+                          : 'Jadikan Foto Unggulan Hero & Marquee'
                       }
                     >
                       <Star
