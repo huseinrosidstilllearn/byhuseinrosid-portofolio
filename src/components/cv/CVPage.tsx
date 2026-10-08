@@ -32,7 +32,7 @@ export const CVPage: React.FC<CVPageProps> = ({ onBackToMain, onSwitchMode }) =>
   );
 
   return (
-    <div className="w-full min-h-screen pt-20 sm:pt-28 pb-20 animate-in fade-in duration-300">
+    <div className="w-full min-h-screen pt-20 sm:pt-28 pb-28 sm:pb-20 animate-in fade-in duration-300">
       {/* Print-specific style overrides */}
       <style>{`
         @media print {

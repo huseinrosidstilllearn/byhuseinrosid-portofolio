@@ -20,6 +20,8 @@ import { KaryaFooter } from './components/journey/KaryaFooter';
 import { CategoryShowcase } from './components/category/CategoryShowcase';
 import { CategoryPage } from './components/category/CategoryPage';
 import { CVPage } from './components/cv/CVPage';
+import { MobileThumbDock } from './components/mobile/MobileThumbDock';
+import { ProjectEstimatorModal } from './components/mobile/ProjectEstimatorModal';
 import { ModeTransitionOverlay } from './components/ModeTransitionOverlay';
 import { PORTFOLIO_PHOTOS } from './data/portfolioData';
 import { getCategoryBySlug, getCategoryInfo } from './data/categoryData';
@@ -80,7 +82,14 @@ export function App() {
   const [siteContent, setSiteContent] = useState<SiteContentData>(getInitialSiteContent);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [targetMode, setTargetMode] = useState<SiteMode | null>(null);
+  const [isEstimatorOpen, setIsEstimatorOpen] = useState(false);
+  const [estimatorContext, setEstimatorContext] = useState<{ category?: string; photoTitle?: string }>({});
   const lenisRef = useRef<Lenis | null>(null);
+
+  const handleOpenEstimator = (category?: string, photoTitle?: string) => {
+    setEstimatorContext({ category, photoTitle });
+    setIsEstimatorOpen(true);
+  };
 
   // Navigasi kategori dengan sinkronisasi URL hash
   const handleSelectCategory = (categoryName: string | null) => {
@@ -260,6 +269,7 @@ export function App() {
               onToggleViewMode={() => {}}
               onNavigateToSection={handleNavigateToSection}
               onSwitchSiteMode={handleSetSiteMode}
+              onOpenEstimator={() => handleOpenEstimator('Event Documentation')}
             />
             <main className="flex-grow">
               <CVPage
@@ -286,6 +296,7 @@ export function App() {
               onToggleViewMode={() => {}}
               onNavigateToSection={handleNavigateToSection}
               onSwitchSiteMode={handleSetSiteMode}
+              onOpenEstimator={() => handleOpenEstimator('Event Documentation')}
             />
             <main className="flex-grow">
               <JourneyHero
@@ -336,6 +347,7 @@ export function App() {
               onNavigateToSection={handleNavigateToSection}
               onSwitchSiteMode={handleSetSiteMode}
               onSelectCategory={handleSelectCategory}
+              onOpenEstimator={() => handleOpenEstimator(selectedCategory || 'Event Documentation')}
             />
 
             {viewMode === 'spatial' ? (
@@ -400,10 +412,28 @@ export function App() {
               allPhotos={photos}
               onClose={() => setActivePhoto(null)}
               onSelectPhoto={setActivePhoto}
+              onOpenEstimator={(cat, title) => handleOpenEstimator(cat, title)}
             />
           </div>
         </motion.div>
       )}
+
+      {/* ── Mobile Thumb Dock (Khusus Ponsel) ────────────────────────── */}
+      {siteMode !== 'landing' && (
+        <MobileThumbDock
+          currentMode={siteMode}
+          onSwitchMode={handleSetSiteMode}
+          onOpenEstimator={() => handleOpenEstimator(selectedCategory || 'Event Documentation')}
+        />
+      )}
+
+      {/* ── Interactive WhatsApp Project Estimator Modal ──────────────── */}
+      <ProjectEstimatorModal
+        isOpen={isEstimatorOpen}
+        onClose={() => setIsEstimatorOpen(false)}
+        initialCategory={estimatorContext.category}
+        initialPhotoTitle={estimatorContext.photoTitle}
+      />
     </ThemeProvider>
   );
 }

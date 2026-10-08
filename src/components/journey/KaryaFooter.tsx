@@ -36,7 +36,7 @@ export function KaryaFooter({
     : createWhatsAppLink();
 
   return (
-    <footer className="relative border-t border-white/5 py-10 px-4 sm:px-8">
+    <footer className="relative border-t border-white/5 pt-10 pb-24 sm:py-10 px-4 sm:px-8">
       <div className="w-full max-w-[1920px] px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
 
         {/* Brand */}
@@ -98,7 +98,7 @@ export function KaryaFooter({
 
       {/* Floating Action Buttons Container (Bottom Right) */}
       <div
-        className={`fixed bottom-5 right-4 sm:bottom-6 sm:right-6 z-40 flex flex-col items-center gap-2.5 transition-all duration-300 ${
+        className={`fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-40 flex flex-col items-center gap-2.5 transition-all duration-300 ${
           showFab
             ? 'opacity-100 translate-y-0 pointer-events-auto'
             : 'opacity-0 translate-y-4 pointer-events-none'

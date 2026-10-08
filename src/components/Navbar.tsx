@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Menu, X, MessageCircle, ArrowLeft, Camera, Compass, FileText } from 'lucide-react';
+import { Menu, X, MessageCircle, ArrowLeft, Camera, Compass, FileText, SlidersHorizontal } from 'lucide-react';
 import { createWhatsAppLink } from '../utils/whatsapp';
 import { CATEGORY_ORDER } from '../data/categoryData';
 import type { SiteMode } from '../types/portfolio';
@@ -13,6 +13,7 @@ interface NavbarProps {
   onNavigateToSection: (sectionId: string) => void;
   onSwitchSiteMode: (mode: SiteMode) => void;
   onSelectCategory?: (categoryName: string | null) => void;
+  onOpenEstimator?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -23,6 +24,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onNavigateToSection,
   onSwitchSiteMode,
   onSelectCategory,
+  onOpenEstimator,
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -391,7 +393,20 @@ export const Navbar: React.FC<NavbarProps> = ({
             )}
           </div>
 
-          <div className="pt-6 border-t border-white/10 flex flex-col gap-4">
+          <div className="pt-6 border-t border-white/10 flex flex-col gap-3">
+            {onOpenEstimator && (
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenEstimator();
+                }}
+                className="w-full py-3 rounded-full bg-white/[0.08] hover:bg-white/15 active:scale-[0.98] text-amber-300 font-semibold text-center text-xs uppercase tracking-wider flex items-center justify-center gap-2 border border-amber-500/30 transition-all cursor-pointer"
+              >
+                <SlidersHorizontal className="w-4 h-4 text-amber-400" />
+                <span>Konsultasi Sesi Foto & Video</span>
+              </button>
+            )}
             <a
               href={createWhatsAppLink()}
               target="_blank"
@@ -401,8 +416,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               <MessageCircle className="w-4 h-4" />
               <span>Hubungi via WhatsApp</span>
             </a>
-            <div className="text-center text-[10px] uppercase tracking-widest text-slate-500">
-              Surabaya, Indonesia • Visual Storyteller
+            <div className="text-center text-[10px] uppercase tracking-widest text-slate-400 font-mono">
+              Surabaya, Indonesia • Fotografer & Videografer
             </div>
           </div>
         </div>

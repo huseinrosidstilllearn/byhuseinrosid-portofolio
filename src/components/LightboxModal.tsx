@@ -1,5 +1,17 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { X, ChevronLeft, ChevronRight, MapPin, Calendar, ZoomIn, ZoomOut, MessageCircle } from 'lucide-react';
+import {
+  X,
+  ChevronLeft,
+  ChevronRight,
+  MapPin,
+  Calendar,
+  ZoomIn,
+  ZoomOut,
+  MessageCircle,
+  Camera,
+  Info,
+  SlidersHorizontal,
+} from 'lucide-react';
 import type { PhotoItem } from '../types/portfolio';
 import { createPhotoInquiryLink } from '../utils/whatsapp';
 
@@ -8,6 +20,7 @@ interface LightboxModalProps {
   allPhotos: PhotoItem[];
   onClose: () => void;
   onSelectPhoto: (photo: PhotoItem) => void;
+  onOpenEstimator?: (category: string, photoTitle: string) => void;
 }
 
 export const LightboxModal: React.FC<LightboxModalProps> = ({
@@ -15,15 +28,19 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
   allPhotos,
   onClose,
   onSelectPhoto,
+  onOpenEstimator,
 }) => {
   const [isZoomed, setIsZoomed] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [showTechInfo, setShowTechInfo] = useState(false);
   const touchStartXRef = useRef<number | null>(null);
   const touchEndXRef = useRef<number | null>(null);
+  const lastTapRef = useRef<number>(0);
 
   useEffect(() => {
     setIsZoomed(false);
     setIsLoading(true);
+    setShowTechInfo(false);
   }, [photo]);
 
   useEffect(() => {
@@ -35,11 +52,12 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
         handlePrev();
       } else if (e.key === 'ArrowRight') {
         handleNext();
+      } else if (e.key === 'i' || e.key === 'I') {
+        setShowTechInfo((prev) => !prev);
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
-    // Disable body scroll when modal is open
     document.body.style.overflow = 'hidden';
 
     return () => {
@@ -50,7 +68,7 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
 
   if (!photo) return null;
 
-  const currentIndex = allPhotos.findIndex(p => p.id === photo.id);
+  const currentIndex = allPhotos.findIndex((p) => p.id === photo.id);
 
   const handlePrev = () => {
     if (currentIndex > 0) {
@@ -81,13 +99,11 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
   const handleTouchEnd = () => {
     if (touchStartXRef.current === null || touchEndXRef.current === null) return;
     const distance = touchStartXRef.current - touchEndXRef.current;
-    const minSwipeDistance = 50; // minimum distance in px
+    const minSwipeDistance = 45;
 
     if (distance > minSwipeDistance) {
-      // Swiped left -> next photo
       handleNext();
     } else if (distance < -minSwipeDistance) {
-      // Swiped right -> previous photo
       handlePrev();
     }
 
@@ -95,11 +111,22 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
     touchEndXRef.current = null;
   };
 
+  // Deteksi double tap untuk zoom cepat di layar sentuh
+  const handleImageTouchEnd = () => {
+    const now = Date.now();
+    if (now - lastTapRef.current < 280) {
+      setIsZoomed((prev) => !prev);
+      lastTapRef.current = 0;
+    } else {
+      lastTapRef.current = now;
+    }
+  };
+
   return (
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-xl p-2 sm:p-6 select-none animate-in fade-in duration-300 overflow-y-auto sm:overflow-hidden"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-2xl p-2 sm:p-6 select-none animate-in fade-in duration-300 overflow-y-auto sm:overflow-hidden"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
@@ -111,16 +138,31 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
             {currentIndex + 1} / {allPhotos.length}
           </span>
           <span className="text-white/20">|</span>
-          <span className="text-xs tracking-wider uppercase text-slate-300 font-medium truncate max-w-[140px] sm:max-w-none">
+          <span className="text-xs tracking-wider uppercase text-slate-300 font-medium truncate max-w-[130px] sm:max-w-none">
             {photo.category}
           </span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          {/* Toggle Metadata Gear / EXIF */}
+          <button
+            onClick={() => setShowTechInfo(!showTechInfo)}
+            aria-label={showTechInfo ? 'Sembunyikan Info Gear' : 'Tampilkan Info Gear'}
+            className={`p-2.5 rounded-full transition-all cursor-pointer flex items-center gap-1 text-xs ${
+              showTechInfo
+                ? 'bg-amber-500 text-slate-950 font-bold'
+                : 'bg-white/10 hover:bg-white/20 text-white'
+            }`}
+            title="Info Gear & Teknis Kamera"
+          >
+            <Camera className="w-4 h-4" />
+            <span className="hidden md:inline font-mono text-[11px]">Gear Info</span>
+          </button>
+
           {/* Zoom Toggle Button */}
           <button
             onClick={() => setIsZoomed(!isZoomed)}
-            aria-label={isZoomed ? "Perkecil Foto" : "Perbesar Foto"}
+            aria-label={isZoomed ? 'Perkecil Foto' : 'Perbesar Foto'}
             className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all cursor-pointer"
           >
             {isZoomed ? <ZoomOut className="w-4 h-4" /> : <ZoomIn className="w-4 h-4" />}
@@ -157,9 +199,14 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
       {/* Center Image Canvas */}
       <div
         className="relative max-w-5xl max-h-[88vh] w-full flex flex-col items-center justify-center my-auto cursor-default py-12 sm:py-0"
-        onClick={e => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       >
-        <div className={`relative transition-transform duration-300 overflow-hidden flex items-center justify-center ${isZoomed ? 'scale-125 cursor-zoom-out' : 'cursor-zoom-in'}`}>
+        <div
+          className={`relative transition-transform duration-300 overflow-hidden flex items-center justify-center ${
+            isZoomed ? 'scale-125 cursor-zoom-out' : 'cursor-zoom-in'
+          }`}
+          onTouchEnd={handleImageTouchEnd}
+        >
           {isLoading && (
             <div className="absolute inset-0 min-h-[300px] flex items-center justify-center bg-white/[0.02] rounded-lg">
               <div className="w-8 h-8 rounded-full border-2 border-amber-400/20 border-t-amber-400 animate-spin" />
@@ -171,11 +218,42 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
             decoding="async"
             onLoad={() => setIsLoading(false)}
             onClick={() => setIsZoomed(!isZoomed)}
-            className={`max-h-[58vh] sm:max-h-[68vh] max-w-full object-contain rounded-lg shadow-2xl transition-all duration-300 ${
+            className={`max-h-[56vh] sm:max-h-[66vh] max-w-full object-contain rounded-lg shadow-2xl transition-all duration-300 ${
               isLoading ? 'opacity-0 scale-98' : 'opacity-100 scale-100'
             }`}
           />
         </div>
+
+        {/* Technical Gear Metadata Strip (Collapsible or Active) */}
+        {showTechInfo && (
+          <div className="w-full max-w-xl mx-auto mt-3 px-4 py-2.5 rounded-2xl bg-[#0F1420]/90 border border-amber-500/30 backdrop-blur-xl animate-in fade-in slide-in-from-top-2 duration-200">
+            <div className="flex items-center justify-between text-[11px] font-mono text-amber-400 uppercase tracking-wider mb-2 border-b border-white/[0.08] pb-1">
+              <span className="flex items-center gap-1.5 font-bold">
+                <Info className="w-3.5 h-3.5" />
+                Spesifikasi Teknis Produksi
+              </span>
+              <span className="text-slate-400 font-normal">Husein Rosid Rig</span>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+              <div className="p-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06]">
+                <span className="text-[10px] text-slate-400 block uppercase font-mono">Kamera</span>
+                <span className="text-xs text-white font-medium">Sony Alpha</span>
+              </div>
+              <div className="p-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06]">
+                <span className="text-[10px] text-slate-400 block uppercase font-mono">Lensa</span>
+                <span className="text-xs text-white font-medium">G-Master Prime</span>
+              </div>
+              <div className="p-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06]">
+                <span className="text-[10px] text-slate-400 block uppercase font-mono">Grading</span>
+                <span className="text-xs text-amber-300 font-medium">Editorial Look</span>
+              </div>
+              <div className="p-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06]">
+                <span className="text-[10px] text-slate-400 block uppercase font-mono">Karakter</span>
+                <span className="text-xs text-white font-medium">Natural Light</span>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Narrative & Photo Details Footer */}
         <div className="w-full max-w-3xl mt-3 sm:mt-4 px-4 text-center">
@@ -199,7 +277,12 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
             </p>
           )}
 
-          {/* Action Row: Mobile Navigation & WhatsApp Direct CTA */}
+          {/* Swipe indicator hint on mobile */}
+          <div className="sm:hidden flex items-center justify-center gap-1.5 text-[10px] font-mono text-slate-400 uppercase tracking-widest mt-2">
+            <span>&larr; Geser layar untuk karya lain &rarr;</span>
+          </div>
+
+          {/* Action Row: Mobile Navigation & WhatsApp CTAs */}
           <div className="flex items-center justify-center gap-2 sm:gap-3 mt-3 sm:mt-4">
             {/* Mobile Prev Button */}
             <button
@@ -209,6 +292,17 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
+
+            {/* Tombol Konsultasi Estimator (Jika handler disediakan) */}
+            {onOpenEstimator ? (
+              <button
+                onClick={() => onOpenEstimator(photo.category, photo.title)}
+                className="inline-flex items-center justify-center gap-2 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-amber-300 font-medium text-xs sm:text-sm tracking-wide border border-amber-500/30 transition-all cursor-pointer"
+              >
+                <SlidersHorizontal className="w-3.5 h-3.5" />
+                <span>Konsultasi Sesi</span>
+              </button>
+            ) : null}
 
             {/* Direct WhatsApp CTA Button */}
             <a

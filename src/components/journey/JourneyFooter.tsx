@@ -32,7 +32,7 @@ export function JourneyFooter({
   const waLink = `https://wa.me/${currentContact.whatsappNumber}?text=Halo%20Mas%20Husein%2C%20saya%20tertarik%20untuk%20berkolaborasi!`;
 
   return (
-    <footer className="relative border-t border-white/5 pt-16 pb-8 px-4 sm:px-8 overflow-hidden">
+    <footer className="relative border-t border-white/5 pt-16 pb-24 sm:pb-8 px-4 sm:px-8 overflow-hidden">
       <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none" />
 
       <div className="relative w-full max-w-[1920px] px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 mx-auto">
@@ -108,7 +108,7 @@ export function JourneyFooter({
 
       {/* Floating Action Buttons Container (Bottom Right) */}
       <div
-        className={`fixed bottom-5 right-4 sm:bottom-6 sm:right-6 z-40 flex flex-col items-center gap-2.5 transition-all duration-300 ${
+        className={`fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-40 flex flex-col items-center gap-2.5 transition-all duration-300 ${
           showFab
             ? 'opacity-100 translate-y-0 pointer-events-auto'
             : 'opacity-0 translate-y-4 pointer-events-none'
