@@ -218,9 +218,9 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
           </div>
         )}
 
-        {/* ── LAYOUT 1: MASONRY BEBAS (DEFAULT FOTOGRAFI) ── */}
+        {/* ── LAYOUT 1: MASONRY BEBAS (2-KOLOM MOBILE / MULTI-KOLOM DESKTOP) ── */}
         {layoutMode === 'masonry' && displayedPhotos.length > 0 && (
-          <div className="columns-1 sm:columns-2 lg:columns-3 2xl:columns-4 gap-6 space-y-6 animate-in fade-in duration-300">
+          <div className="columns-2 sm:columns-2 lg:columns-3 2xl:columns-4 gap-3 sm:gap-6 space-y-3 sm:space-y-6 animate-in fade-in duration-300">
             {displayedPhotos.map((photo) => (
               <div
                 key={photo.id}
@@ -235,19 +235,19 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
                     className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                   />
                   {/* Hover Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-5">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-3 sm:p-5">
                     <div className="flex justify-end">
-                      <div className="w-8 h-8 rounded-full bg-black/70 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:text-amber-400">
+                      <div className="w-8 h-8 rounded-full bg-black/70 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:text-amber-400 hidden sm:flex">
                         <Maximize2 className="w-3.5 h-3.5" />
                       </div>
                     </div>
                     <div>
-                      <h4 className="font-editorial text-lg text-white font-medium leading-snug">
+                      <h4 className="font-editorial text-sm sm:text-lg text-white font-medium leading-snug">
                         {photo.title}
                       </h4>
-                      <div className="flex items-center gap-2 text-[11px] text-slate-300 font-light mt-1">
+                      <div className="flex items-center gap-2 text-[10px] sm:text-[11px] text-slate-300 font-light mt-1">
                         <MapPin className="w-3 h-3 text-amber-400" />
-                        <span>{photo.location}</span>
+                        <span className="truncate">{photo.location}</span>
                         <span>&bull;</span>
                         <span>{photo.year}</span>
                       </div>
@@ -256,21 +256,21 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
                 </div>
 
                 {/* Subtitle caption below image */}
-                <div className="p-4 bg-[#0E1118]/80">
-                  <h4 className="font-editorial text-base text-white font-medium group-hover:text-amber-300 transition-colors truncate">
+                <div className="p-3 sm:p-4 bg-[#0E1118]/80">
+                  <h4 className="font-editorial text-xs sm:text-base text-white font-medium group-hover:text-amber-300 transition-colors truncate">
                     {photo.title}
                   </h4>
                   {photo.description && (
-                    <p className="text-xs text-slate-400 font-light mt-1 line-clamp-2 leading-relaxed">
+                    <p className="text-xs text-slate-400 font-light mt-1 line-clamp-2 leading-relaxed hidden sm:block">
                       {photo.description}
                     </p>
                   )}
-                  <div className="flex items-center justify-between text-[11px] text-slate-400 font-light pt-2.5 mt-2.5 border-t border-white/[0.08]">
-                    <span className="flex items-center gap-1">
-                      <MapPin className="w-3 h-3 text-amber-400" />
-                      {photo.location}
+                  <div className="flex items-center justify-between text-[10px] sm:text-[11px] text-slate-400 font-light pt-2 sm:pt-2.5 mt-2 sm:mt-2.5 border-t border-white/[0.08]">
+                    <span className="flex items-center gap-1 truncate">
+                      <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-amber-400 shrink-0" />
+                      <span className="truncate">{photo.location}</span>
                     </span>
-                    <span className="font-mono">{photo.year}</span>
+                    <span className="font-mono shrink-0">{photo.year}</span>
                   </div>
                 </div>
               </div>
@@ -278,9 +278,9 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
           </div>
         )}
 
-        {/* ── LAYOUT 2: GRID PRESISI ── */}
+        {/* ── LAYOUT 2: GRID PRESISI (2-KOLOM MOBILE / MULTI-KOLOM DESKTOP) ── */}
         {layoutMode === 'grid' && displayedPhotos.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 animate-in fade-in duration-300">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-3 sm:gap-6 animate-in fade-in duration-300">
             {displayedPhotos.map((photo) => (
               <div
                 key={photo.id}
@@ -294,28 +294,28 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
                     loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                   />
-                  <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute top-2 right-2 sm:top-3 sm:right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden sm:block">
                     <div className="w-8 h-8 rounded-full bg-black/70 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:text-amber-400">
                       <Maximize2 className="w-3.5 h-3.5" />
                     </div>
                   </div>
                 </div>
 
-                <div className="p-5 flex-1 flex flex-col justify-between bg-[#0E1118]/80">
+                <div className="p-3 sm:p-5 flex-1 flex flex-col justify-between bg-[#0E1118]/80">
                   <div>
-                    <h4 className="font-editorial text-lg text-white font-medium group-hover:text-amber-300 transition-colors line-clamp-1">
+                    <h4 className="font-editorial text-xs sm:text-lg text-white font-medium group-hover:text-amber-300 transition-colors line-clamp-1">
                       {photo.title}
                     </h4>
                     {photo.description && (
-                      <p className="text-xs text-slate-400 font-light mt-1.5 line-clamp-2 leading-relaxed">
+                      <p className="text-xs text-slate-400 font-light mt-1.5 line-clamp-2 leading-relaxed hidden sm:block">
                         {photo.description}
                       </p>
                     )}
                   </div>
 
-                  <div className="flex items-center justify-between text-xs text-slate-400 font-light pt-3 mt-4 border-t border-white/[0.08]">
-                    <div className="flex items-center gap-1.5 truncate">
-                      <MapPin className="w-3 h-3 text-amber-400 shrink-0" />
+                  <div className="flex items-center justify-between text-[10px] sm:text-xs text-slate-400 font-light pt-2 sm:pt-3 mt-2 sm:mt-4 border-t border-white/[0.08]">
+                    <div className="flex items-center gap-1 sm:gap-1.5 truncate">
+                      <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-amber-400 shrink-0" />
                       <span className="truncate">{photo.location}</span>
                     </div>
                     <span className="font-mono text-slate-400 shrink-0">{photo.year}</span>

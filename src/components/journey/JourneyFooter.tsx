@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Camera, MessageCircle, Mail } from 'lucide-react';
+import { Camera, MessageCircle, Mail, ArrowUp } from 'lucide-react';
 import { CONTACT_CONFIG, PHOTOGRAPHER_PROFILE } from '../../data/portfolioData';
 import type { SiteMode, PhotographerProfile, ContactConfig } from '../../types/portfolio';
 
@@ -96,20 +96,34 @@ export function JourneyFooter({
         </div>
       </div>
 
-      {/* Floating WhatsApp (tampil mulus setelah scroll) */}
-      <a
-        href={waLink}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Hubungi via WhatsApp"
-        className={`fixed bottom-5 right-4 sm:bottom-6 sm:right-6 z-40 w-11 h-11 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-emerald-500 hover:bg-emerald-400 text-white shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 hover:scale-110 ${
+      {/* Floating Action Buttons Container (Bottom Right) */}
+      <div
+        className={`fixed bottom-5 right-4 sm:bottom-6 sm:right-6 z-40 flex flex-col items-center gap-2.5 transition-all duration-300 ${
           showFab
             ? 'opacity-100 translate-y-0 pointer-events-auto'
             : 'opacity-0 translate-y-4 pointer-events-none'
         }`}
       >
-        <MessageCircle className="w-5 h-5 text-white" />
-      </a>
+        {/* Back to Top Button */}
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          aria-label="Kembali ke atas"
+          className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center rounded-full bg-[#0E1118]/90 border border-white/20 text-slate-300 hover:text-white hover:border-amber-400 backdrop-blur-xl shadow-lg transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95"
+        >
+          <ArrowUp className="w-4 h-4" />
+        </button>
+
+        {/* Floating WhatsApp */}
+        <a
+          href={waLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Hubungi via WhatsApp"
+          className="w-11 h-11 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-emerald-500 hover:bg-emerald-400 text-white shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer"
+        >
+          <MessageCircle className="w-5 h-5 text-white" />
+        </a>
+      </div>
     </footer>
   );
 }

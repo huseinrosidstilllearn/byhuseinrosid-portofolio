@@ -99,22 +99,22 @@ export const DualMarquee: React.FC<DualMarqueeProps> = ({
             <div
               key={`r1-${photo.id}-${index}`}
               onClick={() => onSelectPhoto(photo)}
-              className="w-[260px] sm:w-[320px] h-[190px] sm:h-[230px] rounded-2xl overflow-hidden relative group cursor-pointer shrink-0 border border-white/[0.08] hover:border-amber-400/60 transition-all duration-300 shadow-md"
+              className="w-[230px] sm:w-[320px] h-[165px] sm:h-[230px] rounded-2xl overflow-hidden relative group cursor-pointer shrink-0 border border-white/[0.08] hover:border-amber-400/60 transition-all duration-300 shadow-md"
             >
               <img
                 src={photo.imageUrl}
                 alt={photo.title}
                 loading="lazy"
-                className="w-full h-full object-cover grayscale contrast-[1.05] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
+                className="w-full h-full object-cover sm:grayscale sm:contrast-[1.05] sm:group-hover:grayscale-0 sm:group-hover:scale-105 transition-all duration-700 ease-out"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                <span className="text-[10px] uppercase tracking-wider text-amber-400 font-semibold">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3 sm:p-4">
+                <span className="text-[9px] sm:text-[10px] uppercase tracking-wider text-amber-400 font-semibold">
                   {photo.category}
                 </span>
-                <span className="text-sm font-editorial text-white font-medium truncate">
+                <span className="text-xs sm:text-sm font-editorial text-white font-medium truncate">
                   {photo.title}
                 </span>
-                <span className="text-[11px] text-slate-400 font-light truncate mt-0.5">
+                <span className="text-[10px] sm:text-[11px] text-slate-300 sm:text-slate-400 font-light truncate mt-0.5">
                   {photo.location}
                 </span>
               </div>
@@ -133,22 +133,22 @@ export const DualMarquee: React.FC<DualMarqueeProps> = ({
             <div
               key={`r2-${photo.id}-${index}`}
               onClick={() => onSelectPhoto(photo)}
-              className="w-[260px] sm:w-[320px] h-[190px] sm:h-[230px] rounded-2xl overflow-hidden relative group cursor-pointer shrink-0 border border-white/[0.08] hover:border-amber-400/60 transition-all duration-300 shadow-md"
+              className="w-[230px] sm:w-[320px] h-[165px] sm:h-[230px] rounded-2xl overflow-hidden relative group cursor-pointer shrink-0 border border-white/[0.08] hover:border-amber-400/60 transition-all duration-300 shadow-md"
             >
               <img
                 src={photo.imageUrl}
                 alt={photo.title}
                 loading="lazy"
-                className="w-full h-full object-cover grayscale contrast-[1.05] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
+                className="w-full h-full object-cover sm:grayscale sm:contrast-[1.05] sm:group-hover:grayscale-0 sm:group-hover:scale-105 transition-all duration-700 ease-out"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                <span className="text-[10px] uppercase tracking-wider text-amber-400 font-semibold">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3 sm:p-4">
+                <span className="text-[9px] sm:text-[10px] uppercase tracking-wider text-amber-400 font-semibold">
                   {photo.category}
                 </span>
-                <span className="text-sm font-editorial text-white font-medium truncate">
+                <span className="text-xs sm:text-sm font-editorial text-white font-medium truncate">
                   {photo.title}
                 </span>
-                <span className="text-[11px] text-slate-400 font-light truncate mt-0.5">
+                <span className="text-[10px] sm:text-[11px] text-slate-300 sm:text-slate-400 font-light truncate mt-0.5">
                   {photo.location}
                 </span>
               </div>

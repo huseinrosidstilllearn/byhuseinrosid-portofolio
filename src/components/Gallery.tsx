@@ -87,11 +87,11 @@ export const Gallery: React.FC<GalleryProps> = ({
   // Bento span rhythm generator
   const getBentoColSpan = (index: number) => {
     const cycle = index % 5;
-    if (cycle === 0) return 'col-span-12 lg:col-span-8 min-h-[380px] sm:min-h-[460px] 2xl:min-h-[540px]';
-    if (cycle === 1) return 'col-span-12 sm:col-span-6 lg:col-span-4 min-h-[380px] sm:min-h-[460px] 2xl:min-h-[540px]';
-    if (cycle === 2) return 'col-span-12 sm:col-span-6 lg:col-span-4 min-h-[320px] sm:min-h-[380px] 2xl:min-h-[440px]';
-    if (cycle === 3) return 'col-span-12 sm:col-span-6 lg:col-span-4 min-h-[320px] sm:min-h-[380px] 2xl:min-h-[440px]';
-    return 'col-span-12 sm:col-span-6 lg:col-span-4 min-h-[320px] sm:min-h-[380px] 2xl:min-h-[440px]';
+    if (cycle === 0) return 'col-span-12 lg:col-span-8 min-h-[260px] sm:min-h-[460px] 2xl:min-h-[540px]';
+    if (cycle === 1) return 'col-span-12 sm:col-span-6 lg:col-span-4 min-h-[260px] sm:min-h-[460px] 2xl:min-h-[540px]';
+    if (cycle === 2) return 'col-span-12 sm:col-span-6 lg:col-span-4 min-h-[220px] sm:min-h-[380px] 2xl:min-h-[440px]';
+    if (cycle === 3) return 'col-span-12 sm:col-span-6 lg:col-span-4 min-h-[220px] sm:min-h-[380px] 2xl:min-h-[440px]';
+    return 'col-span-12 sm:col-span-6 lg:col-span-4 min-h-[220px] sm:min-h-[380px] 2xl:min-h-[440px]';
   };
 
   const handleScrollFilmstrip = (direction: 'left' | 'right') => {
@@ -282,9 +282,9 @@ export const Gallery: React.FC<GalleryProps> = ({
         </div>
       )}
 
-      {/* MODE 2: Grid Seragam (3-Column / 4-Column Symmetrical Precision) */}
+      {/* MODE 2: Grid Seragam (2-Column Mobile / 3-Column Desktop Precision) */}
       {galleryMode === 'grid' && filteredPhotos.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 sm:gap-6 animate-in fade-in duration-300">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-3 sm:gap-6 animate-in fade-in duration-300">
           {filteredPhotos.map((photo) => (
             <div
               key={photo.id}
@@ -298,7 +298,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                   loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
-                <div className="absolute top-3 left-3">
+                <div className="absolute top-2 left-2 sm:top-3 sm:left-3">
                   <button
                     type="button"
                     onClick={(e) => {
@@ -307,39 +307,39 @@ export const Gallery: React.FC<GalleryProps> = ({
                         onSelectCategory(photo.category);
                       }
                     }}
-                    className="px-3 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-[10px] font-semibold uppercase tracking-wider text-amber-400 hover:bg-amber-500 hover:text-black hover:border-amber-400 transition-all cursor-pointer flex items-center gap-1"
+                    className="px-2 py-0.5 sm:px-3 sm:py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-[8px] sm:text-[10px] font-semibold uppercase tracking-wider text-amber-400 hover:bg-amber-500 hover:text-black hover:border-amber-400 transition-all cursor-pointer flex items-center gap-1"
                     title={`Buka Ruang Kategori ${photo.category}`}
                   >
-                    <span>{photo.category}</span>
-                    <ArrowUpRight className="w-2.5 h-2.5" />
+                    <span className="truncate max-w-[70px] sm:max-w-none">{photo.category}</span>
+                    <ArrowUpRight className="w-2 h-2 sm:w-2.5 sm:h-2.5" />
                   </button>
                 </div>
-                <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute top-2 right-2 sm:top-3 sm:right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden sm:block">
                   <div className="w-8 h-8 rounded-full bg-black/70 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:text-amber-400">
                     <Maximize2 className="w-3.5 h-3.5" />
                   </div>
                 </div>
               </div>
 
-              <div className="p-5 flex-1 flex flex-col justify-between bg-[#0E1118]/80">
+              <div className="p-3 sm:p-5 flex-1 flex flex-col justify-between bg-[#0E1118]/80">
                 <div>
-                  <h3 className="font-editorial text-xl text-white font-medium group-hover:text-amber-300 transition-colors line-clamp-1">
+                  <h3 className="font-editorial text-sm sm:text-xl text-white font-medium group-hover:text-amber-300 transition-colors line-clamp-1">
                     {photo.title}
                   </h3>
                   {photo.description && (
-                    <p className="text-xs text-slate-400 font-light mt-1.5 line-clamp-2 leading-relaxed">
+                    <p className="text-xs text-slate-400 font-light mt-1.5 line-clamp-2 leading-relaxed hidden sm:block">
                       {photo.description}
                     </p>
                   )}
                 </div>
 
-                <div className="flex items-center justify-between text-xs text-slate-400 font-light pt-3 mt-4 border-t border-white/[0.08]">
-                  <div className="flex items-center gap-1.5 truncate">
-                    <MapPin className="w-3 h-3 text-amber-400 shrink-0" />
+                <div className="flex items-center justify-between text-[10px] sm:text-xs text-slate-400 font-light pt-2 sm:pt-3 mt-2 sm:mt-4 border-t border-white/[0.08]">
+                  <div className="flex items-center gap-1 sm:gap-1.5 truncate">
+                    <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-amber-400 shrink-0" />
                     <span className="truncate">{photo.location}</span>
                   </div>
-                  <div className="flex items-center gap-1 shrink-0 font-mono text-[11px] text-slate-500">
-                    <Calendar className="w-3 h-3 text-slate-600" />
+                  <div className="flex items-center gap-1 shrink-0 font-mono text-[9px] sm:text-[11px] text-slate-500">
+                    <Calendar className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-slate-600" />
                     <span>{photo.year}</span>
                   </div>
                 </div>
@@ -349,9 +349,9 @@ export const Gallery: React.FC<GalleryProps> = ({
         </div>
       )}
 
-      {/* MODE 3: Masonry Dinamis (Natural Vertical Aspect Ratios) */}
+      {/* MODE 3: Masonry Dinamis (2-Column Mobile / Multi-Column Desktop) */}
       {galleryMode === 'masonry' && filteredPhotos.length > 0 && (
-        <div className="columns-1 sm:columns-2 lg:columns-3 2xl:columns-4 gap-5 space-y-5 animate-in fade-in duration-300">
+        <div className="columns-2 sm:columns-2 lg:columns-3 2xl:columns-4 gap-3 sm:gap-5 space-y-3 sm:space-y-5 animate-in fade-in duration-300">
           {filteredPhotos.map((photo) => {
             const isTall = photo.aspectRatio === 'portrait';
             return (
@@ -360,16 +360,16 @@ export const Gallery: React.FC<GalleryProps> = ({
                 onClick={() => handlePhotoClick(photo)}
                 className="break-inside-avoid bento-card relative overflow-hidden group cursor-pointer border border-white/10 hover:border-amber-400/40 transition-all duration-300"
               >
-                <div className={`relative overflow-hidden ${isTall ? 'min-h-[400px] 2xl:min-h-[480px]' : 'min-h-[280px] 2xl:min-h-[340px]'}`}>
+                <div className={`relative overflow-hidden ${isTall ? 'min-h-[220px] sm:min-h-[400px] 2xl:min-h-[480px]' : 'min-h-[150px] sm:min-h-[280px] 2xl:min-h-[340px]'}`}>
                   <img
                     src={photo.imageUrl}
                     alt={photo.title}
                     loading="lazy"
                     className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent opacity-80 group-hover:opacity-95 transition-opacity" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent opacity-85 sm:opacity-80 sm:group-hover:opacity-95 transition-opacity" />
 
-                  <div className="absolute inset-0 p-5 sm:p-6 flex flex-col justify-between">
+                  <div className="absolute inset-0 p-2.5 sm:p-6 flex flex-col justify-between">
                     <div className="flex items-center justify-between">
                       <button
                         type="button"
@@ -379,24 +379,24 @@ export const Gallery: React.FC<GalleryProps> = ({
                             onSelectCategory(photo.category);
                           }
                         }}
-                        className="px-3 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-[10px] font-semibold uppercase tracking-wider text-amber-400 hover:bg-amber-500 hover:text-black hover:border-amber-400 transition-all cursor-pointer flex items-center gap-1"
+                        className="px-2 py-0.5 sm:px-3 sm:py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-[8px] sm:text-[10px] font-semibold uppercase tracking-wider text-amber-400 hover:bg-amber-500 hover:text-black hover:border-amber-400 transition-all cursor-pointer flex items-center gap-1"
                         title={`Buka Ruang Kategori ${photo.category}`}
                       >
-                        <span>{photo.category}</span>
-                        <ArrowUpRight className="w-2.5 h-2.5" />
+                        <span className="truncate max-w-[65px] sm:max-w-none">{photo.category}</span>
+                        <ArrowUpRight className="w-2 h-2 sm:w-2.5 sm:h-2.5" />
                       </button>
-                      <span className="text-[10px] font-mono uppercase text-slate-400 bg-black/60 px-2 py-0.5 rounded border border-white/10">
+                      <span className="text-[8px] sm:text-[10px] font-mono uppercase text-slate-400 bg-black/60 px-1.5 py-0.5 rounded border border-white/10 hidden sm:inline-block">
                         {photo.aspectRatio}
                       </span>
                     </div>
 
                     <div>
-                      <h3 className="font-editorial text-xl sm:text-2xl text-white font-medium group-hover:text-amber-300 transition-colors">
+                      <h3 className="font-editorial text-xs sm:text-2xl text-white font-medium group-hover:text-amber-300 transition-colors line-clamp-1 sm:line-clamp-none">
                         {photo.title}
                       </h3>
-                      <div className="flex items-center gap-2 text-xs text-slate-300 font-light mt-1.5">
-                        <MapPin className="w-3 h-3 text-amber-400" />
-                        <span>{photo.location}</span>
+                      <div className="flex items-center gap-1 sm:gap-2 text-[9px] sm:text-xs text-slate-300 font-light mt-0.5 sm:mt-1.5">
+                        <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-amber-400 shrink-0" />
+                        <span className="truncate">{photo.location}</span>
                         <span>&bull;</span>
                         <span>{photo.year}</span>
                       </div>
