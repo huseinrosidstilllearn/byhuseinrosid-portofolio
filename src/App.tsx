@@ -19,6 +19,7 @@ import { JourneyFooter } from './components/journey/JourneyFooter';
 import { KaryaFooter } from './components/journey/KaryaFooter';
 import { CategoryShowcase } from './components/category/CategoryShowcase';
 import { CategoryPage } from './components/category/CategoryPage';
+import { CVPage } from './components/cv/CVPage';
 import { ModeTransitionOverlay } from './components/ModeTransitionOverlay';
 import { PORTFOLIO_PHOTOS } from './data/portfolioData';
 import { getCategoryBySlug, getCategoryInfo } from './data/categoryData';
@@ -31,7 +32,7 @@ const STORAGE_KEY = 'bhr_site_mode';
 function getSavedMode(): SiteMode {
   try {
     const saved = localStorage.getItem(STORAGE_KEY) as SiteMode | null;
-    if (saved === 'karya' || saved === 'perjalanan' || saved === 'landing') return saved;
+    if (saved === 'karya' || saved === 'perjalanan' || saved === 'landing' || saved === 'cv') return saved;
   } catch {}
   return 'karya';
 }
@@ -242,6 +243,32 @@ export function App() {
       {/* ── Landing Gate ────────────────────────────────────────────────────────── */}
       {siteMode === 'landing' ? (
         <LandingGate onSelectMode={handleSetSiteMode} photos={photos} />
+      ) : siteMode === 'cv' ? (
+        /* ── Mode Curriculum Vitae (CV) ─────────────────────────────────────────── */
+        <motion.div
+          key="cv-view"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4 }}
+          className="min-h-screen bg-[#050505] text-[#F8FAFC] selection:bg-amber-500/30 selection:text-amber-300 relative overflow-x-hidden"
+        >
+          <div className="fixed inset-0 bg-grid-pattern pointer-events-none opacity-30 z-0" />
+          <div className="relative z-10 flex flex-col min-h-screen">
+            <Navbar
+              viewMode="bento"
+              siteMode={siteMode}
+              onToggleViewMode={() => {}}
+              onNavigateToSection={handleNavigateToSection}
+              onSwitchSiteMode={handleSetSiteMode}
+            />
+            <main className="flex-grow">
+              <CVPage
+                onBackToMain={() => handleSetSiteMode('karya')}
+                onSwitchMode={handleSetSiteMode}
+              />
+            </main>
+          </div>
+        </motion.div>
       ) : siteMode === 'perjalanan' ? (
         /* ── Mode Perjalanan ─────────────────────────────────────────────────────── */
         <motion.div
@@ -265,6 +292,7 @@ export function App() {
                 profile={siteContent.profile}
                 contact={siteContent.contact}
                 stats={siteContent.stats}
+                onSwitchMode={handleSetSiteMode}
               />
               <Timeline milestones={siteContent.timeline} />
               <Skills skills={siteContent.skills} />

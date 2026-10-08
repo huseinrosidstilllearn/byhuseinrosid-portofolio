@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Sparkles, Compass, MessageCircle, ArrowUp } from 'lucide-react';
+import { Sparkles, Compass, MessageCircle, ArrowUp, FileText } from 'lucide-react';
 import { PHOTOGRAPHER_PROFILE, CONTACT_CONFIG } from '../../data/portfolioData';
 import type { SiteMode, PhotographerProfile, ContactConfig } from '../../types/portfolio';
 import { createWhatsAppLink } from '../../utils/whatsapp';
@@ -62,7 +62,16 @@ export function KaryaFooter({
             className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 hover:border-amber-500/40 active:scale-95 text-white/50 hover:text-white text-xs transition-all duration-300 group cursor-pointer"
           >
             <Compass className="w-3.5 h-3.5 text-amber-400 group-hover:rotate-45 transition-transform" />
-            <span>Mode Perjalanan & CV</span>
+            <span>Perjalanan Visual</span>
+          </button>
+
+          {/* Switch to CV */}
+          <button
+            onClick={() => onSwitchSiteMode('cv')}
+            className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 hover:border-amber-500/40 active:scale-95 text-white/50 hover:text-amber-400 text-xs transition-all duration-300 group cursor-pointer"
+          >
+            <FileText className="w-3.5 h-3.5 text-amber-400 group-hover:scale-110 transition-transform" />
+            <span>Dokumen CV</span>
           </button>
 
           {/* WhatsApp */}

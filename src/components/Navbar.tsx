@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Menu, X, MessageCircle, ArrowLeft, Camera, Compass } from 'lucide-react';
+import { Menu, X, MessageCircle, ArrowLeft, Camera, Compass, FileText } from 'lucide-react';
 import { createWhatsAppLink } from '../utils/whatsapp';
 import { CATEGORY_ORDER } from '../data/categoryData';
 import type { SiteMode } from '../types/portfolio';
@@ -114,6 +114,14 @@ export const Navbar: React.FC<NavbarProps> = ({
                     {activeCategory}
                   </span>
                 </div>
+              ) : siteMode === 'cv' ? (
+                <div className="flex items-center gap-2 bg-white/[0.04] border border-white/10 rounded-full px-3.5 py-1.5">
+                  <span className="text-[11px] uppercase tracking-wider text-amber-400 font-bold font-mono">
+                    Dokumen CV Resmi
+                  </span>
+                  <span className="text-white/20 text-xs">&bull;</span>
+                  <span className="text-xs text-slate-300 font-light">Fotografer &amp; Videografer</span>
+                </div>
               ) : (
                 <nav className="flex items-center gap-1 bg-white/[0.03] border border-white/[0.06] rounded-full px-3 py-1">
                   {navLinks.map((link) => (
@@ -172,6 +180,25 @@ export const Navbar: React.FC<NavbarProps> = ({
                   <span className="relative z-10 flex items-center gap-1.5">
                     <Compass className="w-3.5 h-3.5" />
                     <span>Perjalanan</span>
+                  </span>
+                </button>
+
+                <button
+                  onClick={() => onSwitchSiteMode('cv')}
+                  className={`relative z-10 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs tracking-wider uppercase font-semibold transition-colors duration-200 cursor-pointer ${
+                    siteMode === 'cv' ? 'text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  {siteMode === 'cv' && (
+                    <motion.div
+                      layoutId="navbarActivePill"
+                      className="absolute inset-0 bg-amber-500 rounded-full shadow-[0_2px_12px_rgba(245,158,11,0.4)]"
+                      transition={{ type: 'spring', stiffness: 450, damping: 32 }}
+                    />
+                  )}
+                  <span className="relative z-10 flex items-center gap-1.5">
+                    <FileText className="w-3.5 h-3.5" />
+                    <span>CV</span>
                   </span>
                 </button>
               </div>
@@ -239,7 +266,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
             <button
               onClick={() => { setMobileMenuOpen(false); onSwitchSiteMode('perjalanan'); }}
-              className={`relative flex-1 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors flex items-center justify-center gap-2 cursor-pointer z-10 active:scale-[0.98] ${
+              className={`relative flex-1 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors flex items-center justify-center gap-1.5 cursor-pointer z-10 active:scale-[0.98] ${
                 siteMode === 'perjalanan' ? 'text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -252,6 +279,22 @@ export const Navbar: React.FC<NavbarProps> = ({
               )}
               <Compass className="w-4 h-4" />
               <span>Perjalanan</span>
+            </button>
+            <button
+              onClick={() => { setMobileMenuOpen(false); onSwitchSiteMode('cv'); }}
+              className={`relative flex-1 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors flex items-center justify-center gap-1.5 cursor-pointer z-10 active:scale-[0.98] ${
+                siteMode === 'cv' ? 'text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              {siteMode === 'cv' && (
+                <motion.div
+                  layoutId="mobileNavbarActivePill"
+                  className="absolute inset-0 bg-amber-500 rounded-full shadow-[0_2px_12px_rgba(245,158,11,0.4)] -z-10"
+                  transition={{ type: "spring", stiffness: 450, damping: 32 }}
+                />
+              )}
+              <FileText className="w-4 h-4" />
+              <span>CV</span>
             </button>
           </div>
 
@@ -297,6 +340,39 @@ export const Navbar: React.FC<NavbarProps> = ({
                       );
                     })}
                   </div>
+                </div>
+              </div>
+            ) : siteMode === 'cv' ? (
+              <div className="space-y-4">
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    onSwitchSiteMode('karya');
+                  }}
+                  className="text-left font-editorial text-2xl text-white hover:text-amber-400 transition-colors block active:scale-[0.98]"
+                >
+                  Lihat Showcase Karya
+                </button>
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    onSwitchSiteMode('perjalanan');
+                  }}
+                  className="text-left font-editorial text-2xl text-white hover:text-amber-400 transition-colors block active:scale-[0.98]"
+                >
+                  Linimasa Perjalanan Visual
+                </button>
+                <div className="pt-3 border-t border-white/10">
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      window.print();
+                    }}
+                    className="w-full py-3 rounded-full bg-white/[0.08] hover:bg-white/15 text-white text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 border border-white/15 transition-all active:scale-95 cursor-pointer"
+                  >
+                    <FileText className="w-4 h-4 text-amber-400" />
+                    <span>Cetak / Unduh PDF</span>
+                  </button>
                 </div>
               </div>
             ) : (

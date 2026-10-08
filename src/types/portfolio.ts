@@ -107,7 +107,28 @@ export interface HeroSliderConfig {
   slides: HeroSlideConfig[];
 }
 
-export type SiteMode = 'landing' | 'karya' | 'perjalanan';
+export type SiteMode = 'landing' | 'karya' | 'perjalanan' | 'cv';
+
+export interface CVExperience {
+  role: string;
+  entity: string;
+  period: string;
+  type: 'fotografi' | 'videografi' | 'hybrid';
+  description: string;
+  highlights: string[];
+}
+
+export interface CVEducation {
+  institution: string;
+  degree: string;
+  year: string;
+  description?: string;
+}
+
+export interface CVPastClient {
+  name: string;
+  category: string;
+}
 
 export interface SiteContentData {
   profile: PhotographerProfile;

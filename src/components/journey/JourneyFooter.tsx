@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Camera, MessageCircle, Mail, ArrowUp } from 'lucide-react';
+import { Camera, MessageCircle, Mail, ArrowUp, FileText } from 'lucide-react';
 import { CONTACT_CONFIG, PHOTOGRAPHER_PROFILE } from '../../data/portfolioData';
 import type { SiteMode, PhotographerProfile, ContactConfig } from '../../types/portfolio';
 
@@ -81,13 +81,23 @@ export function JourneyFooter({
           </div>
 
           {/* Switch mode */}
-          <button
-            onClick={() => onSwitchMode('karya')}
-            className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 hover:border-amber-500/40 active:scale-95 text-white/50 hover:text-white text-xs transition-all duration-300 group cursor-pointer"
-          >
-            <Camera className="w-3.5 h-3.5 text-amber-400 group-hover:scale-110 transition-transform" />
-            <span>Buka Mode Galeri Karya</span>
-          </button>
+          <div className="flex flex-wrap items-center gap-2.5">
+            <button
+              onClick={() => onSwitchMode('karya')}
+              className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 hover:border-amber-500/40 active:scale-95 text-white/50 hover:text-white text-xs transition-all duration-300 group cursor-pointer"
+            >
+              <Camera className="w-3.5 h-3.5 text-amber-400 group-hover:scale-110 transition-transform" />
+              <span>Galeri Karya</span>
+            </button>
+
+            <button
+              onClick={() => onSwitchMode('cv')}
+              className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 hover:border-amber-500/40 active:scale-95 text-white/50 hover:text-amber-400 text-xs transition-all duration-300 group cursor-pointer"
+            >
+              <FileText className="w-3.5 h-3.5 text-amber-400 group-hover:scale-110 transition-transform" />
+              <span>Dokumen CV</span>
+            </button>
+          </div>
 
           {/* Copyright */}
           <p className="text-white/20 text-xs font-mono">

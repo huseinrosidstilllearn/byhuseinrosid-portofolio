@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, Compass, Sparkles } from 'lucide-react';
+import { Camera, Compass, Sparkles, FileText } from 'lucide-react';
 import type { SiteMode } from '../types/portfolio';
 
 interface ModeTransitionOverlayProps {
@@ -26,6 +26,13 @@ export const ModeTransitionOverlay: React.FC<ModeTransitionOverlayProps> = ({
           title: 'Garis Waktu & Rekam Jejak',
           subtitle: 'Perjalanan, Keahlian & Layanan',
           icon: Compass,
+          accent: 'text-amber-400',
+        };
+      case 'cv':
+        return {
+          title: 'Curriculum Vitae Resmi',
+          subtitle: 'Rekam Jejak Fotografer & Videografer',
+          icon: FileText,
           accent: 'text-amber-400',
         };
       case 'landing':

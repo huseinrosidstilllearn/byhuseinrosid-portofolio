@@ -1,20 +1,22 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { MessageCircle, ArrowDown } from 'lucide-react';
+import { MessageCircle, ArrowDown, FileText } from 'lucide-react';
 import { PHOTOGRAPHER_PROFILE, CONTACT_CONFIG } from '../../data/portfolioData';
 import { JOURNEY_STATS } from '../../data/journeyData';
-import type { PhotographerProfile, ContactConfig, JourneyStats } from '../../types/portfolio';
+import type { PhotographerProfile, ContactConfig, JourneyStats, SiteMode } from '../../types/portfolio';
 
 interface JourneyHeroProps {
   profile?: PhotographerProfile;
   contact?: ContactConfig;
   stats?: JourneyStats;
+  onSwitchMode?: (mode: SiteMode) => void;
 }
 
 export const JourneyHero: React.FC<JourneyHeroProps> = ({
   profile = PHOTOGRAPHER_PROFILE,
   contact = CONTACT_CONFIG,
   stats = JOURNEY_STATS,
+  onSwitchMode,
 }) => {
   const statList = [
     { value: `${stats.yearsExperience}+`, label: 'Tahun Berkarya' },
@@ -163,9 +165,18 @@ export const JourneyHero: React.FC<JourneyHeroProps> = ({
                 }}
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/20 hover:border-amber-500/50 active:scale-[0.98] active:translate-y-[1px] text-white/70 hover:text-white text-sm transition-all duration-200"
               >
-                <span>Lihat Perjalanan</span>
+                <span>Lihat Cerita Linimasa</span>
                 <ArrowDown className="w-4 h-4" />
               </a>
+              {onSwitchMode && (
+                <button
+                  onClick={() => onSwitchMode('cv')}
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/[0.08] hover:bg-white/15 active:scale-[0.98] active:translate-y-[1px] border border-white/15 text-white text-sm transition-all duration-200 cursor-pointer"
+                >
+                  <FileText className="w-4 h-4 text-amber-400" />
+                  <span>Lihat Dokumen CV</span>
+                </button>
+              )}
             </div>
           </motion.div>
         </div>

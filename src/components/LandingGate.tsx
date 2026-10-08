@@ -9,6 +9,7 @@ import {
   MapPin,
   Calendar,
   Camera,
+  FileText,
 } from 'lucide-react';
 import type { SiteMode, PhotoItem } from '../types/portfolio';
 import { PORTFOLIO_PHOTOS, PHOTOGRAPHER_PROFILE } from '../data/portfolioData';
@@ -251,6 +252,17 @@ export function LandingGate({ onSelectMode, photos = [] }: LandingGateProps) {
                 </span>
               </div>
               <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1.5 transition-transform text-slate-400 group-hover:text-white" />
+            </button>
+          </div>
+
+          {/* Tertiary Quick Link: CV Dokumen */}
+          <div className="mt-4 flex justify-center">
+            <button
+              onClick={() => handleSelect('cv')}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] active:scale-95 text-slate-400 hover:text-amber-400 text-xs font-mono tracking-wider uppercase transition-all cursor-pointer border border-white/5"
+            >
+              <FileText className="w-3.5 h-3.5 text-amber-400" />
+              <span>Lihat Curriculum Vitae (CV) Resmi</span>
             </button>
           </div>
         </motion.div>
