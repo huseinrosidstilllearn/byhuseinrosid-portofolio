@@ -8,8 +8,6 @@ import {
   ZoomIn,
   ZoomOut,
   MessageCircle,
-  Camera,
-  Info,
   SlidersHorizontal,
 } from 'lucide-react';
 import type { PhotoItem } from '../types/portfolio';
@@ -32,7 +30,6 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
 }) => {
   const [isZoomed, setIsZoomed] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [showTechInfo, setShowTechInfo] = useState(false);
   const touchStartXRef = useRef<number | null>(null);
   const touchEndXRef = useRef<number | null>(null);
   const lastTapRef = useRef<number>(0);
@@ -40,7 +37,6 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
   useEffect(() => {
     setIsZoomed(false);
     setIsLoading(true);
-    setShowTechInfo(false);
   }, [photo]);
 
   useEffect(() => {
@@ -52,8 +48,6 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
         handlePrev();
       } else if (e.key === 'ArrowRight') {
         handleNext();
-      } else if (e.key === 'i' || e.key === 'I') {
-        setShowTechInfo((prev) => !prev);
       }
     };
 
@@ -143,22 +137,7 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
           </span>
         </div>
 
-        <div className="flex items-center gap-1.5 sm:gap-2">
-          {/* Toggle Metadata Gear / EXIF */}
-          <button
-            onClick={() => setShowTechInfo(!showTechInfo)}
-            aria-label={showTechInfo ? 'Sembunyikan Info Gear' : 'Tampilkan Info Gear'}
-            className={`p-2.5 rounded-full transition-all cursor-pointer flex items-center gap-1 text-xs ${
-              showTechInfo
-                ? 'bg-amber-500 text-slate-950 font-bold'
-                : 'bg-white/10 hover:bg-white/20 text-white'
-            }`}
-            title="Info Gear & Teknis Kamera"
-          >
-            <Camera className="w-4 h-4" />
-            <span className="hidden md:inline font-mono text-[11px]">Gear Info</span>
-          </button>
-
+        <div className="flex items-center gap-2">
           {/* Zoom Toggle Button */}
           <button
             onClick={() => setIsZoomed(!isZoomed)}
@@ -218,42 +197,11 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
             decoding="async"
             onLoad={() => setIsLoading(false)}
             onClick={() => setIsZoomed(!isZoomed)}
-            className={`max-h-[56vh] sm:max-h-[66vh] max-w-full object-contain rounded-lg shadow-2xl transition-all duration-300 ${
+            className={`max-h-[58vh] sm:max-h-[68vh] max-w-full object-contain rounded-lg shadow-2xl transition-all duration-300 ${
               isLoading ? 'opacity-0 scale-98' : 'opacity-100 scale-100'
             }`}
           />
         </div>
-
-        {/* Technical Gear Metadata Strip (Collapsible or Active) */}
-        {showTechInfo && (
-          <div className="w-full max-w-xl mx-auto mt-3 px-4 py-2.5 rounded-2xl bg-[#0F1420]/90 border border-amber-500/30 backdrop-blur-xl animate-in fade-in slide-in-from-top-2 duration-200">
-            <div className="flex items-center justify-between text-[11px] font-mono text-amber-400 uppercase tracking-wider mb-2 border-b border-white/[0.08] pb-1">
-              <span className="flex items-center gap-1.5 font-bold">
-                <Info className="w-3.5 h-3.5" />
-                Spesifikasi Teknis Produksi
-              </span>
-              <span className="text-slate-400 font-normal">Husein Rosid Rig</span>
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
-              <div className="p-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06]">
-                <span className="text-[10px] text-slate-400 block uppercase font-mono">Kamera</span>
-                <span className="text-xs text-white font-medium">Sony Alpha</span>
-              </div>
-              <div className="p-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06]">
-                <span className="text-[10px] text-slate-400 block uppercase font-mono">Lensa</span>
-                <span className="text-xs text-white font-medium">G-Master Prime</span>
-              </div>
-              <div className="p-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06]">
-                <span className="text-[10px] text-slate-400 block uppercase font-mono">Grading</span>
-                <span className="text-xs text-amber-300 font-medium">Editorial Look</span>
-              </div>
-              <div className="p-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06]">
-                <span className="text-[10px] text-slate-400 block uppercase font-mono">Karakter</span>
-                <span className="text-xs text-white font-medium">Natural Light</span>
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* Narrative & Photo Details Footer */}
         <div className="w-full max-w-3xl mt-3 sm:mt-4 px-4 text-center">
