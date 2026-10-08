@@ -11,9 +11,18 @@ function MilestoneCard({ milestone, index }: { milestone: typeof TIMELINE_MILEST
 
   return (
     <div ref={ref} className={`relative flex items-start gap-0 ${isLeft ? 'flex-row' : 'flex-row-reverse'} md:gap-0`}>
+      {/* Mobile Node Indicator */}
+      <div
+        className={`md:hidden absolute left-[15px] top-6 w-2.5 h-2.5 rounded-full border-2 z-10 ${
+          milestone.highlight
+            ? 'bg-amber-400 border-black shadow-[0_0_8px_rgba(245,158,11,0.6)]'
+            : 'bg-[#12151E] border-amber-500/50'
+        }`}
+      />
+
       {/* Card Side */}
       <motion.div
-        className={`w-full md:w-[calc(50%-2rem)] ${isLeft ? 'md:pr-8 md:text-right' : 'md:pl-8 md:text-left'}`}
+        className={`w-full pl-9 md:pl-0 md:w-[calc(50%-2rem)] ${isLeft ? 'md:pr-8 md:text-right' : 'md:pl-8 md:text-left'}`}
         initial={{ opacity: 0, x: isLeft ? -40 : 40 }}
         animate={isInView ? { opacity: 1, x: 0 } : {}}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
@@ -112,6 +121,9 @@ export function Timeline({ milestones = TIMELINE_MILESTONES }: { milestones?: ty
         <div className="relative">
           {/* Vertical center line (desktop only) */}
           <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-amber-500/40 via-white/10 to-transparent -translate-x-1/2" />
+
+          {/* Vertical left line (mobile only) */}
+          <div className="md:hidden absolute left-[19px] top-4 bottom-4 w-px bg-gradient-to-b from-amber-500/40 via-white/10 to-transparent" />
 
           {/* Milestones */}
           <div className="flex flex-col gap-8">

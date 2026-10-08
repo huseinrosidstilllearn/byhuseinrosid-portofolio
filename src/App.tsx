@@ -33,6 +33,12 @@ const STORAGE_KEY = 'bhr_site_mode';
 
 function getSavedMode(): SiteMode {
   try {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash.toLowerCase();
+      if (hash === '#cv') return 'cv';
+      if (hash === '#perjalanan') return 'perjalanan';
+      if (hash === '#karya') return 'karya';
+    }
     const saved = localStorage.getItem(STORAGE_KEY) as SiteMode | null;
     if (saved === 'karya' || saved === 'perjalanan' || saved === 'landing' || saved === 'cv') return saved;
   } catch {}
@@ -98,19 +104,37 @@ export function App() {
       const info = getCategoryInfo(categoryName);
       window.location.hash = `kategori=${info.slug}`;
     } else {
-      window.location.hash = '';
+      if (siteMode === 'cv') {
+        window.location.hash = 'cv';
+      } else if (siteMode === 'perjalanan') {
+        window.location.hash = 'perjalanan';
+      } else {
+        window.location.hash = '';
+      }
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Dengarkan tombol Back/Forward browser untuk hash kategori
+  // Dengarkan tombol Back/Forward browser untuk hash kategori & mode
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash;
       if (hash.startsWith('#kategori=')) {
         const slug = hash.replace('#kategori=', '');
         const info = getCategoryBySlug(slug);
-        if (info) setSelectedCategory(info.name);
+        if (info) {
+          setSelectedCategory(info.name);
+          setSiteMode('karya');
+        }
+      } else if (hash === '#cv') {
+        setSiteMode('cv');
+        setSelectedCategory(null);
+      } else if (hash === '#perjalanan') {
+        setSiteMode('perjalanan');
+        setSelectedCategory(null);
+      } else if (hash === '#karya') {
+        setSiteMode('karya');
+        setSelectedCategory(null);
       } else if (!hash) {
         setSelectedCategory(null);
       }
@@ -133,6 +157,16 @@ export function App() {
       } else {
         try { localStorage.removeItem(STORAGE_KEY); } catch {}
       }
+
+      // Sinkronkan hash URL dengan mode
+      if (mode === 'cv') {
+        window.location.hash = 'cv';
+      } else if (mode === 'perjalanan') {
+        window.location.hash = 'perjalanan';
+      } else if (mode === 'karya' && !selectedCategory) {
+        window.location.hash = '';
+      }
+
       setViewMode('bento');
       window.scrollTo({ top: 0, behavior: 'instant' });
     }, 280);

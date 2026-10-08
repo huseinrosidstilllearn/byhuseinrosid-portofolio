@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Printer,
   ArrowLeft,
@@ -13,6 +13,8 @@ import {
   Briefcase,
   CheckCircle2,
   Sliders,
+  Share2,
+  Check,
 } from 'lucide-react';
 import { CV_DATA } from '../../data/cvData';
 import { createWhatsAppLink } from '../../utils/whatsapp';
@@ -23,8 +25,36 @@ interface CVPageProps {
 }
 
 export const CVPage: React.FC<CVPageProps> = ({ onBackToMain, onSwitchMode }) => {
+  const [copied, setCopied] = useState(false);
+
   const handlePrint = () => {
     window.print();
+  };
+
+  const handleShareLink = async () => {
+    const url =
+      typeof window !== 'undefined'
+        ? `${window.location.origin}${window.location.pathname}#cv`
+        : 'https://byhuseinrosid.my.id/#cv';
+
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Curriculum Vitae Husein Rosid : Fotografer & Videografer',
+          text: 'Lihat profil profesional, rekam jejak, dan kompetensi visual Husein Rosid.',
+          url: url,
+        });
+        return;
+      } catch {
+        // Fallback ke clipboard jika user membatalkan share sheet
+      }
+    }
+
+    if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   };
 
   const waLink = createWhatsAppLink(
@@ -36,34 +66,42 @@ export const CVPage: React.FC<CVPageProps> = ({ onBackToMain, onSwitchMode }) =>
       {/* Print-specific style overrides */}
       <style>{`
         @media print {
+          @page {
+            size: A4 portrait;
+            margin: 12mm 15mm;
+          }
           body {
             background-color: #ffffff !important;
-            color: #111827 !important;
+            color: #0f172a !important;
           }
           .no-print {
             display: none !important;
           }
           .print-clean {
             background: #ffffff !important;
-            color: #111827 !important;
+            color: #0f172a !important;
             border: none !important;
             box-shadow: none !important;
             padding: 0 !important;
             max-width: 100% !important;
           }
+          .print-avoid-break {
+            break-inside: avoid !important;
+            page-break-inside: avoid !important;
+          }
           .print-border {
-            border-color: #e5e7eb !important;
+            border-color: #e2e8f0 !important;
           }
           .print-text-dark {
-            color: #111827 !important;
+            color: #0f172a !important;
           }
           .print-text-muted {
-            color: #4b5563 !important;
+            color: #475569 !important;
           }
           .print-badge {
-            background-color: #f3f4f6 !important;
-            color: #1f2937 !important;
-            border: 1px solid #d1d5db !important;
+            background-color: #f8fafc !important;
+            color: #1e293b !important;
+            border: 1px solid #cbd5e1 !important;
           }
         }
       `}</style>
@@ -88,15 +126,34 @@ export const CVPage: React.FC<CVPageProps> = ({ onBackToMain, onSwitchMode }) =>
             </button>
           </div>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            <button
+              onClick={handleShareLink}
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/[0.08] hover:bg-white/15 active:scale-95 border border-white/15 text-xs font-medium text-white transition-all cursor-pointer"
+              title="Bagikan atau Salin Tautan CV"
+            >
+              {copied ? (
+                <>
+                  <Check className="w-3.5 h-3.5 text-emerald-400" />
+                  <span className="text-emerald-300 font-semibold">Tersalin!</span>
+                </>
+              ) : (
+                <>
+                  <Share2 className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Salin Tautan</span>
+                </>
+              )}
+            </button>
+
             <button
               onClick={handlePrint}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.08] hover:bg-white/15 active:scale-95 border border-white/15 text-xs font-medium text-white transition-all cursor-pointer"
+              className="inline-flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-1.5 rounded-full bg-white/[0.08] hover:bg-white/15 active:scale-95 border border-white/15 text-xs font-medium text-white transition-all cursor-pointer"
               title="Cetak atau Simpan sebagai PDF"
             >
               <Printer className="w-3.5 h-3.5 text-amber-400" />
-              <span>Cetak / Simpan PDF</span>
+              <span>Cetak / PDF</span>
             </button>
+
             <a
               href={waLink}
               target="_blank"
@@ -164,6 +221,30 @@ export const CVPage: React.FC<CVPageProps> = ({ onBackToMain, onSwitchMode }) =>
               <p className="text-sm sm:text-base text-slate-300 font-light leading-relaxed print-text-dark">
                 {CV_DATA.summary}
               </p>
+
+              {/* Executive Highlights Bar */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-6 border-t border-white/[0.06] print-border">
+                <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 print-badge">
+                  <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">Jam Terbang</span>
+                  <span className="font-editorial text-xl sm:text-2xl text-amber-400 font-bold">7+ Tahun</span>
+                  <span className="text-[11px] text-slate-400 block mt-0.5 font-light">Sejak 2017</span>
+                </div>
+                <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 print-badge">
+                  <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">Portofolio Produksi</span>
+                  <span className="font-editorial text-xl sm:text-2xl text-white font-bold">120+ Proyek</span>
+                  <span className="text-[11px] text-slate-400 block mt-0.5 font-light">Komersial & Dok</span>
+                </div>
+                <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 print-badge">
+                  <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">Fokus Disiplin</span>
+                  <span className="font-editorial text-xl sm:text-2xl text-amber-400 font-bold">Hybrid</span>
+                  <span className="text-[11px] text-slate-400 block mt-0.5 font-light">Foto & Sinematografi</span>
+                </div>
+                <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 print-badge">
+                  <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">Jangkauan Layanan</span>
+                  <span className="font-editorial text-xl sm:text-2xl text-white font-bold">Surabaya</span>
+                  <span className="text-[11px] text-slate-400 block mt-0.5 font-light">&amp; Seluruh Indonesia</span>
+                </div>
+              </div>
             </div>
           </header>
 
@@ -347,6 +428,24 @@ export const CVPage: React.FC<CVPageProps> = ({ onBackToMain, onSwitchMode }) =>
               Dokumen ini adalah ringkasan resmi Curriculum Vitae By Husein Rosid. Siap untuk dicetak atau diunduh sebagai berkas PDF.
             </p>
             <div className="flex items-center gap-2.5">
+              <button
+                onClick={handleShareLink}
+                className="px-3.5 py-2 rounded-full bg-white/[0.08] hover:bg-white/15 active:scale-95 text-xs text-white transition-all cursor-pointer border border-white/10 flex items-center gap-1.5"
+                title="Bagikan atau Salin Tautan CV"
+              >
+                {copied ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-emerald-400" />
+                    <span className="text-emerald-300 font-semibold">Tersalin!</span>
+                  </>
+                ) : (
+                  <>
+                    <Share2 className="w-3.5 h-3.5 text-amber-400" />
+                    <span>Salin Tautan</span>
+                  </>
+                )}
+              </button>
+
               <button
                 onClick={handlePrint}
                 className="px-4 py-2 rounded-full bg-white/[0.08] hover:bg-white/15 active:scale-95 text-xs text-white transition-all cursor-pointer border border-white/10 flex items-center gap-2"
