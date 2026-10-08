@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { PORTFOLIO_PHOTOS } from '../data/portfolioData';
 import type { PhotoItem, MarqueeConfig } from '../types/portfolio';
 
@@ -13,12 +13,30 @@ export const DualMarquee: React.FC<DualMarqueeProps> = ({
   config,
   onSelectPhoto,
 }) => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [isInView, setIsInView] = useState(true);
   const speedMode = config?.speed || 'normal';
 
-  // Filter foto berdasarkan konfigurasi yang dipilih pengguna
+  // Hentikan animasi marquee saat elemen berada di luar layar untuk menghemat CPU & GPU
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { rootMargin: '100px' }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Filter foto dengan batas jumlah item yang optimal untuk performa
   const selectedPhotos = useMemo(() => {
     const sourcePhotos = photos.length > 0 ? photos : PORTFOLIO_PHOTOS;
-    const maxLimit = config?.maxItems || 24;
+    const maxLimit = config?.maxItems || 12;
 
     // 1. Jika mode manual dengan ID foto spesifik
     if (
@@ -38,11 +56,11 @@ export const DualMarquee: React.FC<DualMarqueeProps> = ({
       return featured.slice(0, maxLimit);
     }
 
-    // 3. Fallback jika foto featured belum cukup: ambil kurasi awal
-    return sourcePhotos.slice(0, Math.min(16, maxLimit));
+    // 3. Fallback jika foto featured belum cukup
+    return sourcePhotos.slice(0, Math.min(10, maxLimit));
   }, [photos, config]);
 
-  // Bagi foto menjadi dua baris independen (genap & ganjil) agar kedua lintasan menampilkan variasi berbeda
+  // Bagi foto menjadi dua baris independen (genap & ganjil)
   const { row1, row2, trackDuration } = useMemo(() => {
     if (selectedPhotos.length === 0) {
       return { row1: [], row2: [], trackDuration: 90 };
@@ -59,18 +77,13 @@ export const DualMarquee: React.FC<DualMarqueeProps> = ({
       }
     });
 
-    // Jika salah satu baris terlalu sedikit, seimbangkan
     const finalSet1 = set1.length >= 2 ? set1 : selectedPhotos;
     const finalSet2 = set2.length >= 2 ? set2 : [...selectedPhotos].reverse();
 
-    // Gandakan untuk infinite loop tanpa celah
     const duplicated1 = [...finalSet1, ...finalSet1];
     const duplicated2 = [...finalSet2, ...finalSet2];
 
-    // Hitung durasi berdasarkan kecepatan konstan per pixel
-    // slow: 14 px/s, normal: 24 px/s, fast: 36 px/s
-    const speedPx = speedMode === 'slow' ? 14 : speedMode === 'fast' ? 36 : 24;
-    // Lebar satu putaran: jumlah item asli x (320px lebar card + 16px gap = 336px)
+    const speedPx = speedMode === 'slow' ? 14 : speedMode === 'fast' ? 36 : 22;
     const singleLoopWidth = Math.max(finalSet1.length, finalSet2.length) * 336;
     const duration = Math.max(45, Math.round(singleLoopWidth / speedPx));
 
@@ -83,30 +96,36 @@ export const DualMarquee: React.FC<DualMarqueeProps> = ({
 
   return (
     <section
+      ref={sectionRef}
       className="w-full py-4 sm:py-6 overflow-hidden marquee-container relative z-10 select-none group/marquee"
       aria-label="Pameran Berjalan Karya Pilihan"
     >
-      {/* Gradien Mask pada Tepi Layar */}
-      <div className="w-full space-y-4 [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]">
+      {/* Zero-cost pointer-events-none side gradients menggantikan CSS mask-image berat */}
+      <div className="absolute left-0 top-0 bottom-0 w-12 sm:w-28 bg-gradient-to-r from-[#050505] to-transparent z-20 pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-12 sm:w-28 bg-gradient-to-l from-[#050505] to-transparent z-20 pointer-events-none" />
+
+      <div className="w-full space-y-4">
         {/* Lintasan Atas (Bergerak ke Kiri) */}
         <div
           className="flex gap-4 w-max animate-marquee-left group-hover/marquee:[animation-play-state:paused]"
           style={{
             animationDuration: `${trackDuration}s`,
+            animationPlayState: isInView ? undefined : 'paused',
+            willChange: 'transform',
           }}
         >
           {row1.map((photo, index) => (
             <div
               key={`r1-${photo.id}-${index}`}
               onClick={() => onSelectPhoto(photo)}
-              className="w-[230px] sm:w-[320px] h-[165px] sm:h-[230px] rounded-2xl overflow-hidden relative group cursor-pointer shrink-0 border border-white/[0.08] hover:border-amber-400/60 transition-all duration-300 shadow-md"
+              className="w-[230px] sm:w-[320px] h-[165px] sm:h-[230px] rounded-2xl overflow-hidden relative group cursor-pointer shrink-0 border border-white/[0.08] hover:border-amber-400/60 transition-all duration-300 shadow-md bg-[#0D1017]"
             >
               <img
                 src={photo.imageUrl}
                 alt={photo.title}
                 loading="lazy"
                 decoding="async"
-                className="w-full h-full object-cover sm:grayscale sm:contrast-[1.05] sm:group-hover:grayscale-0 sm:group-hover:scale-105 transition-all duration-700 ease-out"
+                className="w-full h-full object-cover sm:group-hover:scale-105 transition-transform duration-500 ease-out"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3 sm:p-4">
                 <span className="text-[9px] sm:text-[10px] uppercase tracking-wider text-amber-400 font-semibold">
@@ -128,20 +147,22 @@ export const DualMarquee: React.FC<DualMarqueeProps> = ({
           className="flex gap-4 w-max animate-marquee-right group-hover/marquee:[animation-play-state:paused]"
           style={{
             animationDuration: `${trackDuration}s`,
+            animationPlayState: isInView ? undefined : 'paused',
+            willChange: 'transform',
           }}
         >
           {row2.map((photo, index) => (
             <div
               key={`r2-${photo.id}-${index}`}
               onClick={() => onSelectPhoto(photo)}
-              className="w-[230px] sm:w-[320px] h-[165px] sm:h-[230px] rounded-2xl overflow-hidden relative group cursor-pointer shrink-0 border border-white/[0.08] hover:border-amber-400/60 transition-all duration-300 shadow-md"
+              className="w-[230px] sm:w-[320px] h-[165px] sm:h-[230px] rounded-2xl overflow-hidden relative group cursor-pointer shrink-0 border border-white/[0.08] hover:border-amber-400/60 transition-all duration-300 shadow-md bg-[#0D1017]"
             >
               <img
                 src={photo.imageUrl}
                 alt={photo.title}
                 loading="lazy"
                 decoding="async"
-                className="w-full h-full object-cover sm:grayscale sm:contrast-[1.05] sm:group-hover:grayscale-0 sm:group-hover:scale-105 transition-all duration-700 ease-out"
+                className="w-full h-full object-cover sm:group-hover:scale-105 transition-transform duration-500 ease-out"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3 sm:p-4">
                 <span className="text-[9px] sm:text-[10px] uppercase tracking-wider text-amber-400 font-semibold">

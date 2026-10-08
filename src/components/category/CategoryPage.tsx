@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import {
   ArrowLeft,
   ArrowRight,
+  ArrowDown,
   Maximize2,
   MapPin,
   Grid,
@@ -59,16 +60,44 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
   const nextInfo = getNextCategory(categoryName);
   const Icon = info.icon;
 
+  const INITIAL_PAGE_SIZE = 24;
+  const LOAD_INCREMENT = 18;
+  const [visibleCount, setVisibleCount] = useState<number>(INITIAL_PAGE_SIZE);
+  const loadMoreSentinelRef = useRef<HTMLDivElement>(null);
+
   // Filter foto berdasarkan kategori yang sedang aktif
   const categoryPhotos = allPhotos.filter((p) => p.category === categoryName);
   const displayedPhotos = filterFeaturedOnly
     ? categoryPhotos.filter((p) => p.featured)
     : categoryPhotos;
 
-  // Reset spotlight index saat filter atau kategori berganti
+  // Reset pagination & spotlight index saat filter atau kategori berganti
   useEffect(() => {
     setSpotlightIndex(0);
-  }, [categoryName, filterFeaturedOnly]);
+    setVisibleCount(INITIAL_PAGE_SIZE);
+  }, [categoryName, filterFeaturedOnly, layoutMode]);
+
+  // Sentinel auto load-more saat scroll mendekat
+  useEffect(() => {
+    const sentinel = loadMoreSentinelRef.current;
+    if (!sentinel || typeof IntersectionObserver === 'undefined') return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && visibleCount < displayedPhotos.length) {
+          setVisibleCount((prev) => Math.min(prev + LOAD_INCREMENT, displayedPhotos.length));
+        }
+      },
+      { rootMargin: '400px' }
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [visibleCount, displayedPhotos.length]);
+
+  const renderedPhotos = useMemo(() => {
+    return displayedPhotos.slice(0, visibleCount);
+  }, [displayedPhotos, visibleCount]);
 
   const currentSpotlightPhoto = displayedPhotos[spotlightIndex] || displayedPhotos[0] || null;
 
@@ -221,7 +250,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
         {/* ── LAYOUT 1: MASONRY BEBAS (2-KOLOM MOBILE / MULTI-KOLOM DESKTOP) ── */}
         {layoutMode === 'masonry' && displayedPhotos.length > 0 && (
           <div className="columns-2 sm:columns-2 lg:columns-3 2xl:columns-4 gap-3 sm:gap-6 space-y-3 sm:space-y-6 animate-in fade-in duration-300">
-            {displayedPhotos.map((photo) => (
+            {renderedPhotos.map((photo) => (
               <div
                 key={photo.id}
                 onClick={() => onSelectPhoto(photo)}
@@ -282,7 +311,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
         {/* ── LAYOUT 2: GRID PRESISI (2-KOLOM MOBILE / MULTI-KOLOM DESKTOP) ── */}
         {layoutMode === 'grid' && displayedPhotos.length > 0 && (
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-3 sm:gap-6 animate-in fade-in duration-300">
-            {displayedPhotos.map((photo) => (
+            {renderedPhotos.map((photo) => (
               <div
                 key={photo.id}
                 onClick={() => onSelectPhoto(photo)}
@@ -331,7 +360,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
         {/* ── LAYOUT 3: BENTO MATRIX ── */}
         {layoutMode === 'matrix' && displayedPhotos.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-12 gap-5 animate-in fade-in duration-300">
-            {displayedPhotos.map((photo, index) => {
+            {renderedPhotos.map((photo, index) => {
               const cycle = index % 4;
               const spanClass =
                 cycle === 0
@@ -450,6 +479,26 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
                 <ChevronRight className="w-5 h-5" />
               </button>
             </div>
+          </div>
+        )}
+
+        {/* ── LOAD MORE / INFINITE SCROLL SENTINEL ── */}
+        {layoutMode !== 'spotlight' && displayedPhotos.length > visibleCount && (
+          <div className="mt-12 flex flex-col items-center justify-center gap-3">
+            <button
+              onClick={() => setVisibleCount((prev) => Math.min(prev + LOAD_INCREMENT, displayedPhotos.length))}
+              className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 hover:border-amber-400/40 text-xs font-mono uppercase tracking-wider text-slate-200 transition-all duration-300 cursor-pointer shadow-lg"
+            >
+              <ArrowDown className="w-3.5 h-3.5 text-amber-400" />
+              <span>Muat Lebih Banyak ({visibleCount} dari {displayedPhotos.length} foto)</span>
+            </button>
+            <div ref={loadMoreSentinelRef} className="h-4 w-full" aria-hidden="true" />
+          </div>
+        )}
+
+        {layoutMode !== 'spotlight' && displayedPhotos.length <= visibleCount && displayedPhotos.length > INITIAL_PAGE_SIZE && (
+          <div className="mt-12 text-center text-xs font-mono text-slate-500 uppercase tracking-widest">
+            Semua {displayedPhotos.length} foto dalam kategori ini telah dimuat
           </div>
         )}
 

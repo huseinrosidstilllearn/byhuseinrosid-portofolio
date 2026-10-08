@@ -78,20 +78,20 @@ body {
   background: radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.08) 0%, transparent 60%);
 }
 
-/* Bento Card Glass Style - physical glassmorphism & tactile depth */
+/* Bento Card Style - high performance GPU-optimized dark card */
 .bento-card {
-  background: rgba(13, 16, 23, 0.72);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 8px 32px -8px rgba(0, 0, 0, 0.5);
+  background: #0E1118;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 8px 24px -8px rgba(0, 0, 0, 0.6);
   border-radius: 1.75rem;
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.35s ease;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.3s ease;
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 360px;
 }
 
 .bento-card:hover {
   border-color: rgba(245, 158, 11, 0.35);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 20px 48px -12px rgba(0, 0, 0, 0.7), 0 0 30px rgba(245, 158, 11, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 16px 36px -10px rgba(0, 0, 0, 0.7);
   transform: translateY(-2px);
 }
 
@@ -188,5 +188,14 @@ body {
 .editorial-masthead-sec {
   break-inside: avoid;
   margin-bottom: 24px;
+}
+
+@keyframes lightboxSlideProgress {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
 }
 

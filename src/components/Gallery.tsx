@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import {
   MapPin,
   Grid,
@@ -13,6 +13,9 @@ import {
   Calendar,
   Compass,
   ArrowUpRight,
+  Search,
+  X,
+  ArrowDown,
 } from 'lucide-react';
 import { PHOTO_CATEGORIES, PORTFOLIO_PHOTOS } from '../data/portfolioData';
 import type { PhotoItem } from '../types/portfolio';
@@ -35,11 +38,14 @@ interface ModeOption {
 
 const GALLERY_MODES: ModeOption[] = [
   { id: 'matrix', label: 'Bento', icon: Grid, description: 'Komposisi asimetris ritmik' },
-  { id: 'grid', label: 'Grid', icon: Columns3, description: 'Tata letak 3-kolom presisi' },
+  { id: 'grid', label: 'Grid', icon: Columns3, description: 'Tata letak presisi multi-kolom' },
   { id: 'masonry', label: 'Masonry', icon: Layers, description: 'Proporsi alami tanpa crop' },
   { id: 'spotlight', label: 'Spotlight', icon: Sparkles, description: 'Pameran panggung sinematik' },
-  { id: 'filmstrip', label: 'Filmstrip', icon: Film, description: 'Gulir horizontal tanpa batas' },
+  { id: 'filmstrip', label: 'Filmstrip', icon: Film, description: 'Gulir horizontal sinematik' },
 ];
+
+const INITIAL_PAGE_SIZE = 24;
+const LOAD_INCREMENT = 18;
 
 export const Gallery: React.FC<GalleryProps> = ({
   photos = PORTFOLIO_PHOTOS,
@@ -47,11 +53,15 @@ export const Gallery: React.FC<GalleryProps> = ({
   onSelectCategory,
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('Semua');
+  const [searchQuery, setSearchQuery] = useState<string>('');
   const [activePhoto, setActivePhoto] = useState<PhotoItem | null>(null);
   const [galleryMode, setGalleryMode] = useState<GalleryLayoutMode>('matrix');
   const [spotlightIndex, setSpotlightIndex] = useState<number>(0);
+  const [visibleCount, setVisibleCount] = useState<number>(INITIAL_PAGE_SIZE);
+
   const filmstripRef = useRef<HTMLDivElement>(null);
   const spotlightThumbRef = useRef<HTMLDivElement>(null);
+  const loadMoreSentinelRef = useRef<HTMLDivElement>(null);
 
   const activePhotoSet = photos.length > 0 ? photos : PORTFOLIO_PHOTOS;
 
@@ -63,26 +73,78 @@ export const Gallery: React.FC<GalleryProps> = ({
     }
   };
 
-  // Filter list foto berdasarkan kategori
-  const filteredPhotos = activePhotoSet.filter((p) => {
-    if (selectedCategory === 'Semua') return true;
-    if (selectedCategory === 'Unggulan') return p.featured;
-    return p.category === selectedCategory;
-  });
+  // Filter foto berdasarkan kategori dan kata kunci pencarian
+  const filteredPhotos = useMemo(() => {
+    return activePhotoSet.filter((p) => {
+      // 1. Filter Kategori
+      if (selectedCategory === 'Unggulan' && !p.featured) return false;
+      if (
+        selectedCategory !== 'Semua' &&
+        selectedCategory !== 'Unggulan' &&
+        p.category !== selectedCategory
+      ) {
+        return false;
+      }
 
-  // Reset spotlight index jika filter berubah dan index di luar jangkauan
+      // 2. Filter Pencarian Cepat
+      if (searchQuery.trim().length > 0) {
+        const q = searchQuery.toLowerCase().trim();
+        const matchTitle = p.title.toLowerCase().includes(q);
+        const matchLocation = p.location.toLowerCase().includes(q);
+        const matchCategory = p.category.toLowerCase().includes(q);
+        const matchYear = p.year.includes(q);
+        const matchDesc = p.description ? p.description.toLowerCase().includes(q) : false;
+
+        if (!matchTitle && !matchLocation && !matchCategory && !matchYear && !matchDesc) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  }, [activePhotoSet, selectedCategory, searchQuery]);
+
+  // Reset batas rendering bertahap saat kategori, pencarian, atau mode berganti
+  useEffect(() => {
+    setVisibleCount(INITIAL_PAGE_SIZE);
+  }, [selectedCategory, searchQuery, galleryMode]);
+
+  // Reset spotlight index jika data foto berubah
   useEffect(() => {
     if (spotlightIndex >= filteredPhotos.length) {
       setSpotlightIndex(0);
     }
   }, [filteredPhotos.length, spotlightIndex]);
 
-  // Hitung jumlah karya per kategori
+  // IntersectionObserver untuk auto load-more saat pengguna scroll mendekati batas bawah galeri
+  useEffect(() => {
+    const sentinel = loadMoreSentinelRef.current;
+    if (!sentinel || typeof IntersectionObserver === 'undefined') return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && visibleCount < filteredPhotos.length) {
+          setVisibleCount((prev) => Math.min(prev + LOAD_INCREMENT, filteredPhotos.length));
+        }
+      },
+      { rootMargin: '400px' }
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [visibleCount, filteredPhotos.length]);
+
+  // Hitung jumlah karya per kategori (tanpa dipengaruhi query pencarian)
   const getCategoryCount = (category: string) => {
     if (category === 'Semua') return activePhotoSet.length;
     if (category === 'Unggulan') return activePhotoSet.filter((p) => p.featured).length;
     return activePhotoSet.filter((p) => p.category === category).length;
   };
+
+  // Potong foto yang dirender agar DOM tetap ringan dan cepat (60-120 FPS di ponsel dan laptop)
+  const renderedPhotos = useMemo(() => {
+    return filteredPhotos.slice(0, visibleCount);
+  }, [filteredPhotos, visibleCount]);
 
   // Bento span rhythm generator
   const getBentoColSpan = (index: number) => {
@@ -116,8 +178,8 @@ export const Gallery: React.FC<GalleryProps> = ({
     <section id="galeri" className="w-full px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 max-w-[1920px] mx-auto scroll-mt-24 sm:scroll-mt-28">
       {/* Gallery Header & Controls */}
       <div className="flex flex-col gap-5 sm:gap-6 mb-8 pb-6 border-b border-white/[0.08]">
-        {/* Title & Subtitle */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        {/* Title, Subtitle, & Quick Search Bar */}
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
           <div>
             <h2 className="font-editorial text-3xl sm:text-5xl lg:text-6xl text-white font-bold tracking-tight">
               Showcase Utama
@@ -125,6 +187,27 @@ export const Gallery: React.FC<GalleryProps> = ({
             <p className="text-xs sm:text-sm text-slate-300 font-light mt-2 max-w-md">
               Koleksi kurasi lintas genre yang mewakili karakter, atmosfer, dan visi visual Husein Rosid.
             </p>
+          </div>
+
+          {/* Quick Search Input */}
+          <div className="relative w-full lg:w-80 shrink-0">
+            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Cari lokasi, acara, tahun (misal: Surabaya)..."
+              className="w-full pl-9 pr-9 py-2 rounded-2xl bg-[#0E1118]/85 border border-white/10 text-xs text-white placeholder:text-slate-500 outline-none focus:border-amber-400/50 backdrop-blur-xl transition-all"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white p-1 cursor-pointer"
+                aria-label="Bersihkan pencarian"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
           </div>
         </div>
 
@@ -195,7 +278,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                     }
                   }}
                   className="flex items-center gap-1.5 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-medium tracking-wider whitespace-nowrap transition-all duration-200 cursor-pointer active:scale-95 text-slate-400 hover:text-amber-300 hover:bg-amber-500/10 border border-transparent hover:border-amber-500/20 group"
-                  title={`Buka Halaman Kategori ${category}`}
+                  title={`Buka Ruang Kategori ${category}`}
                 >
                   <span>{category}</span>
                   <span className="text-[9px] sm:text-[10px] px-1.5 py-0.2 rounded-full bg-white/10 text-slate-400 group-hover:bg-amber-500/20 group-hover:text-amber-300">
@@ -212,23 +295,28 @@ export const Gallery: React.FC<GalleryProps> = ({
       {/* EMPTY STATE */}
       {filteredPhotos.length === 0 && (
         <div className="py-20 text-center bento-card p-12 rounded-3xl border border-white/10">
-          <p className="font-editorial text-2xl text-white">Tidak ada foto dalam kategori ini</p>
+          <p className="font-editorial text-2xl text-white">Tidak ada karya visual yang ditemukan</p>
           <p className="text-xs text-slate-400 mt-2">
-            Silakan pilih kategori lain atau lihat koleksi lengkap.
+            {searchQuery
+              ? `Tidak ada karya yang cocok dengan kata kunci "${searchQuery}". Coba kata kunci lain atau bersihkan pencarian.`
+              : 'Silakan pilih kategori lain atau lihat koleksi lengkap.'}
           </p>
           <button
-            onClick={() => setSelectedCategory('Semua')}
-            className="mt-6 px-5 py-2.5 rounded-full bg-amber-500 text-slate-950 font-bold text-xs uppercase tracking-wider"
+            onClick={() => {
+              setSelectedCategory('Semua');
+              setSearchQuery('');
+            }}
+            className="mt-6 px-5 py-2.5 rounded-full bg-amber-500 text-slate-950 font-bold text-xs uppercase tracking-wider cursor-pointer active:scale-95 transition-all"
           >
             Lihat Semua Foto
           </button>
         </div>
       )}
 
-      {/* MODE 1: Asymmetric Bento Grid */}
+      {/* MODE 1: Asymmetric Bento Grid (Progressive Rendered Set) */}
       {galleryMode === 'matrix' && filteredPhotos.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 sm:gap-5 animate-in fade-in duration-300">
-          {filteredPhotos.map((photo, index) => {
+          {renderedPhotos.map((photo, index) => {
             const spanClass = getBentoColSpan(index);
             return (
               <div
@@ -283,10 +371,10 @@ export const Gallery: React.FC<GalleryProps> = ({
         </div>
       )}
 
-      {/* MODE 2: Grid Seragam (2-Column Mobile / 3-Column Desktop Precision) */}
+      {/* MODE 2: Grid Seragam (Progressive Rendered Set) */}
       {galleryMode === 'grid' && filteredPhotos.length > 0 && (
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-3 sm:gap-6 animate-in fade-in duration-300">
-          {filteredPhotos.map((photo) => (
+          {renderedPhotos.map((photo) => (
             <div
               key={photo.id}
               onClick={() => handlePhotoClick(photo)}
@@ -351,10 +439,10 @@ export const Gallery: React.FC<GalleryProps> = ({
         </div>
       )}
 
-      {/* MODE 3: Masonry Dinamis (2-Column Mobile / Multi-Column Desktop) */}
+      {/* MODE 3: Masonry Dinamis (Progressive Rendered Set) */}
       {galleryMode === 'masonry' && filteredPhotos.length > 0 && (
         <div className="columns-2 sm:columns-2 lg:columns-3 2xl:columns-4 gap-3 sm:gap-5 space-y-3 sm:space-y-5 animate-in fade-in duration-300">
-          {filteredPhotos.map((photo) => {
+          {renderedPhotos.map((photo) => {
             const isTall = photo.aspectRatio === 'portrait';
             return (
               <div
@@ -411,6 +499,27 @@ export const Gallery: React.FC<GalleryProps> = ({
           })}
         </div>
       )}
+
+      {/* Progressive Load More Bar & Auto-Trigger Sentinel */}
+      {(galleryMode === 'matrix' || galleryMode === 'grid' || galleryMode === 'masonry') &&
+        visibleCount < filteredPhotos.length && (
+          <div className="mt-12 flex flex-col items-center justify-center gap-3">
+            <div ref={loadMoreSentinelRef} className="h-4 w-full pointer-events-none" />
+            <p className="text-xs font-mono text-slate-400">
+              Menampilkan <span className="text-amber-400 font-bold">{renderedPhotos.length}</span> dari{' '}
+              <span className="text-white font-bold">{filteredPhotos.length}</span> Karya Visual
+            </p>
+            <button
+              onClick={() =>
+                setVisibleCount((prev) => Math.min(prev + LOAD_INCREMENT, filteredPhotos.length))
+              }
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/[0.06] hover:bg-white/[0.12] active:scale-95 text-white text-xs font-semibold uppercase tracking-wider border border-white/10 hover:border-amber-400/40 transition-all cursor-pointer shadow-lg"
+            >
+              <span>Muat Lebih Banyak ({filteredPhotos.length - renderedPhotos.length} Tersisa)</span>
+              <ArrowDown className="w-3.5 h-3.5 text-amber-400" />
+            </button>
+          </div>
+        )}
 
       {/* MODE 4: Sorotan Tunggal (Cinematic Spotlight Centerpiece) */}
       {galleryMode === 'spotlight' && currentSpotlightPhoto && (
@@ -507,7 +616,7 @@ export const Gallery: React.FC<GalleryProps> = ({
             </div>
           </div>
 
-          {/* Interactive Thumbnail Carousel Strip */}
+          {/* Interactive Thumbnail Carousel Strip (Limited to Top 24) */}
           <div className="space-y-2">
             <div className="flex items-center justify-between text-xs text-slate-400 px-2">
               <span>Pilih karya untuk ditampilkan di panggung:</span>
@@ -519,7 +628,7 @@ export const Gallery: React.FC<GalleryProps> = ({
               ref={spotlightThumbRef}
               className="flex items-center gap-3 overflow-x-auto pb-3 pt-1 no-scrollbar"
             >
-              {filteredPhotos.map((photo, idx) => {
+              {filteredPhotos.slice(0, 24).map((photo, idx) => {
                 const isSelected = idx === spotlightIndex;
                 return (
                   <button
@@ -547,7 +656,7 @@ export const Gallery: React.FC<GalleryProps> = ({
         </div>
       )}
 
-      {/* MODE 5: Rol Film Bebas (Horizontal Filmstrip Stream) */}
+      {/* MODE 5: Rol Film Bebas (Horizontal Filmstrip Stream - Top 24 Items) */}
       {galleryMode === 'filmstrip' && filteredPhotos.length > 0 && (
         <div className="space-y-4 animate-in fade-in duration-300">
           {/* Controls & Gesture Hint */}
@@ -580,7 +689,7 @@ export const Gallery: React.FC<GalleryProps> = ({
             className="flex items-stretch gap-5 overflow-x-auto pb-6 pt-2 no-scrollbar cursor-grab active:cursor-grabbing snap-x snap-mandatory"
             style={{ WebkitOverflowScrolling: 'touch' }}
           >
-            {filteredPhotos.map((photo) => (
+            {filteredPhotos.slice(0, 24).map((photo) => (
               <div
                 key={photo.id}
                 onClick={() => handlePhotoClick(photo)}

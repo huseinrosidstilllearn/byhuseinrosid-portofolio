@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import {
   X,
   ChevronLeft,
@@ -7,6 +7,8 @@ import {
   Calendar,
   ZoomIn,
   ZoomOut,
+  Play,
+  Pause,
   MessageCircle,
   SlidersHorizontal,
 } from 'lucide-react';
@@ -30,14 +32,53 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
 }) => {
   const [isZoomed, setIsZoomed] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isPlayingSlideshow, setIsPlayingSlideshow] = useState(false);
   const touchStartXRef = useRef<number | null>(null);
   const touchEndXRef = useRef<number | null>(null);
   const lastTapRef = useRef<number>(0);
+
+  const currentIndex = photo ? allPhotos.findIndex((p) => p.id === photo.id) : -1;
+
+  const handlePrev = useCallback(() => {
+    if (!photo || allPhotos.length === 0) return;
+    if (currentIndex > 0) {
+      onSelectPhoto(allPhotos[currentIndex - 1]);
+    } else {
+      onSelectPhoto(allPhotos[allPhotos.length - 1]);
+    }
+  }, [currentIndex, allPhotos, onSelectPhoto, photo]);
+
+  const handleNext = useCallback(() => {
+    if (!photo || allPhotos.length === 0) return;
+    if (currentIndex < allPhotos.length - 1) {
+      onSelectPhoto(allPhotos[currentIndex + 1]);
+    } else {
+      onSelectPhoto(allPhotos[0]);
+    }
+  }, [currentIndex, allPhotos, onSelectPhoto, photo]);
 
   useEffect(() => {
     setIsZoomed(false);
     setIsLoading(true);
   }, [photo]);
+
+  // Pause slideshow if user activates zoom
+  useEffect(() => {
+    if (isZoomed) {
+      setIsPlayingSlideshow(false);
+    }
+  }, [isZoomed]);
+
+  // Autoplay Slideshow 3.5s per foto
+  useEffect(() => {
+    if (!isPlayingSlideshow || !photo) return;
+
+    const timer = setInterval(() => {
+      handleNext();
+    }, 3500);
+
+    return () => clearInterval(timer);
+  }, [isPlayingSlideshow, photo, handleNext]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -48,6 +89,9 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
         handlePrev();
       } else if (e.key === 'ArrowRight') {
         handleNext();
+      } else if (e.key === ' ' || e.code === 'Space') {
+        e.preventDefault();
+        setIsPlayingSlideshow((prev) => !prev);
       }
     };
 
@@ -58,27 +102,9 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
       window.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'unset';
     };
-  }, [photo, allPhotos]);
+  }, [photo, allPhotos, onClose, handlePrev, handleNext]);
 
   if (!photo) return null;
-
-  const currentIndex = allPhotos.findIndex((p) => p.id === photo.id);
-
-  const handlePrev = () => {
-    if (currentIndex > 0) {
-      onSelectPhoto(allPhotos[currentIndex - 1]);
-    } else {
-      onSelectPhoto(allPhotos[allPhotos.length - 1]);
-    }
-  };
-
-  const handleNext = () => {
-    if (currentIndex < allPhotos.length - 1) {
-      onSelectPhoto(allPhotos[currentIndex + 1]);
-    } else {
-      onSelectPhoto(allPhotos[0]);
-    }
-  };
 
   // Touch swipe gesture handlers for mobile
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -125,6 +151,19 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
+      {/* Slideshow Progress Bar */}
+      {isPlayingSlideshow && (
+        <div className="absolute top-0 left-0 right-0 h-1 bg-white/10 z-40 overflow-hidden">
+          <div
+            key={photo.id}
+            className="h-full bg-amber-400"
+            style={{
+              animation: 'lightboxSlideProgress 3.5s linear forwards',
+            }}
+          />
+        </div>
+      )}
+
       {/* Top Header Bar */}
       <div className="absolute top-4 left-4 right-4 z-30 flex items-center justify-between text-white/80">
         <div className="flex items-center gap-3">
@@ -138,6 +177,30 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
         </div>
 
         <div className="flex items-center gap-2">
+          {/* Autoplay Slideshow Button */}
+          <button
+            onClick={() => setIsPlayingSlideshow((prev) => !prev)}
+            aria-label={isPlayingSlideshow ? 'Jeda Slideshow Otomatis (Spasi)' : 'Putar Slideshow Otomatis (Spasi)'}
+            title={isPlayingSlideshow ? 'Jeda Slideshow (Spasi)' : 'Putar Slideshow (Spasi)'}
+            className={`px-3 py-2 sm:px-3.5 sm:py-2 rounded-full transition-all cursor-pointer flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider ${
+              isPlayingSlideshow
+                ? 'bg-amber-500 text-slate-950 font-bold shadow-[0_0_15px_rgba(245,158,11,0.5)]'
+                : 'bg-white/10 hover:bg-white/20 text-white'
+            }`}
+          >
+            {isPlayingSlideshow ? (
+              <>
+                <Pause className="w-3.5 h-3.5 fill-current" />
+                <span className="hidden sm:inline">Jeda</span>
+              </>
+            ) : (
+              <>
+                <Play className="w-3.5 h-3.5 fill-current" />
+                <span className="hidden sm:inline">Slide</span>
+              </>
+            )}
+          </button>
+
           {/* Zoom Toggle Button */}
           <button
             onClick={() => setIsZoomed(!isZoomed)}
