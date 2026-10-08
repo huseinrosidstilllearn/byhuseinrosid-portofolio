@@ -17,6 +17,8 @@
 html {
   background-color: #050505;
   color: #F8FAFC;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 html.lenis, html.lenis body {
@@ -39,9 +41,10 @@ body {
   font-family: var(--font-sans);
   background-color: #050505;
   color: #F8FAFC;
-  overflow-x: clip;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-overflow-scrolling: touch;
 }
 
 .font-editorial {

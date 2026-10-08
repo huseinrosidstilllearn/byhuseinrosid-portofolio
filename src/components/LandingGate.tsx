@@ -67,7 +67,7 @@ export function LandingGate({ onSelectMode, photos = [] }: LandingGateProps) {
     return () => clearInterval(timer);
   }, [isPaused, enteringMode, nextSlide]);
 
-  // Dukungan scroll wheel atau tombol keyboard untuk kenyamanan pengunjung
+  // Dukungan scroll wheel, swipe touch, atau tombol keyboard untuk kenyamanan pengunjung
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (enteringMode) return;
@@ -83,11 +83,28 @@ export function LandingGate({ onSelectMode, photos = [] }: LandingGateProps) {
       }
     };
 
+    let touchStartY = 0;
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (enteringMode) return;
+      const deltaY = touchStartY - e.changedTouches[0].clientY;
+      if (deltaY > 40) {
+        handleSelect('karya');
+      }
+    };
+
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('wheel', handleWheel, { passive: true });
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchend', handleTouchEnd);
     };
   }, [enteringMode, nextSlide, prevSlide]);
 

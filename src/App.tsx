@@ -31,9 +31,9 @@ const STORAGE_KEY = 'bhr_site_mode';
 function getSavedMode(): SiteMode {
   try {
     const saved = localStorage.getItem(STORAGE_KEY) as SiteMode | null;
-    if (saved === 'karya' || saved === 'perjalanan') return saved;
+    if (saved === 'karya' || saved === 'perjalanan' || saved === 'landing') return saved;
   } catch {}
-  return 'landing';
+  return 'karya';
 }
 
 function getInitialCategory(): string | null {
@@ -147,8 +147,21 @@ export function App() {
     loadInitialData();
   }, []);
 
-  // Lenis smooth scroll: hanya aktif di mode bento/perjalanan
+  // Lenis smooth scroll: hanya aktif di desktop (non-touch) agar scroll ponsel tetap native 120Hz
   useEffect(() => {
+    // Pada perangkat mobile / layar sentuh, biarkan browser menangani scroll secara native
+    const isTouchDevice =
+      typeof window !== 'undefined' &&
+      ('ontouchstart' in window || navigator.maxTouchPoints > 0 || window.innerWidth < 768);
+
+    if (isTouchDevice) {
+      if (lenisRef.current) {
+        lenisRef.current.destroy();
+        lenisRef.current = null;
+      }
+      return;
+    }
+
     const shouldDisable =
       siteMode === 'landing' ||
       viewMode === 'spatial' ||
@@ -166,7 +179,6 @@ export function App() {
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      touchMultiplier: 1.5,
     });
     lenisRef.current = lenis;
 
