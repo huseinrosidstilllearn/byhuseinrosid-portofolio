@@ -118,26 +118,15 @@ export const DualMarquee: React.FC<DualMarqueeProps> = ({
             <div
               key={`r1-${photo.id}-${index}`}
               onClick={() => onSelectPhoto(photo)}
-              className="w-[230px] sm:w-[320px] h-[165px] sm:h-[230px] rounded-2xl overflow-hidden relative group cursor-pointer shrink-0 border border-white/[0.08] hover:border-amber-400/60 transition-all duration-300 shadow-md bg-[#0D1017]"
+              className="w-[220px] sm:w-[320px] h-[150px] sm:h-[220px] rounded-2xl overflow-hidden relative group cursor-pointer shrink-0 border border-white/[0.08] hover:border-amber-400/60 transition-all duration-300 shadow-md bg-[#0D1017]"
             >
               <img
                 src={photo.imageUrl}
                 alt={photo.title}
                 loading="lazy"
                 decoding="async"
-                className="w-full h-full object-cover sm:group-hover:scale-105 transition-transform duration-500 ease-out"
+                className="w-full h-full object-cover grayscale-0 sm:grayscale sm:group-hover:grayscale-0 sm:group-hover:scale-105 transition-[filter,transform] duration-500 ease-out"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3 sm:p-4">
-                <span className="text-[9px] sm:text-[10px] uppercase tracking-wider text-amber-400 font-semibold">
-                  {photo.category}
-                </span>
-                <span className="text-xs sm:text-sm font-editorial text-white font-medium truncate">
-                  {photo.title}
-                </span>
-                <span className="text-[10px] sm:text-[11px] text-slate-300 sm:text-slate-400 font-light truncate mt-0.5">
-                  {photo.location}
-                </span>
-              </div>
             </div>
           ))}
         </div>
@@ -155,26 +144,15 @@ export const DualMarquee: React.FC<DualMarqueeProps> = ({
             <div
               key={`r2-${photo.id}-${index}`}
               onClick={() => onSelectPhoto(photo)}
-              className="w-[230px] sm:w-[320px] h-[165px] sm:h-[230px] rounded-2xl overflow-hidden relative group cursor-pointer shrink-0 border border-white/[0.08] hover:border-amber-400/60 transition-all duration-300 shadow-md bg-[#0D1017]"
+              className="w-[220px] sm:w-[320px] h-[150px] sm:h-[220px] rounded-2xl overflow-hidden relative group cursor-pointer shrink-0 border border-white/[0.08] hover:border-amber-400/60 transition-all duration-300 shadow-md bg-[#0D1017]"
             >
               <img
                 src={photo.imageUrl}
                 alt={photo.title}
                 loading="lazy"
                 decoding="async"
-                className="w-full h-full object-cover sm:group-hover:scale-105 transition-transform duration-500 ease-out"
+                className="w-full h-full object-cover grayscale-0 sm:grayscale sm:group-hover:grayscale-0 sm:group-hover:scale-105 transition-[filter,transform] duration-500 ease-out"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3 sm:p-4">
-                <span className="text-[9px] sm:text-[10px] uppercase tracking-wider text-amber-400 font-semibold">
-                  {photo.category}
-                </span>
-                <span className="text-xs sm:text-sm font-editorial text-white font-medium truncate">
-                  {photo.title}
-                </span>
-                <span className="text-[10px] sm:text-[11px] text-slate-300 sm:text-slate-400 font-light truncate mt-0.5">
-                  {photo.location}
-                </span>
-              </div>
             </div>
           ))}
         </div>
