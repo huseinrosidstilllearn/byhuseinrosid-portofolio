@@ -194,7 +194,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 onClick={() => setMobileMenuOpen(true)}
                 aria-label="Buka Menu"
-                className="md:hidden w-9 h-9 rounded-full bg-white/[0.05] border border-white/10 flex items-center justify-center text-white cursor-pointer"
+                className="md:hidden w-10 h-10 rounded-full bg-white/[0.05] hover:bg-white/10 active:scale-95 border border-white/10 flex items-center justify-center text-white cursor-pointer transition-all"
               >
                 <Menu className="w-4 h-4" />
               </button>
@@ -213,7 +213,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={() => setMobileMenuOpen(false)}
               aria-label="Tutup Menu"
-              className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white cursor-pointer"
+              className="w-10 h-10 rounded-full bg-white/10 active:scale-95 flex items-center justify-center text-white cursor-pointer transition-transform"
             >
               <X className="w-5 h-5" />
             </button>
@@ -223,7 +223,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <div className="relative flex p-1 rounded-full bg-white/[0.06] border border-white/10 mt-4 backdrop-blur-md">
             <button
               onClick={() => { setMobileMenuOpen(false); onSwitchSiteMode('karya'); }}
-              className={`relative flex-1 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors flex items-center justify-center gap-2 cursor-pointer z-10 ${
+              className={`relative flex-1 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors flex items-center justify-center gap-2 cursor-pointer z-10 active:scale-[0.98] ${
                 siteMode === 'karya' ? 'text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -239,7 +239,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
             <button
               onClick={() => { setMobileMenuOpen(false); onSwitchSiteMode('perjalanan'); }}
-              className={`relative flex-1 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors flex items-center justify-center gap-2 cursor-pointer z-10 ${
+              className={`relative flex-1 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors flex items-center justify-center gap-2 cursor-pointer z-10 active:scale-[0.98] ${
                 siteMode === 'perjalanan' ? 'text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -264,7 +264,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     onSelectCategory?.(null);
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
-                  className={`text-left font-editorial text-2xl transition-colors block ${
+                  className={`text-left font-editorial text-2xl transition-colors block active:scale-[0.98] ${
                     !activeCategory ? 'text-amber-400 font-bold' : 'text-white hover:text-amber-400'
                   }`}
                 >
@@ -286,7 +286,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                             onSelectCategory?.(cat);
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                           }}
-                          className={`px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all ${
+                          className={`px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all active:scale-95 cursor-pointer ${
                             isActive
                               ? 'bg-amber-500 text-slate-950 font-bold shadow-md'
                               : 'bg-white/[0.06] text-slate-300 border border-white/10 hover:border-amber-400/40'
@@ -307,7 +307,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     setMobileMenuOpen(false);
                     onNavigateToSection(link.id);
                   }}
-                  className="text-left font-editorial text-3xl text-white hover:text-amber-400 transition-colors"
+                  className="text-left font-editorial text-3xl text-white hover:text-amber-400 active:scale-[0.98] transition-all cursor-pointer"
                 >
                   {link.label}
                 </button>
@@ -320,7 +320,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               href={createWhatsAppLink()}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full py-3.5 rounded-full bg-amber-500 text-slate-950 font-bold text-center text-xs uppercase tracking-wider flex items-center justify-center gap-2"
+              className="w-full py-3.5 rounded-full bg-amber-500 hover:bg-amber-400 active:scale-[0.98] text-slate-950 font-bold text-center text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer shadow-lg shadow-amber-500/20"
             >
               <MessageCircle className="w-4 h-4" />
               <span>Hubungi via WhatsApp</span>

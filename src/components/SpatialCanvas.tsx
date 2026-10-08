@@ -257,14 +257,14 @@ export const SpatialCanvas: React.FC<SpatialCanvasProps> = ({ photos = PORTFOLIO
       </motion.div>
 
       {/* FLOATING HUD: Category Filter Pills */}
-      <div className="fixed top-20 sm:top-24 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1.5 p-1.5 rounded-full bg-black/70 backdrop-blur-xl border border-white/15 shadow-2xl max-w-[95vw] overflow-x-auto no-scrollbar">
+      <div className="fixed top-20 sm:top-24 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1.5 p-1.5 rounded-full bg-black/70 backdrop-blur-xl border border-white/15 shadow-2xl max-w-[95vw] overflow-x-auto no-scrollbar touch-pan-x overscroll-x-contain">
         {PHOTO_CATEGORIES.map(category => {
           const isActive = selectedCategory === category;
           return (
             <button
               key={category}
               onClick={() => focusOnCategory(category)}
-              className={`px-3.5 sm:px-4 py-1.5 rounded-full text-xs tracking-wider whitespace-nowrap transition-all duration-300 cursor-pointer ${
+              className={`px-3.5 sm:px-4 py-1.5 rounded-full text-xs tracking-wider whitespace-nowrap transition-all duration-300 cursor-pointer active:scale-95 ${
                 isActive
                   ? 'bg-amber-500 text-slate-950 font-semibold shadow-[0_0_15px_rgba(245,158,11,0.4)]'
                   : 'text-slate-300 hover:text-white hover:bg-white/10'
@@ -277,18 +277,18 @@ export const SpatialCanvas: React.FC<SpatialCanvasProps> = ({ photos = PORTFOLIO
       </div>
 
       {/* FLOATING HUD: Zoom & Recenter Controls */}
-      <div className="fixed bottom-6 right-4 sm:bottom-8 sm:right-6 z-30 flex items-center gap-1 sm:gap-2 p-1.5 rounded-full bg-black/70 backdrop-blur-xl border border-white/15 shadow-2xl">
+      <div className="fixed bottom-6 right-4 sm:bottom-8 sm:right-6 z-30 flex items-center gap-1 sm:gap-1.5 p-1.5 rounded-full bg-black/70 backdrop-blur-xl border border-white/15 shadow-2xl">
         <button
           onClick={handleZoomIn}
           aria-label="Perbesar Kanvas"
-          className="p-2 sm:p-2.5 rounded-full text-slate-200 hover:text-amber-400 hover:bg-white/10 transition-all cursor-pointer"
+          className="w-10 h-10 flex items-center justify-center rounded-full text-slate-200 hover:text-amber-400 active:scale-90 hover:bg-white/10 transition-all cursor-pointer"
         >
           <ZoomIn className="w-4 h-4" />
         </button>
         <button
           onClick={handleZoomOut}
           aria-label="Perkecil Kanvas"
-          className="p-2 sm:p-2.5 rounded-full text-slate-200 hover:text-amber-400 hover:bg-white/10 transition-all cursor-pointer"
+          className="w-10 h-10 flex items-center justify-center rounded-full text-slate-200 hover:text-amber-400 active:scale-90 hover:bg-white/10 transition-all cursor-pointer"
         >
           <ZoomOut className="w-4 h-4" />
         </button>
@@ -296,7 +296,7 @@ export const SpatialCanvas: React.FC<SpatialCanvasProps> = ({ photos = PORTFOLIO
         <button
           onClick={handleRecenter}
           aria-label="Pusatkan Kembali"
-          className="p-2 sm:p-2.5 rounded-full text-slate-200 hover:text-amber-400 hover:bg-white/10 transition-all cursor-pointer"
+          className="w-10 h-10 flex items-center justify-center rounded-full text-slate-200 hover:text-amber-400 active:scale-90 hover:bg-white/10 transition-all cursor-pointer"
         >
           <RotateCcw className="w-4 h-4" />
         </button>
@@ -331,7 +331,7 @@ export const SpatialCanvas: React.FC<SpatialCanvasProps> = ({ photos = PORTFOLIO
       {/* Lightbox Modal */}
       <LightboxModal
         photo={activePhoto}
-        allPhotos={PORTFOLIO_PHOTOS}
+        allPhotos={photos}
         onClose={() => setActivePhoto(null)}
         onSelectPhoto={photo => setActivePhoto(photo)}
       />

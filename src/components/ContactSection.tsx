@@ -66,7 +66,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ contact = CONTAC
             href={`https://wa.me/${activeContact.whatsappNumber}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="bento-card p-5 flex items-center justify-between group"
+            className="bento-card p-5 flex items-center justify-between group active:scale-[0.98] transition-all"
           >
             <div className="flex items-center gap-4">
               <div className="w-11 h-11 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -89,7 +89,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ contact = CONTAC
             href={activeContact.instagramUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="bento-card p-5 flex items-center justify-between group"
+            className="bento-card p-5 flex items-center justify-between group active:scale-[0.98] transition-all"
           >
             <div className="flex items-center gap-4">
               <div className="w-11 h-11 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -110,7 +110,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ contact = CONTAC
           {/* Email Card */}
           <a
             href={`mailto:${activeContact.email}`}
-            className="bento-card p-5 flex items-center justify-between group"
+            className="bento-card p-5 flex items-center justify-between group active:scale-[0.98] transition-all"
           >
             <div className="flex items-center gap-4">
               <div className="w-11 h-11 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -164,7 +164,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ contact = CONTAC
                 value={name}
                 onChange={e => setName(e.target.value)}
                 placeholder="Contoh: Rian & Sarah / Brand Lokal"
-                className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-slate-600 text-sm focus:outline-none focus:border-amber-400 transition-colors"
+                className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-slate-600 text-base sm:text-sm focus:outline-none focus:border-amber-400 transition-colors"
               />
             </div>
 
@@ -189,7 +189,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ contact = CONTAC
                 ]}
                 placeholder="-- Pilih Kategori Layanan --"
                 variant="subtle"
-                buttonClassName="py-3 px-4 text-sm"
+                buttonClassName="py-3 px-4 text-base sm:text-sm"
               />
             </div>
 
@@ -202,7 +202,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ contact = CONTAC
                 value={sessionLocation}
                 onChange={e => setSessionLocation(e.target.value)}
                 placeholder="Contoh: Surabaya / Bali (Bulan depan)"
-                className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-slate-600 text-sm focus:outline-none focus:border-amber-400 transition-colors"
+                className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-slate-600 text-base sm:text-sm focus:outline-none focus:border-amber-400 transition-colors"
               />
             </div>
 
@@ -215,13 +215,13 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ contact = CONTAC
                 value={notes}
                 onChange={e => setNotes(e.target.value)}
                 placeholder="Gambarkan suasana foto, referensi moodboard, atau cerita yang ingin Anda abadikan..."
-                className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-slate-600 text-sm focus:outline-none focus:border-amber-400 transition-colors resize-none"
+                className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-slate-600 text-base sm:text-sm focus:outline-none focus:border-amber-400 transition-colors resize-none"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full py-4 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(245,158,11,0.35)] transition-all cursor-pointer hover:scale-[1.01]"
+              className="w-full py-4 rounded-full bg-amber-500 hover:bg-amber-400 active:scale-[0.98] text-slate-950 font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(245,158,11,0.35)] transition-all cursor-pointer hover:scale-[1.01]"
             >
               <Send className="w-4 h-4" />
               <span>Kirim Pesan ke WhatsApp</span>

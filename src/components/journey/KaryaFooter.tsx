@@ -50,7 +50,7 @@ export function KaryaFooter({
           {/* Spatial canvas */}
           <button
             onClick={onSwitchToSpatial}
-            className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 hover:border-amber-500/40 text-white/50 hover:text-amber-400 text-xs transition-all duration-300 group cursor-pointer"
+            className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 hover:border-amber-500/40 active:scale-95 text-white/50 hover:text-amber-400 text-xs transition-all duration-300 group cursor-pointer"
           >
             <Sparkles className="w-3.5 h-3.5 text-amber-400/80 group-hover:text-amber-400 group-hover:scale-110 transition-transform" />
             <span>Kanvas 360°</span>
@@ -59,7 +59,7 @@ export function KaryaFooter({
           {/* Switch to Perjalanan */}
           <button
             onClick={() => onSwitchSiteMode('perjalanan')}
-            className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 hover:border-amber-500/40 text-white/50 hover:text-white text-xs transition-all duration-300 group cursor-pointer"
+            className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 hover:border-amber-500/40 active:scale-95 text-white/50 hover:text-white text-xs transition-all duration-300 group cursor-pointer"
           >
             <Compass className="w-3.5 h-3.5 text-amber-400 group-hover:rotate-45 transition-transform" />
             <span>Mode Perjalanan & CV</span>
@@ -70,7 +70,7 @@ export function KaryaFooter({
             href={waLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-5 py-2 rounded-full bg-amber-500 hover:bg-amber-400 text-black font-semibold text-xs transition-all duration-300 hover:scale-105 shadow-[0_0_20px_rgba(245,158,11,0.25)]"
+            className="flex items-center gap-2 px-5 py-2 rounded-full bg-amber-500 hover:bg-amber-400 active:scale-95 text-black font-semibold text-xs transition-all duration-300 hover:scale-105 shadow-[0_0_20px_rgba(245,158,11,0.25)]"
           >
             <MessageCircle className="w-3.5 h-3.5" />
             <span>Minta Sesi</span>

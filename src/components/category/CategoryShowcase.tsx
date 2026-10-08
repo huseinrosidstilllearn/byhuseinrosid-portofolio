@@ -64,6 +64,7 @@ export const CategoryShowcase: React.FC<CategoryShowcaseProps> = ({
                   src={samplePhotos.length > 0 ? samplePhotos[0].imageUrl : info.coverImage}
                   alt={info.title}
                   loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover object-center brightness-[0.65] contrast-[1.05] group-hover:scale-105 group-hover:brightness-[0.75] transition-all duration-700 ease-out"
                 />
                 {/* Vignette Gradients */}
@@ -117,6 +118,8 @@ export const CategoryShowcase: React.FC<CategoryShowcaseProps> = ({
                           key={sample.id}
                           src={sample.imageUrl}
                           alt={sample.title}
+                          loading="lazy"
+                          decoding="async"
                           className="inline-block h-7 w-7 rounded-full ring-2 ring-[#050505] object-cover"
                         />
                       ))}
