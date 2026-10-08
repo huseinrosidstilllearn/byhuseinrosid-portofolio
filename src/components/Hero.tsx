@@ -278,55 +278,75 @@ export const Hero: React.FC<HeroProps> = ({ photos = [], onExploreClick, profile
         </div>
       </div>
 
-      {/* Bottom Exhibition HUD: Active Frame Info & Chapter Switcher */}
-      <div className="relative z-30 pt-4 sm:pt-8 border-t border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4 pb-20 md:pb-0 md:pr-20 lg:pr-24">
-        {/* Left: Active Curated Frame Metadata */}
-        <div className="flex items-start gap-3 sm:gap-4">
-          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-white/[0.06] border border-white/15 backdrop-blur-xl flex flex-col items-center justify-center text-amber-400 shrink-0 shadow-lg">
-            <span className="text-[8px] sm:text-[9px] uppercase font-bold tracking-widest text-slate-400">Arsip</span>
-            <span className="font-editorial text-sm sm:text-base font-bold text-amber-400 leading-none">{activeFrame.number}</span>
+      {/* Bottom Exhibition HUD: Active Frame Info & Minimalist Progress */}
+      <div className="relative z-30 pt-4 sm:pt-6 border-t border-white/10 flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4 pb-20 md:pb-0 md:pr-20 lg:pr-24">
+        {/* Left: Clean Editorial Frame Metadata */}
+        <div className="flex flex-col gap-1 min-w-0">
+          <div className="flex items-center flex-wrap gap-2 text-[10px] sm:text-xs text-slate-400 font-light">
+            <span className="font-mono text-amber-400 font-semibold tracking-wider">
+              {activeFrame.number} / {String(heroFrames.length).padStart(2, '0')}
+            </span>
+            <span className="text-white/20">&bull;</span>
+            <span className="text-slate-300 font-medium tracking-wider uppercase text-[10px] sm:text-[11px]">
+              {activeFrame.category}
+            </span>
+            <span className="text-white/20">&bull;</span>
+            <span className="flex items-center gap-1 text-slate-400 truncate">
+              <MapPin className="w-3 h-3 text-amber-400/80 shrink-0" />
+              <span className="truncate">{activeFrame.location}</span>
+              <span className="font-mono">({activeFrame.year})</span>
+            </span>
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-amber-300">
-                {activeFrame.category}
-              </span>
-              <span className="text-[11px] sm:text-xs text-slate-400 font-light flex items-center gap-1">
-                <MapPin className="w-3 h-3 text-amber-400/80" />
-                <span>{activeFrame.location} &bull; {activeFrame.year}</span>
-              </span>
-            </div>
-            <h3 className="font-editorial text-base sm:text-xl text-white font-medium mt-0.5 line-clamp-1 sm:line-clamp-none">
-              {activeFrame.title}
-            </h3>
-          </div>
+
+          <h3 className="font-editorial text-base sm:text-xl md:text-2xl text-white font-medium tracking-tight truncate max-w-xl mt-0.5">
+            {activeFrame.title}
+          </h3>
         </div>
 
-        {/* Right: Chapter Switcher Tabs & Progress Controls */}
-        <div className="flex items-center gap-3 w-full md:w-auto">
-          <div className="flex items-center p-1 sm:p-1.5 rounded-2xl bg-[#0E1118]/85 border border-white/15 backdrop-blur-xl shadow-2xl overflow-x-auto no-scrollbar max-w-full">
-            {heroFrames.map((frame, index) => {
-              const isActive = index === activeFrameIndex;
-              return (
-                <button
-                  key={frame.id}
-                  onClick={() => {
-                    setActiveFrameIndex(index);
-                    setIsPlaying(false);
-                  }}
-                  className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-xs transition-all duration-300 cursor-pointer ${
+        {/* Right: Slim Progress Bars & Frame Switcher */}
+        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0 self-start sm:self-end">
+          {heroFrames.map((frame, index) => {
+            const isActive = index === activeFrameIndex;
+            return (
+              <button
+                key={frame.id}
+                onClick={() => {
+                  setActiveFrameIndex(index);
+                  setIsPlaying(false);
+                }}
+                className="group flex flex-col gap-1.5 py-1.5 cursor-pointer focus:outline-none"
+                aria-label={`Slide ${frame.number}: ${frame.title}`}
+              >
+                {/* Slim Indicator Line */}
+                <div className="relative w-8 sm:w-12 h-1 rounded-full bg-white/15 overflow-hidden transition-all duration-300 group-hover:bg-white/30">
+                  {isActive && (
+                    <div
+                      key={`${frame.id}-${activeFrameIndex}`}
+                      className="absolute inset-y-0 left-0 bg-amber-400 rounded-full"
+                      style={{
+                        animation:
+                          isPlaying && isAutoRotate
+                            ? `heroSlideProgress ${intervalSeconds}ms linear forwards`
+                            : 'none',
+                        width: isPlaying && isAutoRotate ? undefined : '100%',
+                      }}
+                    />
+                  )}
+                </div>
+
+                {/* Minimalist Number */}
+                <span
+                  className={`text-[10px] font-mono leading-none transition-colors duration-200 ${
                     isActive
-                      ? 'bg-amber-500 text-slate-950 font-bold shadow-md'
-                      : 'text-slate-400 hover:text-white hover:bg-white/[0.06] font-medium'
+                      ? 'text-amber-400 font-bold'
+                      : 'text-slate-500 group-hover:text-slate-300'
                   }`}
-                  aria-label={`Lihat karya ${frame.title}`}
                 >
-                  <span className="text-[10px] opacity-75">{frame.number}</span>
-                  <span className="hidden sm:inline tracking-wider">{frame.category}</span>
-                </button>
-              );
-            })}
-          </div>
+                  {frame.number}
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
     </section>
