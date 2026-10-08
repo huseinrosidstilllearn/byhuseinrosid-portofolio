@@ -47,7 +47,9 @@ export const JourneyHero: React.FC<JourneyHeroProps> = ({
                 <img
                   src={profile.avatarUrl}
                   alt={profile.name}
-                  className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-full object-cover grayscale-0 sm:grayscale sm:hover:grayscale-0 transition-all duration-700"
                 />
               </div>
               {/* Floating badge */}
@@ -64,13 +66,13 @@ export const JourneyHero: React.FC<JourneyHeroProps> = ({
                 href={contact.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bento-card px-4 py-2 rounded-xl text-sm text-white/60 hover:text-amber-400 transition-colors border border-white/5 hover:border-amber-500/30"
+                className="bento-card px-4 py-2 rounded-xl text-sm text-white/60 hover:text-amber-400 active:scale-95 transition-all border border-white/5 hover:border-amber-500/30"
               >
                 {contact.instagram}
               </a>
               <a
                 href={`mailto:${contact.email}`}
-                className="bento-card px-4 py-2 rounded-xl text-sm text-white/60 hover:text-amber-400 transition-colors border border-white/5 hover:border-amber-500/30"
+                className="bento-card px-4 py-2 rounded-xl text-sm text-white/60 hover:text-amber-400 active:scale-95 transition-all border border-white/5 hover:border-amber-500/30"
               >
                 Email
               </a>

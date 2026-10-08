@@ -131,6 +131,7 @@ export function LandingGate({ onSelectMode, photos = [] }: LandingGateProps) {
             <img
               src={currentPhoto.imageUrl}
               alt=""
+              decoding="async"
               onError={(e) => {
                 const fallbackSrc = PORTFOLIO_PHOTOS[activeSlide % PORTFOLIO_PHOTOS.length].imageUrl;
                 if (e.currentTarget.src !== fallbackSrc) {

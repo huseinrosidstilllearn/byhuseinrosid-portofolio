@@ -177,6 +177,9 @@ export const Hero: React.FC<HeroProps> = ({ photos = [], onExploreClick, profile
               <img
                 src={frame.imageUrl}
                 alt={frame.title}
+                fetchPriority={index === 0 ? 'high' : 'auto'}
+                loading={index === 0 ? 'eager' : 'lazy'}
+                decoding={index === 0 ? 'sync' : 'async'}
                 className={`w-full h-full object-cover object-center transition-transform duration-[10000ms] ease-out ${
                   isActive ? 'scale-105' : 'scale-100'
                 }`}

@@ -216,6 +216,7 @@ export const SpatialCanvas: React.FC<SpatialCanvasProps> = ({ photos = PORTFOLIO
                 src={photo.imageUrl}
                 alt={photo.title}
                 loading="lazy"
+                decoding="async"
                 draggable={false}
                 className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
               />

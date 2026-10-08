@@ -107,6 +107,7 @@ export const Services: React.FC<ServicesProps> = ({
                     src={coverImage}
                     alt={service.title}
                     loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0E1118] via-[#0E1118]/40 to-black/30" />

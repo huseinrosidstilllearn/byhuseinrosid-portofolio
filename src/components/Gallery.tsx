@@ -131,7 +131,7 @@ export const Gallery: React.FC<GalleryProps> = ({
         {/* Action Controls: 5-Layout Mode Switcher & Category Filters */}
         <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 sm:gap-4">
           {/* 5-Mode Switcher */}
-          <div className="flex items-center gap-1 p-1 rounded-2xl bg-[#0E1118]/85 border border-white/10 backdrop-blur-xl overflow-x-auto no-scrollbar shadow-lg">
+          <div className="flex items-center gap-1 p-1 rounded-2xl bg-[#0E1118]/85 border border-white/10 backdrop-blur-xl overflow-x-auto no-scrollbar shadow-lg touch-pan-x overscroll-x-contain">
             {GALLERY_MODES.map((mode) => {
               const Icon = mode.icon;
               const isActive = galleryMode === mode.id;
@@ -154,7 +154,7 @@ export const Gallery: React.FC<GalleryProps> = ({
           </div>
 
           {/* Category Filter Pills & Direct Category Navigation */}
-          <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-[#0E1118]/85 border border-white/10 backdrop-blur-xl overflow-x-auto no-scrollbar shadow-lg">
+          <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-[#0E1118]/85 border border-white/10 backdrop-blur-xl overflow-x-auto no-scrollbar shadow-lg touch-pan-x overscroll-x-contain">
             {(['Semua', 'Unggulan'] as const).map((filter) => {
               const count = getCategoryCount(filter);
               const isActive = selectedCategory === filter;
@@ -162,7 +162,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                 <button
                   key={filter}
                   onClick={() => setSelectedCategory(filter)}
-                  className={`flex items-center gap-1.5 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-medium tracking-wider whitespace-nowrap transition-all duration-200 cursor-pointer ${
+                  className={`flex items-center gap-1.5 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-medium tracking-wider whitespace-nowrap transition-all duration-200 cursor-pointer active:scale-95 ${
                     isActive
                       ? 'bg-white/15 text-amber-300 font-bold border border-amber-400/40 shadow-sm'
                       : 'text-slate-400 hover:text-white hover:bg-white/[0.06]'
@@ -194,7 +194,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                       setSelectedCategory(category);
                     }
                   }}
-                  className="flex items-center gap-1.5 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-medium tracking-wider whitespace-nowrap transition-all duration-200 cursor-pointer text-slate-400 hover:text-amber-300 hover:bg-amber-500/10 border border-transparent hover:border-amber-500/20 group"
+                  className="flex items-center gap-1.5 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-medium tracking-wider whitespace-nowrap transition-all duration-200 cursor-pointer active:scale-95 text-slate-400 hover:text-amber-300 hover:bg-amber-500/10 border border-transparent hover:border-amber-500/20 group"
                   title={`Buka Halaman Kategori ${category}`}
                 >
                   <span>{category}</span>
@@ -240,6 +240,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                   src={photo.imageUrl}
                   alt={photo.title}
                   loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover object-center absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105"
                 />
 
@@ -296,6 +297,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                   src={photo.imageUrl}
                   alt={photo.title}
                   loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
                 <div className="absolute top-2 left-2 sm:top-3 sm:left-3">
@@ -365,6 +367,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                     src={photo.imageUrl}
                     alt={photo.title}
                     loading="lazy"
+                    decoding="async"
                     className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent opacity-85 sm:opacity-80 sm:group-hover:opacity-95 transition-opacity" />
@@ -418,6 +421,7 @@ export const Gallery: React.FC<GalleryProps> = ({
             <img
               src={currentSpotlightPhoto.imageUrl}
               alt={currentSpotlightPhoto.title}
+              decoding="async"
               className="w-full h-full object-cover object-center absolute inset-0 transition-all duration-700"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/30" />
@@ -530,6 +534,8 @@ export const Gallery: React.FC<GalleryProps> = ({
                     <img
                       src={photo.imageUrl}
                       alt={photo.title}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-black/20" />
@@ -584,6 +590,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                   src={photo.imageUrl}
                   alt={photo.title}
                   loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover object-center absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105"
                 />
 

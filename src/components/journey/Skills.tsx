@@ -30,7 +30,7 @@ function SkillCard({ skill, index }: { skill: SkillItem; index: number }) {
   return (
     <motion.div
       ref={ref}
-      className="bento-card p-5 rounded-2xl border border-white/10 hover:border-amber-400/40 group transition-all duration-300 cursor-default"
+      className="bento-card p-5 rounded-2xl border border-white/10 hover:border-amber-400/40 active:scale-[0.98] group transition-all duration-300 cursor-default"
       initial={{ opacity: 0, y: 16 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.4, delay: index * 0.04 }}

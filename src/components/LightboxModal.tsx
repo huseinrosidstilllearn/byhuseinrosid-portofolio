@@ -168,6 +168,7 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
           <img
             src={photo.imageUrl}
             alt={photo.title}
+            decoding="async"
             onLoad={() => setIsLoading(false)}
             onClick={() => setIsZoomed(!isZoomed)}
             className={`max-h-[58vh] sm:max-h-[68vh] max-w-full object-contain rounded-lg shadow-2xl transition-all duration-300 ${

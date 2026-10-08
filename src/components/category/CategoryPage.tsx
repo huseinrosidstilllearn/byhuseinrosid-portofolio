@@ -103,14 +103,14 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
           </div>
 
           {/* Horizontal Category Quick Switcher */}
-          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 touch-pan-x overscroll-x-contain">
             {CATEGORY_ORDER.map((cat) => {
               const isActive = cat === categoryName;
               return (
                 <button
                   key={cat}
                   onClick={() => onSelectCategory(cat)}
-                  className={`relative px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-medium tracking-wider uppercase whitespace-nowrap transition-all duration-200 cursor-pointer ${
+                  className={`relative px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-medium tracking-wider uppercase whitespace-nowrap active:scale-95 transition-all duration-200 cursor-pointer ${
                     isActive
                       ? 'text-slate-950 font-bold bg-amber-500 shadow-[0_2px_12px_rgba(245,158,11,0.4)]'
                       : 'text-slate-400 hover:text-white bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08]'
@@ -232,6 +232,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
                     src={photo.imageUrl}
                     alt={photo.title}
                     loading="lazy"
+                    decoding="async"
                     className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                   />
                   {/* Hover Overlay */}
@@ -292,6 +293,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
                     src={photo.imageUrl}
                     alt={photo.title}
                     loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                   />
                   <div className="absolute top-2 right-2 sm:top-3 sm:right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden sm:block">
@@ -348,6 +350,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
                     src={photo.imageUrl}
                     alt={photo.title}
                     loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover object-center absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-black/20 flex flex-col justify-between p-6 sm:p-7">
@@ -384,6 +387,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
               <img
                 src={currentSpotlightPhoto.imageUrl}
                 alt={currentSpotlightPhoto.title}
+                decoding="async"
                 className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent flex flex-col justify-between p-6 sm:p-10">
@@ -434,7 +438,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
                         : 'border-white/10 opacity-50 hover:opacity-100'
                     }`}
                   >
-                    <img src={photo.imageUrl} alt="" className="w-full h-full object-cover" />
+                    <img src={photo.imageUrl} alt="" loading="lazy" decoding="async" className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>

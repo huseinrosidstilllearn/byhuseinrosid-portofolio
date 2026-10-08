@@ -105,6 +105,7 @@ export const DualMarquee: React.FC<DualMarqueeProps> = ({
                 src={photo.imageUrl}
                 alt={photo.title}
                 loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover sm:grayscale sm:contrast-[1.05] sm:group-hover:grayscale-0 sm:group-hover:scale-105 transition-all duration-700 ease-out"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3 sm:p-4">
@@ -139,6 +140,7 @@ export const DualMarquee: React.FC<DualMarqueeProps> = ({
                 src={photo.imageUrl}
                 alt={photo.title}
                 loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover sm:grayscale sm:contrast-[1.05] sm:group-hover:grayscale-0 sm:group-hover:scale-105 transition-all duration-700 ease-out"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3 sm:p-4">

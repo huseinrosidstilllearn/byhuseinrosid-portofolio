@@ -58,6 +58,7 @@ export const AccordionCarousel: React.FC<AccordionCarouselProps> = ({ photos = P
                   src={photo.imageUrl}
                   alt={photo.title}
                   loading="lazy"
+                  decoding="async"
                   className={`size-full object-cover block contrast-[1.05] transition-[filter,transform] duration-500 sm:group-hover:brightness-100 sm:group-hover:scale-105 ${
                     isActive ? 'brightness-100 scale-102' : 'brightness-[0.65]'
                   }`}

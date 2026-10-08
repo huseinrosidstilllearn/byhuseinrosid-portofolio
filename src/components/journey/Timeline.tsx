@@ -18,7 +18,7 @@ function MilestoneCard({ milestone, index }: { milestone: typeof TIMELINE_MILEST
         animate={isInView ? { opacity: 1, x: 0 } : {}}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
       >
-        <div className={`bento-card p-5 rounded-2xl border transition-all duration-300 group
+        <div className={`bento-card p-5 rounded-2xl border active:scale-[0.98] transition-all duration-300 group
           ${milestone.highlight
             ? 'border-amber-500/40 hover:border-amber-400/60 bg-amber-500/5'
             : 'border-white/5 hover:border-white/15'
