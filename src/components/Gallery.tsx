@@ -44,8 +44,13 @@ const GALLERY_MODES: ModeOption[] = [
   { id: 'filmstrip', label: 'Filmstrip', icon: Film, description: 'Gulir horizontal sinematik' },
 ];
 
-const INITIAL_PAGE_SIZE = 24;
-const LOAD_INCREMENT = 18;
+const getInitialPageSize = () => {
+  if (typeof window !== 'undefined' && window.innerWidth < 768) {
+    return 12;
+  }
+  return 20;
+};
+const LOAD_INCREMENT = 12;
 
 export const Gallery: React.FC<GalleryProps> = ({
   photos = PORTFOLIO_PHOTOS,
@@ -57,7 +62,7 @@ export const Gallery: React.FC<GalleryProps> = ({
   const [activePhoto, setActivePhoto] = useState<PhotoItem | null>(null);
   const [galleryMode, setGalleryMode] = useState<GalleryLayoutMode>('matrix');
   const [spotlightIndex, setSpotlightIndex] = useState<number>(0);
-  const [visibleCount, setVisibleCount] = useState<number>(INITIAL_PAGE_SIZE);
+  const [visibleCount, setVisibleCount] = useState<number>(getInitialPageSize);
 
   const filmstripRef = useRef<HTMLDivElement>(null);
   const spotlightThumbRef = useRef<HTMLDivElement>(null);
@@ -106,7 +111,7 @@ export const Gallery: React.FC<GalleryProps> = ({
 
   // Reset batas rendering bertahap saat kategori, pencarian, atau mode berganti
   useEffect(() => {
-    setVisibleCount(INITIAL_PAGE_SIZE);
+    setVisibleCount(getInitialPageSize());
   }, [selectedCategory, searchQuery, galleryMode]);
 
   // Reset spotlight index jika data foto berubah

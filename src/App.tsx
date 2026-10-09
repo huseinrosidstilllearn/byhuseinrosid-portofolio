@@ -22,6 +22,7 @@ import { CVPage } from './components/cv/CVPage';
 import { MobileThumbDock } from './components/mobile/MobileThumbDock';
 import { ProjectEstimatorModal } from './components/mobile/ProjectEstimatorModal';
 import { ModeTransitionOverlay } from './components/ModeTransitionOverlay';
+import { ProductionCalendar } from './components/schedule/ProductionCalendar';
 import { PORTFOLIO_PHOTOS } from './data/portfolioData';
 import { getCategoryBySlug, getCategoryInfo } from './data/categoryData';
 import { getPhotos, getSiteContent, DEFAULT_SITE_CONTENT } from './lib/supabase';
@@ -197,7 +198,11 @@ export function App() {
       typeof window !== 'undefined' &&
       ('ontouchstart' in window || navigator.maxTouchPoints > 0 || window.innerWidth < 768);
 
-    if (isTouchDevice) {
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (isTouchDevice || prefersReducedMotion) {
       if (lenisRef.current) {
         lenisRef.current.destroy();
         lenisRef.current = null;
@@ -219,9 +224,11 @@ export function App() {
     }
 
     const lenis = new Lenis({
-      duration: 0.75,
+      duration: 0.6,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 0,
     });
     lenisRef.current = lenis;
 
@@ -350,6 +357,10 @@ export function App() {
                   }, 280);
                 }}
               />
+              <ProductionCalendar
+                schedule={siteContent.schedule}
+                googleCalendarUrl={siteContent.googleCalendarUrl}
+              />
               <ContactSection contact={siteContent.contact} />
               <JourneyFooter
                 profile={siteContent.profile}
@@ -430,6 +441,10 @@ export function App() {
                     onSelectCategory={handleSelectCategory}
                   />
                   <AccordionCarousel photos={photos} onSelectPhoto={setActivePhoto} />
+                  <ProductionCalendar
+                    schedule={siteContent.schedule}
+                    googleCalendarUrl={siteContent.googleCalendarUrl}
+                  />
                 </div>
                 <KaryaFooter
                   profile={siteContent.profile}

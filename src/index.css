@@ -119,11 +119,15 @@ body {
     linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
     linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
   background-size: 48px 48px;
+  transform: translateZ(0);
+  contain: strict;
 }
 
 /* Radial spotlight mask for subtle hero depth */
 .radial-vignette {
   background: radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.08) 0%, transparent 60%);
+  transform: translateZ(0);
+  contain: strict;
 }
 
 /* Bento Card Style - high performance GPU-optimized adaptive card */
@@ -135,16 +139,28 @@ body {
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.3s ease, background-color 0.25s ease;
   content-visibility: auto;
   contain-intrinsic-size: 1px 360px;
+  contain: layout paint style;
 }
 
-.bento-card:hover {
-  border-color: var(--border-hover);
-  box-shadow: var(--card-shadow-hover);
-  transform: translateY(-2px);
+@media (hover: hover) and (pointer: fine) {
+  .bento-card:hover {
+    border-color: var(--border-hover);
+    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-2px);
+  }
 }
 
 .bento-card:active {
   transform: translateY(0) scale(0.995);
+}
+
+@media (max-width: 768px) {
+  /* Prevent mobile GPU thrashing from excessive blur radius */
+  .backdrop-blur-2xl,
+  .backdrop-blur-xl {
+    -webkit-backdrop-filter: blur(12px) !important;
+    backdrop-filter: blur(12px) !important;
+  }
 }
 
 /* Split Letter / Staggered Wave Effect (CodeFronts) */

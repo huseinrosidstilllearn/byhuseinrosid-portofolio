@@ -7,6 +7,7 @@ import {
   SERVICE_PACKAGES,
 } from '../data/portfolioData';
 import { TIMELINE_MILESTONES, SKILLS, JOURNEY_STATS } from '../data/journeyData';
+import { DEFAULT_SCHEDULE_SLOTS } from '../data/scheduleData';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://bvghcotenyvbembvgvck.supabase.co';
 const supabaseAnonKey =
@@ -57,6 +58,8 @@ export const DEFAULT_SITE_CONTENT: SiteContentData = {
   stats: JOURNEY_STATS,
   marquee: DEFAULT_MARQUEE_CONFIG,
   heroSlider: DEFAULT_HERO_SLIDER_CONFIG,
+  schedule: DEFAULT_SCHEDULE_SLOTS,
+  googleCalendarUrl: '',
 };
 
 export const LOCAL_STORAGE_PHOTOS_KEY = 'bhr_photos_cache';

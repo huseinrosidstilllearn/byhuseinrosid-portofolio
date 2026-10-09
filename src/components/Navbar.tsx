@@ -44,12 +44,14 @@ export const Navbar: React.FC<NavbarProps> = ({
           { label: 'Perjalanan', id: 'timeline' },
           { label: 'Keahlian', id: 'keahlian' },
           { label: 'Fokus Kategori', id: 'layanan' },
+          { label: 'Jadwal Produksi', id: 'jadwal' },
           { label: 'Kontak', id: 'kontak' },
         ]
       : [
           { label: 'Beranda', id: 'top' },
           { label: 'Kategori', id: 'kategori-showcase' },
           { label: 'Showcase Utama', id: 'galeri' },
+          { label: 'Jadwal Produksi', id: 'jadwal' },
         ];
 
 

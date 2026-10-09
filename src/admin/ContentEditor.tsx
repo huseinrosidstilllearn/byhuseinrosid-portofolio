@@ -18,6 +18,8 @@ import {
   Image as ImageIcon,
   Loader2,
   FileText,
+  Calendar,
+  Edit2,
 } from 'lucide-react';
 import {
   getSiteContent,
@@ -31,9 +33,12 @@ import type {
   SiteContentData,
   TimelineMilestone,
   SkillItem,
+  ProductionScheduleSlot,
+  SlotStatus,
 } from '../types/portfolio';
+import { formatLocalDateString } from '../data/scheduleData';
 
-type SectionKey = 'profile' | 'contact' | 'timeline' | 'skills' | 'services' | 'stats';
+type SectionKey = 'profile' | 'contact' | 'timeline' | 'skills' | 'services' | 'stats' | 'schedule';
 
 interface SectionMenu {
   id: SectionKey;
@@ -49,6 +54,7 @@ const SECTIONS: SectionMenu[] = [
   { id: 'skills', label: 'Keahlian & Gear', icon: Sparkles, description: 'Teknis, editing, soft skill & kamera' },
   { id: 'services', label: 'Fokus Kategori', icon: Briefcase, description: '3 pilar: Dokumentasi, Wisuda & Couple' },
   { id: 'stats', label: 'Statistik Metrik', icon: BarChart3, description: 'Jumlah proyek, tahun & klien' },
+  { id: 'schedule', label: 'Jadwal Produksi', icon: Calendar, description: 'Slot hari ini, besok & kalender audio visual' },
 ];
 
 export const ContentEditor: React.FC = () => {
@@ -79,11 +85,23 @@ export const ContentEditor: React.FC = () => {
   const handleSaveSection = async (section: SectionKey) => {
     setSaving(true);
     try {
-      const res = await saveSiteContentSection(section, content[section]);
-      if (res.success) {
-        showToast('success', `Perubahan pada "${SECTIONS.find((s) => s.id === section)?.label}" berhasil disimpan!`);
+      if (section === 'schedule') {
+        const [resSchedule, resGcal] = await Promise.all([
+          saveSiteContentSection('schedule', content.schedule || []),
+          saveSiteContentSection('googleCalendarUrl', content.googleCalendarUrl || ''),
+        ]);
+        if (resSchedule.success && resGcal.success) {
+          showToast('success', 'Jadwal produksi & integrasi Google Calendar berhasil disimpan!');
+        } else {
+          showToast('error', resSchedule.error || resGcal.error || 'Gagal menyimpan jadwal.');
+        }
       } else {
-        showToast('error', res.error || 'Gagal menyimpan.');
+        const res = await saveSiteContentSection(section, content[section]);
+        if (res.success) {
+          showToast('success', `Perubahan pada "${SECTIONS.find((s) => s.id === section)?.label}" berhasil disimpan!`);
+        } else {
+          showToast('error', res.error || 'Gagal menyimpan.');
+        }
       }
     } catch (err: any) {
       showToast('error', err.message || 'Terjadi kesalahan sistem.');
@@ -96,11 +114,130 @@ export const ContentEditor: React.FC = () => {
     if (!window.confirm(`Kembalikan isi "${SECTIONS.find((s) => s.id === section)?.label}" ke pengaturan default bawaan?`)) {
       return;
     }
-    setContent((prev) => ({
-      ...prev,
-      [section]: JSON.parse(JSON.stringify(DEFAULT_SITE_CONTENT[section])),
-    }));
+    if (section === 'schedule') {
+      setContent((prev) => ({
+        ...prev,
+        schedule: JSON.parse(JSON.stringify(DEFAULT_SITE_CONTENT.schedule || [])),
+        googleCalendarUrl: DEFAULT_SITE_CONTENT.googleCalendarUrl || '',
+      }));
+    } else {
+      setContent((prev) => ({
+        ...prev,
+        [section]: JSON.parse(JSON.stringify(DEFAULT_SITE_CONTENT[section])),
+      }));
+    }
     showToast('success', `Nilai ${section} dikembalikan ke default.`);
+  };
+
+  // State untuk form slot jadwal baru / edit
+  const [editingSlotId, setEditingSlotId] = useState<string | null>(null);
+  const [slotForm, setSlotForm] = useState<Omit<ProductionScheduleSlot, 'id'>>({
+    date: formatLocalDateString(new Date()),
+    status: 'available',
+    title: '',
+    category: 'Graduation',
+    location: 'Surabaya',
+    timeSlot: 'Pagi - Siang',
+    notes: '',
+  });
+
+  const handleAddOrUpdateSlot = () => {
+    if (!slotForm.date) {
+      showToast('error', 'Tanggal slot wajib diisi.');
+      return;
+    }
+    if (!slotForm.title.trim()) {
+      showToast('error', 'Judul agenda / slot wajib diisi.');
+      return;
+    }
+
+    const currentSlots = content.schedule ? [...content.schedule] : [];
+    if (editingSlotId) {
+      const updated = currentSlots.map((s) =>
+        s.id === editingSlotId ? { ...s, ...slotForm } : s
+      );
+      setContent((prev) => ({ ...prev, schedule: updated }));
+      showToast('success', 'Slot jadwal diperbarui! Klik tombol Simpan di atas untuk menerapkan.');
+      setEditingSlotId(null);
+    } else {
+      const newSlot: ProductionScheduleSlot = {
+        id: `slot-${Date.now()}`,
+        ...slotForm,
+      };
+      const updated = [...currentSlots, newSlot].sort((a, b) => a.date.localeCompare(b.date));
+      setContent((prev) => ({ ...prev, schedule: updated }));
+      showToast('success', 'Slot baru ditambahkan! Klik tombol Simpan di atas untuk menerapkan.');
+    }
+
+    setSlotForm({
+      date: formatLocalDateString(new Date()),
+      status: 'available',
+      title: '',
+      category: 'Graduation',
+      location: 'Surabaya',
+      timeSlot: 'Pagi - Siang',
+      notes: '',
+    });
+  };
+
+  const handleEditSlot = (slot: ProductionScheduleSlot) => {
+    setEditingSlotId(slot.id);
+    setSlotForm({
+      date: slot.date,
+      status: slot.status,
+      title: slot.title,
+      category: slot.category || 'Graduation',
+      location: slot.location || '',
+      timeSlot: slot.timeSlot || '',
+      notes: slot.notes || '',
+    });
+  };
+
+  const handleCancelEditSlot = () => {
+    setEditingSlotId(null);
+    setSlotForm({
+      date: formatLocalDateString(new Date()),
+      status: 'available',
+      title: '',
+      category: 'Graduation',
+      location: 'Surabaya',
+      timeSlot: 'Pagi - Siang',
+      notes: '',
+    });
+  };
+
+  const handleDeleteSlot = (id: string) => {
+    if (!window.confirm('Yakin ingin menghapus slot jadwal ini?')) return;
+    const currentSlots = content.schedule ? [...content.schedule] : [];
+    const updated = currentSlots.filter((s) => s.id !== id);
+    setContent((prev) => ({ ...prev, schedule: updated }));
+    if (editingSlotId === id) setEditingSlotId(null);
+    showToast('success', 'Slot dihapus dari daftar! Klik tombol Simpan di atas untuk menerapkan.');
+  };
+
+  const handleQuickSetSlotStatus = (dateStr: string, status: SlotStatus, defaultTitle: string) => {
+    const currentSlots = content.schedule ? [...content.schedule] : [];
+    const existingIndex = currentSlots.findIndex((s) => s.date === dateStr);
+
+    if (existingIndex >= 0) {
+      currentSlots[existingIndex] = {
+        ...currentSlots[existingIndex],
+        status,
+      };
+    } else {
+      currentSlots.push({
+        id: `slot-${Date.now()}`,
+        date: dateStr,
+        status,
+        title: defaultTitle,
+        category: 'Audio Visual & Foto',
+        location: 'Surabaya',
+        timeSlot: 'Fleksibel',
+      });
+    }
+    currentSlots.sort((a, b) => a.date.localeCompare(b.date));
+    setContent((prev) => ({ ...prev, schedule: currentSlots }));
+    showToast('success', `Status slot tanggal ${dateStr} diubah menjadi "${status}". Klik Simpan untuk menerapkan.`);
   };
 
   // Helper untuk update nested profile
@@ -1187,6 +1324,308 @@ export const ContentEditor: React.FC = () => {
                   />
                   <span className="text-[11px] text-slate-400">Ditampilkan sebagai "65+ Klien Dipercaya"</span>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* =============================================================== */}
+          {/* 7. SEKSI JADWAL PRODUKSI & KETERSEDIAAN SLOT */}
+          {/* =============================================================== */}
+          {activeSection === 'schedule' && (
+            <div className="space-y-8">
+              <div className="p-5 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-slate-300 text-xs leading-relaxed space-y-1">
+                <div className="font-semibold text-amber-400 flex items-center gap-2 text-sm">
+                  <Calendar className="w-4 h-4" />
+                  <span>Manajemen Slot &amp; Agenda Produksi Audio Visual</span>
+                </div>
+                <p className="text-slate-400 text-xs">
+                  Atur status ketersediaan Anda (Tersedia, Terbatas, Produksi / Shooting di Set, Penuh). Pengunjung dapat melihat slot terdekat hari ini, besok, lusa, serta memilih tanggal di kalender interaktif untuk langsung memesan via WhatsApp.
+                </p>
+              </div>
+
+              {/* Status Cepat 3 Hari Mendatang */}
+              <div className="space-y-3">
+                <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 font-bold">
+                  Status Cepat 3 Hari Kedepan
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {[
+                    { label: 'Hari Ini', offset: 0, defaultTitle: 'Slot Konsultasi & Briefing' },
+                    { label: 'Besok', offset: 1, defaultTitle: 'Produksi Sesi Foto & Video' },
+                    { label: 'Lusa', offset: 2, defaultTitle: 'Slot Wisuda / Dokumentasi' },
+                  ].map((item) => {
+                    const d = new Date();
+                    d.setDate(d.getDate() + item.offset);
+                    const dateStr = formatLocalDateString(d);
+                    const currentSlot = (content.schedule || []).find((s) => s.date === dateStr);
+                    const currentStatus: SlotStatus = currentSlot ? currentSlot.status : 'available';
+
+                    return (
+                      <div
+                        key={item.label}
+                        className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-3"
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-bold text-white font-mono">{item.label}</span>
+                          <span className="text-[11px] text-slate-400 font-mono">{dateStr}</span>
+                        </div>
+                        <div className="text-xs text-slate-300 truncate">
+                          {currentSlot?.title || 'Belum ada agenda spesifik'}
+                        </div>
+                        <div className="grid grid-cols-2 gap-1.5 pt-1">
+                          {(['available', 'limited', 'in_production', 'booked'] as SlotStatus[]).map((st) => {
+                            const isCurrent = currentStatus === st;
+                            const label =
+                              st === 'available'
+                                ? 'Tersedia'
+                                : st === 'limited'
+                                ? 'Terbatas'
+                                : st === 'in_production'
+                                ? 'Produksi'
+                                : 'Penuh';
+                            return (
+                              <button
+                                key={st}
+                                type="button"
+                                onClick={() => handleQuickSetSlotStatus(dateStr, st, item.defaultTitle)}
+                                className={`px-2 py-1.5 rounded-lg text-[10px] font-mono font-medium transition-all ${
+                                  isCurrent
+                                    ? st === 'available'
+                                      ? 'bg-emerald-500/30 text-emerald-300 border border-emerald-500/50'
+                                      : st === 'limited'
+                                      ? 'bg-amber-500/30 text-amber-300 border border-amber-500/50'
+                                      : st === 'in_production'
+                                      ? 'bg-sky-500/30 text-sky-300 border border-sky-500/50'
+                                      : 'bg-slate-500/30 text-slate-300 border border-slate-500/50'
+                                    : 'bg-white/5 hover:bg-white/10 text-slate-400 border border-transparent'
+                                }`}
+                              >
+                                {label}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Form Tambah / Edit Slot */}
+              <div className="p-5 rounded-2xl bg-black/40 border border-white/10 space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-white/10">
+                  <h4 className="text-xs font-mono uppercase tracking-wider text-amber-400 font-bold">
+                    {editingSlotId ? 'Edit Slot Terpilih' : 'Tambah / Daftarkan Slot Jadwal Baru'}
+                  </h4>
+                  {editingSlotId && (
+                    <button
+                      type="button"
+                      onClick={handleCancelEditSlot}
+                      className="text-xs text-slate-400 hover:text-white"
+                    >
+                      Batal Edit
+                    </button>
+                  )}
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-[11px] text-slate-400 mb-1">Tanggal (YYYY-MM-DD)</label>
+                    <input
+                      type="date"
+                      value={slotForm.date}
+                      onChange={(e) => setSlotForm((prev) => ({ ...prev, date: e.target.value }))}
+                      className="w-full px-3.5 py-2 rounded-xl bg-black/60 border border-white/10 text-slate-200 text-xs"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] text-slate-400 mb-1">Status Ketersediaan</label>
+                    <select
+                      value={slotForm.status}
+                      onChange={(e) => setSlotForm((prev) => ({ ...prev, status: e.target.value as SlotStatus }))}
+                      className="w-full px-3.5 py-2 rounded-xl bg-black/60 border border-white/10 text-slate-200 text-xs"
+                    >
+                      <option value="available">Tersedia (Bisa Booking)</option>
+                      <option value="limited">Slot Terbatas (Sisa 1-2 Jam/Sesi)</option>
+                      <option value="in_production">Dalam Produksi (Set / Shooting)</option>
+                      <option value="booked">Penuh / Sudah Dibooking</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] text-slate-400 mb-1">Kategori Agenda</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Graduation / Event / Video"
+                      value={slotForm.category || ''}
+                      onChange={(e) => setSlotForm((prev) => ({ ...prev, category: e.target.value }))}
+                      className="w-full px-3.5 py-2 rounded-xl bg-black/60 border border-white/10 text-slate-200 text-xs"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <label className="block text-[11px] text-slate-400 mb-1">Judul Agenda / Keterangan Slot</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Sesi Wisuda ITS Batch Pagi, Liputan Dokumentasi Festival"
+                      value={slotForm.title}
+                      onChange={(e) => setSlotForm((prev) => ({ ...prev, title: e.target.value }))}
+                      className="w-full px-3.5 py-2 rounded-xl bg-black/60 border border-white/10 text-slate-200 text-xs"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] text-slate-400 mb-1">Rentang Jam / Sesi</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Pagi (08:00 - 12:00), Full Day"
+                      value={slotForm.timeSlot || ''}
+                      onChange={(e) => setSlotForm((prev) => ({ ...prev, timeSlot: e.target.value }))}
+                      className="w-full px-3.5 py-2 rounded-xl bg-black/60 border border-white/10 text-slate-200 text-xs"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] text-slate-400 mb-1">Lokasi</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Surabaya, UINSA, Sidoarjo"
+                      value={slotForm.location || ''}
+                      onChange={(e) => setSlotForm((prev) => ({ ...prev, location: e.target.value }))}
+                      className="w-full px-3.5 py-2 rounded-xl bg-black/60 border border-white/10 text-slate-200 text-xs"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <label className="block text-[11px] text-slate-400 mb-1">Catatan Tambahan untuk Klien</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Slot pagi penuh, masih menerima sesi potret outdoor golden hour sore."
+                      value={slotForm.notes || ''}
+                      onChange={(e) => setSlotForm((prev) => ({ ...prev, notes: e.target.value }))}
+                      className="w-full px-3.5 py-2 rounded-xl bg-black/60 border border-white/10 text-slate-200 text-xs"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex justify-end pt-2">
+                  <button
+                    type="button"
+                    onClick={handleAddOrUpdateSlot}
+                    className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer shadow-md"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>{editingSlotId ? 'Perbarui Slot' : 'Tambahkan ke Jadwal'}</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Integrasi Link Google Calendar Eksternal */}
+              <div className="p-5 rounded-2xl bg-black/40 border border-white/10 space-y-2">
+                <label className="block text-xs font-semibold text-slate-300">
+                  Tautan Google Calendar / Kalender Publik (Opsional)
+                </label>
+                <input
+                  type="url"
+                  placeholder="https://calendar.google.com/calendar/u/0/r atau tautan jadwal konsultasi Anda"
+                  value={content.googleCalendarUrl || ''}
+                  onChange={(e) => setContent((prev) => ({ ...prev, googleCalendarUrl: e.target.value }))}
+                  className="w-full px-4 py-2.5 rounded-xl bg-black/60 border border-white/10 text-slate-200 text-xs font-mono"
+                />
+                <span className="text-[11px] text-slate-400">
+                  Jika diisi, tombol 'Buka Google Calendar' akan otomatis muncul di bagian detail kalender agar klien dapat memverifikasi jadwal eksternal.
+                </span>
+              </div>
+
+              {/* Daftar Semua Slot Terjadwal */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 font-bold">
+                    Daftar Slot Agenda ({content.schedule?.length || 0} Tanggal Tercatat)
+                  </h4>
+                </div>
+
+                {(!content.schedule || content.schedule.length === 0) ? (
+                  <div className="p-8 text-center rounded-2xl bg-black/20 border border-white/5 text-slate-500 text-xs font-mono">
+                    Belum ada slot khusus yang dibuat. Tanggal lain otomatis dianggap tersedia.
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {content.schedule.map((slot) => {
+                      const isEditing = editingSlotId === slot.id;
+                      const statusColor =
+                        slot.status === 'available'
+                          ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-300'
+                          : slot.status === 'limited'
+                          ? 'border-amber-500/40 bg-amber-500/10 text-amber-300'
+                          : slot.status === 'in_production'
+                          ? 'border-sky-500/40 bg-sky-500/10 text-sky-300'
+                          : 'border-slate-500/40 bg-slate-500/10 text-slate-300';
+
+                      const statusLabel =
+                        slot.status === 'available'
+                          ? 'Tersedia'
+                          : slot.status === 'limited'
+                          ? 'Terbatas'
+                          : slot.status === 'in_production'
+                          ? 'Produksi'
+                          : 'Penuh';
+
+                      return (
+                        <div
+                          key={slot.id}
+                          className={`p-4 rounded-2xl border transition-all ${
+                            isEditing
+                              ? 'border-amber-500 bg-black/70 ring-1 ring-amber-500/50'
+                              : 'border-white/10 bg-black/30 hover:border-white/20'
+                          } flex flex-col justify-between gap-3`}
+                        >
+                          <div>
+                            <div className="flex items-center justify-between gap-2 mb-1.5">
+                              <span className="font-mono text-xs font-bold text-white">{slot.date}</span>
+                              <span
+                                className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${statusColor}`}
+                              >
+                                {statusLabel}
+                              </span>
+                            </div>
+                            <h5 className="font-semibold text-sm text-slate-200 line-clamp-1">{slot.title}</h5>
+                            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-slate-400 mt-1">
+                              {slot.timeSlot && <span>{slot.timeSlot}</span>}
+                              {slot.location && <span>• {slot.location}</span>}
+                              {slot.category && <span>• {slot.category}</span>}
+                            </div>
+                            {slot.notes && (
+                              <p className="text-[11px] text-slate-400 mt-1.5 italic line-clamp-2">
+                                "{slot.notes}"
+                              </p>
+                            )}
+                          </div>
+
+                          <div className="flex items-center justify-end gap-2 pt-2 border-t border-white/5">
+                            <button
+                              type="button"
+                              onClick={() => handleEditSlot(slot)}
+                              className="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 text-xs flex items-center gap-1 transition-all"
+                            >
+                              <Edit2 className="w-3 h-3 text-amber-400" />
+                              <span>Edit</span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleDeleteSlot(slot.id)}
+                              className="px-2.5 py-1 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs flex items-center gap-1 transition-all"
+                            >
+                              <Trash2 className="w-3 h-3" />
+                              <span>Hapus</span>
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             </div>
           )}

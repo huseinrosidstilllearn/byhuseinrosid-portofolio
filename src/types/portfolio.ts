@@ -130,6 +130,19 @@ export interface CVPastClient {
   category: string;
 }
 
+export type SlotStatus = 'available' | 'booked' | 'in_production' | 'limited';
+
+export interface ProductionScheduleSlot {
+  id: string;
+  date: string; // Format 'YYYY-MM-DD'
+  status: SlotStatus;
+  title: string;
+  category?: string;
+  location?: string;
+  timeSlot?: string;
+  notes?: string;
+}
+
 export interface SiteContentData {
   profile: PhotographerProfile;
   contact: ContactConfig;
@@ -139,6 +152,8 @@ export interface SiteContentData {
   stats: JourneyStats;
   marquee?: MarqueeConfig;
   heroSlider?: HeroSliderConfig;
+  schedule?: ProductionScheduleSlot[];
+  googleCalendarUrl?: string;
 }
 
 

@@ -60,9 +60,14 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
   const nextInfo = getNextCategory(categoryName);
   const Icon = info.icon;
 
-  const INITIAL_PAGE_SIZE = 24;
-  const LOAD_INCREMENT = 18;
-  const [visibleCount, setVisibleCount] = useState<number>(INITIAL_PAGE_SIZE);
+  const getCategoryInitialPageSize = () => {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      return 12;
+    }
+    return 20;
+  };
+  const LOAD_INCREMENT = 12;
+  const [visibleCount, setVisibleCount] = useState<number>(getCategoryInitialPageSize);
   const loadMoreSentinelRef = useRef<HTMLDivElement>(null);
 
   // Filter foto berdasarkan kategori yang sedang aktif
@@ -74,7 +79,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
   // Reset pagination & spotlight index saat filter atau kategori berganti
   useEffect(() => {
     setSpotlightIndex(0);
-    setVisibleCount(INITIAL_PAGE_SIZE);
+    setVisibleCount(getCategoryInitialPageSize());
   }, [categoryName, filterFeaturedOnly, layoutMode]);
 
   // Sentinel auto load-more saat scroll mendekat
@@ -578,7 +583,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
           </div>
         )}
 
-        {layoutMode !== 'spotlight' && displayedPhotos.length <= visibleCount && displayedPhotos.length > INITIAL_PAGE_SIZE && (
+        {layoutMode !== 'spotlight' && displayedPhotos.length <= visibleCount && displayedPhotos.length > 12 && (
           <div className="mt-12 text-center text-xs font-mono text-slate-500 uppercase tracking-widest">
             Semua {displayedPhotos.length} foto dalam kategori ini telah dimuat
           </div>
