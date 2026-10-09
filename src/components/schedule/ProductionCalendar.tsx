@@ -186,6 +186,11 @@ export const ProductionCalendar: React.FC<ProductionCalendarProps> = ({
     );
   }, [selectedDateStr, slotMap]);
 
+  const parseDateString = (dateStr: string) => {
+    const [y, m, d] = dateStr.split('-').map(Number);
+    return new Date(y, m - 1, d);
+  };
+
   const getStatusBadge = (status: SlotStatus) => {
     switch (status) {
       case 'available':
@@ -210,24 +215,40 @@ export const ProductionCalendar: React.FC<ProductionCalendarProps> = ({
       default:
         return {
           label: 'Jadwal Penuh',
-          bg: 'bg-slate-500/15 border-slate-500/30 text-slate-700 dark:text-slate-300',
-          dot: 'bg-slate-500',
+          bg: 'bg-rose-500/15 border-rose-500/30 text-rose-700 dark:text-rose-400',
+          dot: 'bg-rose-500',
         };
     }
   };
 
   // Buat tautan WhatsApp khusus booking tanggal terpilih
   const bookingWaLink = useMemo(() => {
-    const formattedDate = new Date(selectedDateStr).toLocaleDateString('id-ID', {
+    const dateObj = parseDateString(selectedDateStr);
+    const formattedDate = dateObj.toLocaleDateString('id-ID', {
       weekday: 'long',
       day: 'numeric',
       month: 'long',
       year: 'numeric',
     });
 
+    if (selectedSlot.status === 'booked') {
+      const text = `Halo Mas Husein Rosid, saya melihat kalender jadwal produksi Anda di website untuk tanggal ${formattedDate} berstatus Penuh. Apakah memungkinkan untuk penambahan slot atau antrean cadangan untuk proyek dokumentasi / wisuda saya?`;
+      return createWhatsAppLink(text);
+    }
+
     const text = `Halo Mas Husein Rosid, saya melihat kalender jadwal produksi audio visual Anda di website untuk tanggal ${formattedDate}. Apakah slot pada tanggal tersebut masih bisa dibooking untuk proyek dokumentasi / wisuda saya?`;
     return createWhatsAppLink(text);
-  }, [selectedDateStr]);
+  }, [selectedDateStr, selectedSlot.status]);
+
+  const handleSelectDate = (dateStr: string) => {
+    setSelectedDateStr(dateStr);
+    if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+      const el = document.getElementById('detail-tanggal');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+  };
 
   return (
     <section id="jadwal" className={`w-full ${hideHeader ? 'px-0 py-0' : 'px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 max-w-[1920px] mx-auto py-12'} scroll-mt-28`}>
@@ -271,7 +292,7 @@ export const ProductionCalendar: React.FC<ProductionCalendarProps> = ({
               <span>Produksi</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-slate-500" />
+              <span className="w-2 h-2 rounded-full bg-rose-500" />
               <span>Penuh</span>
             </div>
           </div>
@@ -284,7 +305,7 @@ export const ProductionCalendar: React.FC<ProductionCalendarProps> = ({
             return (
               <div
                 key={item.label}
-                onClick={() => setSelectedDateStr(item.dateStr)}
+                onClick={() => handleSelectDate(item.dateStr)}
                 className={`bento-card p-5 rounded-2xl cursor-pointer transition-all border ${
                   isSelected
                     ? 'border-amber-500 ring-1 ring-amber-500/40 shadow-lg'
@@ -377,32 +398,32 @@ export const ProductionCalendar: React.FC<ProductionCalendarProps> = ({
             ))}
           </div>
 
-          {/* Grid Tanggal Kalender */}
+          {/* Grid Tanggal Kalender (Hanya Angka & Titik Status) */}
           <div className="grid grid-cols-7 gap-1 sm:gap-2">
             {calendarDays.map((item, idx) => {
               const isSelected = selectedDateStr === item.dateStr;
-              const hasSlot = !!item.slot;
               const status = item.slot?.status || (item.isCurrentMonth ? 'available' : undefined);
 
               return (
                 <button
                   key={`${item.dateStr}-${idx}`}
                   type="button"
-                  onClick={() => setSelectedDateStr(item.dateStr)}
-                  className={`relative p-2 sm:p-2.5 min-h-[52px] sm:min-h-[64px] rounded-xl flex flex-col items-center justify-between transition-all cursor-pointer border ${
+                  onClick={() => handleSelectDate(item.dateStr)}
+                  className={`relative py-2.5 sm:py-3 px-1 min-h-[50px] sm:min-h-[58px] rounded-xl sm:rounded-2xl flex flex-col items-center justify-center gap-1.5 transition-all cursor-pointer border ${
                     isSelected
-                      ? 'bg-amber-500/15 border-amber-500 font-bold text-amber-700 dark:text-amber-300 shadow-md'
+                      ? 'bg-amber-500/15 border-amber-500 text-amber-900 dark:text-amber-300 font-bold shadow-sm ring-2 ring-amber-500/30'
                       : item.isToday
                       ? 'bg-black/[0.04] dark:bg-white/[0.06] border-black/20 dark:border-white/20 text-slate-900 dark:text-white font-bold'
                       : item.isCurrentMonth
-                      ? 'bg-transparent border-transparent hover:bg-black/[0.02] dark:hover:bg-white/[0.03] text-slate-800 dark:text-slate-200'
-                      : 'bg-transparent border-transparent text-slate-400/40 dark:text-slate-600/40'
+                      ? 'bg-transparent border-transparent hover:bg-black/[0.03] dark:hover:bg-white/[0.04] text-slate-800 dark:text-slate-200'
+                      : 'bg-transparent border-transparent text-slate-400/30 dark:text-slate-600/30'
                   }`}
+                  title={`${item.dateStr}: ${status === 'booked' ? 'Jadwal Penuh' : status === 'limited' ? 'Slot Terbatas' : status === 'in_production' ? 'Dalam Produksi' : 'Slot Tersedia'}`}
                 >
-                  <span className="text-xs sm:text-sm leading-none">{item.dayNum}</span>
+                  <span className="text-xs sm:text-sm font-mono leading-none">{item.dayNum}</span>
 
-                  {/* Indicator Dot */}
-                  <div className="flex items-center gap-1 mt-1">
+                  {/* Indicator Dot Status */}
+                  <div className="flex items-center justify-center gap-1 h-2">
                     {status === 'available' && (
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" title="Slot Tersedia" />
                     )}
@@ -413,16 +434,9 @@ export const ProductionCalendar: React.FC<ProductionCalendarProps> = ({
                       <span className="w-1.5 h-1.5 rounded-full bg-sky-500" title="Dalam Produksi" />
                     )}
                     {status === 'booked' && (
-                      <span className="w-1.5 h-1.5 rounded-full bg-slate-500" title="Jadwal Penuh" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-rose-500" title="Jadwal Penuh" />
                     )}
                   </div>
-
-                  {/* Micro Badge Title on Desktop */}
-                  {hasSlot && item.slot && item.isCurrentMonth && (
-                    <span className="hidden sm:block text-[9px] font-mono truncate max-w-full text-slate-500 dark:text-slate-400 mt-0.5">
-                      {item.slot.category ? item.slot.category.slice(0, 8) : item.slot.title.slice(0, 8)}
-                    </span>
-                  )}
                 </button>
               );
             })}
@@ -430,14 +444,17 @@ export const ProductionCalendar: React.FC<ProductionCalendarProps> = ({
         </div>
 
         {/* Kolom Kanan: Detail Slot Tanggal Terpilih (5 cols) */}
-        <div className="lg:col-span-5 bento-card p-6 sm:p-7 rounded-3xl border border-black/10 dark:border-white/10 shadow-lg space-y-5">
+        <div
+          id="detail-tanggal"
+          className="lg:col-span-5 bento-card p-6 sm:p-7 rounded-3xl border border-black/10 dark:border-white/10 shadow-lg space-y-5"
+        >
           <div className="flex items-center justify-between gap-3 pb-4 border-b border-black/[0.06] dark:border-white/[0.08]">
             <div>
               <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500 dark:text-slate-400 block font-semibold">
                 Detail Tanggal Terpilih
               </span>
               <h4 className="font-editorial text-xl sm:text-2xl text-slate-900 dark:text-white font-bold mt-0.5">
-                {new Date(selectedDateStr).toLocaleDateString('id-ID', {
+                {parseDateString(selectedDateStr).toLocaleDateString('id-ID', {
                   weekday: 'long',
                   day: 'numeric',
                   month: 'long',
@@ -508,7 +525,11 @@ export const ProductionCalendar: React.FC<ProductionCalendarProps> = ({
               className="inline-flex items-center justify-center gap-2 w-full py-3 px-5 rounded-full bg-amber-500 hover:bg-amber-400 active:scale-95 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-amber-500/20 cursor-pointer"
             >
               <MessageCircle className="w-4 h-4" />
-              <span>Amankan / Booking Tanggal Ini</span>
+              <span>
+                {selectedSlot.status === 'booked'
+                  ? 'Tanyakan Slot Cadangan via WhatsApp'
+                  : 'Amankan / Booking Tanggal Ini'}
+              </span>
             </a>
 
             {googleCalendarUrl && (

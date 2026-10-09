@@ -1396,7 +1396,7 @@ export const ContentEditor: React.FC = () => {
                                       ? 'bg-amber-500/30 text-amber-300 border border-amber-500/50'
                                       : st === 'in_production'
                                       ? 'bg-sky-500/30 text-sky-300 border border-sky-500/50'
-                                      : 'bg-slate-500/30 text-slate-300 border border-slate-500/50'
+                                      : 'bg-rose-500/30 text-rose-300 border border-rose-500/50'
                                     : 'bg-white/5 hover:bg-white/10 text-slate-400 border border-transparent'
                                 }`}
                               >
@@ -1561,7 +1561,7 @@ export const ContentEditor: React.FC = () => {
                           ? 'border-amber-500/40 bg-amber-500/10 text-amber-300'
                           : slot.status === 'in_production'
                           ? 'border-sky-500/40 bg-sky-500/10 text-sky-300'
-                          : 'border-slate-500/40 bg-slate-500/10 text-slate-300';
+                          : 'border-rose-500/40 bg-rose-500/10 text-rose-300';
 
                       const statusLabel =
                         slot.status === 'available'
