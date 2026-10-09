@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="id" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Jadwal Husein Rosid" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#090d16" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jadwal Produksi & Ketersediaan Slot : Husein Rosid</title>
+    <meta name="description" content="Kalender interaktif ketersediaan jadwal liputan wisuda, dokumentasi acara, dan produksi audio visual oleh Husein Rosid. Cek slot hari ini, besok, atau booking tanggal sesi Anda." />
+    
+    <!-- Open Graph / Facebook / WhatsApp Preview -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://byhuseinrosid.my.id/jadwal" />
+    <meta property="og:title" content="Jadwal Produksi & Ketersediaan Slot : Husein Rosid" />
+    <meta property="og:description" content="Pantau ketersediaan slot sesi wisuda, liputan acara, dan shooting video oleh Husein Rosid. Cek ketersediaan hari ini, besok, atau booking tanggal Anda via WhatsApp." />
+    <meta property="og:image" content="https://photos.byhuseinrosid.my.id/photos/Dokumentasi/1000000000_1741707018.webp" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="800" />
+    <meta property="og:image:alt" content="Jadwal Produksi Husein Rosid" />
+    <meta property="og:site_name" content="The Journey of Husein Rosid" />
+
+    <!-- Twitter / X Preview Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://byhuseinrosid.my.id/jadwal" />
+    <meta name="twitter:title" content="Jadwal Produksi & Ketersediaan Slot : Husein Rosid" />
+    <meta name="twitter:description" content="Pantau ketersediaan slot sesi wisuda, liputan acara, dan shooting video oleh Husein Rosid. Cek ketersediaan hari ini, besok, atau booking tanggal Anda via WhatsApp." />
+    <meta name="twitter:image" content="https://photos.byhuseinrosid.my.id/photos/Dokumentasi/1000000000_1741707018.webp" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://byhuseinrosid.my.id/jadwal" />
+
+    <!-- Auto-redirect from default pages.dev domain to primary custom domain -->
+    <script>
+      if (window.location.hostname.includes('pages.dev')) {
+        window.location.replace('https://byhuseinrosid.my.id' + window.location.pathname + window.location.search + window.location.hash);
+      }
+    </script>
+    
+    <!-- Theme Initialization to prevent FOUC (Flash of Unstyled Content) -->
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('byhuseinrosid-theme');
+          var theme = (saved === 'light' || saved === 'dark') ? saved : 'dark';
+          var root = document.documentElement;
+          if (theme === 'dark') {
+            root.classList.add('dark');
+            root.classList.remove('light');
+          } else {
+            root.classList.remove('dark');
+            root.classList.add('light');
+          }
+        } catch (e) {}
+      })();
+    </script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,700&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-[var(--bg-primary)] text-[var(--text-primary)] antialiased selection:bg-amber-500/30 selection:text-amber-800 dark:selection:text-amber-200 min-h-screen transition-colors duration-200">
+    <div id="jadwal-root"></div>
+    <script type="module" src="/src/jadwal/main.tsx"></script>
+  </body>
+</html>

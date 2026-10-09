@@ -22,7 +22,6 @@ import { CVPage } from './components/cv/CVPage';
 import { MobileThumbDock } from './components/mobile/MobileThumbDock';
 import { ProjectEstimatorModal } from './components/mobile/ProjectEstimatorModal';
 import { ModeTransitionOverlay } from './components/ModeTransitionOverlay';
-import { ProductionCalendar } from './components/schedule/ProductionCalendar';
 import { PORTFOLIO_PHOTOS } from './data/portfolioData';
 import { getCategoryBySlug, getCategoryInfo } from './data/categoryData';
 import { getPhotos, getSiteContent, DEFAULT_SITE_CONTENT } from './lib/supabase';
@@ -357,10 +356,6 @@ export function App() {
                   }, 280);
                 }}
               />
-              <ProductionCalendar
-                schedule={siteContent.schedule}
-                googleCalendarUrl={siteContent.googleCalendarUrl}
-              />
               <ContactSection contact={siteContent.contact} />
               <JourneyFooter
                 profile={siteContent.profile}
@@ -441,10 +436,6 @@ export function App() {
                     onSelectCategory={handleSelectCategory}
                   />
                   <AccordionCarousel photos={photos} onSelectPhoto={setActivePhoto} />
-                  <ProductionCalendar
-                    schedule={siteContent.schedule}
-                    googleCalendarUrl={siteContent.googleCalendarUrl}
-                  />
                 </div>
                 <KaryaFooter
                   profile={siteContent.profile}

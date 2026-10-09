@@ -134,7 +134,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                     <button
                       key={link.id}
                       onClick={() => {
-                        if (link.id === 'top') {
+                        if (link.id === 'jadwal') {
+                          window.location.href = '/jadwal.html';
+                        } else if (link.id === 'top') {
                           onSelectCategory?.(null);
                           window.scrollTo({ top: 0, behavior: 'smooth' });
                         } else {
@@ -423,7 +425,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                   key={link.id}
                   onClick={() => {
                     setMobileMenuOpen(false);
-                    onNavigateToSection(link.id);
+                    if (link.id === 'jadwal') {
+                      window.location.href = '/jadwal.html';
+                    } else {
+                      onNavigateToSection(link.id);
+                    }
                   }}
                   className="text-left font-editorial text-3xl text-slate-800 dark:text-white hover:text-amber-500 dark:hover:text-amber-400 active:scale-[0.98] transition-all cursor-pointer"
                 >
