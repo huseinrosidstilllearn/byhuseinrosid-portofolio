@@ -1358,7 +1358,7 @@ export const ContentEditor: React.FC = () => {
                     d.setDate(d.getDate() + item.offset);
                     const dateStr = formatLocalDateString(d);
                     const currentSlot = (content.schedule || []).find((s) => s.date === dateStr);
-                    const currentStatus: SlotStatus = currentSlot ? currentSlot.status : 'available';
+                    const currentStatus: SlotStatus | null = currentSlot ? currentSlot.status : null;
 
                     return (
                       <div
@@ -1370,7 +1370,7 @@ export const ContentEditor: React.FC = () => {
                           <span className="text-[11px] text-slate-400 font-mono">{dateStr}</span>
                         </div>
                         <div className="text-xs text-slate-300 truncate">
-                          {currentSlot?.title || 'Belum ada agenda spesifik'}
+                          {currentSlot?.title || 'Belum diatur (Slot Terbuka)'}
                         </div>
                         <div className="grid grid-cols-2 gap-1.5 pt-1">
                           {(['available', 'limited', 'in_production', 'booked'] as SlotStatus[]).map((st) => {
@@ -1383,11 +1383,19 @@ export const ContentEditor: React.FC = () => {
                                 : st === 'in_production'
                                 ? 'Produksi'
                                 : 'Penuh';
+                            const titleToSet =
+                              st === 'booked'
+                                ? 'Jadwal Penuh'
+                                : st === 'in_production'
+                                ? 'Jadwal Produksi / Shooting'
+                                : st === 'limited'
+                                ? 'Slot Terbatas'
+                                : 'Slot Tersedia';
                             return (
                               <button
                                 key={st}
                                 type="button"
-                                onClick={() => handleQuickSetSlotStatus(dateStr, st, item.defaultTitle)}
+                                onClick={() => handleQuickSetSlotStatus(dateStr, st, titleToSet)}
                                 className={`px-2 py-1.5 rounded-lg text-[10px] font-mono font-medium transition-all ${
                                   isCurrent
                                     ? st === 'available'

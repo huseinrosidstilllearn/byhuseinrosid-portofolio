@@ -158,6 +158,21 @@ export async function getSiteContent(): Promise<SiteContentData> {
       ) {
         parsed.heroSlider = DEFAULT_HERO_SLIDER_CONFIG;
       }
+      if (
+        parsed.schedule &&
+        Array.isArray(parsed.schedule) &&
+        parsed.schedule.some(
+          (s: any) =>
+            typeof s.id === 'string' &&
+            (s.id === 'slot-today' ||
+              s.id === 'slot-tomorrow' ||
+              s.id === 'slot-day-after' ||
+              s.title?.includes('Sunan Ampel') ||
+              s.title?.includes('Couple'))
+        )
+      ) {
+        parsed.schedule = [];
+      }
       Object.assign(result, parsed);
     }
   } catch {

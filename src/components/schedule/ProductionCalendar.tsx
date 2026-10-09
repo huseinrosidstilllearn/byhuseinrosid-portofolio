@@ -331,7 +331,7 @@ export const ProductionCalendar: React.FC<ProductionCalendarProps> = ({
         {/* Matriks Kalender 1 Bulan Penuh (Hanya Angka & Titik Status) */}
         <div className="grid grid-cols-7 gap-1.5 sm:gap-2.5 md:gap-3">
           {calendarDays.map((item, idx) => {
-            const status = item.slot?.status || (item.isCurrentMonth ? 'available' : undefined);
+            const status = item.slot?.status;
 
             return (
               <button
@@ -343,15 +343,19 @@ export const ProductionCalendar: React.FC<ProductionCalendarProps> = ({
                     ? 'bg-black/[0.015] dark:bg-white/[0.02] border-black/[0.06] dark:border-white/[0.08] hover:border-amber-500/60 hover:bg-black/[0.04] dark:hover:bg-white/[0.05] hover:shadow-md'
                     : 'bg-transparent border-transparent opacity-25 hover:opacity-50'
                 }`}
-                title={`${item.dateStr}: ${
-                  status === 'booked'
-                    ? 'Jadwal Penuh'
-                    : status === 'limited'
-                    ? 'Slot Terbatas'
-                    : status === 'in_production'
-                    ? 'Dalam Produksi'
-                    : 'Slot Tersedia'
-                }`}
+                title={
+                  item.slot
+                    ? `${item.dateStr}: ${
+                        item.slot.status === 'booked'
+                          ? 'Jadwal Penuh'
+                          : item.slot.status === 'limited'
+                          ? 'Slot Terbatas'
+                          : item.slot.status === 'in_production'
+                          ? 'Dalam Produksi'
+                          : 'Slot Tersedia'
+                      }`
+                    : `${item.dateStr}: Slot Tersedia (Klik untuk rincian)`
+                }
               >
                 {/* Tanggal Angka */}
                 <div className="w-full flex justify-between items-start">
