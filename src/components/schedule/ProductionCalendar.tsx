@@ -16,6 +16,7 @@ interface ProductionCalendarProps {
   schedule?: ProductionScheduleSlot[];
   googleCalendarUrl?: string;
   onBookDate?: (date: string, title?: string) => void;
+  hideHeader?: boolean;
 }
 
 const MONTH_NAMES = [
@@ -38,6 +39,7 @@ const DAY_NAMES = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
 export const ProductionCalendar: React.FC<ProductionCalendarProps> = ({
   schedule = DEFAULT_SCHEDULE_SLOTS,
   googleCalendarUrl,
+  hideHeader = false,
 }) => {
   const today = useMemo(() => new Date(), []);
   const todayStr = useMemo(() => formatLocalDateString(today), [today]);
@@ -228,48 +230,52 @@ export const ProductionCalendar: React.FC<ProductionCalendarProps> = ({
   }, [selectedDateStr]);
 
   return (
-    <section id="jadwal" className="w-full px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 max-w-[1920px] mx-auto py-12 scroll-mt-28">
-      {/* ── HEADER SECTION ── */}
-      <div className="mb-8 sm:mb-10 pb-6 border-b border-black/[0.08] dark:border-white/[0.08] flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div>
-          <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-amber-600 dark:text-amber-400 mb-2 font-mono">
-            <CalendarIcon className="w-3.5 h-3.5" />
-            <span>Jadwal Produksi &amp; Slot Audio Visual</span>
-          </div>
-          <h2 className="font-editorial text-3xl sm:text-5xl text-slate-900 dark:text-white font-bold tracking-tight">
-            Agenda Kerja &amp; Ketersediaan Slot
-          </h2>
-          <p className="max-w-2xl text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-light leading-relaxed mt-2.5">
-            Pantau status ketersediaan liputan wisuda, dokumentasi acara, dan shooting video. Cek slot hari ini, besok, atau rencanakan tanggal penugasan Anda dengan mudah.
-          </p>
-        </div>
-
-        {/* Legend status indicators */}
-        <div className="flex flex-wrap items-center gap-3 text-[11px] font-mono text-slate-600 dark:text-slate-400">
-          <div className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-emerald-500" />
-            <span>Tersedia</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-amber-500" />
-            <span>Terbatas</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-sky-500" />
-            <span>Produksi / Set</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-slate-500" />
-            <span>Penuh</span>
+    <section id="jadwal" className={`w-full ${hideHeader ? 'px-0 py-0' : 'px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 max-w-[1920px] mx-auto py-12'} scroll-mt-28`}>
+      {/* ── HEADER SECTION (Opsional jika bukan di halaman terisolasi) ── */}
+      {!hideHeader && (
+        <div className="mb-8 sm:mb-10 pb-6 border-b border-black/[0.08] dark:border-white/[0.08] flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-amber-600 dark:text-amber-400 mb-2 font-mono">
+              <CalendarIcon className="w-3.5 h-3.5" />
+              <span>Jadwal Produksi &amp; Slot Audio Visual</span>
+            </div>
+            <h2 className="font-editorial text-3xl sm:text-5xl text-slate-900 dark:text-white font-bold tracking-tight">
+              Agenda Kerja &amp; Ketersediaan Slot
+            </h2>
+            <p className="max-w-2xl text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-light leading-relaxed mt-2.5">
+              Pantau status ketersediaan liputan wisuda, dokumentasi acara, dan shooting video. Cek slot hari ini, besok, atau rencanakan tanggal penugasan Anda dengan mudah.
+            </p>
           </div>
         </div>
-      </div>
+      )}
 
       {/* ── 1. STRIP STATUS CEPAT: HARI INI, BESOK & LUSA ── */}
-      <div className="mb-10">
-        <h3 className="text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3 font-semibold">
-          Status Ketersediaan Waktu Dekat
-        </h3>
+      <div className="mb-8">
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <h3 className="text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold">
+            Status Ketersediaan Waktu Dekat
+          </h3>
+
+          {/* Legend status indicators */}
+          <div className="flex flex-wrap items-center gap-3 text-[11px] font-mono text-slate-600 dark:text-slate-400">
+            <div className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-emerald-500" />
+              <span>Tersedia</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-amber-500" />
+              <span>Terbatas</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-sky-500" />
+              <span>Produksi</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-slate-500" />
+              <span>Penuh</span>
+            </div>
+          </div>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4">
           {quickDays.map((item) => {
             const badge = getStatusBadge(item.slot.status);
