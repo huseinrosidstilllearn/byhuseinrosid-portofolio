@@ -327,7 +327,7 @@ export const AdminApp: React.FC = () => {
           )}
 
           <a
-            href="/jadwal.html"
+            href="/jadwal"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20 text-xs text-amber-300 font-medium transition-all"

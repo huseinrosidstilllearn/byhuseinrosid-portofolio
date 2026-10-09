@@ -135,7 +135,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                       key={link.id}
                       onClick={() => {
                         if (link.id === 'jadwal') {
-                          window.location.href = '/jadwal.html';
+                          window.location.href = '/jadwal';
                         } else if (link.id === 'top') {
                           onSelectCategory?.(null);
                           window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -426,7 +426,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   onClick={() => {
                     setMobileMenuOpen(false);
                     if (link.id === 'jadwal') {
-                      window.location.href = '/jadwal.html';
+                      window.location.href = '/jadwal';
                     } else {
                       onNavigateToSection(link.id);
                     }

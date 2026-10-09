@@ -36,7 +36,7 @@ export const JadwalApp: React.FC = () => {
 
   const handleCopyLink = () => {
     try {
-      const url = window.location.href;
+      const url = `${window.location.origin}/jadwal`;
       navigator.clipboard.writeText(url);
       setCopied(true);
       setToastMessage('Tautan kalender berhasil disalin ke clipboard! Siap dibagikan.');
