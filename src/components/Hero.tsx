@@ -162,7 +162,7 @@ export const Hero: React.FC<HeroProps> = ({ photos = [], onExploreClick, profile
   const activeFrame = heroFrames[activeFrameIndex] || heroFrames[0];
 
   return (
-    <section className="relative min-h-[100dvh] flex flex-col justify-between pt-16 sm:pt-24 pb-4 sm:pb-8 px-4 sm:px-6 lg:px-12 overflow-hidden select-none">
+    <section className="relative min-h-[100dvh] flex flex-col justify-between pt-16 sm:pt-24 pb-4 sm:pb-8 px-4 sm:px-6 lg:px-12 overflow-hidden select-none border-b border-black/10 dark:border-white/5">
       {/* Background Photographic Canvas with Smooth Crossfade */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {heroFrames.map((frame, index) => {

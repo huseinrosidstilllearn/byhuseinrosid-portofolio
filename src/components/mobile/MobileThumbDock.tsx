@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Sparkles, Compass, FileText, MessageCircle } from 'lucide-react';
+import { Sparkles, Compass, FileText, MessageCircle, Sun, Moon } from 'lucide-react';
+import { useTheme } from '../../context/ThemeContext';
 import type { SiteMode } from '../../types/portfolio';
 
 interface MobileThumbDockProps {
@@ -13,6 +14,7 @@ export const MobileThumbDock: React.FC<MobileThumbDockProps> = ({
   onSwitchMode,
   onOpenEstimator,
 }) => {
+  const { theme, toggleTheme } = useTheme();
   const [isVisible, setIsVisible] = useState(true);
   const lastScrollYRef = useRef(0);
   const scrollTimeoutRef = useRef<number | null>(null);
@@ -69,15 +71,15 @@ export const MobileThumbDock: React.FC<MobileThumbDockProps> = ({
     >
       <nav
         aria-label="Navigasi Bawah Seluler"
-        className="w-full max-w-md mx-auto p-1.5 rounded-full bg-[#0B0F17]/90 border border-white/15 backdrop-blur-2xl shadow-[0_12px_36px_rgba(0,0,0,0.75)] flex items-center justify-between gap-1 pointer-events-auto"
+        className="w-full max-w-md mx-auto p-1.5 rounded-full bg-white/90 dark:bg-[#0B0F17]/90 border border-black/10 dark:border-white/15 backdrop-blur-2xl shadow-[0_12px_36px_rgba(0,0,0,0.12)] dark:shadow-[0_12px_36px_rgba(0,0,0,0.75)] flex items-center justify-between gap-1 pointer-events-auto"
       >
         {/* Tab 1: Karya */}
         <button
           onClick={() => onSwitchMode('karya')}
           className={`flex-1 py-2 px-1.5 rounded-full flex flex-col items-center justify-center transition-all cursor-pointer relative ${
             currentMode === 'karya'
-              ? 'text-amber-300 font-semibold bg-amber-500/15 border border-amber-500/30 shadow-[0_0_12px_rgba(245,158,11,0.2)]'
-              : 'text-slate-400 hover:text-slate-200'
+              ? 'text-amber-600 dark:text-amber-300 font-semibold bg-amber-500/15 border border-amber-500/30 shadow-[0_0_12px_rgba(245,158,11,0.2)]'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
           <Sparkles className="w-4 h-4 mb-0.5" />
@@ -85,7 +87,7 @@ export const MobileThumbDock: React.FC<MobileThumbDockProps> = ({
             Karya
           </span>
           {currentMode === 'karya' && (
-            <span className="absolute -bottom-0.5 w-1 h-1 rounded-full bg-amber-400" />
+            <span className="absolute -bottom-0.5 w-1 h-1 rounded-full bg-amber-500" />
           )}
         </button>
 
@@ -94,8 +96,8 @@ export const MobileThumbDock: React.FC<MobileThumbDockProps> = ({
           onClick={() => onSwitchMode('perjalanan')}
           className={`flex-1 py-2 px-1.5 rounded-full flex flex-col items-center justify-center transition-all cursor-pointer relative ${
             currentMode === 'perjalanan'
-              ? 'text-amber-300 font-semibold bg-amber-500/15 border border-amber-500/30 shadow-[0_0_12px_rgba(245,158,11,0.2)]'
-              : 'text-slate-400 hover:text-slate-200'
+              ? 'text-amber-600 dark:text-amber-300 font-semibold bg-amber-500/15 border border-amber-500/30 shadow-[0_0_12px_rgba(245,158,11,0.2)]'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
           <Compass className="w-4 h-4 mb-0.5" />
@@ -103,7 +105,7 @@ export const MobileThumbDock: React.FC<MobileThumbDockProps> = ({
             Cerita
           </span>
           {currentMode === 'perjalanan' && (
-            <span className="absolute -bottom-0.5 w-1 h-1 rounded-full bg-amber-400" />
+            <span className="absolute -bottom-0.5 w-1 h-1 rounded-full bg-amber-500" />
           )}
         </button>
 
@@ -112,8 +114,8 @@ export const MobileThumbDock: React.FC<MobileThumbDockProps> = ({
           onClick={() => onSwitchMode('cv')}
           className={`flex-1 py-2 px-1.5 rounded-full flex flex-col items-center justify-center transition-all cursor-pointer relative ${
             currentMode === 'cv'
-              ? 'text-amber-300 font-semibold bg-amber-500/15 border border-amber-500/30 shadow-[0_0_12px_rgba(245,158,11,0.2)]'
-              : 'text-slate-400 hover:text-slate-200'
+              ? 'text-amber-600 dark:text-amber-300 font-semibold bg-amber-500/15 border border-amber-500/30 shadow-[0_0_12px_rgba(245,158,11,0.2)]'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
           <FileText className="w-4 h-4 mb-0.5" />
@@ -121,12 +123,26 @@ export const MobileThumbDock: React.FC<MobileThumbDockProps> = ({
             CV
           </span>
           {currentMode === 'cv' && (
-            <span className="absolute -bottom-0.5 w-1 h-1 rounded-full bg-amber-400" />
+            <span className="absolute -bottom-0.5 w-1 h-1 rounded-full bg-amber-500" />
+          )}
+        </button>
+
+        {/* Quick Theme Switcher Button */}
+        <button
+          onClick={toggleTheme}
+          aria-label={theme === 'dark' ? 'Ganti ke Mode Terang' : 'Ganti ke Mode Gelap'}
+          title={theme === 'dark' ? 'Mode Terang' : 'Mode Gelap'}
+          className="p-2 rounded-full flex items-center justify-center text-slate-700 dark:text-amber-400 hover:bg-black/5 dark:hover:bg-white/10 active:scale-95 transition-all cursor-pointer shrink-0"
+        >
+          {theme === 'dark' ? (
+            <Sun className="w-4 h-4 text-amber-400" />
+          ) : (
+            <Moon className="w-4 h-4 text-slate-700" />
           )}
         </button>
 
         {/* Separator */}
-        <div className="w-[1px] h-6 bg-white/10 mx-0.5" />
+        <div className="w-[1px] h-6 bg-black/10 dark:bg-white/10 mx-0.5" />
 
         {/* Action Button: Konsultasi / Estimator */}
         <button

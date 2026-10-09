@@ -126,24 +126,24 @@ export const ProjectEstimatorModal: React.FC<ProjectEstimatorModalProps> = ({
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: '100%', opacity: 0 }}
           transition={{ type: 'spring', damping: 28, stiffness: 320 }}
-          className="relative w-full max-w-2xl max-h-[92vh] sm:max-h-[88vh] bg-[#0A0D14] border border-white/10 rounded-t-[2rem] sm:rounded-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col z-10"
+          className="relative w-full max-w-2xl max-h-[92vh] sm:max-h-[88vh] bg-white dark:bg-[#0A0D14] border border-black/10 dark:border-white/10 rounded-t-[2rem] sm:rounded-3xl shadow-2xl dark:shadow-[0_-10px_40px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col z-10 transition-colors"
         >
           {/* Mobile Drag Indicator Bar */}
           <div className="pt-3 pb-1 flex justify-center sm:hidden">
-            <div className="w-12 h-1.5 rounded-full bg-white/20" />
+            <div className="w-12 h-1.5 rounded-full bg-black/20 dark:bg-white/20" />
           </div>
 
           {/* Header */}
-          <div className="px-5 sm:px-7 py-4 border-b border-white/[0.08] flex items-center justify-between shrink-0">
+          <div className="px-5 sm:px-7 py-4 border-b border-black/[0.08] dark:border-white/[0.08] flex items-center justify-between shrink-0">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+              <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-600 dark:text-amber-400">
                 <Sparkles className="w-4 h-4" />
               </div>
               <div>
-                <h3 className="font-editorial text-lg sm:text-xl text-white font-semibold leading-tight">
+                <h3 className="font-editorial text-lg sm:text-xl text-slate-900 dark:text-white font-semibold leading-tight">
                   Konsultasi Sesi Foto & Video
                 </h3>
-                <p className="text-[11px] sm:text-xs text-slate-400 font-light">
+                <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-light">
                   Rancang kebutuhan produksi visual dan dapatkan draf pesan terstruktur
                 </p>
               </div>
@@ -152,7 +152,7 @@ export const ProjectEstimatorModal: React.FC<ProjectEstimatorModalProps> = ({
             <button
               onClick={onClose}
               aria-label="Tutup Lembar Konsultasi"
-              className="p-2 rounded-full bg-white/[0.05] hover:bg-white/10 text-slate-400 hover:text-white transition-all cursor-pointer"
+              className="p-2 rounded-full bg-black/[0.04] dark:bg-white/[0.05] hover:bg-black/[0.08] dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -162,7 +162,7 @@ export const ProjectEstimatorModal: React.FC<ProjectEstimatorModalProps> = ({
           <div className="px-5 sm:px-7 py-5 overflow-y-auto space-y-6 overscroll-contain">
             {/* Step 1: Kategori Proyek */}
             <div>
-              <label className="block text-xs uppercase tracking-wider text-amber-400 font-mono font-semibold mb-2.5">
+              <label className="block text-xs uppercase tracking-wider text-amber-600 dark:text-amber-400 font-mono font-semibold mb-2.5">
                 1. Pilih Kategori Proyek
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -175,15 +175,15 @@ export const ProjectEstimatorModal: React.FC<ProjectEstimatorModalProps> = ({
                       onClick={() => setSelectedCategory(cat.id)}
                       className={`text-left p-3 rounded-xl border transition-all cursor-pointer flex items-start justify-between gap-2 ${
                         isSelected
-                          ? 'bg-amber-500/15 border-amber-500/60 shadow-[0_0_15px_rgba(245,158,11,0.15)]'
-                          : 'bg-white/[0.02] border-white/10 hover:border-white/20 text-slate-300'
+                          ? 'bg-amber-500/10 dark:bg-amber-500/15 border-amber-500/50 dark:border-amber-500/60 shadow-[0_0_15px_rgba(245,158,11,0.12)]'
+                          : 'bg-black/[0.02] dark:bg-white/[0.02] border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 text-slate-700 dark:text-slate-300'
                       }`}
                     >
                       <div>
-                        <span className={`text-xs sm:text-sm font-medium block ${isSelected ? 'text-white' : 'text-slate-200'}`}>
+                        <span className={`text-xs sm:text-sm font-medium block ${isSelected ? 'text-slate-900 dark:text-white font-semibold' : 'text-slate-700 dark:text-slate-200'}`}>
                           {cat.label}
                         </span>
-                        <span className="text-[10px] sm:text-[11px] text-slate-400 leading-snug line-clamp-1 mt-0.5">
+                        <span className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 leading-snug line-clamp-1 mt-0.5">
                           {cat.desc}
                         </span>
                       </div>
@@ -200,7 +200,7 @@ export const ProjectEstimatorModal: React.FC<ProjectEstimatorModalProps> = ({
 
             {/* Step 2: Format Layanan */}
             <div>
-              <label className="block text-xs uppercase tracking-wider text-amber-400 font-mono font-semibold mb-2.5">
+              <label className="block text-xs uppercase tracking-wider text-amber-600 dark:text-amber-400 font-mono font-semibold mb-2.5">
                 2. Format Layanan yang Dibutuhkan
               </label>
               <div className="grid grid-cols-1 gap-2">
@@ -213,13 +213,13 @@ export const ProjectEstimatorModal: React.FC<ProjectEstimatorModalProps> = ({
                       onClick={() => setSelectedService(srv.id)}
                       className={`text-left p-3 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
                         isSelected
-                          ? 'bg-amber-500/15 border-amber-500/60 shadow-[0_0_15px_rgba(245,158,11,0.15)]'
-                          : 'bg-white/[0.02] border-white/10 hover:border-white/20 text-slate-300'
+                          ? 'bg-amber-500/10 dark:bg-amber-500/15 border-amber-500/50 dark:border-amber-500/60 shadow-[0_0_15px_rgba(245,158,11,0.12)]'
+                          : 'bg-black/[0.02] dark:bg-white/[0.02] border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 text-slate-700 dark:text-slate-300'
                       }`}
                     >
                       <div className="flex-1">
                         <div className="flex items-center gap-2">
-                          <span className={`text-xs sm:text-sm font-medium ${isSelected ? 'text-white' : 'text-slate-200'}`}>
+                          <span className={`text-xs sm:text-sm font-medium ${isSelected ? 'text-slate-900 dark:text-white font-semibold' : 'text-slate-700 dark:text-slate-200'}`}>
                             {srv.label}
                           </span>
                           {srv.badge && (
@@ -228,7 +228,7 @@ export const ProjectEstimatorModal: React.FC<ProjectEstimatorModalProps> = ({
                             </span>
                           )}
                         </div>
-                        <span className="text-[10px] sm:text-[11px] text-slate-400 leading-snug block mt-0.5">
+                        <span className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 leading-snug block mt-0.5">
                           {srv.desc}
                         </span>
                       </div>
@@ -245,7 +245,7 @@ export const ProjectEstimatorModal: React.FC<ProjectEstimatorModalProps> = ({
 
             {/* Step 3: Cakupan Lokasi */}
             <div>
-              <label className="block text-xs uppercase tracking-wider text-amber-400 font-mono font-semibold mb-2.5">
+              <label className="block text-xs uppercase tracking-wider text-amber-600 dark:text-amber-400 font-mono font-semibold mb-2.5">
                 3. Cakupan Wilayah / Lokasi Acara
               </label>
               <div className="flex flex-wrap gap-2">
@@ -258,11 +258,11 @@ export const ProjectEstimatorModal: React.FC<ProjectEstimatorModalProps> = ({
                       onClick={() => setSelectedLocation(loc)}
                       className={`px-3 py-2 rounded-xl text-xs font-medium border transition-all cursor-pointer flex items-center gap-1.5 ${
                         isSelected
-                          ? 'bg-amber-500/20 border-amber-500/60 text-amber-300'
-                          : 'bg-white/[0.02] border-white/10 text-slate-300 hover:border-white/20'
+                          ? 'bg-amber-500/15 dark:bg-amber-500/20 border-amber-500/50 dark:border-amber-500/60 text-amber-800 dark:text-amber-300 font-semibold'
+                          : 'bg-black/[0.02] dark:bg-white/[0.02] border-black/10 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:border-black/20 dark:hover:border-white/20'
                       }`}
                     >
-                      <MapPin className="w-3 h-3 text-amber-400/80" />
+                      <MapPin className="w-3 h-3 text-amber-600/80 dark:text-amber-400/80" />
                       <span>{loc}</span>
                     </button>
                   );
@@ -272,7 +272,7 @@ export const ProjectEstimatorModal: React.FC<ProjectEstimatorModalProps> = ({
 
             {/* Step 4: Estimasi Waktu / Jadwal */}
             <div>
-              <label className="block text-xs uppercase tracking-wider text-amber-400 font-mono font-semibold mb-2.5">
+              <label className="block text-xs uppercase tracking-wider text-amber-600 dark:text-amber-400 font-mono font-semibold mb-2.5">
                 4. Rencana Jadwal Sesi
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-2.5">
@@ -285,8 +285,8 @@ export const ProjectEstimatorModal: React.FC<ProjectEstimatorModalProps> = ({
                       onClick={() => setScheduleOption(sch.id)}
                       className={`p-2.5 rounded-xl text-xs font-medium border text-center transition-all cursor-pointer ${
                         isSelected
-                          ? 'bg-amber-500/20 border-amber-500/60 text-amber-300'
-                          : 'bg-white/[0.02] border-white/10 text-slate-300 hover:border-white/20'
+                          ? 'bg-amber-500/15 dark:bg-amber-500/20 border-amber-500/50 dark:border-amber-500/60 text-amber-800 dark:text-amber-300 font-semibold'
+                          : 'bg-black/[0.02] dark:bg-white/[0.02] border-black/10 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:border-black/20 dark:hover:border-white/20'
                       }`}
                     >
                       {sch.label}
@@ -296,13 +296,13 @@ export const ProjectEstimatorModal: React.FC<ProjectEstimatorModalProps> = ({
               </div>
 
               {scheduleOption === 'fixed' && (
-                <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white/[0.03] border border-white/10">
-                  <Calendar className="w-4 h-4 text-amber-400 shrink-0" />
+                <div className="flex items-center gap-2 p-2.5 rounded-xl bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10">
+                  <Calendar className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
                   <input
                     type="date"
                     value={customDate}
                     onChange={(e) => setCustomDate(e.target.value)}
-                    className="bg-transparent text-white text-xs sm:text-sm w-full outline-none focus:ring-0"
+                    className="bg-transparent text-slate-900 dark:text-white text-xs sm:text-sm w-full outline-none focus:ring-0"
                   />
                 </div>
               )}
@@ -310,7 +310,7 @@ export const ProjectEstimatorModal: React.FC<ProjectEstimatorModalProps> = ({
 
             {/* Step 5: Catatan / Deskripsi Tambahan */}
             <div>
-              <label className="block text-xs uppercase tracking-wider text-slate-400 font-mono mb-2">
+              <label className="block text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-mono mb-2">
                 Catatan Tambahan (Opsional)
               </label>
               <textarea
@@ -318,31 +318,31 @@ export const ProjectEstimatorModal: React.FC<ProjectEstimatorModalProps> = ({
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder="Contoh: Acara berlangsung outdoor sore hari, butuh liputan highlight 1 menit dan foto edit 50 frame..."
                 rows={2}
-                className="w-full p-3 rounded-xl bg-white/[0.03] border border-white/10 text-slate-200 text-xs sm:text-sm placeholder:text-slate-500 outline-none focus:border-amber-400/50 transition-colors resize-none"
+                className="w-full p-3 rounded-xl bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10 text-slate-800 dark:text-slate-200 text-xs sm:text-sm placeholder:text-slate-400 dark:placeholder:text-slate-500 outline-none focus:border-amber-500/50 transition-colors resize-none"
               />
             </div>
 
             {/* Live Preview Box */}
-            <div className="p-3.5 rounded-2xl bg-black/40 border border-amber-500/20 text-xs font-mono space-y-1.5 text-slate-300">
-              <div className="text-[11px] text-amber-400 uppercase tracking-wider font-bold mb-1 flex items-center justify-between">
+            <div className="p-3.5 rounded-2xl bg-amber-50/60 dark:bg-black/40 border border-amber-500/20 text-xs font-mono space-y-1.5 text-slate-700 dark:text-slate-300">
+              <div className="text-[11px] text-amber-700 dark:text-amber-400 uppercase tracking-wider font-bold mb-1 flex items-center justify-between">
                 <span>Pratinjau Pesan WhatsApp</span>
-                <span className="text-[10px] text-slate-400 font-normal">Format Otomatis</span>
+                <span className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">Format Otomatis</span>
               </div>
-              <p className="text-slate-400">Halo Husein Rosid, saya ingin konsultasi rencana proyek visual:</p>
-              <p><span className="text-amber-400">&bull;</span> Kategori: <span className="text-white font-semibold">{selectedCategory}</span></p>
-              <p><span className="text-amber-400">&bull;</span> Layanan: <span className="text-white font-semibold">{selectedService}</span></p>
-              <p><span className="text-amber-400">&bull;</span> Lokasi: <span className="text-white font-semibold">{selectedLocation}</span></p>
-              <p><span className="text-amber-400">&bull;</span> Jadwal: <span className="text-white font-semibold">{scheduleLabel}</span></p>
-              {notes && <p className="line-clamp-2 text-slate-400"><span className="text-amber-400">&bull;</span> Catatan: {notes}</p>}
+              <p className="text-slate-600 dark:text-slate-400">Halo Husein Rosid, saya ingin konsultasi rencana proyek visual:</p>
+              <p><span className="text-amber-600 dark:text-amber-400">&bull;</span> Kategori: <span className="text-slate-900 dark:text-white font-semibold">{selectedCategory}</span></p>
+              <p><span className="text-amber-600 dark:text-amber-400">&bull;</span> Layanan: <span className="text-slate-900 dark:text-white font-semibold">{selectedService}</span></p>
+              <p><span className="text-amber-600 dark:text-amber-400">&bull;</span> Lokasi: <span className="text-slate-900 dark:text-white font-semibold">{selectedLocation}</span></p>
+              <p><span className="text-amber-600 dark:text-amber-400">&bull;</span> Jadwal: <span className="text-slate-900 dark:text-white font-semibold">{scheduleLabel}</span></p>
+              {notes && <p className="line-clamp-2 text-slate-600 dark:text-slate-400"><span className="text-amber-600 dark:text-amber-400">&bull;</span> Catatan: {notes}</p>}
             </div>
           </div>
 
           {/* Footer Action Bar */}
-          <div className="px-5 sm:px-7 py-4 border-t border-white/[0.08] bg-[#0A0D14]/90 backdrop-blur-md flex items-center justify-between gap-3 shrink-0">
+          <div className="px-5 sm:px-7 py-4 border-t border-black/[0.08] dark:border-white/[0.08] bg-white/90 dark:bg-[#0A0D14]/90 backdrop-blur-md flex items-center justify-between gap-3 shrink-0">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2.5 rounded-full text-xs font-medium text-slate-400 hover:text-white hover:bg-white/[0.05] transition-all cursor-pointer"
+              className="px-4 py-2.5 rounded-full text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.05] transition-all cursor-pointer"
             >
               Batal
             </button>

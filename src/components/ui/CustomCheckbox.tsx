@@ -36,7 +36,7 @@ export const CustomCheckbox: React.FC<CustomCheckboxProps> = ({
         className={`w-5 h-5 rounded-lg border flex items-center justify-center transition-all duration-200 mt-0.5 shrink-0 focus:outline-none cursor-pointer active:scale-95 ${
           checked
             ? 'bg-amber-500 border-amber-400 text-slate-950 font-bold shadow-[0_0_12px_rgba(245,158,11,0.35)]'
-            : 'bg-black/50 border-white/20 text-transparent hover:border-amber-400/60 hover:bg-black/70'
+            : 'bg-black/[0.04] dark:bg-black/50 border-black/20 dark:border-white/20 text-transparent hover:border-amber-500/60 hover:bg-black/[0.08] dark:hover:bg-black/70'
         }`}
       >
         <Check
@@ -52,15 +52,15 @@ export const CustomCheckbox: React.FC<CustomCheckboxProps> = ({
             <span
               className={`text-xs transition-colors ${
                 checked
-                  ? 'text-white font-medium'
-                  : 'text-slate-300 group-hover:text-white'
+                  ? 'text-slate-900 dark:text-white font-medium'
+                  : 'text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white'
               }`}
             >
               {label}
             </span>
           )}
           {description && (
-            <span className="text-[11px] text-slate-400 font-light mt-0.5 leading-relaxed">
+            <span className="text-[11px] text-slate-500 dark:text-slate-400 font-light mt-0.5 leading-relaxed">
               {description}
             </span>
           )}

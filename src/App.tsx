@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Lenis from 'lenis';
-import { ThemeProvider } from './context/ThemeContext';
 import { Navbar } from './components/Navbar';
 import { LandingGate } from './components/LandingGate';
 import { SpatialCanvas } from './components/SpatialCanvas';
@@ -276,7 +275,7 @@ export function App() {
   }
 
   return (
-    <ThemeProvider>
+    <>
       {/* Mode Transition Overlay (Curtain) */}
       <ModeTransitionOverlay
         isTransitioning={isTransitioning}
@@ -293,7 +292,7 @@ export function App() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4 }}
-          className="min-h-screen bg-[#050505] text-[#F8FAFC] selection:bg-amber-500/30 selection:text-amber-300 relative overflow-x-hidden"
+          className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] selection:bg-amber-500/30 selection:text-amber-600 dark:selection:text-amber-300 relative overflow-x-hidden transition-colors duration-200"
         >
           <div className="fixed inset-0 bg-grid-pattern pointer-events-none opacity-30 z-0" />
           <div className="relative z-10 flex flex-col min-h-screen">
@@ -320,7 +319,7 @@ export function App() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4 }}
-          className="min-h-screen bg-[#050505] text-[#F8FAFC] selection:bg-amber-500/30 selection:text-amber-300 relative overflow-x-hidden"
+          className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] selection:bg-amber-500/30 selection:text-amber-600 dark:selection:text-amber-300 relative overflow-x-hidden transition-colors duration-200"
         >
           <div className="fixed inset-0 bg-grid-pattern pointer-events-none opacity-30 z-0" />
           <div className="relative z-10 flex flex-col min-h-screen">
@@ -367,7 +366,7 @@ export function App() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4 }}
-          className="min-h-screen bg-[#050505] text-[#F8FAFC] selection:bg-amber-500/30 selection:text-amber-300 relative overflow-x-hidden"
+          className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] selection:bg-amber-500/30 selection:text-amber-600 dark:selection:text-amber-300 relative overflow-x-hidden transition-colors duration-200"
         >
           <div className="fixed inset-0 bg-grid-pattern pointer-events-none opacity-40 z-0" />
           <div className="fixed top-0 left-0 right-0 h-[600px] radial-vignette pointer-events-none z-0" />
@@ -468,7 +467,7 @@ export function App() {
         initialCategory={estimatorContext.category}
         initialPhotoTitle={estimatorContext.photoTitle}
       />
-    </ThemeProvider>
+    </>
   );
 }
 

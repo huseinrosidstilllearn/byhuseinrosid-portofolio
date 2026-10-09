@@ -43,17 +43,17 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ contact = CONTAC
   return (
     <section id="kontak" className="w-full px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 max-w-[1920px] mx-auto scroll-mt-28">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-white/[0.08]">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-black/[0.08] dark:border-white/[0.08]">
         <div>
-          <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-amber-400 mb-2">
+          <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-amber-600 dark:text-amber-400 mb-2">
             <Mail className="w-3.5 h-3.5" />
             <span>Kanal Komunikasi Langsung</span>
           </div>
-          <h2 className="font-editorial text-3xl sm:text-5xl text-white font-medium">
+          <h2 className="font-editorial text-3xl sm:text-5xl text-slate-900 dark:text-white font-medium">
             Mulai Diskusi & Kolaborasi
           </h2>
         </div>
-        <p className="max-w-md text-xs sm:text-sm text-slate-400 font-light leading-relaxed">
+        <p className="max-w-md text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-light leading-relaxed">
           Punya ide konsep pemotretan, proyek komersial, atau ingin merekam momen bermakna? Hubungi langsung melalui kanal di bawah.
         </p>
       </div>
@@ -69,19 +69,19 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ contact = CONTAC
             className="bento-card p-5 flex items-center justify-between group active:scale-[0.98] transition-all"
           >
             <div className="flex items-center gap-4">
-              <div className="w-11 h-11 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+              <div className="w-11 h-11 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
                 <MessageCircle className="w-5 h-5" />
               </div>
               <div>
-                <span className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">
+                <span className="text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold block">
                   WhatsApp Resmi
                 </span>
-                <span className="text-sm sm:text-base font-semibold text-white group-hover:text-amber-400 transition-colors">
+                <span className="text-sm sm:text-base font-semibold text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
                   {activeContact.whatsappDisplay}
                 </span>
               </div>
             </div>
-            <ArrowUpRight className="w-4 h-4 text-slate-400 group-hover:text-amber-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+            <ArrowUpRight className="w-4 h-4 text-slate-400 group-hover:text-amber-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
           </a>
 
           {/* Instagram Card */}
@@ -92,19 +92,19 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ contact = CONTAC
             className="bento-card p-5 flex items-center justify-between group active:scale-[0.98] transition-all"
           >
             <div className="flex items-center gap-4">
-              <div className="w-11 h-11 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+              <div className="w-11 h-11 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 flex items-center justify-center group-hover:scale-110 transition-transform">
                 <InstagramIcon className="w-5 h-5" />
               </div>
               <div>
-                <span className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">
+                <span className="text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold block">
                   Instagram
                 </span>
-                <span className="text-sm sm:text-base font-semibold text-white group-hover:text-amber-400 transition-colors">
+                <span className="text-sm sm:text-base font-semibold text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
                   {activeContact.instagram}
                 </span>
               </div>
             </div>
-            <ArrowUpRight className="w-4 h-4 text-slate-400 group-hover:text-amber-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+            <ArrowUpRight className="w-4 h-4 text-slate-400 group-hover:text-amber-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
           </a>
 
           {/* Email Card */}
@@ -113,31 +113,31 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ contact = CONTAC
             className="bento-card p-5 flex items-center justify-between group active:scale-[0.98] transition-all"
           >
             <div className="flex items-center gap-4">
-              <div className="w-11 h-11 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+              <div className="w-11 h-11 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform">
                 <Mail className="w-5 h-5" />
               </div>
               <div>
-                <span className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">
+                <span className="text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold block">
                   Surel / Email
                 </span>
-                <span className="text-sm sm:text-base font-semibold text-white group-hover:text-amber-400 transition-colors">
+                <span className="text-sm sm:text-base font-semibold text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
                   {activeContact.email}
                 </span>
               </div>
             </div>
-            <ArrowUpRight className="w-4 h-4 text-slate-400 group-hover:text-amber-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+            <ArrowUpRight className="w-4 h-4 text-slate-400 group-hover:text-amber-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
           </a>
 
           {/* Studio Location Card */}
           <div className="bento-card p-5 flex items-center gap-4">
-            <div className="w-11 h-11 rounded-2xl bg-sky-500/10 border border-sky-500/20 text-sky-400 flex items-center justify-center">
+            <div className="w-11 h-11 rounded-2xl bg-sky-500/10 border border-sky-500/20 text-sky-600 dark:text-sky-400 flex items-center justify-center">
               <MapPin className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">
+              <span className="text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold block">
                 Pangkalan & Domisili
               </span>
-              <span className="text-sm sm:text-base font-semibold text-white">
+              <span className="text-sm sm:text-base font-semibold text-slate-900 dark:text-white">
                 {activeContact.locationDisplay}
               </span>
             </div>
@@ -146,16 +146,16 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ contact = CONTAC
 
         {/* Right Column: Structured Booking Form Bento (7 cols) */}
         <div className="lg:col-span-7 bento-card p-6 sm:p-10">
-          <h3 className="font-editorial text-2xl sm:text-3xl text-white font-medium mb-1.5">
+          <h3 className="font-editorial text-2xl sm:text-3xl text-slate-900 dark:text-white font-medium mb-1.5">
             Formulir Penawaran Sesi
           </h3>
-          <p className="text-xs text-slate-400 font-light mb-8">
+          <p className="text-xs text-slate-600 dark:text-slate-400 font-light mb-8">
             Isi rincian rencana visual Anda untuk langsung tersambung ke WhatsApp dengan pesan terstruktur.
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-[10px] uppercase tracking-[0.2em] font-semibold text-slate-300 mb-2">
+              <label className="block text-[10px] uppercase tracking-[0.2em] font-semibold text-slate-700 dark:text-slate-300 mb-2">
                 Nama Anda / Entitas Brand *
               </label>
               <input
@@ -164,12 +164,12 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ contact = CONTAC
                 value={name}
                 onChange={e => setName(e.target.value)}
                 placeholder="Contoh: Rian & Sarah / Brand Lokal"
-                className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-slate-600 text-base sm:text-sm focus:outline-none focus:border-amber-400 transition-colors"
+                className="w-full px-4 py-3 rounded-xl bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 text-base sm:text-sm focus:outline-none focus:border-amber-400 transition-colors"
               />
             </div>
 
             <div>
-              <label className="block text-[10px] uppercase tracking-[0.2em] font-semibold text-slate-300 mb-2">
+              <label className="block text-[10px] uppercase tracking-[0.2em] font-semibold text-slate-700 dark:text-slate-300 mb-2">
                 Pilihan Layanan
               </label>
               <CustomSelect
@@ -194,7 +194,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ contact = CONTAC
             </div>
 
             <div>
-              <label className="block text-[10px] uppercase tracking-[0.2em] font-semibold text-slate-300 mb-2">
+              <label className="block text-[10px] uppercase tracking-[0.2em] font-semibold text-slate-700 dark:text-slate-300 mb-2">
                 Rencana Lokasi & Perkiraan Tanggal
               </label>
               <input
@@ -202,12 +202,12 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ contact = CONTAC
                 value={sessionLocation}
                 onChange={e => setSessionLocation(e.target.value)}
                 placeholder="Contoh: Surabaya / Bali (Bulan depan)"
-                className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-slate-600 text-base sm:text-sm focus:outline-none focus:border-amber-400 transition-colors"
+                className="w-full px-4 py-3 rounded-xl bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 text-base sm:text-sm focus:outline-none focus:border-amber-400 transition-colors"
               />
             </div>
 
             <div>
-              <label className="block text-[10px] uppercase tracking-[0.2em] font-semibold text-slate-300 mb-2">
+              <label className="block text-[10px] uppercase tracking-[0.2em] font-semibold text-slate-700 dark:text-slate-300 mb-2">
                 Ceritakan Konsep atau Ekspektasi Visual
               </label>
               <textarea
@@ -215,7 +215,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ contact = CONTAC
                 value={notes}
                 onChange={e => setNotes(e.target.value)}
                 placeholder="Gambarkan suasana foto, referensi moodboard, atau cerita yang ingin Anda abadikan..."
-                className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-slate-600 text-base sm:text-sm focus:outline-none focus:border-amber-400 transition-colors resize-none"
+                className="w-full px-4 py-3 rounded-xl bg-black/[0.03] dark:bg-black/40 border border-black/10 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 text-base sm:text-sm focus:outline-none focus:border-amber-400 transition-colors resize-none"
               />
             </div>
 

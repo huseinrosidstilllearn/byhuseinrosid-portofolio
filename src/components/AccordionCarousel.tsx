@@ -29,11 +29,11 @@ export const AccordionCarousel: React.FC<AccordionCarouselProps> = ({ photos = P
     <section className="w-full px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 max-w-[1920px] mx-auto py-12" aria-label="Accordion Expanding Panels">
       <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
         <div>
-          <h3 className="font-editorial text-2xl sm:text-4xl text-white font-bold tracking-tight">
+          <h3 className="font-editorial text-2xl sm:text-4xl text-slate-900 dark:text-white font-bold tracking-tight">
             Ruang & Bingkai Pilihan
           </h3>
         </div>
-        <span className="text-xs text-slate-400 font-light">
+        <span className="text-xs text-slate-500 dark:text-slate-400 font-light">
           Sentuh untuk memperluas bingkai &bull; Ketuk foto aktif untuk layar penuh
         </span>
       </div>
@@ -51,8 +51,8 @@ export const AccordionCarousel: React.FC<AccordionCarouselProps> = ({ photos = P
                 isActive ? 'grow-[5]' : 'grow-1'
               }`}
             >
-              <div className={`relative block h-full rounded-2xl sm:rounded-3xl overflow-hidden bg-[#12151E] border transition-all duration-300 shadow-lg ${
-                isActive ? 'border-amber-400/60 ring-1 ring-amber-400/30' : 'border-white/10 sm:group-hover:border-amber-400/50'
+              <div className={`relative block h-full rounded-2xl sm:rounded-3xl overflow-hidden bg-slate-200 dark:bg-[#12151E] border transition-all duration-300 shadow-lg ${
+                isActive ? 'border-amber-400/60 ring-1 ring-amber-400/30' : 'border-black/10 dark:border-white/10 sm:group-hover:border-amber-400/50'
               }`}>
                 <img
                   src={photo.imageUrl}

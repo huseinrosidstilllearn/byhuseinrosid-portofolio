@@ -114,19 +114,19 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
   return (
     <div className="w-full min-h-screen pt-20 sm:pt-28 pb-16 animate-in fade-in duration-400">
       {/* ── STICKY TOP BREADCRUMB & NAVIGATION BAR ── */}
-      <div className="sticky top-16 sm:top-20 z-40 bg-[#050505]/90 backdrop-blur-xl border-y border-white/[0.08] py-2.5 sm:py-3 px-3 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 mb-6 sm:mb-10">
+      <div className="sticky top-16 sm:top-20 z-40 bg-white/90 dark:bg-[#050505]/90 backdrop-blur-xl border-y border-black/[0.08] dark:border-white/[0.08] py-2.5 sm:py-3 px-3 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 mb-6 sm:mb-10 transition-colors duration-200">
         <div className="w-full max-w-[1920px] mx-auto flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4">
           {/* Breadcrumb + Back Button */}
           <div className="flex items-center gap-2.5 sm:gap-3">
             <button
               onClick={onBackToMain}
-              className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-white transition-all cursor-pointer group"
+              className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-black/[0.04] dark:bg-white/[0.06] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] border border-black/10 dark:border-white/10 text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-slate-800 dark:text-white transition-all cursor-pointer group"
             >
               <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
               <span>Showcase Utama</span>
             </button>
-            <span className="text-white/20">/</span>
-            <span className="text-[11px] sm:text-xs font-mono uppercase tracking-widest text-amber-400 font-semibold truncate max-w-[150px] sm:max-w-none">
+            <span className="text-black/20 dark:text-white/20">/</span>
+            <span className="text-[11px] sm:text-xs font-mono uppercase tracking-widest text-amber-600 dark:text-amber-400 font-semibold truncate max-w-[150px] sm:max-w-none">
               {info.name}
             </span>
           </div>
@@ -142,7 +142,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
                   className={`relative px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-medium tracking-wider uppercase whitespace-nowrap active:scale-95 transition-all duration-200 cursor-pointer ${
                     isActive
                       ? 'text-slate-950 font-bold bg-amber-500 shadow-[0_2px_12px_rgba(245,158,11,0.4)]'
-                      : 'text-slate-400 hover:text-white bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08]'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white bg-black/[0.03] dark:bg-white/[0.03] hover:bg-black/[0.06] dark:hover:bg-white/[0.08] border border-black/[0.08] dark:border-white/[0.08]'
                   }`}
                 >
                   {cat}
@@ -155,10 +155,10 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
 
       <div className="w-full max-w-[1920px] px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 mx-auto">
         {/* ── MINIMAL PHOTO-FIRST CATEGORY HEADER ── */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8 pb-6 border-b border-white/[0.08]">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8 pb-6 border-b border-black/[0.08] dark:border-white/[0.08]">
           <div className="max-w-3xl">
             <div className="flex flex-wrap items-center gap-2.5 mb-2.5">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-300">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-700 dark:text-amber-300">
                 <Icon className="w-3 h-3" />
                 <span>Kategori Eksibisi</span>
               </div>
@@ -168,29 +168,29 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
                 </span>
               )}
             </div>
-            <h1 className="font-editorial text-3xl sm:text-5xl lg:text-6xl text-white font-medium tracking-tight">
+            <h1 className="font-editorial text-3xl sm:text-5xl lg:text-6xl text-slate-900 dark:text-white font-medium tracking-tight">
               {info.name}
             </h1>
-            <p className="text-xs sm:text-base text-slate-300 font-light mt-2 leading-relaxed">
+            <p className="text-xs sm:text-base text-slate-600 dark:text-slate-300 font-light mt-2 leading-relaxed">
               {info.subtitle}
             </p>
             {info.tags && info.tags.length > 0 && (
-              <div className="flex flex-wrap items-center gap-1.5 mt-3 pt-3 border-t border-white/[0.06]">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500 mr-1">
+              <div className="flex flex-wrap items-center gap-1.5 mt-3 pt-3 border-t border-black/[0.06] dark:border-white/[0.06]">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400 dark:text-slate-500 mr-1">
                   Tag Subjek:
                 </span>
                 {info.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-2.5 py-0.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-[10px] text-slate-400 font-mono"
+                    className="px-2.5 py-0.5 rounded-full bg-black/[0.03] dark:bg-white/[0.04] border border-black/[0.08] dark:border-white/[0.08] text-[10px] text-slate-600 dark:text-slate-400 font-mono"
                   >
                     {tag}
                   </span>
                 ))}
               </div>
             )}
-            <p className="text-[11px] sm:text-xs text-slate-400 font-mono mt-3">
-              Total <span className="text-amber-400 font-bold">{categoryPhotos.length}</span> karya terkurasi dalam arsip ini
+            <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-mono mt-3">
+              Total <span className="text-amber-600 dark:text-amber-400 font-bold">{categoryPhotos.length}</span> karya terkurasi dalam arsip ini
             </p>
           </div>
           <a
@@ -205,9 +205,9 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
         </div>
 
         {/* ── TOOLBAR: LAYOUT SWITCHER & FILTER CONTROLS ── */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-white/[0.08]">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-black/[0.08] dark:border-white/[0.08]">
           {/* Layout Mode Switcher */}
-          <div className="flex items-center gap-1 p-1 rounded-2xl bg-[#0E1118]/85 border border-white/10 backdrop-blur-xl overflow-x-auto no-scrollbar shadow-lg">
+          <div className="flex items-center gap-1 p-1 rounded-2xl bg-white/85 dark:bg-[#0E1118]/85 border border-black/10 dark:border-white/10 backdrop-blur-xl overflow-x-auto no-scrollbar shadow-lg">
             {LAYOUT_OPTIONS.map((opt) => {
               const OptIcon = opt.icon;
               const isActive = layoutMode === opt.id;
@@ -218,7 +218,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
                   className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium tracking-wider whitespace-nowrap transition-all duration-200 cursor-pointer ${
                     isActive
                       ? 'bg-amber-500 text-slate-950 font-bold shadow-[0_2px_12px_rgba(245,158,11,0.35)] scale-[1.02]'
-                      : 'text-slate-400 hover:text-white hover:bg-white/[0.06]'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-black/[0.05] dark:hover:bg-white/[0.06]'
                   }`}
                   title={opt.description}
                 >
@@ -235,8 +235,8 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
               onClick={() => setFilterFeaturedOnly(false)}
               className={`px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-all cursor-pointer ${
                 !filterFeaturedOnly
-                  ? 'bg-white/15 text-amber-300 border border-amber-400/40 shadow-sm'
-                  : 'text-slate-400 hover:text-white bg-white/[0.03] border border-white/10'
+                  ? 'bg-amber-500/15 dark:bg-white/15 text-amber-700 dark:text-amber-300 border border-amber-500/40 dark:border-amber-400/40 shadow-sm'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10'
               }`}
             >
               Semua Foto ({categoryPhotos.length})
@@ -245,8 +245,8 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
               onClick={() => setFilterFeaturedOnly(true)}
               className={`px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-all cursor-pointer ${
                 filterFeaturedOnly
-                  ? 'bg-white/15 text-amber-300 border border-amber-400/40 shadow-sm'
-                  : 'text-slate-400 hover:text-white bg-white/[0.03] border border-white/10'
+                  ? 'bg-amber-500/15 dark:bg-white/15 text-amber-700 dark:text-amber-300 border border-amber-500/40 dark:border-amber-400/40 shadow-sm'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10'
               }`}
             >
               Hanya Unggulan ({categoryPhotos.filter((p) => p.featured).length})
@@ -256,11 +256,11 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
 
         {/* ── EMPTY STATE ── */}
         {displayedPhotos.length === 0 && (
-          <div className="py-20 text-center bento-card p-12 rounded-3xl border border-white/10 my-8">
-            <p className="font-editorial text-2xl text-white">
+          <div className="py-20 text-center bento-card p-12 rounded-3xl border border-black/10 dark:border-white/10 my-8">
+            <p className="font-editorial text-2xl text-slate-900 dark:text-white">
               Belum ada foto yang ditampilkan untuk filter ini
             </p>
-            <p className="text-xs text-slate-400 mt-2">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">
               Cobalah memilih "Semua Foto" untuk melihat seluruh koleksi kategori ini.
             </p>
             <button
@@ -279,9 +279,9 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
               <div
                 key={photo.id}
                 onClick={() => onSelectPhoto(photo)}
-                className="break-inside-avoid bento-card rounded-2xl overflow-hidden group cursor-pointer border border-white/10 hover:border-amber-400/50 transition-all duration-300 relative"
+                className="break-inside-avoid bento-card rounded-2xl overflow-hidden group cursor-pointer border border-black/10 dark:border-white/10 hover:border-amber-400/50 transition-all duration-300 relative"
               >
-                <div className="relative overflow-hidden bg-[#0E1118] skeleton-shimmer">
+                <div className="relative overflow-hidden bg-slate-200 dark:bg-[#0E1118] skeleton-shimmer">
                   <img
                     src={photo.imageUrl}
                     alt={photo.title}
@@ -321,18 +321,18 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
                 </div>
 
                 {/* Subtitle caption below image */}
-                <div className="p-3 sm:p-4 bg-[#0E1118]/80">
-                  <h4 className="font-editorial text-xs sm:text-base text-white font-medium group-hover:text-amber-300 transition-colors truncate">
+                <div className="p-3 sm:p-4 bg-white/95 dark:bg-[#0E1118]/80 border-t border-black/[0.06] dark:border-white/[0.06]">
+                  <h4 className="font-editorial text-xs sm:text-base text-slate-900 dark:text-white font-medium group-hover:text-amber-600 dark:group-hover:text-amber-300 transition-colors truncate">
                     {photo.title}
                   </h4>
                   {photo.description && (
-                    <p className="text-xs text-slate-400 font-light mt-1 line-clamp-2 leading-relaxed hidden sm:block">
+                    <p className="text-xs text-slate-600 dark:text-slate-400 font-light mt-1 line-clamp-2 leading-relaxed hidden sm:block">
                       {photo.description}
                     </p>
                   )}
-                  <div className="flex items-center justify-between text-[10px] sm:text-[11px] text-slate-400 font-light pt-2 sm:pt-2.5 mt-2 sm:mt-2.5 border-t border-white/[0.08]">
+                  <div className="flex items-center justify-between text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-light pt-2 sm:pt-2.5 mt-2 sm:mt-2.5 border-t border-black/[0.06] dark:border-white/[0.08]">
                     <span className="flex items-center gap-1 truncate">
-                      <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-amber-400 shrink-0" />
+                      <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-amber-500 dark:text-amber-400 shrink-0" />
                       <span className="truncate">{photo.location}</span>
                     </span>
                     <span className="font-mono shrink-0">{photo.year}</span>
@@ -350,9 +350,9 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
               <div
                 key={photo.id}
                 onClick={() => onSelectPhoto(photo)}
-                className="bento-card rounded-2xl overflow-hidden group cursor-pointer border border-white/10 hover:border-amber-400/50 transition-all duration-300 flex flex-col"
+                className="bento-card rounded-2xl overflow-hidden group cursor-pointer border border-black/10 dark:border-white/10 hover:border-amber-400/50 transition-all duration-300 flex flex-col"
               >
-                <div className="relative aspect-[4/3] overflow-hidden bg-[#0E1118] skeleton-shimmer">
+                <div className="relative aspect-[4/3] overflow-hidden bg-slate-200 dark:bg-[#0E1118] skeleton-shimmer">
                   <img
                     src={photo.imageUrl}
                     alt={photo.title}
@@ -377,24 +377,24 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
                   </div>
                 </div>
 
-                <div className="p-3 sm:p-5 flex-1 flex flex-col justify-between bg-[#0E1118]/80">
+                <div className="p-3 sm:p-5 flex-1 flex flex-col justify-between bg-white/95 dark:bg-[#0E1118]/80 border-t border-black/[0.06] dark:border-white/[0.06]">
                   <div>
-                    <h4 className="font-editorial text-xs sm:text-lg text-white font-medium group-hover:text-amber-300 transition-colors line-clamp-1">
+                    <h4 className="font-editorial text-xs sm:text-lg text-slate-900 dark:text-white font-medium group-hover:text-amber-600 dark:group-hover:text-amber-300 transition-colors line-clamp-1">
                       {photo.title}
                     </h4>
                     {photo.description && (
-                      <p className="text-xs text-slate-400 font-light mt-1.5 line-clamp-2 leading-relaxed hidden sm:block">
+                      <p className="text-xs text-slate-600 dark:text-slate-400 font-light mt-1.5 line-clamp-2 leading-relaxed hidden sm:block">
                         {photo.description}
                       </p>
                     )}
                   </div>
 
-                  <div className="flex items-center justify-between text-[10px] sm:text-xs text-slate-400 font-light pt-2 sm:pt-3 mt-2 sm:mt-4 border-t border-white/[0.08]">
+                  <div className="flex items-center justify-between text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-light pt-2 sm:pt-3 mt-2 sm:mt-4 border-t border-black/[0.06] dark:border-white/[0.08]">
                     <div className="flex items-center gap-1 sm:gap-1.5 truncate">
-                      <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-amber-400 shrink-0" />
+                      <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-amber-500 dark:text-amber-400 shrink-0" />
                       <span className="truncate">{photo.location}</span>
                     </div>
-                    <span className="font-mono text-slate-400 shrink-0">{photo.year}</span>
+                    <span className="font-mono text-slate-500 dark:text-slate-400 shrink-0">{photo.year}</span>
                   </div>
                 </div>
               </div>
@@ -418,7 +418,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
                 <div
                   key={photo.id}
                   onClick={() => onSelectPhoto(photo)}
-                  className={`${spanClass} bento-card rounded-2xl relative overflow-hidden group cursor-pointer border border-white/10 hover:border-amber-400/50 transition-all duration-300 bg-[#0E1118] skeleton-shimmer`}
+                  className={`${spanClass} bento-card rounded-2xl relative overflow-hidden group cursor-pointer border border-black/10 dark:border-white/10 hover:border-amber-400/50 transition-all duration-300 bg-slate-200 dark:bg-[#0E1118] skeleton-shimmer`}
                 >
                   <img
                     src={photo.imageUrl}
@@ -463,10 +463,10 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
 
         {/* ── LAYOUT 4: SPOTLIGHT SINEMATIK ── */}
         {layoutMode === 'spotlight' && currentSpotlightPhoto && (
-          <div className="bento-card rounded-3xl p-6 sm:p-10 border border-white/10 animate-in fade-in duration-300">
+          <div className="bento-card rounded-3xl p-6 sm:p-10 border border-black/10 dark:border-white/10 animate-in fade-in duration-300">
             {/* Main Stage */}
             <div
-              className="relative rounded-2xl overflow-hidden aspect-[16/10] sm:aspect-[16/9] bg-[#0E1118] skeleton-shimmer mb-6 group cursor-pointer"
+              className="relative rounded-2xl overflow-hidden aspect-[16/10] sm:aspect-[16/9] bg-slate-200 dark:bg-[#0E1118] skeleton-shimmer mb-6 group cursor-pointer"
               onClick={() => onSelectPhoto(currentSpotlightPhoto)}
             >
               <img
@@ -517,7 +517,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
             <div className="flex items-center justify-between gap-4">
               <button
                 onClick={handlePrevSpotlight}
-                className="w-10 h-10 rounded-full bg-white/[0.05] hover:bg-white/15 border border-white/10 flex items-center justify-center text-white cursor-pointer"
+                className="w-10 h-10 rounded-full bg-black/[0.04] dark:bg-white/[0.05] hover:bg-black/[0.08] dark:hover:bg-white/15 border border-black/10 dark:border-white/10 flex items-center justify-center text-slate-800 dark:text-white cursor-pointer transition-colors"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
@@ -527,10 +527,10 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
                   <button
                     key={photo.id}
                     onClick={() => setSpotlightIndex(i)}
-                    className={`relative w-16 h-12 rounded-lg overflow-hidden shrink-0 border-2 transition-all cursor-pointer bg-[#0E1118] skeleton-shimmer ${
+                    className={`relative w-16 h-12 rounded-lg overflow-hidden shrink-0 border-2 transition-all cursor-pointer bg-slate-200 dark:bg-[#0E1118] skeleton-shimmer ${
                       i === spotlightIndex
                         ? 'border-amber-400 scale-105 shadow-md'
-                        : 'border-white/10 opacity-50 hover:opacity-100'
+                        : 'border-black/10 dark:border-white/10 opacity-60 hover:opacity-100'
                     }`}
                   >
                     <img
@@ -556,7 +556,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
 
               <button
                 onClick={handleNextSpotlight}
-                className="w-10 h-10 rounded-full bg-white/[0.05] hover:bg-white/15 border border-white/10 flex items-center justify-center text-white cursor-pointer"
+                className="w-10 h-10 rounded-full bg-black/[0.04] dark:bg-white/[0.05] hover:bg-black/[0.08] dark:hover:bg-white/15 border border-black/10 dark:border-white/10 flex items-center justify-center text-slate-800 dark:text-white cursor-pointer transition-colors"
               >
                 <ChevronRight className="w-5 h-5" />
               </button>
@@ -569,9 +569,9 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
           <div className="mt-12 flex flex-col items-center justify-center gap-3">
             <button
               onClick={() => setVisibleCount((prev) => Math.min(prev + LOAD_INCREMENT, displayedPhotos.length))}
-              className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 hover:border-amber-400/40 text-xs font-mono uppercase tracking-wider text-slate-200 transition-all duration-300 cursor-pointer shadow-lg"
+              className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-black/[0.04] dark:bg-white/[0.06] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] border border-black/10 dark:border-white/10 hover:border-amber-500/40 dark:hover:border-amber-400/40 text-xs font-mono uppercase tracking-wider text-slate-700 dark:text-slate-200 transition-all duration-300 cursor-pointer shadow-lg"
             >
-              <ArrowDown className="w-3.5 h-3.5 text-amber-400" />
+              <ArrowDown className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
               <span>Muat Lebih Banyak ({visibleCount} dari {displayedPhotos.length} foto)</span>
             </button>
             <div ref={loadMoreSentinelRef} className="h-4 w-full" aria-hidden="true" />
@@ -585,16 +585,16 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({
         )}
 
         {/* ── NEXT CATEGORY EXPLORER BANNER ── */}
-        <div className="mt-16 pt-12 border-t border-white/[0.08]">
-          <div className="bento-card p-8 sm:p-10 rounded-3xl border border-white/10 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden group">
+        <div className="mt-16 pt-12 border-t border-black/[0.08] dark:border-white/[0.08]">
+          <div className="bento-card p-8 sm:p-10 rounded-3xl border border-black/10 dark:border-white/10 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden group">
             <div className="relative z-10">
-              <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-slate-400 block mb-1">
+              <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400 block mb-1">
                 Kategori Selanjutnya
               </span>
-              <h3 className="font-editorial text-2xl sm:text-3xl text-white font-medium">
+              <h3 className="font-editorial text-2xl sm:text-3xl text-slate-900 dark:text-white font-medium">
                 {nextInfo.title}
               </h3>
-              <p className="text-xs sm:text-sm text-slate-400 font-light mt-1 max-w-md">
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-light mt-1 max-w-md">
                 {nextInfo.subtitle}
               </p>
             </div>

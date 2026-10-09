@@ -28,11 +28,11 @@ export const CategoryShowcase: React.FC<CategoryShowcaseProps> = ({
       className="w-full px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 max-w-[1920px] mx-auto scroll-mt-28"
     >
       {/* Section Header - Vertical Stack & Eyebrow Restraint */}
-      <div className="mb-10 sm:mb-12 pb-6 border-b border-white/[0.08]">
-        <h2 className="font-editorial text-3xl sm:text-5xl lg:text-6xl text-white font-bold tracking-tight">
+      <div className="mb-10 sm:mb-12 pb-6 border-b border-black/[0.08] dark:border-white/[0.08]">
+        <h2 className="font-editorial text-3xl sm:text-5xl lg:text-6xl text-slate-900 dark:text-white font-bold tracking-tight">
           Eksplorasi Per Kategori
         </h2>
-        <p className="max-w-xl text-xs sm:text-sm text-slate-300 font-light leading-relaxed mt-3">
+        <p className="max-w-xl text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-light leading-relaxed mt-3">
           Setiap genre memiliki atmosfer, karakter visual, dan keunikannya masing-masing. Masuk ke ruang kategori khusus untuk melihat arsip lengkap secara mendalam dan terfokus.
         </p>
       </div>
@@ -54,7 +54,7 @@ export const CategoryShowcase: React.FC<CategoryShowcaseProps> = ({
             <motion.div
               key={catName}
               onClick={() => onSelectCategory(catName)}
-              className={`${colSpanClass} group relative rounded-3xl overflow-hidden bento-card border border-white/10 hover:border-amber-400/50 active:scale-[0.985] active:translate-y-[1px] transition-all duration-300 cursor-pointer flex flex-col justify-between p-6 sm:p-8`}
+              className={`${colSpanClass} group relative rounded-3xl overflow-hidden bento-card border border-black/10 dark:border-white/10 hover:border-amber-400/50 active:scale-[0.985] active:translate-y-[1px] transition-all duration-300 cursor-pointer flex flex-col justify-between p-6 sm:p-8`}
               whileHover={{ y: -4 }}
               transition={{ duration: 0.25 }}
             >

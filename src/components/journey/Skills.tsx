@@ -30,26 +30,26 @@ function SkillCard({ skill, index }: { skill: SkillItem; index: number }) {
   return (
     <motion.div
       ref={ref}
-      className="bento-card p-5 rounded-2xl border border-white/10 hover:border-amber-400/40 active:scale-[0.98] group transition-all duration-300 cursor-default"
+      className="bento-card p-5 rounded-2xl border border-black/10 dark:border-white/10 hover:border-amber-400/40 active:scale-[0.98] group transition-all duration-300 cursor-default"
       initial={{ opacity: 0, y: 16 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.4, delay: index * 0.04 }}
     >
       <div className="flex items-start gap-3.5 mb-2.5">
-        <div className="w-9 h-9 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-amber-400 shrink-0 group-hover:scale-105 group-hover:border-amber-400/50 transition-all">
+        <div className="w-9 h-9 rounded-xl bg-black/[0.04] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 flex items-center justify-center text-amber-500 dark:text-amber-400 shrink-0 group-hover:scale-105 group-hover:border-amber-400/50 transition-all">
           <IconComponent className="w-4 h-4" />
         </div>
         <div className="flex-1 min-w-0">
-          <h4 className="text-white font-semibold text-sm leading-tight group-hover:text-amber-200 transition-colors">
+          <h4 className="text-slate-900 dark:text-white font-semibold text-sm leading-tight group-hover:text-amber-600 dark:group-hover:text-amber-200 transition-colors">
             {skill.name}
           </h4>
-          <span className="text-[11px] font-mono uppercase tracking-wider text-amber-400/80 mt-1 block">
+          <span className="text-[11px] font-mono uppercase tracking-wider text-amber-600 dark:text-amber-400/80 mt-1 block">
             {skill.level === 'Ahli' ? 'Spesialisasi Inti' : skill.level === 'Mahir' ? 'Standar Industri' : 'Kompetensi Terapan'}
           </span>
         </div>
       </div>
       {skill.description && (
-        <p className="text-slate-400 text-xs leading-relaxed mt-2 line-clamp-2">
+        <p className="text-slate-600 dark:text-slate-400 text-xs leading-relaxed mt-2 line-clamp-2">
           {skill.description}
         </p>
       )}
@@ -71,15 +71,15 @@ export function Skills({ skills = SKILLS }: { skills?: SkillItem[] }) {
         {/* Section Header */}
         <motion.div
           ref={titleRef}
-          className="max-w-2xl mb-16 pb-6 border-b border-white/[0.08]"
+          className="max-w-2xl mb-16 pb-6 border-b border-black/[0.08] dark:border-white/[0.08]"
           initial={{ opacity: 0, y: 20 }}
           animate={isTitleInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="font-editorial text-3xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight">
+          <h2 className="font-editorial text-3xl sm:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight">
             Disiplin & Kapabilitas Teknis
           </h2>
-          <p className="text-slate-300 text-sm sm:text-base font-light leading-relaxed mt-3">
+          <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base font-light leading-relaxed mt-3">
             Dibangun selama lebih dari 7 tahun melalui penugasan lapangan nyata, mulai dari ketepatan pencahayaan studio hingga dokumentasi medan dinamis.
           </p>
         </motion.div>
@@ -94,11 +94,11 @@ export function Skills({ skills = SKILLS }: { skills?: SkillItem[] }) {
               <div key={cat}>
                 {/* Category Header */}
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-8 h-8 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center text-amber-400">
+                  <div className="w-8 h-8 rounded-xl bg-black/[0.04] dark:bg-white/[0.05] border border-black/10 dark:border-white/10 flex items-center justify-center text-amber-500 dark:text-amber-400">
                     <catMeta.icon className="w-4 h-4" />
                   </div>
-                  <h3 className="font-editorial text-xl sm:text-2xl font-bold text-white">{catMeta.label}</h3>
-                  <div className="flex-1 h-px bg-white/10 ml-2" />
+                  <h3 className="font-editorial text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">{catMeta.label}</h3>
+                  <div className="flex-1 h-px bg-black/10 dark:bg-white/10 ml-2" />
                 </div>
 
                 {/* Skills Grid */}

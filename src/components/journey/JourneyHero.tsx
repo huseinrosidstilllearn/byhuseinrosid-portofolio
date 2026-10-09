@@ -68,13 +68,13 @@ export const JourneyHero: React.FC<JourneyHeroProps> = ({
                 href={contact.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bento-card px-4 py-2 rounded-xl text-sm text-white/60 hover:text-amber-400 active:scale-95 transition-all border border-white/5 hover:border-amber-500/30"
+                className="bento-card px-4 py-2 rounded-xl text-sm text-slate-600 dark:text-white/60 hover:text-amber-600 dark:hover:text-amber-400 active:scale-95 transition-all border border-black/10 dark:border-white/5 hover:border-amber-500/30"
               >
                 {contact.instagram}
               </a>
               <a
                 href={`mailto:${contact.email}`}
-                className="bento-card px-4 py-2 rounded-xl text-sm text-white/60 hover:text-amber-400 active:scale-95 transition-all border border-white/5 hover:border-amber-500/30"
+                className="bento-card px-4 py-2 rounded-xl text-sm text-slate-600 dark:text-white/60 hover:text-amber-600 dark:hover:text-amber-400 active:scale-95 transition-all border border-black/10 dark:border-white/5 hover:border-amber-500/30"
               >
                 Email
               </a>
@@ -91,14 +91,14 @@ export const JourneyHero: React.FC<JourneyHeroProps> = ({
             {/* Eyebrow */}
             <div className="flex items-center gap-3">
               <div className="w-8 h-px bg-amber-500" />
-              <span className="text-amber-400 text-xs font-mono tracking-[0.25em] uppercase">
+              <span className="text-amber-600 dark:text-amber-400 text-xs font-mono tracking-[0.25em] uppercase font-semibold">
                 Perjalanan Visual &bull; {profile.experienceYears}
               </span>
             </div>
 
             {/* Headline */}
             <div>
-              <h1 className="font-editorial text-5xl sm:text-6xl lg:text-7xl font-black leading-[0.9] tracking-tight text-white mb-4">
+              <h1 className="font-editorial text-5xl sm:text-6xl lg:text-7xl font-black leading-[0.9] tracking-tight text-slate-900 dark:text-white mb-4">
                 {(() => {
                   const parts = (profile.name || 'Husein Rosid').trim().split(/\s+/);
                   const first = parts[0] || 'Husein';
@@ -107,32 +107,32 @@ export const JourneyHero: React.FC<JourneyHeroProps> = ({
                     <>
                       {first}
                       <br />
-                      <span className="text-amber-400">{rest}</span>
+                      <span className="text-amber-500 dark:text-amber-400">{rest}</span>
                     </>
                   );
                 })()}
               </h1>
-              <p className="text-white/50 text-sm font-mono tracking-widest uppercase">
+              <p className="text-slate-500 dark:text-white/50 text-sm font-mono tracking-widest uppercase">
                 {profile.headline}
               </p>
             </div>
 
             {/* Status Ketersediaan */}
             {profile.availability && (
-              <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 text-xs font-mono">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-700 dark:text-emerald-300 text-xs font-mono font-medium">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" />
                 <span>{profile.availability}</span>
               </div>
             )}
 
             {/* Bio */}
-            <div className="bento-card p-6 rounded-2xl border border-white/5 max-w-2xl space-y-3">
-              <p className="text-white/80 leading-relaxed text-base font-normal">
+            <div className="bento-card p-6 rounded-2xl border border-black/10 dark:border-white/5 max-w-2xl space-y-3">
+              <p className="text-slate-800 dark:text-white/80 leading-relaxed text-base font-normal">
                 {profile.bioShort}
               </p>
               {Array.isArray(profile.bioFull) && profile.bioFull.length > 0 ? (
                 profile.bioFull.map((p, idx) => (
-                  <p key={idx} className="text-white/60 leading-relaxed text-sm font-light">
+                  <p key={idx} className="text-slate-600 dark:text-white/60 leading-relaxed text-sm font-light">
                     {p}
                   </p>
                 ))
@@ -141,7 +141,7 @@ export const JourneyHero: React.FC<JourneyHeroProps> = ({
 
             {/* Philosophy */}
             <blockquote className="border-l-2 border-amber-500/60 pl-4">
-              <p className="text-slate-300 text-sm italic font-couture leading-relaxed">
+              <p className="text-slate-700 dark:text-slate-300 text-sm italic font-couture leading-relaxed">
                 &ldquo;{profile.philosophy}&rdquo;
               </p>
             </blockquote>
@@ -163,7 +163,7 @@ export const JourneyHero: React.FC<JourneyHeroProps> = ({
                   e.preventDefault();
                   document.getElementById('timeline')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/20 hover:border-amber-500/50 active:scale-[0.98] active:translate-y-[1px] text-white/70 hover:text-white text-sm transition-all duration-200"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-black/20 dark:border-white/20 hover:border-amber-500/50 active:scale-[0.98] active:translate-y-[1px] text-slate-700 dark:text-white/70 hover:text-slate-950 dark:hover:text-white text-sm transition-all duration-200"
               >
                 <span>Lihat Cerita Linimasa</span>
                 <ArrowDown className="w-4 h-4" />
@@ -171,9 +171,9 @@ export const JourneyHero: React.FC<JourneyHeroProps> = ({
               {onSwitchMode && (
                 <button
                   onClick={() => onSwitchMode('cv')}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/[0.08] hover:bg-white/15 active:scale-[0.98] active:translate-y-[1px] border border-white/15 text-white text-sm transition-all duration-200 cursor-pointer"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-black/[0.04] dark:bg-white/[0.08] hover:bg-black/[0.08] dark:hover:bg-white/15 active:scale-[0.98] active:translate-y-[1px] border border-black/15 dark:border-white/15 text-slate-800 dark:text-white text-sm transition-all duration-200 cursor-pointer"
                 >
-                  <FileText className="w-4 h-4 text-amber-400" />
+                  <FileText className="w-4 h-4 text-amber-500 dark:text-amber-400" />
                   <span>Lihat Dokumen CV</span>
                 </button>
               )}
@@ -191,12 +191,12 @@ export const JourneyHero: React.FC<JourneyHeroProps> = ({
           {statList.map((stat) => (
             <div
               key={stat.label}
-              className="bento-card p-5 rounded-2xl border border-white/5 text-center group hover:border-amber-500/30 transition-colors"
+              className="bento-card p-5 rounded-2xl border border-black/10 dark:border-white/5 text-center group hover:border-amber-500/30 transition-colors"
             >
-              <p className="font-headline text-3xl sm:text-4xl font-black text-amber-400 group-hover:text-amber-300 transition-colors">
+              <p className="font-headline text-3xl sm:text-4xl font-black text-amber-500 dark:text-amber-400 group-hover:text-amber-600 dark:group-hover:text-amber-300 transition-colors">
                 {stat.value}
               </p>
-              <p className="text-white/40 text-xs mt-1 tracking-wide uppercase">{stat.label}</p>
+              <p className="text-slate-500 dark:text-white/40 text-xs mt-1 tracking-wide uppercase font-medium">{stat.label}</p>
             </div>
           ))}
         </motion.div>

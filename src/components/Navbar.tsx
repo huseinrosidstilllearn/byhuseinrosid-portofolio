@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Menu, X, MessageCircle, ArrowLeft, Camera, Compass, FileText, SlidersHorizontal } from 'lucide-react';
+import { Menu, X, MessageCircle, ArrowLeft, Camera, Compass, FileText, SlidersHorizontal, Sun, Moon } from 'lucide-react';
 import { createWhatsAppLink } from '../utils/whatsapp';
 import { CATEGORY_ORDER } from '../data/categoryData';
+import { useTheme } from '../context/ThemeContext';
 import type { SiteMode } from '../types/portfolio';
 
 interface NavbarProps {
@@ -26,6 +27,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onSelectCategory,
   onOpenEstimator,
 }) => {
+  const { theme, toggleTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -58,8 +60,8 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div
           className={`w-full flex items-center justify-between px-4 sm:px-6 py-3 rounded-full border transition-all duration-300 ${
             isScrolled || viewMode === 'spatial'
-              ? 'bg-[#0E1118]/85 backdrop-blur-xl border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.6)]'
-              : 'bg-[#0E1118]/60 backdrop-blur-md border-white/[0.08] shadow-lg'
+              ? 'bg-white/85 dark:bg-[#0E1118]/85 backdrop-blur-xl border-black/[0.08] dark:border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.08)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.6)]'
+              : 'bg-white/70 dark:bg-[#0E1118]/60 backdrop-blur-md border-black/[0.06] dark:border-white/[0.08] shadow-md'
           }`}
         >
           {/* Brand Logo: klik kembali ke Landing Gate */}
@@ -67,12 +69,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={() => onSwitchSiteMode('landing')}
             className="flex items-center gap-2.5 sm:gap-3 text-left group cursor-pointer shrink-0"
           >
-            <div className="w-8 h-8 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 font-editorial font-bold text-sm group-hover:scale-105 transition-transform shrink-0">
+            <div className="w-8 h-8 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-500 dark:text-amber-400 font-editorial font-bold text-sm group-hover:scale-105 transition-transform shrink-0">
               HR
             </div>
             <div className="flex flex-col justify-center">
               <div className="hidden sm:block">
-                <span className="font-editorial text-sm sm:text-base font-medium tracking-tight text-white leading-none split-wave" aria-label="The Journey of Husein Rosid">
+                <span className="font-editorial text-sm sm:text-base font-medium tracking-tight text-slate-900 dark:text-white leading-none split-wave" aria-label="The Journey of Husein Rosid">
                   <span aria-hidden="true">
                     {"The Journey of Husein Rosid".split("").map((char, i) => (
                       <i key={i} style={{ '--i': i } as React.CSSProperties} className={char === ' ' ? 'inline-block w-1.5' : ''}>
@@ -83,7 +85,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </span>
               </div>
               <div className="sm:hidden">
-                <span className="font-editorial text-sm font-medium tracking-wide text-white leading-none block">
+                <span className="font-editorial text-sm font-medium tracking-wide text-slate-900 dark:text-white leading-none block">
                   Husein Rosid
                 </span>
               </div>
@@ -94,7 +96,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {viewMode === 'spatial' ? (
             <button
               onClick={onToggleViewMode}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 text-xs tracking-wider uppercase font-medium text-amber-300 hover:bg-amber-500/20 transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 text-xs tracking-wider uppercase font-medium text-amber-500 dark:text-amber-300 hover:bg-amber-500/20 transition-all cursor-pointer"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>Kembali ke Bento</span>
@@ -103,29 +105,29 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div className="hidden md:flex items-center gap-2">
               {/* Nav links or Active Category Breadcrumb */}
               {siteMode === 'karya' && activeCategory ? (
-                <div className="flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-full px-3 py-1">
+                <div className="flex items-center gap-1.5 bg-black/[0.04] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-full px-3 py-1">
                   <button
                     onClick={() => onSelectCategory?.(null)}
-                    className="px-2.5 py-1 rounded-full text-xs uppercase tracking-wider text-slate-300 hover:text-white hover:bg-white/[0.08] transition-all flex items-center gap-1 cursor-pointer"
+                    className="px-2.5 py-1 rounded-full text-xs uppercase tracking-wider text-slate-600 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-black/[0.05] dark:hover:bg-white/[0.08] transition-all flex items-center gap-1 cursor-pointer"
                   >
                     <ArrowLeft className="w-3 h-3" />
                     <span>Showcase</span>
                   </button>
-                  <span className="text-white/20 text-xs">/</span>
-                  <span className="px-2.5 py-1 rounded-full text-xs uppercase tracking-wider text-amber-300 font-bold bg-amber-500/20 border border-amber-500/30">
+                  <span className="text-black/20 dark:text-white/20 text-xs">/</span>
+                  <span className="px-2.5 py-1 rounded-full text-xs uppercase tracking-wider text-amber-600 dark:text-amber-300 font-bold bg-amber-500/15 border border-amber-500/30">
                     {activeCategory}
                   </span>
                 </div>
               ) : siteMode === 'cv' ? (
-                <div className="flex items-center gap-2 bg-white/[0.04] border border-white/10 rounded-full px-3.5 py-1.5">
-                  <span className="text-[11px] uppercase tracking-wider text-amber-400 font-bold font-mono">
+                <div className="flex items-center gap-2 bg-black/[0.04] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-full px-3.5 py-1.5">
+                  <span className="text-[11px] uppercase tracking-wider text-amber-600 dark:text-amber-400 font-bold font-mono">
                     Dokumen CV Resmi
                   </span>
-                  <span className="text-white/20 text-xs">&bull;</span>
-                  <span className="text-xs text-slate-300 font-light">Fotografer &amp; Videografer</span>
+                  <span className="text-black/20 dark:text-white/20 text-xs">&bull;</span>
+                  <span className="text-xs text-slate-600 dark:text-slate-300 font-light">Fotografer &amp; Videografer</span>
                 </div>
               ) : (
-                <nav className="flex items-center gap-1 bg-white/[0.03] border border-white/[0.06] rounded-full px-3 py-1">
+                <nav className="flex items-center gap-1 bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] rounded-full px-3 py-1">
                   {navLinks.map((link) => (
                     <button
                       key={link.id}
@@ -137,7 +139,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                           onNavigateToSection(link.id);
                         }
                       }}
-                      className="px-3 py-1.5 rounded-full text-xs uppercase tracking-wider text-slate-300 hover:text-white hover:bg-white/[0.08] transition-all font-medium cursor-pointer"
+                      className="px-3 py-1.5 rounded-full text-xs uppercase tracking-wider text-slate-600 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-black/[0.05] dark:hover:bg-white/[0.08] transition-all font-medium cursor-pointer"
                     >
                       {link.label}
                     </button>
@@ -146,11 +148,11 @@ export const Navbar: React.FC<NavbarProps> = ({
               )}
 
               {/* Mode Toggle Pill with Animated Sliding Thumb */}
-              <div className="relative flex items-center bg-[#07090E]/90 border border-white/10 rounded-full p-1 shadow-inner select-none ml-2">
+              <div className="relative flex items-center bg-slate-100/90 dark:bg-[#07090E]/90 border border-black/10 dark:border-white/10 rounded-full p-1 shadow-inner select-none ml-2">
                 <button
                   onClick={() => onSwitchSiteMode('karya')}
                   className={`relative z-10 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs tracking-wider uppercase font-semibold transition-colors duration-200 cursor-pointer ${
-                    siteMode === 'karya' ? 'text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
+                    siteMode === 'karya' ? 'text-slate-950 font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white'
                   }`}
                 >
                   {siteMode === 'karya' && (
@@ -169,7 +171,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <button
                   onClick={() => onSwitchSiteMode('perjalanan')}
                   className={`relative z-10 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs tracking-wider uppercase font-semibold transition-colors duration-200 cursor-pointer ${
-                    siteMode === 'perjalanan' ? 'text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
+                    siteMode === 'perjalanan' ? 'text-slate-950 font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white'
                   }`}
                 >
                   {siteMode === 'perjalanan' && (
@@ -188,7 +190,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <button
                   onClick={() => onSwitchSiteMode('cv')}
                   className={`relative z-10 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs tracking-wider uppercase font-semibold transition-colors duration-200 cursor-pointer ${
-                    siteMode === 'cv' ? 'text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
+                    siteMode === 'cv' ? 'text-slate-950 font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white'
                   }`}
                 >
                   {siteMode === 'cv' && (
@@ -207,8 +209,23 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
           )}
 
-          {/* Right Action: WhatsApp CTA & Mobile Hamburger */}
-          <div className="flex items-center gap-2.5">
+          {/* Right Action: Theme Switcher, WhatsApp CTA & Mobile Hamburger */}
+          <div className="flex items-center gap-2">
+            {/* Theme Toggle Button (Desktop & Mobile) */}
+            <button
+              type="button"
+              onClick={toggleTheme}
+              aria-label={theme === 'dark' ? 'Beralih ke mode terang' : 'Beralih ke mode gelap'}
+              title={theme === 'dark' ? 'Beralih ke Mode Terang' : 'Beralih ke Mode Gelap'}
+              className="w-9 h-9 rounded-full bg-black/[0.04] dark:bg-white/[0.08] hover:bg-black/[0.08] dark:hover:bg-white/15 active:scale-95 border border-black/10 dark:border-white/15 flex items-center justify-center text-slate-700 dark:text-amber-400 transition-all cursor-pointer shrink-0"
+            >
+              {theme === 'dark' ? (
+                <Sun className="w-4 h-4 text-amber-400 transition-transform duration-300 hover:rotate-45" />
+              ) : (
+                <Moon className="w-4 h-4 text-slate-700 transition-transform duration-300 hover:-rotate-12" />
+              )}
+            </button>
+
             <a
               href={createWhatsAppLink()}
               target="_blank"
@@ -223,7 +240,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 onClick={() => setMobileMenuOpen(true)}
                 aria-label="Buka Menu"
-                className="md:hidden w-10 h-10 rounded-full bg-white/[0.05] hover:bg-white/10 active:scale-95 border border-white/10 flex items-center justify-center text-white cursor-pointer transition-all"
+                className="md:hidden w-9 h-9 rounded-full bg-black/[0.04] dark:bg-white/[0.05] hover:bg-black/[0.08] dark:hover:bg-white/10 active:scale-95 border border-black/10 dark:border-white/10 flex items-center justify-center text-slate-800 dark:text-white cursor-pointer transition-all"
               >
                 <Menu className="w-4 h-4" />
               </button>
@@ -234,26 +251,47 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 bg-[#050505]/95 backdrop-blur-2xl flex flex-col justify-between p-6 sm:p-8 animate-in fade-in duration-300 pointer-events-auto overflow-y-auto">
-          <div className="flex items-center justify-between border-b border-white/10 pb-4">
-            <span className="font-editorial text-xl font-medium text-white">
+        <div className="fixed inset-0 z-50 bg-white/95 dark:bg-[#050505]/95 backdrop-blur-2xl flex flex-col justify-between p-6 sm:p-8 animate-in fade-in duration-300 pointer-events-auto overflow-y-auto">
+          <div className="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-4">
+            <span className="font-editorial text-xl font-medium text-slate-900 dark:text-white">
               The Journey of Husein Rosid
             </span>
             <button
               onClick={() => setMobileMenuOpen(false)}
               aria-label="Tutup Menu"
-              className="w-10 h-10 rounded-full bg-white/10 active:scale-95 flex items-center justify-center text-white cursor-pointer transition-transform"
+              className="w-10 h-10 rounded-full bg-black/5 dark:bg-white/10 active:scale-95 flex items-center justify-center text-slate-800 dark:text-white cursor-pointer transition-transform"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
+          {/* Quick Theme Switcher in Mobile Drawer */}
+          <div className="flex items-center justify-between px-4 py-2.5 rounded-2xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/[0.08] dark:border-white/10 mt-3">
+            <div className="flex items-center gap-2">
+              {theme === 'dark' ? (
+                <Moon className="w-4 h-4 text-amber-400" />
+              ) : (
+                <Sun className="w-4 h-4 text-amber-600" />
+              )}
+              <span className="text-xs font-mono uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                Tema: {theme === 'dark' ? 'Mode Gelap' : 'Mode Terang'}
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-amber-500 text-slate-950 active:scale-95 transition-transform cursor-pointer"
+            >
+              Ganti ke {theme === 'dark' ? 'Terang' : 'Gelap'}
+            </button>
+          </div>
+
           {/* Mode toggle (mobile) */}
-          <div className="relative flex p-1 rounded-full bg-white/[0.06] border border-white/10 mt-4 backdrop-blur-md">
+          <div className="relative flex p-1 rounded-full bg-black/[0.04] dark:bg-white/[0.06] border border-black/10 dark:border-white/10 mt-3 backdrop-blur-md">
             <button
               onClick={() => { setMobileMenuOpen(false); onSwitchSiteMode('karya'); }}
               className={`relative flex-1 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors flex items-center justify-center gap-2 cursor-pointer z-10 active:scale-[0.98] ${
-                siteMode === 'karya' ? 'text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
+                siteMode === 'karya' ? 'text-slate-950 font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white'
               }`}
             >
               {siteMode === 'karya' && (
@@ -269,7 +307,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={() => { setMobileMenuOpen(false); onSwitchSiteMode('perjalanan'); }}
               className={`relative flex-1 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors flex items-center justify-center gap-1.5 cursor-pointer z-10 active:scale-[0.98] ${
-                siteMode === 'perjalanan' ? 'text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
+                siteMode === 'perjalanan' ? 'text-slate-950 font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white'
               }`}
             >
               {siteMode === 'perjalanan' && (
@@ -285,7 +323,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={() => { setMobileMenuOpen(false); onSwitchSiteMode('cv'); }}
               className={`relative flex-1 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors flex items-center justify-center gap-1.5 cursor-pointer z-10 active:scale-[0.98] ${
-                siteMode === 'cv' ? 'text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
+                siteMode === 'cv' ? 'text-slate-950 font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white'
               }`}
             >
               {siteMode === 'cv' && (
@@ -300,7 +338,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
           </div>
 
-          <div className="flex flex-col space-y-4 my-auto">
+          <div className="flex flex-col space-y-4 my-auto py-4">
             {siteMode === 'karya' ? (
               <div className="space-y-4">
                 <button
@@ -310,14 +348,14 @@ export const Navbar: React.FC<NavbarProps> = ({
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
                   className={`text-left font-editorial text-2xl transition-colors block active:scale-[0.98] ${
-                    !activeCategory ? 'text-amber-400 font-bold' : 'text-white hover:text-amber-400'
+                    !activeCategory ? 'text-amber-500 dark:text-amber-400 font-bold' : 'text-slate-800 dark:text-white hover:text-amber-500 dark:hover:text-amber-400'
                   }`}
                 >
                   Showcase Utama
                 </button>
 
-                <div className="pt-3 border-t border-white/10">
-                  <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-slate-400 block mb-2.5">
+                <div className="pt-3 border-t border-black/10 dark:border-white/10">
+                  <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400 block mb-2.5">
                     Ruang Kategori Spesifik
                   </span>
                   <div className="flex flex-wrap gap-2">
@@ -334,7 +372,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                           className={`px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all active:scale-95 cursor-pointer ${
                             isActive
                               ? 'bg-amber-500 text-slate-950 font-bold shadow-md'
-                              : 'bg-white/[0.06] text-slate-300 border border-white/10 hover:border-amber-400/40'
+                              : 'bg-black/[0.04] dark:bg-white/[0.06] text-slate-700 dark:text-slate-300 border border-black/10 dark:border-white/10 hover:border-amber-400/40'
                           }`}
                         >
                           {cat}
@@ -351,7 +389,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     setMobileMenuOpen(false);
                     onSwitchSiteMode('karya');
                   }}
-                  className="text-left font-editorial text-2xl text-white hover:text-amber-400 transition-colors block active:scale-[0.98]"
+                  className="text-left font-editorial text-2xl text-slate-800 dark:text-white hover:text-amber-500 dark:hover:text-amber-400 transition-colors block active:scale-[0.98]"
                 >
                   Lihat Showcase Karya
                 </button>
@@ -360,19 +398,19 @@ export const Navbar: React.FC<NavbarProps> = ({
                     setMobileMenuOpen(false);
                     onSwitchSiteMode('perjalanan');
                   }}
-                  className="text-left font-editorial text-2xl text-white hover:text-amber-400 transition-colors block active:scale-[0.98]"
+                  className="text-left font-editorial text-2xl text-slate-800 dark:text-white hover:text-amber-500 dark:hover:text-amber-400 transition-colors block active:scale-[0.98]"
                 >
                   Linimasa Perjalanan Visual
                 </button>
-                <div className="pt-3 border-t border-white/10">
+                <div className="pt-3 border-t border-black/10 dark:border-white/10">
                   <button
                     onClick={() => {
                       setMobileMenuOpen(false);
                       window.print();
                     }}
-                    className="w-full py-3 rounded-full bg-white/[0.08] hover:bg-white/15 text-white text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 border border-white/15 transition-all active:scale-95 cursor-pointer"
+                    className="w-full py-3 rounded-full bg-black/[0.04] dark:bg-white/[0.08] hover:bg-black/[0.08] dark:hover:bg-white/15 text-slate-900 dark:text-white text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 border border-black/10 dark:border-white/15 transition-all active:scale-95 cursor-pointer"
                   >
-                    <FileText className="w-4 h-4 text-amber-400" />
+                    <FileText className="w-4 h-4 text-amber-500 dark:text-amber-400" />
                     <span>Cetak / Unduh PDF</span>
                   </button>
                 </div>
@@ -385,7 +423,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     setMobileMenuOpen(false);
                     onNavigateToSection(link.id);
                   }}
-                  className="text-left font-editorial text-3xl text-white hover:text-amber-400 active:scale-[0.98] transition-all cursor-pointer"
+                  className="text-left font-editorial text-3xl text-slate-800 dark:text-white hover:text-amber-500 dark:hover:text-amber-400 active:scale-[0.98] transition-all cursor-pointer"
                 >
                   {link.label}
                 </button>
@@ -393,7 +431,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             )}
           </div>
 
-          <div className="pt-6 border-t border-white/10 flex flex-col gap-3">
+          <div className="pt-4 border-t border-black/10 dark:border-white/10 flex flex-col gap-3">
             {onOpenEstimator && (
               <button
                 type="button"
@@ -401,9 +439,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                   setMobileMenuOpen(false);
                   onOpenEstimator();
                 }}
-                className="w-full py-3 rounded-full bg-white/[0.08] hover:bg-white/15 active:scale-[0.98] text-amber-300 font-semibold text-center text-xs uppercase tracking-wider flex items-center justify-center gap-2 border border-amber-500/30 transition-all cursor-pointer"
+                className="w-full py-3 rounded-full bg-black/[0.04] dark:bg-white/[0.08] hover:bg-black/[0.08] dark:hover:bg-white/15 active:scale-[0.98] text-amber-700 dark:text-amber-300 font-semibold text-center text-xs uppercase tracking-wider flex items-center justify-center gap-2 border border-amber-500/30 transition-all cursor-pointer"
               >
-                <SlidersHorizontal className="w-4 h-4 text-amber-400" />
+                <SlidersHorizontal className="w-4 h-4 text-amber-500 dark:text-amber-400" />
                 <span>Konsultasi Sesi Foto & Video</span>
               </button>
             )}
@@ -416,7 +454,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <MessageCircle className="w-4 h-4" />
               <span>Hubungi via WhatsApp</span>
             </a>
-            <div className="text-center text-[10px] uppercase tracking-widest text-slate-400 font-mono">
+            <div className="text-center text-[10px] uppercase tracking-widest text-slate-500 dark:text-slate-400 font-mono">
               Surabaya, Indonesia • Fotografer & Videografer
             </div>
           </div>

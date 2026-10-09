@@ -177,14 +177,14 @@ export const Gallery: React.FC<GalleryProps> = ({
   return (
     <section id="galeri" className="w-full px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 max-w-[1920px] mx-auto scroll-mt-24 sm:scroll-mt-28">
       {/* Gallery Header & Controls */}
-      <div className="flex flex-col gap-5 sm:gap-6 mb-8 pb-6 border-b border-white/[0.08]">
+      <div className="flex flex-col gap-5 sm:gap-6 mb-8 pb-6 border-b border-black/[0.08] dark:border-white/[0.08]">
         {/* Title, Subtitle, & Quick Search Bar */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
           <div>
-            <h2 className="font-editorial text-3xl sm:text-5xl lg:text-6xl text-white font-bold tracking-tight">
+            <h2 className="font-editorial text-3xl sm:text-5xl lg:text-6xl text-slate-900 dark:text-white font-bold tracking-tight">
               Showcase Utama
             </h2>
-            <p className="text-xs sm:text-sm text-slate-300 font-light mt-2 max-w-md">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-light mt-2 max-w-md">
               Koleksi kurasi lintas genre yang mewakili karakter, atmosfer, dan visi visual Husein Rosid.
             </p>
           </div>
@@ -197,12 +197,12 @@ export const Gallery: React.FC<GalleryProps> = ({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Cari lokasi, acara, tahun (misal: Surabaya)..."
-              className="w-full pl-9 pr-9 py-2 rounded-2xl bg-[#0E1118]/85 border border-white/10 text-xs text-white placeholder:text-slate-500 outline-none focus:border-amber-400/50 backdrop-blur-xl transition-all"
+              className="w-full pl-9 pr-9 py-2 rounded-2xl bg-white/85 dark:bg-[#0E1118]/85 border border-black/10 dark:border-white/10 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 outline-none focus:border-amber-400/50 backdrop-blur-xl transition-all shadow-sm"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white p-1 cursor-pointer"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-900 dark:hover:text-white p-1 cursor-pointer"
                 aria-label="Bersihkan pencarian"
               >
                 <X className="w-3.5 h-3.5" />
@@ -214,7 +214,7 @@ export const Gallery: React.FC<GalleryProps> = ({
         {/* Action Controls: 5-Layout Mode Switcher & Category Filters */}
         <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 sm:gap-4">
           {/* 5-Mode Switcher */}
-          <div className="flex items-center gap-1 p-1 rounded-2xl bg-[#0E1118]/85 border border-white/10 backdrop-blur-xl overflow-x-auto no-scrollbar shadow-lg touch-pan-x overscroll-x-contain">
+          <div className="flex items-center gap-1 p-1 rounded-2xl bg-white/85 dark:bg-[#0E1118]/85 border border-black/10 dark:border-white/10 backdrop-blur-xl overflow-x-auto no-scrollbar shadow-sm touch-pan-x overscroll-x-contain">
             {GALLERY_MODES.map((mode) => {
               const Icon = mode.icon;
               const isActive = galleryMode === mode.id;
@@ -225,7 +225,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                   className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-xs font-medium tracking-wider whitespace-nowrap active:scale-[0.98] transition-all duration-200 cursor-pointer ${
                     isActive
                       ? 'bg-amber-500 text-slate-950 font-bold shadow-[0_2px_12px_rgba(245,158,11,0.35)] scale-[1.02]'
-                      : 'text-slate-400 hover:text-white hover:bg-white/[0.06]'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.06]'
                   }`}
                   title={mode.description}
                 >
@@ -237,7 +237,7 @@ export const Gallery: React.FC<GalleryProps> = ({
           </div>
 
           {/* Category Filter Pills & Direct Category Navigation */}
-          <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-[#0E1118]/85 border border-white/10 backdrop-blur-xl overflow-x-auto no-scrollbar shadow-lg touch-pan-x overscroll-x-contain">
+          <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-white/85 dark:bg-[#0E1118]/85 border border-black/10 dark:border-white/10 backdrop-blur-xl overflow-x-auto no-scrollbar shadow-sm touch-pan-x overscroll-x-contain">
             {(['Semua', 'Unggulan'] as const).map((filter) => {
               const count = getCategoryCount(filter);
               const isActive = selectedCategory === filter;
@@ -247,14 +247,14 @@ export const Gallery: React.FC<GalleryProps> = ({
                   onClick={() => setSelectedCategory(filter)}
                   className={`flex items-center gap-1.5 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-medium tracking-wider whitespace-nowrap transition-all duration-200 cursor-pointer active:scale-95 ${
                     isActive
-                      ? 'bg-white/15 text-amber-300 font-bold border border-amber-400/40 shadow-sm'
-                      : 'text-slate-400 hover:text-white hover:bg-white/[0.06]'
+                      ? 'bg-amber-500/15 dark:bg-white/15 text-amber-700 dark:text-amber-300 font-bold border border-amber-500/30 dark:border-amber-400/40 shadow-sm'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.06]'
                   }`}
                 >
                   <span>{filter}</span>
                   <span
                     className={`text-[9px] sm:text-[10px] px-1.5 py-0.2 rounded-full ${
-                      isActive ? 'bg-amber-400 text-slate-950 font-bold' : 'bg-white/10 text-slate-400'
+                      isActive ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-black/5 dark:bg-white/10 text-slate-600 dark:text-slate-400'
                     }`}
                   >
                     {count}
@@ -263,7 +263,7 @@ export const Gallery: React.FC<GalleryProps> = ({
               );
             })}
 
-            <span className="w-px h-4 bg-white/10 mx-1 hidden sm:block shrink-0" />
+            <span className="w-px h-4 bg-black/10 dark:bg-white/10 mx-1 hidden sm:block shrink-0" />
 
             {PHOTO_CATEGORIES.filter((c) => c !== 'Semua').map((category) => {
               const count = getCategoryCount(category);
@@ -277,14 +277,14 @@ export const Gallery: React.FC<GalleryProps> = ({
                       setSelectedCategory(category);
                     }
                   }}
-                  className="flex items-center gap-1.5 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-medium tracking-wider whitespace-nowrap transition-all duration-200 cursor-pointer active:scale-95 text-slate-400 hover:text-amber-300 hover:bg-amber-500/10 border border-transparent hover:border-amber-500/20 group"
+                  className="flex items-center gap-1.5 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-medium tracking-wider whitespace-nowrap transition-all duration-200 cursor-pointer active:scale-95 text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-300 hover:bg-amber-500/10 border border-transparent hover:border-amber-500/20 group"
                   title={`Buka Ruang Kategori ${category}`}
                 >
                   <span>{category}</span>
-                  <span className="text-[9px] sm:text-[10px] px-1.5 py-0.2 rounded-full bg-white/10 text-slate-400 group-hover:bg-amber-500/20 group-hover:text-amber-300">
+                  <span className="text-[9px] sm:text-[10px] px-1.5 py-0.2 rounded-full bg-black/5 dark:bg-white/10 text-slate-600 dark:text-slate-400 group-hover:bg-amber-500/20 group-hover:text-amber-600 dark:group-hover:text-amber-300">
                     {count}
                   </span>
-                  <ArrowUpRight className="w-3 h-3 text-slate-500 group-hover:text-amber-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  <ArrowUpRight className="w-3 h-3 text-slate-400 dark:text-slate-500 group-hover:text-amber-500 dark:group-hover:text-amber-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </button>
               );
             })}
@@ -294,9 +294,9 @@ export const Gallery: React.FC<GalleryProps> = ({
 
       {/* EMPTY STATE */}
       {filteredPhotos.length === 0 && (
-        <div className="py-20 text-center bento-card p-12 rounded-3xl border border-white/10">
-          <p className="font-editorial text-2xl text-white">Tidak ada karya visual yang ditemukan</p>
-          <p className="text-xs text-slate-400 mt-2">
+        <div className="py-20 text-center bento-card p-12 rounded-3xl border border-black/10 dark:border-white/10">
+          <p className="font-editorial text-2xl text-slate-900 dark:text-white">Tidak ada karya visual yang ditemukan</p>
+          <p className="text-xs text-slate-600 dark:text-slate-400 mt-2">
             {searchQuery
               ? `Tidak ada karya yang cocok dengan kata kunci "${searchQuery}". Coba kata kunci lain atau bersihkan pencarian.`
               : 'Silakan pilih kategori lain atau lihat koleksi lengkap.'}
@@ -322,7 +322,7 @@ export const Gallery: React.FC<GalleryProps> = ({
               <div
                 key={photo.id}
                 onClick={() => handlePhotoClick(photo)}
-                className={`${spanClass} bento-card relative overflow-hidden group cursor-pointer bg-[#0E1118] skeleton-shimmer`}
+                className={`${spanClass} bento-card relative overflow-hidden group cursor-pointer skeleton-shimmer`}
               >
                 <img
                   src={photo.imageUrl}
@@ -388,9 +388,9 @@ export const Gallery: React.FC<GalleryProps> = ({
             <div
               key={photo.id}
               onClick={() => handlePhotoClick(photo)}
-              className="bento-card overflow-hidden group cursor-pointer border border-white/10 hover:border-amber-400/40 transition-all duration-300 flex flex-col"
+              className="bento-card overflow-hidden group cursor-pointer border border-black/10 dark:border-white/10 hover:border-amber-400/40 transition-all duration-300 flex flex-col"
             >
-              <div className="relative aspect-[4/3] overflow-hidden bg-[#0E1118] skeleton-shimmer">
+              <div className="relative aspect-[4/3] overflow-hidden bg-slate-200 dark:bg-[#0E1118] skeleton-shimmer">
                 <img
                   src={photo.imageUrl}
                   alt={photo.title}
@@ -431,25 +431,25 @@ export const Gallery: React.FC<GalleryProps> = ({
                 </div>
               </div>
 
-              <div className="p-3 sm:p-5 flex-1 flex flex-col justify-between bg-[#0E1118]/80">
+              <div className="p-3 sm:p-5 flex-1 flex flex-col justify-between bg-white/90 dark:bg-[#0E1118]/80">
                 <div>
-                  <h3 className="font-editorial text-sm sm:text-xl text-white font-medium group-hover:text-amber-300 transition-colors line-clamp-1">
+                  <h3 className="font-editorial text-sm sm:text-xl text-slate-900 dark:text-white font-medium group-hover:text-amber-500 dark:group-hover:text-amber-300 transition-colors line-clamp-1">
                     {photo.title}
                   </h3>
                   {photo.description && (
-                    <p className="text-xs text-slate-400 font-light mt-1.5 line-clamp-2 leading-relaxed hidden sm:block">
+                    <p className="text-xs text-slate-600 dark:text-slate-400 font-light mt-1.5 line-clamp-2 leading-relaxed hidden sm:block">
                       {photo.description}
                     </p>
                   )}
                 </div>
 
-                <div className="flex items-center justify-between text-[10px] sm:text-xs text-slate-400 font-light pt-2 sm:pt-3 mt-2 sm:mt-4 border-t border-white/[0.08]">
+                <div className="flex items-center justify-between text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-light pt-2 sm:pt-3 mt-2 sm:mt-4 border-t border-black/[0.08] dark:border-white/[0.08]">
                   <div className="flex items-center gap-1 sm:gap-1.5 truncate">
-                    <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-amber-400 shrink-0" />
+                    <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-amber-500 dark:text-amber-400 shrink-0" />
                     <span className="truncate">{photo.location}</span>
                   </div>
                   <div className="flex items-center gap-1 shrink-0 font-mono text-[9px] sm:text-[11px] text-slate-500">
-                    <Calendar className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-slate-600" />
+                    <Calendar className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-slate-400 dark:text-slate-600" />
                     <span>{photo.year}</span>
                   </div>
                 </div>
@@ -468,9 +468,9 @@ export const Gallery: React.FC<GalleryProps> = ({
               <div
                 key={photo.id}
                 onClick={() => handlePhotoClick(photo)}
-                className="break-inside-avoid bento-card relative overflow-hidden group cursor-pointer border border-white/10 hover:border-amber-400/40 transition-all duration-300"
+                className="break-inside-avoid bento-card relative overflow-hidden group cursor-pointer border border-black/10 dark:border-white/10 hover:border-amber-400/40 transition-all duration-300"
               >
-                <div className={`relative overflow-hidden bg-[#0E1118] skeleton-shimmer ${isTall ? 'min-h-[220px] sm:min-h-[400px] 2xl:min-h-[480px]' : 'min-h-[150px] sm:min-h-[280px] 2xl:min-h-[340px]'}`}>
+                <div className={`relative overflow-hidden bg-slate-200 dark:bg-[#0E1118] skeleton-shimmer ${isTall ? 'min-h-[220px] sm:min-h-[400px] 2xl:min-h-[480px]' : 'min-h-[150px] sm:min-h-[280px] 2xl:min-h-[340px]'}`}>
                   <img
                     src={photo.imageUrl}
                     alt={photo.title}
@@ -535,18 +535,18 @@ export const Gallery: React.FC<GalleryProps> = ({
         visibleCount < filteredPhotos.length && (
           <div className="mt-12 flex flex-col items-center justify-center gap-3">
             <div ref={loadMoreSentinelRef} className="h-4 w-full pointer-events-none" />
-            <p className="text-xs font-mono text-slate-400">
-              Menampilkan <span className="text-amber-400 font-bold">{renderedPhotos.length}</span> dari{' '}
-              <span className="text-white font-bold">{filteredPhotos.length}</span> Karya Visual
+            <p className="text-xs font-mono text-slate-500 dark:text-slate-400">
+              Menampilkan <span className="text-amber-500 dark:text-amber-400 font-bold">{renderedPhotos.length}</span> dari{' '}
+              <span className="text-slate-900 dark:text-white font-bold">{filteredPhotos.length}</span> Karya Visual
             </p>
             <button
               onClick={() =>
                 setVisibleCount((prev) => Math.min(prev + LOAD_INCREMENT, filteredPhotos.length))
               }
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/[0.06] hover:bg-white/[0.12] active:scale-95 text-white text-xs font-semibold uppercase tracking-wider border border-white/10 hover:border-amber-400/40 transition-all cursor-pointer shadow-lg"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-black/[0.04] dark:bg-white/[0.06] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] active:scale-95 text-slate-900 dark:text-white text-xs font-semibold uppercase tracking-wider border border-black/10 dark:border-white/10 hover:border-amber-500/40 transition-all cursor-pointer shadow-md"
             >
               <span>Muat Lebih Banyak ({filteredPhotos.length - renderedPhotos.length} Tersisa)</span>
-              <ArrowDown className="w-3.5 h-3.5 text-amber-400" />
+              <ArrowDown className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
             </button>
           </div>
         )}

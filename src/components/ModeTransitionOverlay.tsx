@@ -64,7 +64,7 @@ export const ModeTransitionOverlay: React.FC<ModeTransitionOverlayProps> = ({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed inset-0 z-[100] bg-[#050505]/95 backdrop-blur-2xl flex flex-col items-center justify-center select-none pointer-events-auto"
+          className="fixed inset-0 z-[100] bg-[var(--bg-primary)]/95 backdrop-blur-2xl flex flex-col items-center justify-center select-none pointer-events-auto transition-colors"
         >
           {/* Subtle Ambient Radial Glow */}
           <div className="absolute inset-0 bg-radial from-amber-500/10 via-transparent to-transparent pointer-events-none" />
@@ -79,22 +79,22 @@ export const ModeTransitionOverlay: React.FC<ModeTransitionOverlayProps> = ({
           >
             {/* Monogram Capsule */}
             <div className="relative mb-5">
-              <div className="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 shadow-[0_0_30px_rgba(245,158,11,0.25)]">
+              <div className="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-500 dark:text-amber-400 shadow-[0_0_30px_rgba(245,158,11,0.25)]">
                 <Icon className="w-6 h-6 animate-pulse" />
               </div>
               <div className="absolute -inset-1 rounded-2xl bg-amber-400/20 blur-md -z-10 animate-pulse" />
             </div>
 
             {/* Title & Subtitle */}
-            <h3 className="font-editorial text-2xl sm:text-3xl text-white font-medium tracking-tight mb-1.5">
+            <h3 className="font-editorial text-2xl sm:text-3xl text-[var(--text-primary)] font-medium tracking-tight mb-1.5">
               {meta.title}
             </h3>
-            <p className="text-xs text-slate-400 font-light tracking-wide uppercase font-mono">
+            <p className="text-xs text-slate-500 dark:text-slate-400 font-light tracking-wide uppercase font-mono">
               {meta.subtitle}
             </p>
 
             {/* Slender Golden Progress Line */}
-            <div className="w-48 sm:w-56 h-[2px] bg-white/10 rounded-full mt-6 overflow-hidden">
+            <div className="w-48 sm:w-56 h-[2px] bg-black/10 dark:bg-white/10 rounded-full mt-6 overflow-hidden">
               <motion.div
                 initial={{ x: '-100%' }}
                 animate={{ x: '100%' }}

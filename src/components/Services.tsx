@@ -62,17 +62,17 @@ export const Services: React.FC<ServicesProps> = ({
       className="w-full px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 max-w-[1920px] mx-auto scroll-mt-28"
     >
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-white/[0.08]">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-black/[0.08] dark:border-white/[0.08]">
         <div>
-          <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-amber-400 mb-2">
+          <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-amber-600 dark:text-amber-400 mb-2">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Fokus Kategori & Spesialisasi</span>
           </div>
-          <h2 className="font-editorial text-3xl sm:text-5xl text-white font-medium">
+          <h2 className="font-editorial text-3xl sm:text-5xl text-slate-900 dark:text-white font-medium">
             Tiga Pilar Utama Penugasan
           </h2>
         </div>
-        <p className="max-w-md text-xs sm:text-sm text-slate-400 font-light leading-relaxed">
+        <p className="max-w-md text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-light leading-relaxed">
           Fokus utama karya fotografi Husein Rosid berakar pada Dokumentasi Acara, Wisuda, dan Couple Session. Pilih kategori untuk langsung membuka ruang galeri kurasi lengkapnya.
         </p>
       </div>
@@ -100,7 +100,7 @@ export const Services: React.FC<ServicesProps> = ({
                 {/* Visual Cover Banner with Direct Action */}
                 <div
                   onClick={() => handleGoToCategory(targetCategory)}
-                  className="relative h-48 sm:h-52 -mx-6 sm:-mx-7 -mt-6 sm:-mt-7 mb-5 overflow-hidden border-b border-white/[0.08] cursor-pointer"
+                  className="relative h-48 sm:h-52 -mx-6 sm:-mx-7 -mt-6 sm:-mt-7 mb-5 overflow-hidden border-b border-black/[0.08] dark:border-white/[0.08] cursor-pointer"
                   title={`Buka Ruang Galeri ${categoryInfo.title}`}
                 >
                   <img
@@ -110,7 +110,7 @@ export const Services: React.FC<ServicesProps> = ({
                     decoding="async"
                     className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0E1118] via-[#0E1118]/40 to-black/30" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 dark:from-[#0E1118] via-black/40 to-black/30" />
 
                   {/* Top Overlay Badges */}
                   <div className="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-none">
@@ -130,7 +130,7 @@ export const Services: React.FC<ServicesProps> = ({
 
                   {/* Bottom Category Pill inside Banner */}
                   <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between pointer-events-none">
-                    <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#0E1118]/85 border border-white/15 backdrop-blur-md text-[11px] font-medium text-slate-200">
+                    <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/85 dark:bg-[#0E1118]/85 border border-white/15 backdrop-blur-md text-[11px] font-medium text-slate-200">
                       <CategoryIcon className={`w-3.5 h-3.5 ${categoryInfo.accentColor}`} />
                       <span>{categoryInfo.title}</span>
                     </div>
@@ -143,12 +143,12 @@ export const Services: React.FC<ServicesProps> = ({
                 {/* Card Title & Tagline */}
                 <h3
                   onClick={() => handleGoToCategory(targetCategory)}
-                  className="font-editorial text-2xl font-medium text-white mb-2 group-hover:text-amber-300 transition-colors cursor-pointer"
+                  className="font-editorial text-2xl font-medium text-slate-900 dark:text-white mb-2 group-hover:text-amber-600 dark:group-hover:text-amber-300 transition-colors cursor-pointer"
                 >
                   {service.title}
                 </h3>
 
-                <p className="text-xs text-slate-300 font-light leading-relaxed mb-4">
+                <p className="text-xs text-slate-600 dark:text-slate-300 font-light leading-relaxed mb-4">
                   {service.tagline}
                 </p>
 
@@ -158,7 +158,7 @@ export const Services: React.FC<ServicesProps> = ({
                     {categoryInfo.tags.slice(0, 3).map((tag, tIdx) => (
                       <span
                         key={tIdx}
-                        className="px-2 py-0.5 rounded-md bg-white/[0.04] border border-white/[0.08] text-[10px] text-slate-400 font-light"
+                        className="px-2 py-0.5 rounded-md bg-black/[0.03] dark:bg-white/[0.04] border border-black/[0.08] dark:border-white/[0.08] text-[10px] text-slate-600 dark:text-slate-400 font-light"
                       >
                         {tag}
                       </span>
@@ -167,17 +167,17 @@ export const Services: React.FC<ServicesProps> = ({
                 )}
 
                 {/* Scope of Focus / Cakupan Spesialisasi */}
-                <div className="pt-4 border-t border-white/[0.08] mb-5">
-                  <span className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block mb-3">
+                <div className="pt-4 border-t border-black/[0.08] dark:border-white/[0.08] mb-5">
+                  <span className="text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold block mb-3">
                     Cakupan Spesialisasi:
                   </span>
                   <ul className="space-y-2">
                     {service.features.map((feat, i) => (
                       <li
                         key={i}
-                        className="flex items-start gap-2.5 text-xs text-slate-300 font-light leading-relaxed"
+                        className="flex items-start gap-2.5 text-xs text-slate-600 dark:text-slate-300 font-light leading-relaxed"
                       >
-                        <span className="text-amber-400 font-mono select-none mt-[-1px]">&bull;</span>
+                        <span className="text-amber-500 dark:text-amber-400 font-mono select-none mt-[-1px]">&bull;</span>
                         <span>{feat}</span>
                       </li>
                     ))}
@@ -186,8 +186,8 @@ export const Services: React.FC<ServicesProps> = ({
               </div>
 
               {/* Card Footer & Dual Action Buttons */}
-              <div className="pt-4 border-t border-white/[0.08] mt-4 space-y-2.5">
-                <p className="text-[11px] text-slate-400 italic leading-relaxed">
+              <div className="pt-4 border-t border-black/[0.08] dark:border-white/[0.08] mt-4 space-y-2.5">
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 italic leading-relaxed">
                   {service.note}
                 </p>
 
@@ -206,9 +206,9 @@ export const Services: React.FC<ServicesProps> = ({
                   href={createWhatsAppLink(service.title)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-2 rounded-full text-[11px] font-medium tracking-wider flex items-center justify-center gap-2 text-slate-400 hover:text-white transition-colors cursor-pointer"
+                  className="w-full py-2 rounded-full text-[11px] font-medium tracking-wider flex items-center justify-center gap-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"
                 >
-                  <MessageCircle className="w-3.5 h-3.5 text-emerald-400" />
+                  <MessageCircle className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
                   <span>Konsultasi Sesi via WhatsApp</span>
                 </a>
               </div>

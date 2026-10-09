@@ -100,9 +100,9 @@ export const DualMarquee: React.FC<DualMarqueeProps> = ({
       className="w-full py-4 sm:py-6 overflow-hidden marquee-container relative z-10 select-none group/marquee"
       aria-label="Pameran Berjalan Karya Pilihan"
     >
-      {/* Zero-cost pointer-events-none side gradients menggantikan CSS mask-image berat */}
-      <div className="absolute left-0 top-0 bottom-0 w-12 sm:w-28 bg-gradient-to-r from-[#050505] to-transparent z-20 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-12 sm:w-28 bg-gradient-to-l from-[#050505] to-transparent z-20 pointer-events-none" />
+      {/* Zero-cost pointer-events-none side gradients adapt to current theme */}
+      <div className="absolute left-0 top-0 bottom-0 w-12 sm:w-28 bg-gradient-to-r from-[var(--bg-primary)] to-transparent z-20 pointer-events-none transition-colors duration-200" />
+      <div className="absolute right-0 top-0 bottom-0 w-12 sm:w-28 bg-gradient-to-l from-[var(--bg-primary)] to-transparent z-20 pointer-events-none transition-colors duration-200" />
 
       <div className="w-full space-y-4">
         {/* Lintasan Atas (Bergerak ke Kiri) */}
@@ -118,7 +118,7 @@ export const DualMarquee: React.FC<DualMarqueeProps> = ({
             <div
               key={`r1-${photo.id}-${index}`}
               onClick={() => onSelectPhoto(photo)}
-              className="w-[220px] sm:w-[320px] h-[150px] sm:h-[220px] rounded-2xl overflow-hidden relative group cursor-pointer shrink-0 border border-white/[0.08] hover:border-amber-400/60 transition-all duration-300 shadow-md bg-[#0D1017]"
+              className="w-[220px] sm:w-[320px] h-[150px] sm:h-[220px] rounded-2xl overflow-hidden relative group cursor-pointer shrink-0 border border-black/[0.08] dark:border-white/[0.08] hover:border-amber-400/60 transition-all duration-300 shadow-md bg-white dark:bg-[#0D1017]"
             >
               <img
                 src={photo.imageUrl}
@@ -144,7 +144,7 @@ export const DualMarquee: React.FC<DualMarqueeProps> = ({
             <div
               key={`r2-${photo.id}-${index}`}
               onClick={() => onSelectPhoto(photo)}
-              className="w-[220px] sm:w-[320px] h-[150px] sm:h-[220px] rounded-2xl overflow-hidden relative group cursor-pointer shrink-0 border border-white/[0.08] hover:border-amber-400/60 transition-all duration-300 shadow-md bg-[#0D1017]"
+              className="w-[220px] sm:w-[320px] h-[150px] sm:h-[220px] rounded-2xl overflow-hidden relative group cursor-pointer shrink-0 border border-black/[0.08] dark:border-white/[0.08] hover:border-amber-400/60 transition-all duration-300 shadow-md bg-white dark:bg-[#0D1017]"
             >
               <img
                 src={photo.imageUrl}

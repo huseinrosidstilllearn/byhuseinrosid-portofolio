@@ -4,18 +4,24 @@ type Theme = 'dark' | 'light';
 
 interface ThemeContextType {
   theme: Theme;
+  setTheme: (theme: Theme) => void;
   toggleTheme: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [theme, setTheme] = useState<Theme>(() => {
-    const saved = localStorage.getItem('byhuseinrosid-theme');
-    if (saved === 'light' || saved === 'dark') {
-      return saved;
-    }
-    return 'dark'; // Default Dark Luxury Editorial
+  const [theme, setThemeState] = useState<Theme>(() => {
+    try {
+      const saved = localStorage.getItem('byhuseinrosid-theme');
+      if (saved === 'light' || saved === 'dark') {
+        return saved;
+      }
+      if (typeof document !== 'undefined' && document.documentElement.classList.contains('light')) {
+        return 'light';
+      }
+    } catch {}
+    return 'dark'; // Default Luxury Editorial Dark Mode
   });
 
   useEffect(() => {
@@ -23,19 +29,34 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     if (theme === 'dark') {
       root.classList.add('dark');
       root.classList.remove('light');
+      root.setAttribute('data-theme', 'dark');
     } else {
       root.classList.remove('dark');
       root.classList.add('light');
+      root.setAttribute('data-theme', 'light');
     }
-    localStorage.setItem('byhuseinrosid-theme', theme);
+
+    // Update browser theme-color meta tag for mobile addresses
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (metaThemeColor) {
+      metaThemeColor.setAttribute('content', theme === 'dark' ? '#050505' : '#F8F9FA');
+    }
+
+    try {
+      localStorage.setItem('byhuseinrosid-theme', theme);
+    } catch {}
   }, [theme]);
 
+  const setTheme = (newTheme: Theme) => {
+    setThemeState(newTheme);
+  };
+
   const toggleTheme = () => {
-    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
+    setThemeState((prev) => (prev === 'dark' ? 'light' : 'dark'));
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );

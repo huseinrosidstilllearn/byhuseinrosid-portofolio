@@ -32,7 +32,7 @@ export function JourneyFooter({
   const waLink = `https://wa.me/${currentContact.whatsappNumber}?text=Halo%20Mas%20Husein%2C%20saya%20tertarik%20untuk%20berkolaborasi!`;
 
   return (
-    <footer className="relative border-t border-white/5 pt-16 pb-24 sm:pb-8 px-4 sm:px-8 overflow-hidden">
+    <footer className="relative border-t border-black/10 dark:border-white/5 pt-16 pb-24 sm:pb-8 px-4 sm:px-8 overflow-hidden">
       <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none" />
 
       <div className="relative w-full max-w-[1920px] px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 mx-auto">
@@ -44,12 +44,12 @@ export function JourneyFooter({
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         >
-          <p className="text-amber-400/60 text-xs font-mono tracking-[0.3em] uppercase mb-4">Mari Berkolaborasi</p>
-          <h3 className="font-headline text-4xl sm:text-5xl font-black text-white mb-4 leading-tight">
+          <p className="text-amber-600 dark:text-amber-400/60 text-xs font-mono tracking-[0.3em] uppercase mb-4 font-semibold">Mari Berkolaborasi</p>
+          <h3 className="font-headline text-4xl sm:text-5xl font-black text-slate-900 dark:text-white mb-4 leading-tight">
             Ada Proyek yang<br />
-            <span className="text-amber-400">Ingin Diwujudkan?</span>
+            <span className="text-amber-500 dark:text-amber-400">Ingin Diwujudkan?</span>
           </h3>
-          <p className="text-white/40 text-sm max-w-md mx-auto mb-8 leading-relaxed">
+          <p className="text-slate-600 dark:text-white/40 text-sm max-w-md mx-auto mb-8 leading-relaxed">
             Saya terbuka untuk penugasan dokumentasi acara, wisuda / graduation, dan sesi couple. Mari bicara tentang visi Anda.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
@@ -57,50 +57,50 @@ export function JourneyFooter({
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-amber-500 hover:bg-amber-400 active:scale-95 text-black font-semibold text-sm transition-all duration-300 hover:scale-105 shadow-[0_0_20px_rgba(245,158,11,0.25)]"
+              className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-amber-500 hover:bg-amber-400 active:scale-95 text-slate-950 font-semibold text-sm transition-all duration-300 hover:scale-105 shadow-[0_0_20px_rgba(245,158,11,0.25)]"
             >
               <MessageCircle className="w-4 h-4" />
               <span>Mulai via WhatsApp</span>
             </a>
             <a
               href={`mailto:${currentContact.email}`}
-              className="inline-flex items-center gap-2 px-7 py-3 rounded-full border border-white/20 hover:border-amber-500/50 active:scale-95 text-white/70 hover:text-white text-sm transition-all duration-300"
+              className="inline-flex items-center gap-2 px-7 py-3 rounded-full border border-black/20 dark:border-white/20 hover:border-amber-500/50 active:scale-95 text-slate-700 dark:text-white/70 hover:text-slate-950 dark:hover:text-white text-sm transition-all duration-300"
             >
-              <Mail className="w-4 h-4 text-amber-400" />
+              <Mail className="w-4 h-4 text-amber-500 dark:text-amber-400" />
               <span>Kirim Email</span>
             </a>
           </div>
         </motion.div>
 
         {/* Bottom Bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-white/5">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-black/10 dark:border-white/5">
           {/* Brand */}
           <div>
-            <p className="font-headline text-lg font-black text-white">{currentProfile.brandName}</p>
-            <p className="text-white/30 text-xs mt-0.5">{currentProfile.location}</p>
+            <p className="font-headline text-lg font-black text-slate-900 dark:text-white">{currentProfile.brandName}</p>
+            <p className="text-slate-500 dark:text-white/30 text-xs mt-0.5">{currentProfile.location}</p>
           </div>
 
           {/* Switch mode */}
           <div className="flex flex-wrap items-center gap-2.5">
             <button
               onClick={() => onSwitchMode('karya')}
-              className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 hover:border-amber-500/40 active:scale-95 text-white/50 hover:text-white text-xs transition-all duration-300 group cursor-pointer"
+              className="flex items-center gap-2 px-4 py-2 rounded-full border border-black/10 dark:border-white/10 hover:border-amber-500/40 active:scale-95 text-slate-600 dark:text-white/50 hover:text-slate-900 dark:hover:text-white text-xs transition-all duration-300 group cursor-pointer"
             >
-              <Camera className="w-3.5 h-3.5 text-amber-400 group-hover:scale-110 transition-transform" />
+              <Camera className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400 group-hover:scale-110 transition-transform" />
               <span>Galeri Karya</span>
             </button>
 
             <button
               onClick={() => onSwitchMode('cv')}
-              className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 hover:border-amber-500/40 active:scale-95 text-white/50 hover:text-amber-400 text-xs transition-all duration-300 group cursor-pointer"
+              className="flex items-center gap-2 px-4 py-2 rounded-full border border-black/10 dark:border-white/10 hover:border-amber-500/40 active:scale-95 text-slate-600 dark:text-white/50 hover:text-amber-600 dark:hover:text-amber-400 text-xs transition-all duration-300 group cursor-pointer"
             >
-              <FileText className="w-3.5 h-3.5 text-amber-400 group-hover:scale-110 transition-transform" />
+              <FileText className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400 group-hover:scale-110 transition-transform" />
               <span>Dokumen CV</span>
             </button>
           </div>
 
           {/* Copyright */}
-          <p className="text-white/20 text-xs font-mono">
+          <p className="text-slate-400 dark:text-white/20 text-xs font-mono">
             © {year} {currentProfile.brandName}
           </p>
         </div>
@@ -118,7 +118,7 @@ export function JourneyFooter({
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           aria-label="Kembali ke atas"
-          className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center rounded-full bg-[#0E1118]/90 border border-white/20 text-slate-300 hover:text-white hover:border-amber-400 backdrop-blur-xl shadow-lg transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95"
+          className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center rounded-full bg-white/90 dark:bg-[#0E1118]/90 border border-black/15 dark:border-white/20 text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:border-amber-400 backdrop-blur-xl shadow-lg transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95"
         >
           <ArrowUp className="w-4 h-4" />
         </button>
