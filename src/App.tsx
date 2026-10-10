@@ -36,12 +36,15 @@ function getSavedMode(): SiteMode {
       const hash = window.location.hash.toLowerCase();
       if (hash === '#cv') return 'cv';
       if (hash === '#perjalanan') return 'perjalanan';
-      if (hash === '#karya') return 'karya';
+      if (hash === '#karya' || hash.startsWith('#kategori=')) return 'karya';
+      if (hash === '#landing') return 'landing';
+      // Jika membuka halaman utama tanpa hash, tampilkan Landing Gate sinematik
+      if (!hash || hash === '#') return 'landing';
     }
     const saved = localStorage.getItem(STORAGE_KEY) as SiteMode | null;
     if (saved === 'karya' || saved === 'perjalanan' || saved === 'landing' || saved === 'cv') return saved;
   } catch {}
-  return 'karya';
+  return 'landing';
 }
 
 function getInitialCategory(): string | null {
@@ -108,7 +111,7 @@ export function App() {
       } else if (siteMode === 'perjalanan') {
         window.location.hash = 'perjalanan';
       } else {
-        window.location.hash = '';
+        window.location.hash = 'karya';
       }
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -134,7 +137,8 @@ export function App() {
       } else if (hash === '#karya') {
         setSiteMode('karya');
         setSelectedCategory(null);
-      } else if (!hash) {
+      } else if (hash === '#landing' || !hash || hash === '#') {
+        setSiteMode('landing');
         setSelectedCategory(null);
       }
     };
@@ -163,7 +167,13 @@ export function App() {
       } else if (mode === 'perjalanan') {
         window.location.hash = 'perjalanan';
       } else if (mode === 'karya' && !selectedCategory) {
-        window.location.hash = '';
+        window.location.hash = 'karya';
+      } else if (mode === 'landing') {
+        if (window.location.hash) {
+          try {
+            history.replaceState(null, '', window.location.pathname);
+          } catch {}
+        }
       }
 
       setViewMode('bento');

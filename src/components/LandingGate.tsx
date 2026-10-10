@@ -175,13 +175,17 @@ export function LandingGate({ onSelectMode, photos = [] }: LandingGateProps) {
           </div>
         </div>
 
-        {/* Availability Status Badge */}
-        <div className="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-xs text-slate-300">
+        {/* Availability Status Badge & Link ke Jadwal */}
+        <a
+          href="/jadwal.html"
+          className="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md border border-white/10 hover:border-amber-500/40 text-xs text-slate-300 transition-all group pointer-events-auto cursor-pointer"
+          title="Buka Kalender Ketersediaan Produksi"
+        >
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-[11px] font-mono tracking-wider uppercase text-slate-300">
-            Tersedia untuk Penugasan Visual
+          <span className="text-[11px] font-mono tracking-wider uppercase text-slate-300 group-hover:text-amber-300 transition-colors">
+            Cek Jadwal Produksi
           </span>
-        </div>
+        </a>
       </motion.header>
 
       {/* ── 3. MAIN CENTERPIECE: EDITORIAL TITLE & PILL BUTTONS ────────────── */}
@@ -255,15 +259,22 @@ export function LandingGate({ onSelectMode, photos = [] }: LandingGateProps) {
             </button>
           </div>
 
-          {/* Tertiary Quick Link: CV Dokumen */}
-          <div className="mt-4 flex justify-center">
+          {/* Tertiary Quick Links: CV Dokumen & Jadwal Produksi */}
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
             <button
               onClick={() => handleSelect('cv')}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] active:scale-95 text-slate-400 hover:text-amber-400 text-xs font-mono tracking-wider uppercase transition-all cursor-pointer border border-white/5"
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] active:scale-95 text-slate-300 hover:text-amber-300 text-xs font-mono tracking-wider uppercase transition-all cursor-pointer border border-white/10"
             >
               <FileText className="w-3.5 h-3.5 text-amber-400" />
-              <span>Lihat Curriculum Vitae (CV) Resmi</span>
+              <span>Lihat CV Resmi</span>
             </button>
+            <a
+              href="/jadwal.html"
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] active:scale-95 text-slate-300 hover:text-amber-300 text-xs font-mono tracking-wider uppercase transition-all cursor-pointer border border-white/10"
+            >
+              <Calendar className="w-3.5 h-3.5 text-amber-400" />
+              <span>Jadwal Produksi</span>
+            </a>
           </div>
         </motion.div>
       </main>
