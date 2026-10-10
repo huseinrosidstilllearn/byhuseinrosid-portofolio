@@ -357,7 +357,7 @@ export const ProductionCalendar: React.FC<ProductionCalendarProps> = ({
         {/* Matriks Kalender 1 Bulan Penuh (Hanya Angka & Titik Status) */}
         <div className="grid grid-cols-7 gap-1.5 sm:gap-2.5 md:gap-3">
           {calendarDays.map((item, idx) => {
-            const status = item.slot?.status;
+            const status = item.slot?.status || (item.isCurrentMonth ? 'available' : undefined);
 
             return (
               <button
