@@ -1385,13 +1385,13 @@ export const ContentEditor: React.FC = () => {
                                 : st === 'booked'
                                 ? 'Penuh'
                                 : st === 'busy'
-                                ? 'Sibuk'
+                                ? 'Kesibukan Lain'
                                 : 'Acara Lain';
                             const titleToSet =
                               st === 'booked'
                                 ? 'Jadwal Penuh'
                                 : st === 'busy'
-                                ? 'Jadwal Sibuk'
+                                ? 'Kesibukan Lain'
                                 : st === 'other_event'
                                 ? 'Acara Lain / Agenda Khusus'
                                 : st === 'in_production'
@@ -1470,7 +1470,7 @@ export const ContentEditor: React.FC = () => {
                       <option value="limited">Slot Terbatas (Sisa 1-2 Jam/Sesi)</option>
                       <option value="in_production">Dalam Produksi (Set / Shooting)</option>
                       <option value="booked">Penuh / Sudah Dibooking</option>
-                      <option value="busy">Sibuk (Agenda Internal / Sibuk)</option>
+                      <option value="busy">Kesibukan Lain (Agenda Internal / Kesibukan)</option>
                       <option value="other_event">Acara Lain (Agenda Khusus / Non-Produksi)</option>
                     </select>
                   </div>
@@ -1599,7 +1599,7 @@ export const ContentEditor: React.FC = () => {
                           : slot.status === 'booked'
                           ? 'Penuh'
                           : slot.status === 'busy'
-                          ? 'Sibuk'
+                          ? 'Kesibukan Lain'
                           : 'Acara Lain';
 
                       return (

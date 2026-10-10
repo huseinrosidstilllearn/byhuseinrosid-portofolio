@@ -206,7 +206,7 @@ export const ProductionCalendar: React.FC<ProductionCalendarProps> = ({
         };
       case 'busy':
         return {
-          label: 'Sibuk',
+          label: 'Kesibukan Lain',
           bg: 'bg-purple-500/15 border-purple-500/30 text-purple-700 dark:text-purple-300',
           dot: 'bg-purple-500',
         };
@@ -231,7 +231,7 @@ export const ProductionCalendar: React.FC<ProductionCalendarProps> = ({
     const formattedDate = formatDateFull(selectedDateStr);
 
     if (selectedSlot.status === 'booked' || selectedSlot.status === 'busy') {
-      const statusText = selectedSlot.status === 'busy' ? 'Sibuk' : 'Penuh';
+      const statusText = selectedSlot.status === 'busy' ? 'Kesibukan Lain' : 'Penuh';
       const text = `Halo Mas Husein Rosid, saya melihat kalender jadwal Anda di website untuk tanggal ${formattedDate} berstatus ${statusText}. Apakah memungkinkan untuk penambahan slot atau antrean cadangan untuk proyek dokumentasi / wisuda saya?`;
       return createWhatsAppLink(text);
     }
@@ -330,7 +330,7 @@ export const ProductionCalendar: React.FC<ProductionCalendarProps> = ({
             </div>
             <div className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-purple-500 shadow-[0_0_6px_rgba(168,85,247,0.5)]" />
-              <span>Sibuk</span>
+              <span>Kesibukan Lain</span>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-indigo-400 shadow-[0_0_6px_rgba(129,140,248,0.5)]" />
@@ -375,7 +375,7 @@ export const ProductionCalendar: React.FC<ProductionCalendarProps> = ({
                         item.slot.status === 'booked'
                           ? 'Jadwal Penuh'
                           : item.slot.status === 'busy'
-                          ? 'Sibuk'
+                          ? 'Kesibukan Lain'
                           : item.slot.status === 'other_event'
                           ? 'Acara Lain'
                           : item.slot.status === 'limited'
@@ -435,7 +435,7 @@ export const ProductionCalendar: React.FC<ProductionCalendarProps> = ({
                   {status === 'busy' && (
                     <span
                       className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-purple-500 shadow-[0_0_6px_rgba(168,85,247,0.6)]"
-                      title="Sibuk"
+                      title="Kesibukan Lain"
                     />
                   )}
                   {status === 'other_event' && (
