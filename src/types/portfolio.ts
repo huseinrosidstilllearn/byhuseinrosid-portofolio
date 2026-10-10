@@ -130,7 +130,7 @@ export interface CVPastClient {
   category: string;
 }
 
-export type SlotStatus = 'available' | 'booked' | 'in_production' | 'limited';
+export type SlotStatus = 'available' | 'limited' | 'in_production' | 'booked' | 'busy' | 'other_event';
 
 export interface ProductionScheduleSlot {
   id: string;

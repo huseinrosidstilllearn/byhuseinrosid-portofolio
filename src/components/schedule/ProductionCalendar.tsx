@@ -204,6 +204,18 @@ export const ProductionCalendar: React.FC<ProductionCalendarProps> = ({
           bg: 'bg-sky-500/15 border-sky-500/30 text-sky-700 dark:text-sky-300',
           dot: 'bg-sky-500',
         };
+      case 'busy':
+        return {
+          label: 'Sibuk',
+          bg: 'bg-purple-500/15 border-purple-500/30 text-purple-700 dark:text-purple-300',
+          dot: 'bg-purple-500',
+        };
+      case 'other_event':
+        return {
+          label: 'Acara Lain',
+          bg: 'bg-indigo-500/15 border-indigo-500/30 text-indigo-700 dark:text-indigo-300',
+          dot: 'bg-indigo-400',
+        };
       case 'booked':
       default:
         return {
@@ -218,8 +230,14 @@ export const ProductionCalendar: React.FC<ProductionCalendarProps> = ({
   const bookingWaLink = useMemo(() => {
     const formattedDate = formatDateFull(selectedDateStr);
 
-    if (selectedSlot.status === 'booked') {
-      const text = `Halo Mas Husein Rosid, saya melihat kalender jadwal produksi Anda di website untuk tanggal ${formattedDate} berstatus Penuh. Apakah memungkinkan untuk penambahan slot atau antrean cadangan untuk proyek dokumentasi / wisuda saya?`;
+    if (selectedSlot.status === 'booked' || selectedSlot.status === 'busy') {
+      const statusText = selectedSlot.status === 'busy' ? 'Sibuk' : 'Penuh';
+      const text = `Halo Mas Husein Rosid, saya melihat kalender jadwal Anda di website untuk tanggal ${formattedDate} berstatus ${statusText}. Apakah memungkinkan untuk penambahan slot atau antrean cadangan untuk proyek dokumentasi / wisuda saya?`;
+      return createWhatsAppLink(text);
+    }
+
+    if (selectedSlot.status === 'other_event') {
+      const text = `Halo Mas Husein Rosid, saya melihat kalender jadwal Anda di website untuk tanggal ${formattedDate} tercatat ada Acara Lain. Apakah memungkinkan untuk penyesuaian waktu atau sesi di jam lain pada tanggal tersebut?`;
       return createWhatsAppLink(text);
     }
 
@@ -310,6 +328,14 @@ export const ProductionCalendar: React.FC<ProductionCalendarProps> = ({
               <span className="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-[0_0_6px_rgba(244,63,94,0.5)]" />
               <span>Penuh</span>
             </div>
+            <div className="flex items-center gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-purple-500 shadow-[0_0_6px_rgba(168,85,247,0.5)]" />
+              <span>Sibuk</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-indigo-400 shadow-[0_0_6px_rgba(129,140,248,0.5)]" />
+              <span>Acara lain</span>
+            </div>
           </div>
         </div>
 
@@ -348,6 +374,10 @@ export const ProductionCalendar: React.FC<ProductionCalendarProps> = ({
                     ? `${item.dateStr}: ${
                         item.slot.status === 'booked'
                           ? 'Jadwal Penuh'
+                          : item.slot.status === 'busy'
+                          ? 'Sibuk'
+                          : item.slot.status === 'other_event'
+                          ? 'Acara Lain'
                           : item.slot.status === 'limited'
                           ? 'Slot Terbatas'
                           : item.slot.status === 'in_production'
@@ -400,6 +430,18 @@ export const ProductionCalendar: React.FC<ProductionCalendarProps> = ({
                     <span
                       className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-rose-500 shadow-[0_0_6px_rgba(244,63,94,0.6)]"
                       title="Jadwal Penuh"
+                    />
+                  )}
+                  {status === 'busy' && (
+                    <span
+                      className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-purple-500 shadow-[0_0_6px_rgba(168,85,247,0.6)]"
+                      title="Sibuk"
+                    />
+                  )}
+                  {status === 'other_event' && (
+                    <span
+                      className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-indigo-400 shadow-[0_0_6px_rgba(129,140,248,0.6)]"
+                      title="Acara Lain"
                     />
                   )}
                 </div>
@@ -508,8 +550,10 @@ export const ProductionCalendar: React.FC<ProductionCalendarProps> = ({
               >
                 <MessageCircle className="w-4 h-4" />
                 <span>
-                  {selectedSlot.status === 'booked'
+                  {selectedSlot.status === 'booked' || selectedSlot.status === 'busy'
                     ? 'Tanyakan Slot Cadangan via WhatsApp'
+                    : selectedSlot.status === 'other_event'
+                    ? 'Tanyakan Ketersediaan Waktu via WhatsApp'
                     : 'Amankan / Booking Tanggal Ini via WhatsApp'}
                 </span>
               </a>

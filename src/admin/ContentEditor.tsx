@@ -1372,8 +1372,8 @@ export const ContentEditor: React.FC = () => {
                         <div className="text-xs text-slate-300 truncate">
                           {currentSlot?.title || 'Belum diatur (Slot Terbuka)'}
                         </div>
-                        <div className="grid grid-cols-2 gap-1.5 pt-1">
-                          {(['available', 'limited', 'in_production', 'booked'] as SlotStatus[]).map((st) => {
+                        <div className="grid grid-cols-3 gap-1.5 pt-1">
+                          {(['available', 'limited', 'in_production', 'booked', 'busy', 'other_event'] as SlotStatus[]).map((st) => {
                             const isCurrent = currentStatus === st;
                             const label =
                               st === 'available'
@@ -1382,10 +1382,18 @@ export const ContentEditor: React.FC = () => {
                                 ? 'Terbatas'
                                 : st === 'in_production'
                                 ? 'Produksi'
-                                : 'Penuh';
+                                : st === 'booked'
+                                ? 'Penuh'
+                                : st === 'busy'
+                                ? 'Sibuk'
+                                : 'Acara Lain';
                             const titleToSet =
                               st === 'booked'
                                 ? 'Jadwal Penuh'
+                                : st === 'busy'
+                                ? 'Jadwal Sibuk'
+                                : st === 'other_event'
+                                ? 'Acara Lain / Agenda Khusus'
                                 : st === 'in_production'
                                 ? 'Jadwal Produksi / Shooting'
                                 : st === 'limited'
@@ -1396,7 +1404,7 @@ export const ContentEditor: React.FC = () => {
                                 key={st}
                                 type="button"
                                 onClick={() => handleQuickSetSlotStatus(dateStr, st, titleToSet)}
-                                className={`px-2 py-1.5 rounded-lg text-[10px] font-mono font-medium transition-all ${
+                                className={`px-1.5 py-1.5 rounded-lg text-[9px] sm:text-[10px] font-mono font-medium transition-all text-center truncate ${
                                   isCurrent
                                     ? st === 'available'
                                       ? 'bg-emerald-500/30 text-emerald-300 border border-emerald-500/50'
@@ -1404,7 +1412,11 @@ export const ContentEditor: React.FC = () => {
                                       ? 'bg-amber-500/30 text-amber-300 border border-amber-500/50'
                                       : st === 'in_production'
                                       ? 'bg-sky-500/30 text-sky-300 border border-sky-500/50'
-                                      : 'bg-rose-500/30 text-rose-300 border border-rose-500/50'
+                                      : st === 'booked'
+                                      ? 'bg-rose-500/30 text-rose-300 border border-rose-500/50'
+                                      : st === 'busy'
+                                      ? 'bg-purple-500/30 text-purple-300 border border-purple-500/50'
+                                      : 'bg-indigo-500/30 text-indigo-300 border border-indigo-500/50'
                                     : 'bg-white/5 hover:bg-white/10 text-slate-400 border border-transparent'
                                 }`}
                               >
@@ -1458,6 +1470,8 @@ export const ContentEditor: React.FC = () => {
                       <option value="limited">Slot Terbatas (Sisa 1-2 Jam/Sesi)</option>
                       <option value="in_production">Dalam Produksi (Set / Shooting)</option>
                       <option value="booked">Penuh / Sudah Dibooking</option>
+                      <option value="busy">Sibuk (Agenda Internal / Sibuk)</option>
+                      <option value="other_event">Acara Lain (Agenda Khusus / Non-Produksi)</option>
                     </select>
                   </div>
 
@@ -1569,7 +1583,11 @@ export const ContentEditor: React.FC = () => {
                           ? 'border-amber-500/40 bg-amber-500/10 text-amber-300'
                           : slot.status === 'in_production'
                           ? 'border-sky-500/40 bg-sky-500/10 text-sky-300'
-                          : 'border-rose-500/40 bg-rose-500/10 text-rose-300';
+                          : slot.status === 'booked'
+                          ? 'border-rose-500/40 bg-rose-500/10 text-rose-300'
+                          : slot.status === 'busy'
+                          ? 'border-purple-500/40 bg-purple-500/10 text-purple-300'
+                          : 'border-indigo-500/40 bg-indigo-500/10 text-indigo-300';
 
                       const statusLabel =
                         slot.status === 'available'
@@ -1578,7 +1596,11 @@ export const ContentEditor: React.FC = () => {
                           ? 'Terbatas'
                           : slot.status === 'in_production'
                           ? 'Produksi'
-                          : 'Penuh';
+                          : slot.status === 'booked'
+                          ? 'Penuh'
+                          : slot.status === 'busy'
+                          ? 'Sibuk'
+                          : 'Acara Lain';
 
                       return (
                         <div
