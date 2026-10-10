@@ -82,11 +82,11 @@ export const JadwalApp: React.FC = () => {
       <main className="relative z-10 flex-grow pt-6 sm:pt-10 pb-16 px-4 sm:px-6">
         <div className="w-full max-w-6xl mx-auto">
           {/* Header Ringkas */}
-          <div className="mb-6 sm:mb-8 pb-4 border-b border-black/[0.06] dark:border-white/[0.06]">
+          <div className="mb-6 sm:mb-8 pb-4 border-b border-black/[0.06] dark:border-white/[0.06] text-center">
             <h1 className="font-editorial text-2xl sm:text-4xl text-slate-900 dark:text-white font-bold tracking-tight">
               Ketersediaan Slot &amp; Jadwal Produksi
             </h1>
-            <p className="mt-1 text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-light max-w-2xl leading-relaxed">
+            <p className="mt-1 text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-light max-w-2xl leading-relaxed mx-auto">
               Pantau jadwal liputan wisuda dan shooting video audio visual. Pilih tanggal untuk melihat detail slot atau reservasi langsung via WhatsApp.
             </p>
           </div>
@@ -103,7 +103,7 @@ export const JadwalApp: React.FC = () => {
       {/* ── FOOTER MINIMALIS ── */}
       <footer className="relative z-10 border-t border-black/[0.06] dark:border-white/[0.06] py-6 sm:py-8 px-4 text-center">
         <p className="text-xs text-slate-500 dark:text-slate-400 font-light">
-          Husein Rosid &bull; Fotografer &amp; Videografer &bull; Surabaya, Indonesia
+          Husein Rosid
         </p>
       </footer>
     </div>

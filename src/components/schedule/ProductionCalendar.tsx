@@ -340,9 +340,8 @@ export const ProductionCalendar: React.FC<ProductionCalendarProps> = ({
         </div>
 
         {/* Petunjuk Penggunaan Singkat */}
-        <div className="flex items-center justify-between text-[11px] sm:text-xs font-mono text-slate-500 dark:text-slate-400">
+        <div className="text-[11px] sm:text-xs font-mono text-slate-500 dark:text-slate-400">
           <span>Klik satu hari untuk melihat rincian agenda &amp; reservasi.</span>
-          <span className="hidden sm:inline">Senin &bull; Minggu</span>
         </div>
 
         {/* Baris Nama Hari (Senin sampai Minggu) */}
